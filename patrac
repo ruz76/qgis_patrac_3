@@ -1,0 +1,44 @@
+#!/bin/bash
+
+DF_devel=docker/docker_devel
+C_devel=patrac_devel
+DF_environment=docker/docker_environment
+C_environment=patrac_environment
+
+if [ $# -eq 1 ]; then
+  if [ $1 = "--build-devel" ]; then
+    echo "Building $C_devel container..."
+    docker rmi $C_devel -f
+    docker build -t $C_devel -f $DF_devel .
+  elif [ $1 = '--build-env' ]; then
+    echo "Building $C_environment container..."
+    docker rmi $C_environment -f
+    docker build -t $C_environment -f $DF_environment .
+  elif [ $1 = '--build-all' ]; then
+    echo "Building ubuntu, patrac_environment and patrac_devel containers..."
+    docker rmi $C_devel -f
+    docker rmi $C_environment -f
+#    docker rmi ubuntu:16.04 -f
+#    docker pull ubuntu:16.04
+    docker build -t $C_environment -f $DF_environment .
+    docker build -t $C_devel -f $DF_devel .
+  else
+    printf "Usage: ./run.sh [OPTION]
+    --build-devel build patrac development container
+    --build-env   build patrac environment container
+    --build-all   build ubuntu, patrac environment and patrac development containers
+    --help        print help\n"
+    exit 1
+  fi
+fi
+
+docker run -it \
+    --rm \
+    --env="DISPLAY" \
+    --env="QT_X11_NO_MITSHM=1" \
+    --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    -v /data:/data \
+    -v $(pwd):/usr/share/qgis/python/plugins/qgis_patrac \
+    --name patrac \
+    patrac_devel \
+    qgis

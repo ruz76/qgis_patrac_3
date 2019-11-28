@@ -1,0 +1,5 @@
+FROM patrac_environment_complete
+
+RUN mkdir /usr/share/qgis/python/plugins/qgis_patrac
+########COPY . /usr/share/qgis/python/plugins/qgis_patrac
+WORKDIR /usr/share/qgis/python/plugins/qgis_patrac

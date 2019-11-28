@@ -86,6 +86,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         else:
             self.pluginPath = systemPluginPath
 
+        #QUICKFIX:
+        self.pluginPath = "/usr/share/qgis/python/plugins/qgis_patrac"
+
         QDockWidget.__init__(self, None)
         self.setupUi(self)
         self.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
