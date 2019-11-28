@@ -1,0 +1,20 @@
+COMMAND: v.in.ogr --overwrite input="/data/patracdata/cr/projekty/simple/../../../kraje/pl/vektor/OSM/line_x" layer="merged_polygons_groupped" output="sectors_group" spatial=-834121.825376,-1054695.08277,-829118.531545,-1051798.43897 min_area=0.0001 type="" snap=-1
+GISDBASE: /data/patracdata/cr/projekty/simple/../../../kraje/pl/projekty/zahradka__plzen-sever_/grassdata
+LOCATION: jtsk MAPSET: PERMANENT USER: jencek DATE: Tue Jul 24 09:51:01 2018
+-----------------------------------------------------
+41 input polygons
+Total area: 2.43555E+07 (41 areas)
+Overlapping area: 0 (0 areas)
+Area without category: 0 (0 areas)
+---------------------------------------------------------------------------------
+COMMAND: v.db.addcolumn "map=sectors_group" "layer=1" "columns=area_ha DOUBLE PRECISION"
+GISDBASE: /data/patracdata/cr/projekty/simple/../../../kraje/pl/projekty/zahradka__plzen-sever_/grassdata
+LOCATION: jtsk MAPSET: PERMANENT USER: jencek DATE: Tue Jul 24 09:51:02 2018
+---------------------------------------------------------------------------------
+COMMAND: v.db.addcolumn "map=sectors_group" "layer=1" "columns=label VARCHAR(50)"
+GISDBASE: /data/patracdata/cr/projekty/simple/../../../kraje/pl/projekty/zahradka__plzen-sever_/grassdata
+LOCATION: jtsk MAPSET: PERMANENT USER: jencek DATE: Tue Jul 24 09:51:02 2018
+---------------------------------------------------------------------------------
+COMMAND: v.select --overwrite ainput="sectors_group" alayer="1" atype="point,line,area" binput="distances_costed_cum_selected" blayer="1" btype="point,line,area" output="sektory_group_selected" operator="overlap"
+GISDBASE: /home/jencek/.qgis2/python/plugins/qgis_patrac/tests/data/zahradka__plzen-sever_/grassdata
+LOCATION: jtsk MAPSET: PERMANENT USER: jencek DATE: Mon Jan 14 12:37:49 2019

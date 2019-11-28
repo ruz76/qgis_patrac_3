@@ -1,0 +1,20 @@
+[general]
+name=Patrac
+description=Support for search for missing person
+category=Decision support
+version=1.0.0
+qgisMinimumVersion=3.4
+
+author=Jan Růžička
+email=jan.ruzicka.vsb@gmail.com
+
+icon=icons/patrac.png
+
+tags=decision, support, missing, search, person
+
+homepage=http://github.com/ruz76/qgis_patrac
+tracker=http://github.com/ruz76/qgis_patrac/issues
+repository=https://github.com/ruz76/qgis_patrac
+
+experimental=True
+deprecated=False

@@ -1,0 +1,8 @@
+COMMAND: v.in.ogr --overwrite input="/home/jencek/.qgis2/python/plugins/qgis_patrac/tests/data/zahradka__plzen-sever_/pracovni/sektory_group_selected.shp" layer="sektory_group_selected" output="sektory_group_selected_modified" min_area=0.0001 type="" snap=1e-13
+GISDBASE: /home/jencek/.qgis2/python/plugins/qgis_patrac/tests/data/zahradka__plzen-sever_/grassdata
+LOCATION: jtsk MAPSET: PERMANENT USER: jencek DATE: Mon Jan 14 12:37:49 2019
+-----------------------------------------------------
+2 input polygons
+Total area: 1.13154E+06 (2 areas)
+Overlapping area: 0 (0 areas)
+Area without category: 0 (0 areas)

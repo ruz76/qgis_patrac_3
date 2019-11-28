@@ -1,0 +1,128 @@
+        if REPORTITEMVALUES[0] == '0': #neurceno
+            P10 = P10 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '100': #zeleznice
+            P6 = P6 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '400': #komunikace
+            P6 = P6 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '500': #komunikace, zeleznice
+            P6 = P6 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '800': #budovy
+            P6 = P6 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '900': #budovy, zeleznice
+            P6 = P6 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '1000': #vodni plocha
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '1100': #zeleznice, vodni plocha
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '1200': #komunikace, budovy
+            P6 = P6 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '1300': #budovy, komunikace, zeleznice
+            P6 = P6 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '1400': #komunikace, vodni plocha
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '1500': #vodni plocha, komunikace, zeleznice
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '1800': #vodni plocha, budovy
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '2200': #vodni plocha, budovy, komunikace
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7201': #les
+            P4 = P4 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7202': #park
+            P7 = P7 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7203': #sidelni oblast
+            P6 = P6 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7204': #industrialni oblast
+            P6 = P6 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7205': #pole
+            P2 = P2 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7206': #1hrbitov
+            P7 = P7 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7207': #zahrada
+            P8 = P8 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7208': #pastvina
+            P1 = P1 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7209': #obchodni oblast
+            P6 = P6 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7210': #prirodni rezervace
+            P5 = P5 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7211': #rekreacni oblast
+            P7 = P7 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7212': #obchodni oblast
+            P6 = P6 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7213': #vojenska oblast
+            P6 = P6 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7214': #lom
+            P3 = P3 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7215': #sad
+            P4 = P4 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7216': #vinice
+            P4 = P4 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7217': #kroviny, kosodreviny
+            P5 = P5 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7218': #traviny
+            P7 = P7 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7219': #vresoviste
+            P4 = P4 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7220': #narodni park
+            P5 = P5 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7601': #les, komunikace
+            P4 = P4 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7603': #sidla, komunikace
+            P6 = P6 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7605': #pole, kom.
+            P2 = P2 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7608': #pastvina, kom.
+            P1 = P1 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7610': #prir. rez., kom.
+            P5 = P5 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '7613': #vojenska oblast, kom.
+            P6 = P6 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8003': #sid. oblast, vod. plocha
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8004': #budovy, industrialni oblast
+            P6 = P6 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8201': #les, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8202': #park, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8203': #sidla, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8204': #industrial., vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8205': #pole, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8206': #hrbitov, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8207': #zahrada, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8208': #pastvina, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8209': #obchodni oblast, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8210': #prir. rezervace, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8211': #rekreacni ob., vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8212': #obch. oblast, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8213': #voj. oblast, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8214': #lom, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8215': #sad, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8216': #vinice, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8217': #kroviny, kosodreviny, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8218': #traviny, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8219': #vresoviste, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8220': #nar. park, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8403': #sidelni oblast, komunikace, budovy
+            P6 = P6 + float(REPORTITEMVALUES[2].split('%')[0])
+        if REPORTITEMVALUES[0] == '8601': #les, komunikace, vod.
+            P9 = P9 + float(REPORTITEMVALUES[2].split('%')[0])

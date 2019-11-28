@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="cs-CZ">
+<head>
+<meta charset="UTF-8">
+  <title>REPORT</title>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+</head>
+<body>
+<h1>REPORT</h1>
+<div class="flex-container">
+<div id="summary" class="fixed400">
+
+<h2>Doba pro pátrání</h2>
+
+<p>Pro propátrání se počítá 3 hodiny jedním týmem</p>
+
+<p>K dispozici je 2 KPT</p>
+
+<p>Oblast prohledají přibližně za 6.0 hodin</p>
+
+<p>Vhodné nasadit vzdušný pátrací tým (APT). Helikoptéru nebo dron. Prostor obsahuje volné plochy bez porostu.</p>
+
+<p>K dispozici je 20 lidí pro PT</p>
+
+<p>Oblast prohledají přibližně za 9.0 hodin</p>
+
+<p>K dispozici není žádný potápěč. Je nutné nějaké zajistit.</p>
+
+<h2>GPX a PDF pro pátrání</h2>
+
+<p>Pro propátrání referenční plochy (cca 30 ha) se počítá 3 hodiny jedním týmem.</p>
+<p><a href="report.pdf"><img src="styles/pdf.png" alt="PDF" width="40"></a>&nbsp;<a href="gpx/all.gpx"><img src="styles/gpx.png" alt="GPX" width="40"></a></p>
+</div>
+<div id="a1" class="fixed400">
+<p>SEKTOR A1 (56 ha)<label class="rolldown" for="a1sc"> Typy povrchu </label></p>
+<input id="a1sc" type="checkbox" style="display: none">
+<div id="a1s">
+<ul>
+<li>volný schůdný bez porostu: 16.81 %</li>
+<li>volný schůdný s porostem: 59.77 %</li>
+<li>volný obtížně schůdný: 0 %</li>
+<li>porost lehce průchozí: 0.03 %</li>
+<li>porost obtížně průchozí: 0 %</li>
+<li>zastavěné území měst a obcí: 2.5 %</li>
+<li>městské parky a hřiště s pohybem osob: 0 %</li>
+<li>městské parky a hřiště bez osob: 0 %</li>
+<li>vodní plocha: 5.92 %</li>
+<li>ostatní plochy: 14.99 %</li>
+</ul>
+</div>
+
+<p>Nasazení <strong>2 KPT, 1 PT, 1 VPT, 1 APT</strong> <label class="rolldown" for ="a1nc">Podrobnosti</label></p>
+<input id="a1nc" type = "checkbox" style = "display: none" >
+<div id="a1n">
+<ul><li>Vhodné nasadit 2 Kynologických pátracích týmů (KPT) k propátraní do 3 hodin</li>
+<li>Je možné nahradit 1 KPT 1.0 PT</li>
+<li>Vhodné nasadit 1 Pátracích týmů (PT) s dvaceti členy k propátraní do 3 hodin</li>
+<li>Vhodné nasadit 1 Vodních pátracích týmů (VPT) k propátraní do 3 hodin</li>
+<li>Vhodné nasadit 1 Vzdušný pátrací tým (APT). Helikoptéru nebo dron. Prostor obsahuje volné plochy bez porostu.</li>
+</ul></div><p><a href="gpx/A1.gpx"><img src="styles/gpx.png" alt="GPX" width="40"></a></p>
+</div>
+<div id="a2" class="fixed400">
+<p>SEKTOR A2 (58 ha)<label class="rolldown" for="a2sc"> Typy povrchu </label></p>
+<input id="a2sc" type="checkbox" style="display: none">
+<div id="a2s">
+<ul>
+<li>volný schůdný bez porostu: 69.38 %</li>
+<li>volný schůdný s porostem: 2.59 %</li>
+<li>volný obtížně schůdný: 0 %</li>
+<li>porost lehce průchozí: 5.6 %</li>
+<li>porost obtížně průchozí: 0 %</li>
+<li>zastavěné území měst a obcí: 6.71 %</li>
+<li>městské parky a hřiště s pohybem osob: 0 %</li>
+<li>městské parky a hřiště bez osob: 0 %</li>
+<li>vodní plocha: 4.42 %</li>
+<li>ostatní plochy: 11.33 %</li>
+</ul>
+</div>
+
+<p>Nasazení <strong>2 KPT, 2 PT, 1 VPT, 1 APT</strong> <label class="rolldown" for ="a2nc">Podrobnosti</label></p>
+<input id="a2nc" type = "checkbox" style = "display: none" >
+<div id="a2n">
+<ul><li>Vhodné nasadit 2 Kynologických pátracích týmů (KPT) k propátraní do 3 hodin</li>
+<li>Je možné nahradit 2 KPT 2.0 PT</li>
+<li>Vhodné nasadit 2 Pátracích týmů (PT) s dvaceti členy k propátraní do 3 hodin</li>
+<li>Vhodné nasadit 1 Vodních pátracích týmů (VPT) k propátraní do 3 hodin</li>
+<li>Vhodné nasadit 1 Vzdušný pátrací tým (APT). Helikoptéru nebo dron. Prostor obsahuje volné plochy bez porostu.</li>
+</ul></div><p><a href="gpx/A2.gpx"><img src="styles/gpx.png" alt="GPX" width="40"></a></p>
+</div>
+<style>#a1s {display: none;}
+#a1n {display: none;}
+#a1sc:checked ~ #a1s {display: block;}
+#a1nc:checked ~ #a1n {display: block;}
+#a2s {display: none;}
+#a2n {display: none;}
+#a2sc:checked ~ #a2s {display: block;}
+#a2nc:checked ~ #a2n {display: block;}
+</style></body>
+</html>

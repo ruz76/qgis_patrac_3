@@ -1,0 +1,3 @@
+COMMAND: r.to.vect --overwrite input="distances_costed_cum_selected" output="distances_costed_cum_selected" type="area" column="value"
+GISDBASE: /home/jencek/.qgis2/python/plugins/qgis_patrac/tests/data/zahradka__plzen-sever_/grassdata
+LOCATION: jtsk MAPSET: PERMANENT USER: jencek DATE: Mon Jan 14 12:37:48 2019
