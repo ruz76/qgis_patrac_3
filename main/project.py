@@ -413,7 +413,7 @@ class Project(object):
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
         f = io.open(DATAPATH + '/config/searchid.txt', 'w', encoding='utf-8')
-        f.write(searchid20.decode('utf-8'))
+        f.write(searchid20)
         f.close()
         return searchid20
 
