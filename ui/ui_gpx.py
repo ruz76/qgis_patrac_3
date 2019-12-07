@@ -111,6 +111,9 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
         """Shows list of user drives"""
         username = getpass.getuser()
         drives = []
+        if not os.path.isdir('/media/' + username + '/'):
+            QgsMessageLog.logMessage("Nebyl nalezen " + '/media/' + username + '/. Nutno pripojit pro test.', "Patrac")
+            return None
         for dirname in os.listdir('/media/' + username + '/'):
             drives.append('/media/' + username + '/' + dirname + '/')
         item, ok = QInputDialog.getItem(self, "select input dialog",

@@ -1003,7 +1003,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             response = urllib.request.urlopen(
                 self.serverUrl + 'track.php?searchid=' + self.getSearchID(), None, 20)
             # Reads locations from response
-            locations = response.read()
+            locations = str(response.read())
             if "Error" in locations:
                 QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
                 return
@@ -1071,7 +1071,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             # Deletes all features in layer patraci.shp
             layer.deleteFeatures(listOfIds)
             # Reads locations from response
-            locations = response.read()
+            locations = str(response.read())
             # print("LOCATIONS: " + locations)
             # Splits to lines
             lines = locations.split("\n")

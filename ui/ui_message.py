@@ -105,7 +105,7 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
         try:
             response = urllib.request.urlopen(
                 self.serverUrl + 'loc.php?searchid=' + self.getSearchID(), None, 5)
-            locations = response.read()
+            locations = str(response.read())
             lines = locations.split("\n")
             lineid = 0
             # Loops via locations
