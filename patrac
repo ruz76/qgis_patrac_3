@@ -22,17 +22,8 @@ if [ $# -eq 1 ]; then
 #    docker pull ubuntu:16.04
     docker build -t $C_environment -f $DF_environment .
     docker build -t $C_devel -f $DF_devel .
-  else
-    printf "Usage: ./run.sh [OPTION]
-    --build-devel build patrac development container
-    --build-env   build patrac environment container
-    --build-all   build ubuntu, patrac environment and patrac development containers
-    --help        print help\n"
-    exit 1
-  fi
-fi
-
-docker run -it \
+  elif [ $1 = '--run' ]; then
+    docker run -it \
     --rm \
     --env="DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
@@ -42,3 +33,27 @@ docker run -it \
     --name patrac \
     patrac_devel \
     qgis
+  elif [ $1 = '--run2' ]; then
+    sudo mount /dev/sda4 /home/data/
+    xhost +
+    docker run --rm \
+	    -i -t \
+	    -v ${HOME}:/home/${USER} \
+	    -v /home/data:/data \
+	    -v /tmp/.X11-unix:/tmp/.X11-unix \
+	    -e DISPLAY=unix$DISPLAY \
+	    --net=host \
+	    patrac_devel \
+      qgis --profiles-path /home/${USER}/qgis3_profiles
+    xhost - 
+  else
+    printf "Usage: ./run.sh [OPTION]
+    --build-devel build patrac development container
+    --build-env   build patrac environment container
+    --build-all   build ubuntu, patrac environment and patrac development containers
+    --run         run qgis with plugin mapped to /usr/share/qgis/python/plugins/qgis_patrac
+    --run2        run qgis with profile from /home/${USER}/qgis3_profiles
+    --help        print help\n"
+    exit 1
+  fi
+fi

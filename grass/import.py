@@ -62,6 +62,8 @@ if p.returncode != 0:
     sys.exit(-1)
 gisbase = out.strip('\n\r')
 
+print(gisbase)
+
 # Set GISBASE environment variable
 os.environ['GISBASE'] = gisbase
 # the following not needed with trunk

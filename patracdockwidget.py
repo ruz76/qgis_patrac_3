@@ -87,7 +87,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             self.pluginPath = systemPluginPath
 
         #QUICKFIX:
-        self.pluginPath = "/usr/share/qgis/python/plugins/qgis_patrac"
+        #self.pluginPath = "/usr/share/qgis/python/plugins/qgis_patrac"
 
         QDockWidget.__init__(self, None)
         self.setupUi(self)
@@ -156,7 +156,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
 
     def showHelp(self):
-        webbrowser.open("file://" + self.pluginPath + "/doc/index.html")
+        try:
+            webbrowser.open("file://" + self.pluginPath + "/doc/index.html")
+        except (webbrowser.Error):
+            self.iface.messageBar().pushMessage("Error", "Can not find web browser to open help", level=Qgis.Critical)
 
     def getPluginPath(self):
         return self.pluginPath
@@ -402,7 +405,11 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         #    for feature in features:
         #        self.exportPDF(feature.geometry().boundingBox(), DATAPATH + "/sektory/pdf/" + feature['label'] + ".pdf")
 
-        webbrowser.get().open("file://" + DATAPATH + "/sektory/report.html")
+        try:
+            webbrowser.get().open("file://" + DATAPATH + "/sektory/report.html")
+        except (webbrowser.Error):
+            self.iface.messageBar().pushMessage("Error", "Can not find web browser to open report", level=Qgis.Critical)
+
         self.setCursor(Qt.ArrowCursor)
 
     def copyGpx(self):

@@ -100,7 +100,7 @@ class Project(object):
             QgsMessageLog.logMessage("Vrstvu " + path + " se nepodařilo načíst", "Patrac")
         else:
             raster.setCrs(QgsCoordinateReferenceSystem(5514, QgsCoordinateReferenceSystem.EpsgCrsId))
-            # raster.toggleScaleBasedVisibility(True)
+            raster.setScaleBasedVisibility(True)
             raster.setMinimumScale(minscaledenominator)
             raster.setMaximumScale(maxscaledenominator)
             QgsProject.instance().addMapLayer(raster, False)
