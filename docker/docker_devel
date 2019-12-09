@@ -1,4 +1,4 @@
-FROM patrac_environment_complete
+FROM patrac_environment
 
 #RUN apt-get update && apt-get install -y locales
 #RUN locale-gen "en_US.UTF-8"
