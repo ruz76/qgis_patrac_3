@@ -2,3 +2,4 @@
 __pycache__/
 main/__pycache__/
 ui/__pycache__/
+*.py[cod]
