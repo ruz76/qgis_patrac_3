@@ -6,11 +6,11 @@ DF_environment=docker/docker_environment
 C_environment=patrac_environment
 
 if [ $# -eq 1 ]; then
-  if [ $1 = "--build-devel" ]; then
+  if [ $1 = "build-devel" ]; then
     echo "Building $C_devel container..."
     docker rmi $C_devel -f
     docker build -t $C_devel -f $DF_devel .
-  elif [ $1 = '--build-env' ]; then
+  elif [ $1 = 'build-env' ]; then
     echo "Building $C_environment container..."
     docker rmi $C_environment -f
     docker build -t $C_environment -f $DF_environment .
@@ -22,7 +22,8 @@ if [ $# -eq 1 ]; then
 #    docker pull ubuntu:16.04
     docker build -t $C_environment -f $DF_environment .
     docker build -t $C_devel -f $DF_devel .
-  elif [ $1 = '--run' ]; then
+  elif [ $1 = 'run' ]; then
+    xhost +
     docker run -it \
     --rm \
     --env="DISPLAY" \
@@ -33,7 +34,8 @@ if [ $# -eq 1 ]; then
     --name patrac \
     patrac_devel \
     qgis
-  elif [ $1 = '--run2' ]; then
+    xhost -
+  elif [ $1 = 'run2' ]; then
     sudo mount /dev/sda4 /home/data/
     sudo mount /dev/sda5 /home/data2/
     sudo mount /dev/sda6 /home/data3/
@@ -48,15 +50,17 @@ if [ $# -eq 1 ]; then
 	    --net=host \
 	    patrac_devel \
       qgis --profiles-path /home/${USER}/qgis3_profiles
-    xhost - 
-  else
-    printf "Usage: ./run.sh [OPTION]
-    --build-devel build patrac development container
-    --build-env   build patrac environment container
-    --build-all   build ubuntu, patrac environment and patrac development containers
-    --run         run qgis with plugin mapped to /usr/share/qgis/python/plugins/qgis_patrac
-    --run2        run qgis with profile from /home/${USER}/qgis3_profiles
-    --help        print help\n"
-    exit 1
+    xhost -
   fi
+else
+    # shellcheck disable=SC2059
+    printf "Usage: ./patrac [OPTION]
+
+    OPTIONS:
+    build-devel   build patrac development container
+    build-env     build patrac environment container
+    build-all     build ubuntu, patrac environment and patrac development containers
+    run           run qgis with plugin mapped to /usr/share/qgis/python/plugins/qgis_patrac
+    run2          run qgis with profile from /home/${USER}/qgis3_profiles\n\n"
+    exit 1
 fi

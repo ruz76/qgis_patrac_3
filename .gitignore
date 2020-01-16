@@ -3,3 +3,8 @@ __pycache__/
 main/__pycache__/
 ui/__pycache__/
 *.py[cod]
+grass/grass_config.pyc
+grass/coords.txt
+grass/radial.csv
+grass/rules_percentage.txt
+
