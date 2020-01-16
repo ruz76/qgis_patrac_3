@@ -1,0 +1,2 @@
+places=/ui/obce_okr_kr_utf8_20180131.csv
+

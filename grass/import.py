@@ -5,29 +5,6 @@ import sys
 import subprocess
 from grass_config import *
 
-#Jen test zda to bezi
-#f = open('/tmp/test.txt', 'w')
-#f.write('This is a test\n')
-#f.close()
-
-#Pridani cest k qgis, to nefungovalo, ale pres bat ano
-#sys.path.append("C:\\Program Files\\QGIS 2.16.1\\bin")
-#sys.path.append("C:\\Program Files\\QGIS 2.16.1\\apps\\Python27\\Scripts")
-#sys.path.append("C:\\Windows\\system32")
-#sys.path.append("C:\\Windows")
-#sys.path.append("C:\\Windows\\WBem")
-#print sys.path
-
-#Zkusime jeste linux
-sys.path.append("/usr/local/sbin")
-sys.path.append("/usr/local/bin")
-sys.path.append("/usr/sbin")
-sys.path.append("/usr/bin")
-sys.path.append("/sbin")
-sys.path.append("/bin")
-sys.path.append("/usr/games")
-sys.path.append("/usr/local/games")
-
 # DATA
 # define GRASS DATABASE
 # add your path to grassdata (GRASS GIS database) directory
@@ -40,29 +17,27 @@ gisdb = DATAPATH + "/grassdata"
 location = "jtsk"
 mapset   = "PERMANENT"
 
-
 ########### SOFTWARE
 if sys.platform.startswith('linux'):
     # we assume that the GRASS GIS start script is available and in the PATH
     # query GRASS 7 itself for its GISBASE
     grass7bin = grass7bin_lin
+    # query GRASS 7 itself for its GISBASE
+    startcmd = [grass7bin, '--config', 'path']
+
+    p = subprocess.Popen(startcmd, shell=False,
+                         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = p.communicate()
+    if p.returncode != 0:
+        print("ERROR: Cannot find GRASS GIS 7 start script (%s)" % startcmd)
+        sys.exit(-1)
+    # print(out)
+    gisbase = out.strip('\n\r')
 elif sys.platform.startswith('win'):
     grass7bin = grass7bin_win
+    gisbase = 'C:/OSGEO4W64/apps/grass/grass78'
 else:
     raise OSError('Platform not configured.')
-
-# query GRASS 7 itself for its GISBASE
-startcmd = [grass7bin, '--config', 'path']
-
-p = subprocess.Popen(startcmd, shell=False,
-                     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-out, err = p.communicate()
-if p.returncode != 0:
-    print("ERROR: Cannot find GRASS GIS 7 start script (%s)" % startcmd)
-    sys.exit(-1)
-gisbase = out.strip('\n\r')
-
-print(gisbase)
 
 # Set GISBASE environment variable
 os.environ['GISBASE'] = gisbase
@@ -125,11 +100,15 @@ if os.path.isfile(DATAINPUTPATH+'/vektor/OSM/line_x/merged_polygons_groupped.shp
     print(gscript.read_command('v.in.ogr', output='sectors_group', input=DATAINPUTPATH+'/vektor/OSM/line_x', snap=1, layer='merged_polygons_groupped', spatial=str(XMIN)+','+str(YMIN)+','+str(XMAX)+','+str(YMAX), overwrite=True, flags="o"))
     print(gscript.read_command('r.reclass', input='landuse', output='landuse_type', rules=PLUGIN_PATH+'/grass/landuse_type_osm.rules'))
 
+#Adds progress columns
+print(gscript.read_command('v.db.addcolumn', map='sectors_group', layer='1', columns='stav INTEGER'))
+print(gscript.read_command('v.db.addcolumn', map='sectors_group', layer='1', columns='prostredky VARCHAR(254)'))
+
 #Computes areas
 print(gscript.read_command('v.db.addcolumn', map='sectors_group', layer='1', columns='area_ha DOUBLE PRECISION'))
 print(gscript.read_command('v.to.db', map='sectors_group', layer='1', option='area', units='hectares', columns='area_ha'))
 #Adds label column
 print(gscript.read_command('v.db.addcolumn', map='sectors_group', layer='1', columns='label VARCHAR(50)'))
-#Exports sectors with comuted areas
+#Exports sectors with comupted areas
 print(gscript.read_command('v.out.ogr', format='ESRI_Shapefile', input='sectors_group', output=DATAPATH +'/pracovni/sektory_group_selected.shp', overwrite=True))
 print(gscript.read_command('v.out.ogr', format='ESRI_Shapefile', input='sectors_group', output=DATAPATH +'/pracovni/sektory_group.shp', overwrite=True))

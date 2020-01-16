@@ -35,11 +35,14 @@ if [ $# -eq 1 ]; then
     qgis
   elif [ $1 = '--run2' ]; then
     sudo mount /dev/sda4 /home/data/
+    sudo mount /dev/sda5 /home/data2/
+    sudo mount /dev/sda6 /home/data3/
     xhost +
     docker run --rm \
 	    -i -t \
 	    -v ${HOME}:/home/${USER} \
 	    -v /home/data:/data \
+	    -v /home/data2:/data2 \
 	    -v /tmp/.X11-unix:/tmp/.X11-unix \
 	    -e DISPLAY=unix$DISPLAY \
 	    --net=host \

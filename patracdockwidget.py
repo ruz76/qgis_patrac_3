@@ -500,6 +500,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.municipalities_regions = []
         # reads list of municipalities from CSV
         with open(self.pluginPath + "/ui/obce_okr_kr_utf8_20180131.csv", "r") as fileInput:
+        # with open(self.pluginPath + "/ui/sk_obce_okr_kr_utf8.csv", "r") as fileInput:
             for row in csv.reader(fileInput, delimiter=';'):
                 unicode_row = row
                 # sets the name (and province in brackets for iunique identification)
@@ -515,10 +516,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         srs = map_renderer.destinationCrs()
         crs_src = QgsCoordinateReferenceSystem(5514)
         crs_dest = QgsCoordinateReferenceSystem(srs)
-        xform = QgsCoordinateTransform(crs_src, crs_dest)
+        xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
         x = int(cor[0])
         y = int(cor[1])
-        t_point = xform.transform(QgsPoint(x, y))
+        t_point = xform.transform(QgsPointXY(x, y))
         return t_point
 
     def check_crs(self):
@@ -557,6 +558,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def updatePatrac(self):
         """Changes the transfṕarency of raster"""
+        print("updatePatrac")
         transparencyList = []
         if self.sliderStart.value() != 0:
             transparencyList.extend(self.generateTransparencyList(0, self.sliderStart.value()))
@@ -580,6 +582,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         layer.renderer().rasterTransparency().setTransparentSingleValuePixelList(transparencyList)
         layer.renderer().setOpacity(0.5)
+        layer.triggerRepaint()
         self.plugin.iface.mapCanvas().refresh()
 
     def __updateSpinStart(self, value):
@@ -695,6 +698,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         #self.extendRegion()
 
     def extendRegion(self):
+        msg = "Funkce není v této verzi podporována. Pro pátrání v další oblasti vytvořte nový projekt."
+        QMessageBox.information(self.main.iface.mainWindow(), "Nedostupné", msg)
+        return
         self.Sectors.extendRegion()
 
     def showSettings(self):
@@ -816,7 +822,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             y = self.coordsdlg.lineEditLat.text()
             source_crs = QgsCoordinateReferenceSystem(4326)
             dest_crs = QgsCoordinateReferenceSystem(5514)
-            transform = QgsCoordinateTransform(source_crs, dest_crs)
+            transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
             xyJTSK = transform.transform(float(x), float(y))
             x = xyJTSK.x()
             y = xyJTSK.y()
@@ -827,7 +833,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             y = self.coordsdlg.lineEditUTMY.text()
             source_crs = QgsCoordinateReferenceSystem(32633)
             dest_crs = QgsCoordinateReferenceSystem(5514)
-            transform = QgsCoordinateTransform(source_crs, dest_crs)
+            transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
             xyJTSK = transform.transform(float(x), float(y))
             x = xyJTSK.x()
             y = xyJTSK.y()
@@ -850,7 +856,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             pt = geom.asPoint()
             # print str(pt)
             # Moves point to specified coordinates
-            fet.setGeometry(QgsGeometry.fromPoint(QgsPoint(float(x), float(y))))
+            fet.setGeometry(QgsGeometry.fromPointXY(QgsPointXY(float(x), float(y))))
             layer.updateFeature(fet)
         layer.commitChanges()
         layer.triggerRepaint()
@@ -873,7 +879,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         point = geom.interpolate(lineLength / 2)
         if line["smer"] == 1:
             points = geom.asPolyline()
-            return [point, QgsGeometry.fromPoint(points[len(points) - 1])]
+            return [point, QgsGeometry.fromPointXY(points[len(points) - 1])]
         else:
             return [point]
 
@@ -974,7 +980,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         fet.setAttributes([str(cols[0]), str(cols[1]), str(cols[2]), str(cols[3]).decode('utf8')])
         # Geometry is on third and fourth places
         if len(points) > 1:
-            line = QgsGeometry.fromPolyline(points)
+            line = QgsGeometry.fromPolylineXY(points)
             fet.setGeometry(line)
             provider.addFeatures([fet])
 
@@ -985,7 +991,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             QMessageBox.information(None, "CHYBA:",
                                     "Projekt neobsahuje vrstvu pátračů. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
             return
-
         self.setCursor(Qt.WaitCursor)
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
@@ -1007,18 +1012,25 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             if "Error" in locations:
                 QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
                 return
-            layer.startEditing()
             listOfIds = [feat.id() for feat in layer.getFeatures()]
-            # Deletes all features in layer patraci.shp
-            layer.deleteFeatures(listOfIds)
             # Splits to lines
             lines = locations.split("\n")
+            if len(lines) < 1 or len(lines[0]) < 10:
+                # Wrong response
+                self.setCursor(Qt.ArrowCursor)
+                return
+            # Deletes all features in layer patraci.shp
+            layer.startEditing()
+            layer.deleteFeatures(listOfIds)
             # Loops the lines
             for line in lines:
                 if line != "":  # add other needed checks to skip titles
                     # Splits based on semicolon
                     # TODO - add time
                     cols = line.split(";")
+                    if len(cols) < 5:
+                        # Wrong line, skip it
+                        continue
                     points = []
                     position = 0
                     # print "COLS: " + str(len(cols))
@@ -1026,7 +1038,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                         if position > 3:
                             try:
                                 xy = str(col).split(" ")
-                                point = QgsPoint(float(xy[0]), float(xy[1]))
+                                point = QgsPointXY(float(xy[0]), float(xy[1]))
                                 points.append(point)
                             except:
                                 QgsMessageLog.logMessage("Problém s načtením dat z databáze: " + line.decode('utf8'), "Patrac")
@@ -1085,7 +1097,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                     # Geometry is on last place
                     try:
                         xy = str(cols[4]).split(" ")
-                        fet.setGeometry(QgsGeometry.fromPoint(QgsPoint(float(xy[0]), float(xy[1]))))
+                        fet.setGeometry(QgsGeometry.fromPointXY(QgsPointXY(float(xy[0]), float(xy[1]))))
                         # Name and sessionid are on first and second place
                         fet.setAttributes([str(cols[0]), str(cols[1]), str(cols[2]), str(cols[3]).decode('utf8')])
                         provider.addFeatures([fet])
@@ -1133,9 +1145,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             crs_src = QgsCoordinateReferenceSystem(5514)
             crs_dest = QgsCoordinateReferenceSystem(4326)
             xform = QgsCoordinateTransform(crs_src, crs_dest)
-            point_5514 = QgsPoint(center.x() + rand, center.y() + rand2)
+            point_5514 = QgsPointXY(center.x() + rand, center.y() + rand2)
             point_4326 = xform.transform(point_5514)
-            fet.setGeometry(QgsGeometry.fromPoint(point_4326))
+            fet.setGeometry(QgsGeometry.fromPointXY(point_4326))
             fet.setAttributes(['idpatrani', '2019-09-03T13:00:00', 'A', 'Karel ' + str(i)])
             provider.addFeatures([fet])
         layer.commitChanges()

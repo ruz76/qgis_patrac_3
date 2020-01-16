@@ -57,7 +57,7 @@ class ProgressMapTool(QgsMapTool):
         features = provider.getFeatures()
         crs_src = QgsCoordinateReferenceSystem(4326)
         crs_dest = QgsCoordinateReferenceSystem(5514)
-        xform = QgsCoordinateTransform(crs_src, crs_dest)
+        xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
         buffer_union = None
         for feature in features:
             geom = feature.geometry()

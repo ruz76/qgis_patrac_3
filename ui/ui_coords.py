@@ -64,13 +64,13 @@ class Ui_Coords(QtWidgets.QDialog, FORM_CLASS):
         source_crs = QgsCoordinateReferenceSystem(5514)
 
         dest_crs = QgsCoordinateReferenceSystem(4326)
-        transform = QgsCoordinateTransform(source_crs, dest_crs)
+        transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
         xyWGS = transform.transform(self.center.x(), self.center.y())
         self.lineEditLon.setText(str(xyWGS.x()))
         self.lineEditLat.setText(str(xyWGS.y()))
 
         dest_crs = QgsCoordinateReferenceSystem(32633)
-        transform = QgsCoordinateTransform(source_crs, dest_crs)
+        transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
         xyUTM = transform.transform(self.center.x(), self.center.y())
         self.lineEditUTMX.setText(str(xyUTM.x()))
         self.lineEditUTMY.setText(str(xyUTM.y()))

@@ -36,6 +36,7 @@ from shutil import copy
 from time import gmtime, strftime
 from glob import glob
 
+from qgis.PyQt.QtWidgets import *
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import *
 
@@ -95,11 +96,11 @@ class Sectors(object):
         provider = layer.dataProvider()
         features = provider.getFeatures()
         # save ids of selected sectors into file for future usage
-        f = open(self.Utils.getDataPath() + '/pracovni/selectedSectors.txt', 'a')
+        f = open(self.Utils.getDataPath() + '/pracovni/selectedSectors.txt', 'w')
         filter = "id IN ("
         for feature in features:
             f.write(str(feature['id']) + "\n")
-            filter += str(feature['id']) + ", "
+            filter += "'" + str(feature['id']) + "', "
         filter = filter[:-2] + ")"
         f.close()
 
@@ -218,11 +219,11 @@ class Sectors(object):
         #geometries = []
         provider = layer.dataProvider()
         features = provider.getFeatures()
-        for feature in features:
-            #featureIds.append(feature['id'])
-            #geometries.append(feature.geometry())
-            if ord(feature['label'][0:1]) >= ord(startingLetter):
-                startingLetter = chr(ord(feature['label'][0:1]) + 1)
+        # for feature in features:
+        #     #featureIds.append(feature['id'])
+        #     #geometries.append(feature.geometry())
+        #     if ord(feature['label'][0:1]) >= ord(startingLetter):
+        #         startingLetter = chr(ord(feature['label'][0:1]) + 1)
 
         # we open layer again to add new sectors
         layer.startEditing()
@@ -236,7 +237,8 @@ class Sectors(object):
                 # print("ADD " + str(feature['id']))
                 f.write(str(feature['id']) + "\n")
                 sectorid = sectorid + 1
-                feature['label'] = str(startingLetter) + str(sectorid)
+                # feature['label'] = str(startingLetter) + str(sectorid)
+                feature['label'] = feature['id']
                 feature['area_ha'] = round(feature.geometry().area() / 10000)
                 layer.addFeature(feature)
 
@@ -281,7 +283,8 @@ class Sectors(object):
             # Label is set to A and sequential number
             # Labels must be stable for whole search area, so only at the beginning are sectors labeled
             #if setLabels:
-            feature['label'] = 'A' + str(sectorid)
+            #feature['label'] = 'A' + str(sectorid)
+            feature['label'] = str(feature['id'])
             # Area in hectares
             feature['area_ha'] = round(feature.geometry().area() / 10000)
             #print(str(feature['id']))
@@ -364,12 +367,8 @@ class Sectors(object):
             fet = QgsFeature()
             fet.setAttributes([feature['label'], str(feature['area_ha']) + ' ha '])
 
-            polygon = feature.geometry().asPolygon()
-            polygon_points_count = len(polygon[0])
-            points = []
-            for pointi in range(polygon_points_count):
-                points.append(polygon[0][pointi])
-            line = QgsGeometry.fromPolyline(points)
+            polygon = feature.geometry()
+            line = QgsGeometry.fromPolylineXY(polygon.asMultiPolygon()[0][0])
             fet.setGeometry(line)
             providerSector.addFeatures([fet])
             providerLayerLines.addFeatures([fet])
@@ -448,18 +447,18 @@ class Sectors(object):
         provider = layer.dataProvider()
         features = provider.getFeatures()
 
-        AREAS = ""
+        LABELS = ""
         for feature in features:
-            AREAS = AREAS + "!" + str(feature['area_ha'])
+            LABELS = LABELS + "!" + str(feature['label'])
 
         # GRASS exports to SHP
         if sys.platform.startswith('win'):
             p = subprocess.Popen(
-                (self.pluginPath + "/grass/run_report_export.bat", DATAPATH, self.pluginPath, str(sectorid), AREAS))
+                (self.pluginPath + "/grass/run_report_export.bat", DATAPATH, self.pluginPath, str(sectorid), LABELS))
             p.wait()
         else:
             p = subprocess.Popen(('bash', self.pluginPath + "/grass/run_report_export.sh", DATAPATH, self.pluginPath,
-                                  str(sectorid), AREAS))
+                                  str(sectorid), LABELS))
             p.wait()
 
         # prepare all sectors to one file

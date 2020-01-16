@@ -5,29 +5,6 @@ import sys
 import subprocess
 from grass_config import *
 
-#Jen test zda to bezi
-#f = open('/tmp/test.txt', 'w')
-#f.write('This is a test\n')
-#f.close()
-
-#Pridani cest k qgis, to nefungovalo, ale pres bat ano
-#sys.path.append("C:\\Program Files\\QGIS 2.16.1\\bin")
-#sys.path.append("C:\\Program Files\\QGIS 2.16.1\\apps\\Python27\\Scripts")
-#sys.path.append("C:\\Windows\\system32")
-#sys.path.append("C:\\Windows")
-#sys.path.append("C:\\Windows\\WBem")
-#print sys.path
-
-#Zkusime jeste linux
-sys.path.append("/usr/local/sbin")
-sys.path.append("/usr/local/bin")
-sys.path.append("/usr/sbin")
-sys.path.append("/usr/bin")
-sys.path.append("/sbin")
-sys.path.append("/bin")
-sys.path.append("/usr/games")
-sys.path.append("/usr/local/games")
-
 # DATA
 # define GRASS DATABASE
 # add your path to grassdata (GRASS GIS database) directory
@@ -40,27 +17,27 @@ gisdb = DATAPATH + "/grassdata"
 location = "jtsk"
 mapset   = "PERMANENT"
 
-
 ########### SOFTWARE
 if sys.platform.startswith('linux'):
     # we assume that the GRASS GIS start script is available and in the PATH
     # query GRASS 7 itself for its GISBASE
     grass7bin = grass7bin_lin
+    # query GRASS 7 itself for its GISBASE
+    startcmd = [grass7bin, '--config', 'path']
+
+    p = subprocess.Popen(startcmd, shell=False,
+                         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = p.communicate()
+    if p.returncode != 0:
+        print("ERROR: Cannot find GRASS GIS 7 start script (%s)" % startcmd)
+        sys.exit(-1)
+    # print(out)
+    gisbase = out.strip('\n\r')
 elif sys.platform.startswith('win'):
     grass7bin = grass7bin_win
+    gisbase = 'C:/OSGEO4W64/apps/grass/grass78'
 else:
     raise OSError('Platform not configured.')
-
-# query GRASS 7 itself for its GISBASE
-startcmd = [grass7bin, '--config', 'path']
-
-p = subprocess.Popen(startcmd, shell=False,
-                     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-out, err = p.communicate()
-if p.returncode != 0:
-    print("ERROR: Cannot find GRASS GIS 7 start script (%s)" % startcmd)
-    sys.exit(-1)
-gisbase = out.strip('\n\r')
 
 # Set GISBASE environment variable
 os.environ['GISBASE'] = gisbase

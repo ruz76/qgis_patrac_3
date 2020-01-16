@@ -206,10 +206,12 @@ class Area(object):
         f_coords.close()
         QgsMessageLog.logMessage("Souřadnice: " + coords, "Patrac")
         if sys.platform.startswith('win'):
+            # p = subprocess.Popen((self.pluginPath + "/grass/run_cost_distance.bat", DATAPATH, self.pluginPath, str(id)
+            #                       , str(self.widget.personType)),
+            #                      shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            # # out, err = p.communicate()
             p = subprocess.Popen((self.pluginPath + "/grass/run_cost_distance.bat", DATAPATH, self.pluginPath, str(id)
-                                  , str(self.widget.personType)),
-                                 shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            out, err = p.communicate()
+                                  , str(self.widget.personType)))
             p.wait()
         else:
             p = subprocess.Popen(

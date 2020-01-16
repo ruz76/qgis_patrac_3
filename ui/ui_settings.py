@@ -153,9 +153,15 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.labelPath.setText("Cesta k projektu: " + prjfi.absolutePath())
 
     def testHds(self):
+        msg = "Funkce není v této verzi podporována"
+        QMessageBox.information(self.main.iface.mainWindow(), "Nedostupné", msg)
+        return
         self.main.testHds()
 
     def updatePlugin(self):
+        msg = "Funkce není v této verzi podporována"
+        QMessageBox.information(self.main.iface.mainWindow(), "Nedostupné", msg)
+        return
         currentVersion = self.getCurrentVersion()
         installedVersion = self.getInstalledVersion()
         if currentVersion != "" and currentVersion != installedVersion:
@@ -278,6 +284,9 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                     p.wait()
 
     def updateData(self):
+        msg = "Funkce není v této verzi podporována"
+        QMessageBox.information(self.main.iface.mainWindow(), "Nedostupné", msg)
+        return
         QMessageBox.information(None, "INFO", "Tato funkce není zatím implementována plně. Aktualizuji šablonu a fixuji sklady.")
         currentVersion = self.getCurrentVersion()
         self.downloadTemplate(currentVersion)
@@ -426,8 +435,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
     def refreshSystemUsers(self):
         list = self.getSystemUsers()
-        #if list != "":
-            #self.fillTableWidgetSystemUsers(list, self.tableWidgetSystemUsers)
+        if list != "":
+            self.fillTableWidgetSystemUsers(list, self.tableWidgetSystemUsers)
 
     def getSystemUsers(self):
         # TODO change hardcoded value for id to value from configuration
@@ -438,7 +447,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         # Connects to the server to obtain list of users based on list of locations
         try:
             response = urllib.request.urlopen(url, None, timeout)
-            system_users = response.read()
+            system_users = response.read().decode('utf-8')
             return system_users
         except urllib.error.URLError:
             QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
@@ -470,7 +479,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                         col = self.getStatusName(col)
                         tableWidget.setItem(i, j, QTableWidgetItem(col))
                     else:
-                        tableWidget.setItem(i, j, QTableWidgetItem(str(col).decode('utf8')))
+                        tableWidget.setItem(i, j, QTableWidgetItem(str(col)))
                     j = j + 1
                 # tableWidget.selectRow(i)
                 i = i + 1
@@ -721,6 +730,9 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.copyRasters("4")
 
     def copyRasters(self, level):
+        msg = "Funkce není v této verzi podporována"
+        QMessageBox.information(self.main.iface.mainWindow(), "Nedostupné", msg)
+        return
         path_to = self.lineEditZpmTo.text()
         path_from = self.lineEditZpmFrom.text()
         copy(path_from + level + "K/metadata.csv", path_to + "ZPM_" + level + "tis/")

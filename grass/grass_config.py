@@ -2,7 +2,7 @@
 # MS Windows
 # grass7bin_win = r'C:\OSGeo4W\bin\grass70svn.bat'
 # uncomment when using standalone WinGRASS installer
-grass7bin_win = r'C:\OSGeo4W64\bin\grass72.bat'
+grass7bin_win = r'C:\OSGeo4W64\bin\grass78.bat'
 # Linux
 grass7bin_lin = 'grass76'
 # Mac OS X

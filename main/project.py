@@ -101,8 +101,8 @@ class Project(object):
         else:
             raster.setCrs(QgsCoordinateReferenceSystem(5514, QgsCoordinateReferenceSystem.EpsgCrsId))
             raster.setScaleBasedVisibility(True)
-            raster.setMinimumScale(minscaledenominator)
-            raster.setMaximumScale(maxscaledenominator)
+            raster.setMinimumScale(maxscaledenominator)
+            raster.setMaximumScale(minscaledenominator)
             QgsProject.instance().addMapLayer(raster, False)
             root = QgsProject.instance().layerTreeRoot()
             mygroup = root.findGroup(group)
@@ -111,11 +111,11 @@ class Project(object):
 
     def addAllZPMRasters(self, KRAJ_DATA_PATH):
         if os.path.isfile(KRAJ_DATA_PATH + "/VERSION"):
-            # self.addZPMRasters(KRAJ_DATA_PATH, "1024", 1, 1000000, 2000000)
-            # self.addZPMRasters(KRAJ_DATA_PATH, "512", 1, 500000, 1000000)
-            # self.addZPMRasters(KRAJ_DATA_PATH, "256", 4, 250000, 500000)
-            self.addZPMRasters(KRAJ_DATA_PATH, "128", 2, 1250000, 250000)
-            self.addZPMRasters(KRAJ_DATA_PATH, "64", 4, 60000, 1250000)
+            self.addZPMRasters(KRAJ_DATA_PATH, "1024", 1, 1000000, 2000000)
+            self.addZPMRasters(KRAJ_DATA_PATH, "512", 1, 500000, 1000000)
+            self.addZPMRasters(KRAJ_DATA_PATH, "256", 4, 250000, 500000)
+            self.addZPMRasters(KRAJ_DATA_PATH, "128", 2, 125000, 250000)
+            self.addZPMRasters(KRAJ_DATA_PATH, "64", 4, 60000, 125000)
             self.addZPMRasters(KRAJ_DATA_PATH, "32", 6, 20000, 60000)
             self.addZPMRasters(KRAJ_DATA_PATH, "16", 9, 10000, 20000)
             self.addZPMRasters(KRAJ_DATA_PATH, "8", 9, 5000, 10000)
@@ -143,7 +143,7 @@ class Project(object):
             f.write("0")
             f.close()
 
-            copy(TEMPLATES_PATH + "/projekt/clean.qgs", NEW_PROJECT_PATH + "/" + NAMESAFE + ".qgs")
+            copy(TEMPLATES_PATH + "/projekt/clean_v3.qgs", NEW_PROJECT_PATH + "/" + NAMESAFE + ".qgs")
             os.mkdir(NEW_PROJECT_PATH + "/pracovni")
             for file in glob(TEMPLATES_PATH + '/projekt/pracovni/*'):
                 copy(file, NEW_PROJECT_PATH + "/pracovni/")
@@ -375,7 +375,7 @@ class Project(object):
         project.read(NEW_PROJECT_PATH + '/' + NAMESAFE + '.qgs')
         # self.do_msearch()
         self.zoomToExtent(XMIN, YMIN, XMAX, YMAX)
-        self.addAllZPMRasters(KRAJ_DATA_PATH)
+        # self.addAllZPMRasters(KRAJ_DATA_PATH)
         self.widget.Sectors.recalculateSectors(True)
         self.createNewSearch(name, desc, region)
         self.widget.settingsdlg.updateSettings()
