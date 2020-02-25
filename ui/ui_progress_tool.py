@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+from qgis.PyQt.QtWidgets import *
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import *
+from qgis.PyQt.QtCore import QSettings
 
 from qgis.core import *
 from qgis.gui import *
@@ -46,6 +48,14 @@ class ProgressMapTool(QgsMapTool):
 
     def canvasPressEvent(self, e):
         self.point = self.toMapCoordinates(e.pos())
+        srs = self.canvas.mapSettings().destinationCrs()
+        current_crs = srs.authid()
+        if current_crs != "EPSG:5514":
+            srs = self.canvas.mapSettings().destinationCrs()
+            crs_src = QgsCoordinateReferenceSystem(srs)
+            crs_dest = QgsCoordinateReferenceSystem(5514)
+            xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
+            self.point = xform.transform(self.point)
 
     def analyzeTrack(self, sector):
         currentLayer = self.canvas.currentLayer()
@@ -79,7 +89,7 @@ class ProgressMapTool(QgsMapTool):
         layer.updateExtents()
         layer.loadNamedStyle(self.pluginPath + '/styles/not_searched.qml')
         layer.triggerRepaint()
-        QgsMapLayerRegistry.instance().addMapLayer(layer)
+        QgsProject.instance().addMapLayer(layer)
         # root = QgsProject.instance().layerTreeRoot()
         # mygroup = root.findGroup(u"nepropátráno")
         # if mygroup is None:
@@ -99,6 +109,7 @@ class ProgressMapTool(QgsMapTool):
             try:
                 for feature in features:
                     if feature.geometry().contains(self.point):
+                        QgsMessageLog.logMessage("RE 5", "Patrac")
                         if self.attribute > -1:
                             # print(self.type)
                             feature.setAttribute(self.attribute, self.type)

@@ -74,4 +74,4 @@ DISTANCES = open(DATAPATH + "/pracovni/distancesCostedEquation.txt", 'r').read()
 #But this can be used in future in a case when there are more than one input point
 print(gscript.read_command('r.mapcalc', expression='distances_costed_cum = ' + DISTANCES, overwrite=True))
 #Exports output to the GeoTIFF format
-print(gscript.read_command('r.out.gdal', input='distances_costed_cum', output=DATAPATH + '/pracovni/distances_costed_cum.tif', type='Float64', createopt='PROFILE=GeoTIFF,TFW=YES', overwrite=True))
+print(gscript.read_command('r.out.gdal', input='distances_costed_cum', output=DATAPATH + '/pracovni/distances_costed_cum.tif', type='Float64', createopt='PROFILE=BASELINE,TFW=YES', overwrite=True))

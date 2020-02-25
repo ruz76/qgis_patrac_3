@@ -28,6 +28,14 @@ class PointMapTool(QgsMapTool):
 
   def canvasPressEvent(self, e):
       self.point = self.toMapCoordinates(e.pos())
+      srs = self.canvas.mapSettings().destinationCrs()
+      current_crs = srs.authid()
+      if current_crs != "EPSG:5514":
+          srs = self.canvas.mapSettings().destinationCrs()
+          crs_src = QgsCoordinateReferenceSystem(srs)
+          crs_dest = QgsCoordinateReferenceSystem(5514)
+          xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
+          self.point = xform.transform(self.point)
 
   def canvasReleaseEvent(self, e):
       if self.point is not None:

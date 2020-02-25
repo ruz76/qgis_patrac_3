@@ -37,7 +37,7 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'coords.ui'))
 
 class Ui_Coords(QtWidgets.QDialog, FORM_CLASS):
-    def __init__(self, parent=None):
+    def __init__(self, canvas, parent=None):
         """Constructor."""
         super(Ui_Coords, self).__init__(parent)
         # Set up the user interface from Designer.
@@ -47,6 +47,7 @@ class Ui_Coords(QtWidgets.QDialog, FORM_CLASS):
         # #widgets-and-dialogs-with-auto-connect
         #self.init_param()
         self.setupUi(self)
+        self.canvas = canvas
         self.layer = None
         self.center = None
         self.widget = None
@@ -59,6 +60,15 @@ class Ui_Coords(QtWidgets.QDialog, FORM_CLASS):
         self.widget = widget
 
     def setCoords(self):
+        srs = self.canvas.mapSettings().destinationCrs()
+        current_crs = srs.authid()
+        if current_crs != "EPSG:5514":
+            srs = self.canvas.mapSettings().destinationCrs()
+            crs_src = QgsCoordinateReferenceSystem(srs)
+            crs_dest = QgsCoordinateReferenceSystem(5514)
+            xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
+            self.center = xform.transform(self.center)
+
         self.lineEditX.setText(str(self.center.x()))
         self.lineEditY.setText(str(self.center.y()))
         source_crs = QgsCoordinateReferenceSystem(5514)

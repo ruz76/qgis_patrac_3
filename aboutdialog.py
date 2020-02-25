@@ -6,7 +6,7 @@
 # ---------------------------------------------------------
 # Podpora hledání pohřešované osoby
 #
-# Copyright (C) 2010-2013 Alexander Bruy (alexander.bruy@gmail.com)
+# Copyright (C) 2017-2020 Jan Růžička (jan.ruzicka.vsb@gmail.com)
 #
 # This source is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free

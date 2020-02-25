@@ -122,7 +122,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         # Dialogs and tools are defined here
         self.settingsdlg = Ui_Settings(self.pluginPath, self)
-        self.coordsdlg = Ui_Coords()
+        self.coordsdlg = Ui_Coords(self.plugin.iface.mapCanvas())
         self.pointtool = PointMapTool(self.plugin.iface.mapCanvas())
         self.progresstool = ProgressMapTool(self.plugin.iface.mapCanvas(), self.plugin.iface)
 
@@ -154,10 +154,28 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.sectorsProgressStateFinished.clicked.connect(self.setSectorsProgress)
         self.sectorsProgressAnalyzeTrack.clicked.connect(self.setSectorsProgress)
 
+    def getPatracDataPath(self):
+        DATAPATH = ''
+        if os.path.isfile('C:/patracdata/cr/projekty/simple/simple.qgs'):
+            DATAPATH = 'C:/patracdata/'
+        if os.path.isfile('D:/patracdata/cr/projekty/simple/simple.qgs'):
+            DATAPATH = 'D:/patracdata/'
+        if os.path.isfile('E:/patracdata/cr/projekty/simple/simple.qgs'):
+            DATAPATH = 'E:/patracdata/'
+        if os.path.isfile('/data/patracdata/cr/projekty/simple/simple.qgs'):
+            DATAPATH = '/data/patracdata/'
+
+        return DATAPATH
 
     def showHelp(self):
         try:
-            webbrowser.open("file://" + self.pluginPath + "/doc/index.html")
+            DATAPATH = self.getPatracDataPath()
+            webbrowser.get().open(
+                "file://" + DATAPATH + "doc/index.html")
+            # webbrowser.get().open("file://" + DATAPATH + "/sektory/report.html")
+            # self.iface.messageBar().pushMessage("Error", "file://" + self.pluginPath + "/doc/index.html", level=Qgis.Critical)
+            # webbrowser.get().open("file://" + self.pluginPath + "/doc/index.html")
+            # webbrowser.open("file://" + self.pluginPath + "/doc/index.html")
         except (webbrowser.Error):
             self.iface.messageBar().pushMessage("Error", "Can not find web browser to open help", level=Qgis.Critical)
 
@@ -198,21 +216,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def municipalitySearch(self, textBox):
         """Tries to find municipallity in list and zoom to coordinates of it."""
-        # Check if the project has okresy_pseudo.shp
-
-        # project = QgsProject.instance()
-        # project.clear()
-        #
-        # if not self.checkLayer("okresy_pseudo.shp"):
-        #     #QMessageBox.information(None, "CHYBA:",
-        #     #                        u"Projekt neobsahuje vrstvu okresy. Pokusím se otevřít výchozí projekt.")
-        #     result = self.openProjectSimple()
-        #     if not result:
-        #         QMessageBox.information(None, "KRITICKÁ CHYBA:",
-        #                                 u"Nepodařilo se otevřít projekt pro generování. Zkuste jej otevřít přes Projekt/Otevřít. "
-        #                                 u"Měl by se nacházet na disku C, D, E nebo F v adresáři patracdata.")
-        #         return
-
         try:
             input_name = textBox.text()
             i = 0
@@ -393,7 +396,17 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         # exports overall map with all sectors to PDF
         if self.chkGenerateOverallPDF.isChecked():
-            self.Printing.exportPDF(layer.extent(), DATAPATH + "/sektory/report.pdf")
+            srs = self.canvas.mapSettings().destinationCrs()
+            current_crs = srs.authid()
+            if current_crs == "EPSG:5514":
+                self.Printing.exportPDF(layer.extent(), DATAPATH + "/sektory/report.pdf")
+            else:
+                srs = self.canvas.mapSettings().destinationCrs()
+                crs_src = QgsCoordinateReferenceSystem(5514)
+                crs_dest = QgsCoordinateReferenceSystem(srs)
+                xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
+                extent = xform.transform(layer.extent())
+                self.Printing.exportPDF(extent, DATAPATH + "/sektory/report.pdf")
 
 
         # exports map of sectors to PDF
@@ -407,6 +420,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         try:
             webbrowser.get().open("file://" + DATAPATH + "/sektory/report.html")
+            # webbrowser.get().open("file://" + DATAPATH + "/sektory/report.html")
         except (webbrowser.Error):
             self.iface.messageBar().pushMessage("Error", "Can not find web browser to open report", level=Qgis.Critical)
 
@@ -446,7 +460,11 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
         time = strftime("%Y-%m-%d_%H-%M-%S", gmtime())
-        copy(DATAPATH + '/sektory/gpx/all.gpx', path + "/sektory_" + time + ".gpx")
+        try:
+            copy(DATAPATH + '/sektory/gpx/all.gpx', path + "/sektory_" + time + ".gpx")
+        except:
+            a = 10
+            # TODO report error	
         if os.path.isfile(path + "/sektory_" + time + ".gpx"):
             QMessageBox.information(None, "INFO:", "Sektory byly zkopírovány do zařízení: " + path + "/sektory_" + time + ".gpx")
         else:
@@ -624,7 +642,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.sliderEnd.setValue(value)
 
     def __toggleRefresh(self):
-        settings = QSettings("alexbruy", "Patrac")
+        settings = QSettings("patrac", "Patrac")
         settings.setValue("manualUpdate", self.chkManualUpdate.isChecked())
 
         if self.chkManualUpdate.isChecked():
@@ -1010,7 +1028,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             # Reads locations from response
             locations = str(response.read())
             if "Error" in locations:
-                QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
+                self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+                # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
                 return
             listOfIds = [feat.id() for feat in layer.getFeatures()]
             # Splits to lines
@@ -1048,9 +1067,11 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             layer.commitChanges()
             layer.triggerRepaint()
         except urllib.error.URLError as e:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
         except socket.timeout:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
         self.setCursor(Qt.ArrowCursor)
 
     def showPeople(self):
@@ -1107,9 +1128,11 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             layer.commitChanges()
             layer.triggerRepaint()
         except urllib.error.URLError as e:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
         except socket.timeout:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
         self.setCursor(Qt.ArrowCursor)
 
     def showPeopleSimulation(self):

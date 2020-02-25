@@ -153,10 +153,10 @@ class Project(object):
                  NEW_PROJECT_PATH + "/pracovni/sektory_group.shp")
             copy(NEW_PROJECT_PATH + "/pracovni/sektory_group_selected.shx",
                  NEW_PROJECT_PATH + "/pracovni/sektory_group.shx")
-            copy(NEW_PROJECT_PATH + "/pracovni/sektory_group_selected.prj",
-                 NEW_PROJECT_PATH + "/pracovni/sektory_group.prj")
-            copy(NEW_PROJECT_PATH + "/pracovni/sektory_group_selected.qpj",
-                 NEW_PROJECT_PATH + "/pracovni/sektory_group.qpj")
+            # copy(NEW_PROJECT_PATH + "/pracovni/sektory_group_selected.prj",
+            #     NEW_PROJECT_PATH + "/pracovni/sektory_group.prj")
+            # copy(NEW_PROJECT_PATH + "/pracovni/sektory_group_selected.qpj",
+            #     NEW_PROJECT_PATH + "/pracovni/sektory_group.qpj")
             copy(NEW_PROJECT_PATH + "/pracovni/sektory_group_selected.qml",
                  NEW_PROJECT_PATH + "/pracovni/sektory_group.qml")
             os.mkdir(NEW_PROJECT_PATH + "/search")
@@ -397,7 +397,17 @@ class Project(object):
 
     def zoomToExtent(self, XMIN, YMIN, XMAX, YMAX):
         rect = QgsRectangle(float(XMIN), float(YMIN), float(XMAX), float(YMAX))
-        self.canvas.setExtent(rect)
+        srs = self.canvas.mapSettings().destinationCrs()
+        current_crs = srs.authid()
+        if current_crs == "EPSG:5514":
+            self.canvas.setExtent(rect)
+        else:
+            srs = self.canvas.mapSettings().destinationCrs()
+            crs_src = QgsCoordinateReferenceSystem(5514)
+            crs_dest = QgsCoordinateReferenceSystem(srs)
+            xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
+            extent = xform.transform(rect)
+            self.canvas.setExtent(extent)
         self.canvas.refresh()
 
     def createNewSearch(self, name, desc, region):

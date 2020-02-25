@@ -245,11 +245,14 @@ SUM_P9 = SUM_P9 / float(10000)
 SUM_P10 = SUM_P10 / float(10000)
 
 f = io.open(DATAPATH + '/pracovni/report.html.units', encoding='utf-8', mode='w')
+
 # Reads numbers for existing search units from units.txt
 CUR_KPT = 0
 CUR_PT = 0
 CUR_VPT = 0
-with open(PLUGIN_PATH + "/grass/units.txt", mode="r") as fileInput:
+# TODO check how it works in Windows - seems that this works in Linux and commented line in Windows
+with open(PLUGIN_PATH + "/grass/units.txt", encoding='utf-8', mode="r") as fileInput:
+# with open(PLUGIN_PATH + "/grass/units.txt", mode="r") as fileInput:
     i = 0
     for row in csv.reader(fileInput, delimiter=';'):
         # unicode_row = [x.decode('utf8') for x in row]
@@ -262,6 +265,7 @@ with open(PLUGIN_PATH + "/grass/units.txt", mode="r") as fileInput:
         if i == 5:  # Potápěč
             CUR_VPT = cur_count
         i = i + 1
+
 
 f.write(u'<div id="areas" class="fixed400">\n')
 f.write(u"\n<h2>Typy povrchů</h2>\n");
@@ -282,9 +286,9 @@ f.write(u"</div>\n")
 KPT = SUM_P2 + SUM_P3 + SUM_P5
 KPT_PT = SUM_P1 + SUM_P4 + SUM_P8
 f.write(u'<div id="teams" class="fixed400">\n')
-f.write(u"<h2>KPT</h2>\n")
-f.write(u"<p>Plocha pro pátrání vhodná pro KPT je " + str(int(math.ceil(KPT + KPT_PT))) + u" ha.\n")
-f.write(u"<p>K dispozici je " + str(CUR_KPT) + u" KPT.\n")
+f.write(u"<h2>Psovodi</h2>\n")
+f.write(u"<p>Plocha pro pátrání vhodná pro psovoda je " + str(int(math.ceil(KPT + KPT_PT))) + u" ha.\n")
+f.write(u"<p>K dispozici je " + str(CUR_KPT) + u" psovodů.\n")
 P2_P3_P5_KPT = float(SUM_P2) / float(7) + float(SUM_P3) / float(4) + float(SUM_P5) / float(4)
 P1_P4_P8_KPT = float(SUM_P1) / float(10) + float(SUM_P4) / float(7) + float(SUM_P8) / float(5)
 if CUR_KPT > 0:
@@ -294,30 +298,30 @@ if KPT_PT > 0:
     P1_P4_P8_PT = float(SUM_P1) / (float(7) / float(20)) + float(SUM_P4) / (float(7) / float(20)) + float(SUM_P8) / (
                 float(5) / float(20))
     f.write(
-        u"<p>Součástí je prostor, kde je možno KPT nahradit PT. Jedná se o " + str(int(math.ceil(KPT_PT))) + u" ha.\n")
+        u"<p>Součástí je prostor, kde je možno psovody nahradit rojnicí. Jedná se o " + str(int(math.ceil(KPT_PT))) + u" ha.\n")
 if (SUM_P2 + SUM_P1) > 0:
-    f.write(u"<p>Součástí je prostor vhodný pro APT (vrtulník, dron) o rozloze " + str(
+    f.write(u"<p>Součástí je prostor vhodný pro vrtulník (dron) o rozloze " + str(
         int(math.ceil(SUM_P2 + SUM_P1))) + u" ha.\n")
 
 PT = SUM_P6 + SUM_P7 + SUM_P10
-f.write(u"<h2>PT</h2>\n")
-f.write(u"<p>Plocha pro pátrání vhodná pro PT je " + str(round(PT)) + u" ha.\n")
-f.write(u"<p>K dispozici je " + str(CUR_PT) + u" osob pro PT.\n")
+f.write(u"<h2>Rojnice</h2>\n")
+f.write(u"<p>Plocha pro pátrání vhodná pro rojnici je " + str(round(PT)) + u" ha.\n")
+f.write(u"<p>K dispozici je " + str(CUR_PT) + u" osob pro rojnici.\n")
 if CUR_PT > 0:
     P6_P7_P10_PT = float(SUM_P6) / (float(1) / float(20)) + float(SUM_P7) / (float(5) / float(20)) + float(SUM_P10) / (
                 float(5) / float(20))
     f.write(u"<p>Oblast propátrají přibližně za " + str(int(math.ceil(P6_P7_P10_PT / float(CUR_PT)))) + u" h.\n")
 else:
-    f.write(u"<p>Nejsou k dispozici žádné PT. Je nutné nějaké zajistit.\n")
+    f.write(u"<p>Nejsou k dispozici žádní pátrači do rojnice. Je nutné nějaké zajistit.\n")
 
 if SUM_P9 > 0:
-    f.write(u"<h2>VPT</h2>\n")
+    f.write(u"<h2>Potápěč</h2>\n")
     f.write(u"<p>Vodní plochy v oblasti mají " + str(int(math.ceil(SUM_P9))) + u" ha.\n")
     if CUR_VPT > 0:
         # TODO count time for divers
         A = 100  # placeholder
     else:
-        f.write(u"<p>Nejsou k dispozici žádné VPT. Je nutné nějaké zajistit.\n")
+        f.write(u"<p>Nejsou k dispozici žádní potápěči. Je nutné nějaké zajistit.\n")
 
 f.write(u"</div>\n")
 
@@ -335,12 +339,12 @@ f.write(u'<div id="time" class="fixed400">\n')
 f.write(u"<h2>Propátrání do stanoveného času</h2>\n")
 f.write(u"\n<p>K propátrání do " + str(int(maxtime)) + u" hodin potřebujete:</p>\n")
 f.write(u"\n<ul>\n")
-f.write(u"\n<li>" + str(int(math.ceil((P2_P3_P5_KPT + P1_P4_P8_KPT) / float(maxtime)))) + u" KPT</li>\n")
-f.write(u"\n<li>" + str(int(math.ceil((P6_P7_P10_PT) / float(maxtime)))) + u" PT</li>\n")
+f.write(u"\n<li>" + str(int(math.ceil((P2_P3_P5_KPT + P1_P4_P8_KPT) / float(maxtime)))) + u" psovodů</li>\n")
+f.write(u"\n<li>" + str(int(math.ceil((P6_P7_P10_PT) / float(maxtime)))) + u" pátračů do rojnice</li>\n")
 if SUM_P9 > 0:
-    f.write(u"\n<li>Minimálně jeden VPT</li>\n")
+    f.write(u"\n<li>Minimálně jeden potápěč</li>\n")
 if (SUM_P2 + SUM_P1) > 0:
-    f.write(u"\n<li>Minimálně jeden APT</li>\n")
+    f.write(u"\n<li>Minimálně jeden vrtulník (dron)</li>\n")
 f.write(u"\n</ul>\n")
 f.write(u"</div>\n")
 

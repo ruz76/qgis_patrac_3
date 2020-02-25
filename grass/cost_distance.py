@@ -83,11 +83,9 @@ print(gscript.read_command('v.to.rast', input='coords', output='coords', use='ca
 #Tests if the coord is not in null area
 print(gscript.read_command('r.mapcalc', expression='coords_friction=friction * coords', overwrite=True))
 stats = gscript.parse_command('r.univar', map='coords_friction', flags='g')
-try:
-    # Reads min value
-    MIN = float(stats['min'])
-except:
-    #if the min value is null
+
+def move_from_null():
+    # if the min value is null
     print(gscript.read_command('r.mapcalc', expression='friction_null_rec=if(isnull(friction), 1, null())',
                                overwrite=True))
     print(gscript.read_command('r.buffer', input='friction_null_rec', output='friction_null_rec_buf_10', distances='10',
@@ -96,7 +94,8 @@ except:
     print(gscript.read_command('r.mapcalc', expression='friction_flat=1', overwrite=True))
     print(gscript.read_command('r.cost', input='friction_flat', output='friction_flat_cost', start_points='coords',
                                overwrite=True))
-    print(gscript.read_command('r.mapcalc', expression='friction_flat_cost_buf=friction_flat_cost*friction_null_rec_buf_10',
+    print(gscript.read_command('r.mapcalc',
+                               expression='friction_flat_cost_buf=friction_flat_cost*friction_null_rec_buf_10',
                                overwrite=True))
     stats2 = gscript.parse_command('r.univar', map='friction_flat_cost_buf', flags='g')
     try:
@@ -112,6 +111,17 @@ except:
         print(gscript.read_command('r.to.vect', input='coords', output='coords', type='point', overwrite=True))
     except:
         print("Problem with moving of the point from null area")
+
+try:
+    # Reads min value
+    MIN = float(stats['min'])
+    print(MIN)
+    if str(MIN) == "nan":
+        move_from_null()
+except:
+    move_from_null()
+
+
 #Reads radial CSV with WKT of triangles writtent by patracdockwidget.generateRadialOnPoint
 print(gscript.read_command('v.in.ogr', input=PLUGIN_PATH + '/grass/radial.csv', output='radial', flags='o' , overwrite=True))
 #Converts triangles to raster

@@ -82,6 +82,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.setupUi(self)
         self.pluginPath = pluginPath
         self.main = parent
+        self.iface = self.main.iface
         self.serverUrl = 'http://gisak.vsb.cz/patrac/'
         self.comboBoxDistance.addItem("LSOM")
         self.comboBoxDistance.addItem("Hill")
@@ -291,8 +292,30 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         currentVersion = self.getCurrentVersion()
         self.downloadTemplate(currentVersion)
 
+    def getPatracDataPath(self):
+        DATAPATH = ''
+        if os.path.isfile('C:/patracdata/cr/projekty/simple/simple.qgs'):
+            DATAPATH = 'C:/patracdata/'
+        if os.path.isfile('D:/patracdata/cr/projekty/simple/simple.qgs'):
+            DATAPATH = 'D:/patracdata/'
+        if os.path.isfile('E:/patracdata/cr/projekty/simple/simple.qgs'):
+            DATAPATH = 'E:/patracdata/'
+        if os.path.isfile('/data/patracdata/cr/projekty/simple/simple.qgs'):
+            DATAPATH = '/data/patracdata/'
+
+        return DATAPATH
+
     def showHelp(self):
-        webbrowser.open("file://" + self.pluginPath + "/doc/index.html")
+        try:
+            DATAPATH = self.getPatracDataPath()
+            webbrowser.get().open(
+                "file://" + DATAPATH + "doc/index.html")
+            # webbrowser.get().open("file://" + DATAPATH + "/sektory/report.html")
+            # self.iface.messageBar().pushMessage("Error", "file://" + self.pluginPath + "/doc/index.html", level=Qgis.Critical)
+            # webbrowser.get().open("file://" + self.pluginPath + "/doc/index.html")
+            # webbrowser.open("file://" + self.pluginPath + "/doc/index.html")
+        except (webbrowser.Error):
+            self.iface.messageBar().pushMessage("Error", "Can not find web browser to open help", level=Qgis.Critical)
 
     def getQrCode(self):
         img = qrcode.make('Some data here')
@@ -424,13 +447,16 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             QgsMessageLog.logMessage(changed, "Patrac")
             return changed
         except urllib.error.URLError:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
             return ""
         except urllib.error.HTTPError:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
             return ""
         except socket.timeout:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
             return ""
 
     def refreshSystemUsers(self):
@@ -450,13 +476,16 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             system_users = response.read().decode('utf-8')
             return system_users
         except urllib.error.URLError:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
             return ""
         except urllib.error.HTTPError:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
             return ""
         except socket.timeout:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
             return ""
 
     def fillTableWidgetSystemUsers(self, list, tableWidget):
@@ -746,5 +775,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
     def showQrCode(self):
         url = "https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=" + self.searchID
-        webbrowser.open(url)
+        webbrowser.get().open(url)
+        #webbrowser.open(url)
 

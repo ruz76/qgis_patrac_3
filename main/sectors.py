@@ -282,9 +282,9 @@ class Sectors(object):
             sectorid = sectorid + 1
             # Label is set to A and sequential number
             # Labels must be stable for whole search area, so only at the beginning are sectors labeled
-            #if setLabels:
-            #feature['label'] = 'A' + str(sectorid)
-            feature['label'] = str(feature['id'])
+            if setLabels:
+            	#feature['label'] = 'A' + str(sectorid)
+            	feature['label'] = str(feature['id'])
             # Area in hectares
             feature['area_ha'] = round(feature.geometry().area() / 10000)
             #print(str(feature['id']))

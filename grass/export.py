@@ -77,6 +77,11 @@ DATAOUTPUTPATH=str(sys.argv[7])
 
 #Sets the region for export
 #g.region e=-641060.857143 w=-658275.142857 n=-1036549.0 s=-1046549.0
+try:
+    # Removes mask to be ready for another calculations for whole area
+    print(gscript.read_command('r.mask', flags="r"))
+except:
+    print("MASK NOT USED")
 print(gscript.read_command('g.region', e=XMAX, w=XMIN, n=YMAX, s=YMIN))
 #Exports landuse
 #r.out.ascii input=landuse output=landuse.ascii
