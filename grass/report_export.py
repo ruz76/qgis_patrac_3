@@ -22,9 +22,11 @@ gisdb = DATAPATH + "/grassdata"
 # specify (existing) location and mapset
 location = "jtsk"
 mapset = "PERMANENT"
+system = "na"
 
 ########### SOFTWARE
 if sys.platform.startswith('linux'):
+    system = 'linux'
     # we assume that the GRASS GIS start script is available and in the PATH
     # query GRASS 7 itself for its GISBASE
     grass7bin = grass7bin_lin
@@ -40,6 +42,7 @@ if sys.platform.startswith('linux'):
     # print(out)
     gisbase = out.strip('\n\r')
 elif sys.platform.startswith('win'):
+    system = 'win'
     grass7bin = grass7bin_win
     gisbase = 'C:/OSGEO4W64/apps/grass/grass78'
 else:
@@ -251,20 +254,26 @@ CUR_KPT = 0
 CUR_PT = 0
 CUR_VPT = 0
 # TODO check how it works in Windows - seems that this works in Linux and commented line in Windows
-with open(PLUGIN_PATH + "/grass/units.txt", encoding='utf-8', mode="r") as fileInput:
-# with open(PLUGIN_PATH + "/grass/units.txt", mode="r") as fileInput:
-    i = 0
-    for row in csv.reader(fileInput, delimiter=';'):
-        # unicode_row = [x.decode('utf8') for x in row]
-        unicode_row = row
-        cur_count = int(unicode_row[0])
-        if i == 0:  # Pes
-            CUR_KPT = cur_count
-        if i == 1:  # Rpjnice
-            CUR_PT = cur_count
-        if i == 5:  # Potápěč
-            CUR_VPT = cur_count
-        i = i + 1
+fileInput = None
+if system == 'win':
+    fileInput = open(PLUGIN_PATH + "/grass/units.txt", encoding='utf-8', mode="r")
+elif system == 'linux':
+    fileInput = open(PLUGIN_PATH + "/grass/units.txt", mode="r")
+
+i = 0
+for row in csv.reader(fileInput, delimiter=';'):
+    # unicode_row = [x.decode('utf8') for x in row]
+    unicode_row = row
+    cur_count = int(unicode_row[0])
+    if i == 0:  # Pes
+        CUR_KPT = cur_count
+    if i == 1:  # Rpjnice
+        CUR_PT = cur_count
+    if i == 5:  # Potápěč
+        CUR_VPT = cur_count
+    i = i + 1
+
+fileInput.close()
 
 
 f.write(u'<div id="areas" class="fixed400">\n')

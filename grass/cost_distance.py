@@ -142,9 +142,11 @@ print(gscript.read_command('r.buffer', input='coords', output='distances' + PLAC
 print(gscript.read_command('r.walk', friction='friction_radial' + PLACE_ID, elevation='dem', output='cost' + PLACE_ID, start_points='coords' , overwrite=True))
 
 #Removes reclass rules
-os.remove(PLUGIN_PATH + '/grass/rules_percentage.txt')
+rules_percentage_path = PLUGIN_PATH + '/grass/rules_percentage.txt'
+if os.path.exists(rules_percentage_path):
+    os.remove(rules_percentage_path)
 #Creates new reclass rules
-rules_percentage_f = open(PLUGIN_PATH + '/grass/rules_percentage.txt', 'w')
+rules_percentage_f = open(rules_percentage_path, 'w')
 #Creates empty raster with zero values
 print(gscript.read_command('r.mapcalc', expression='distances' + PLACE_ID + '_costed = 0', overwrite=True))
 
