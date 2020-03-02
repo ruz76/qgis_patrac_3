@@ -50,6 +50,8 @@ from .main.sectors import Sectors
 from .main.hds import Hds
 from .main.styles import Styles
 
+from os import path
+
 import os, sys, subprocess, time, urllib.request, urllib.error, urllib.parse, math, socket
 
 from glob import glob
@@ -88,6 +90,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         #QUICKFIX:
         #self.pluginPath = "/usr/share/qgis/python/plugins/qgis_patrac"
+        self.pluginPath = path.dirname(__file__)
 
         QDockWidget.__init__(self, None)
         self.setupUi(self)
