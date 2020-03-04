@@ -20,7 +20,7 @@ if [ $# -eq 1 ] || [ $# -eq 2 ]; then
     echo "Building $C_environment container..."
     docker rmi $C_environment -f
     docker build -t $C_environment -f $DF_environment .
-  elif [ $1 = '--build-all' ]; then
+  elif [ $1 = 'build-all' ]; then
     echo "Building ubuntu, patrac_environment and patrac_devel containers..."
     docker rmi $C_devel -f
     docker rmi $C_environment -f
@@ -52,9 +52,11 @@ if [ $# -eq 1 ] || [ $# -eq 2 ]; then
 	    -v ${HOME}:/home/${USER} \
 	    -v /home/data:/data \
 	    -v /home/data2:/data2 \
+	    -v /home/data3:/data3 \
 	    -v /tmp/.X11-unix:/tmp/.X11-unix \
 	    -e DISPLAY=unix$DISPLAY \
 	    --net=host \
+	    --name patrac \
 	    patrac_devel \
       qgis --profiles-path /home/${USER}/qgis3_profiles
     xhost -
