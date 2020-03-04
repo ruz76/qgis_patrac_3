@@ -5,7 +5,13 @@ C_devel=patrac_devel
 DF_environment=docker/docker_environment
 C_environment=patrac_environment
 
-if [ $# -eq 1 ]; then
+container=patrac_devel
+
+if [ $# -eq 2 ]; then
+  container=$2
+fi
+
+if [ $# -eq 1 ] || [ $# -eq 2 ]; then
   if [ $1 = "build-devel" ]; then
     echo "Building $C_devel container..."
     docker rmi $C_devel -f
@@ -25,13 +31,15 @@ if [ $# -eq 1 ]; then
   elif [ $1 = 'run' ]; then
     xhost +
     docker run -it \
+    --rm \
     --env="DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     -v /data:/data \
     -v $(pwd):/usr/share/qgis/python/plugins/qgis_patrac \
+    --net=host \
     --name patrac \
-    patrac_devel \
+    $container \
     qgis
     xhost -
   elif [ $1 = 'run2' ]; then
@@ -53,7 +61,7 @@ if [ $# -eq 1 ]; then
   fi
 else
     # shellcheck disable=SC2059
-    printf "Usage: ./patrac [OPTION]
+    printf "Usage: ./patrac [OPTION] [CONTAINER]
 
     OPTIONS:
     build-devel   build patrac development container

@@ -1,5 +1,6 @@
 FROM ubuntu:19.04
 
+# Locale & Language config
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Prague
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -12,13 +13,10 @@ RUN apt-get install -y keyboard-configuration
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections 
 RUN echo keyboard-configuration keyboard-configuration/layout select 'English (US)' | debconf-set-selections  
 RUN echo keyboard-configuration keyboard-configuration/layoutcode select 'us' | debconf-set-selections
+
+# Software installation
 RUN printf 'y\n8\n39\n31\n1\n' | apt-get install qgis=3.4.6+dfsg-1build1
-#RUN apt-get install -y qgis=3.4.6+dfsg-1build1
 RUN apt-get install -y grass=7.6.0-1
 RUN apt-get install -y grass-dev=7.6.0-1
 RUN apt-get install -y openjdk-8-jre
 RUN apt-get install -y firefox
-
-#RUN apt-get install -y python-pip
-#RUN pip install requests
-#RUN pip install pydevd

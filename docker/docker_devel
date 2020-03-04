@@ -1,5 +1,9 @@
 FROM patrac_environment
 
+# Debugger
+RUN apt-get install -y python3-pip
+RUN pip3 install pydevd
+
 #RUN apt-get update && apt-get install -y locales
 #RUN locale-gen "en_US.UTF-8"
 ENV LANG en_US.UTF-8  

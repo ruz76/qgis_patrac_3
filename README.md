@@ -38,3 +38,22 @@ TODO
 
 
 #### Remote Debug
+The `RemoteDebugger` class handles debugging. It might prove a slight challenge, to debug python programs executed using the
+shell and bash scripts. But we can look into that later. The so-far the debugger works as follows:
+
+- we use the `pydevd` library for debugging
+- to remote debug one must first run the python debugger from ide listening on localhost:10999 *(The port is chosen at random.)*
+- it's important to set the correct path mapping - this is ide specific
+(something like /home/krystof/Projects/qgis_patrac_3=/usr/share/qgis/python/plugins/qgis_patrac)
+- ai. *the path on the host machine to the plugin files* = *the path to the plugin files in the container*
+- the open port 10999 on host must be accessible from the container
+- a simple solution for this is to run the container with the `--net=host option` 
+- once the debugger is running, one can start the debugger by calling the method 
+`RemoteDebugger.setup_remote_pydev_debug('localhost',10999)` from the patrac script
+- idealy have it be the first line of the PatracPlugin classes constructor in the patrac.py file
+
+#### Restarting stoped container
+xhost + && docker start patrac -a
+
+#### Commit existing container
+docker commit patrac patrac_devel:tag

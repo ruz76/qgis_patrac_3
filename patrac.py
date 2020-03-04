@@ -41,6 +41,9 @@ from . import aboutdialog
 
 from . import resources_rc
 
+# Debugger
+from . import debug
+
 class PatracPlugin(object):
 
     singleBandStyles = ["paletted",
@@ -49,6 +52,8 @@ class PatracPlugin(object):
                        ]
 
     def __init__(self, iface):
+        debug.RemoteDebugger.setup_remote_pydev_debug('localhost',10999)
+
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
 
