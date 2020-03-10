@@ -160,9 +160,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.main.testHds()
 
     def updatePlugin(self):
-        msg = "Funkce není v této verzi podporována"
-        QMessageBox.information(self.main.iface.mainWindow(), "Nedostupné", msg)
-        return
         currentVersion = self.getCurrentVersion()
         installedVersion = self.getInstalledVersion()
         if currentVersion != "" and currentVersion != installedVersion:
@@ -171,6 +168,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                                            QMessageBox.No)
             if install == QMessageBox.Yes:
                 self.downloadPlugin(currentVersion)
+                self.downloadTemplate(currentVersion)
                 msg = "Nová verze byla nainstalována. Dojde k obnovení pluginu do výchozí pozice."
                 QMessageBox.information(self.main.iface.mainWindow(), "Nová verze", msg)
                 utils.reloadPlugin('qgis_patrac');
@@ -178,10 +176,9 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         else:
             msg = "Máte aktuální verzi: " + currentVersion
             QMessageBox.information(self.main.iface.mainWindow(), "Nová verze", msg)
-        # shutil.copy("/tmp/aboutdialog.py", self.pluginPath + "/aboutdialog.py")
 
     def getCurrentVersion(self):
-        content = self.getDataFromUrl("https://raw.githubusercontent.com/ruz76/qgis_patrac/master/RELEASE", 5)
+        content = self.getDataFromUrl("https://raw.githubusercontent.com/ruz76/qgis_patrac_3/master/RELEASE", 5)
         return content.strip()
 
     def getInstalledVersion(self):
@@ -266,23 +263,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                     os.path.join(patracdata, 'archives') + "/templates_" + str(time.time()))
         shutil.move(os.path.join(patracdata, "kraje") + "/templates-" + release[1:],
                     os.path.join(patracdata, "kraje", "templates"))
-
-        self.fixDatastore(patracdata)
-
-    def fixDatastore(self, patracdata):
-        kraje = ("us", "st", "pl", "kh", "hp", "pa", "vy", "jc", "jm", "zl", "ol", "lb", "ms", "ka")
-        for kraj in kraje:
-            if os.path.exists(os.path.join(patracdata, "kraje",  kraj)):
-                if sys.platform.startswith('win'):
-                    QMessageBox.information(None, "INFO", "Upravuji datový sklad: " + os.path.join(patracdata, "kraje", kraj))
-                    p = subprocess.Popen((
-                        self.pluginPath + "/grass/run_fix_datastore.bat", os.path.join(patracdata, "kraje", kraj),
-                        self.pluginPath))
-                    p.wait()
-                else:
-                    p = subprocess.Popen(('bash', self.pluginPath + "/grass/run_fix_datastore.sh",
-                                          os.path.join(patracdata, "kraje", kraj), self.pluginPath))
-                    p.wait()
 
     def updateData(self):
         msg = "Funkce není v této verzi podporována"
