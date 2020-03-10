@@ -49,10 +49,18 @@ class Hds(object):
         self.Area = self.widget.Area
         self.Sectors = self.widget.Sectors
 
+    def copyFilesForTest(self):
+        copy(self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/distances_costed_cum.tif',
+             self.pluginPath + '/tests/data/sokolovce_piestany/tests/distances_costed_cum.tif')
+        copy(self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/sektory_group_selected.shp',
+             self.pluginPath + '/tests/data/sokolovce_piestany/tests/sektory_group_selected.shp')
+        copy(self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/report.html.4',
+             self.pluginPath + '/tests/data/sokolovce_piestany/tests/report.html.4')
+
     # Tests
     def loadTestProject(self):
         project = QgsProject.instance()
-        project.read(QFileInfo(self.pluginPath + '/tests/data/zahradka__plzen-sever_/clean.qgs'))
+        project.read(self.pluginPath + '/tests/data/sokolovce_piestany/clean.qgs')
 
     def compareFiles(self, file1, file2, datetimefile1_orig):
         # we test just the binary content
@@ -64,52 +72,57 @@ class Hds(object):
 
     # Happy day scenario test
     def testHds(self):
+
         # prepare
+        self.copyFilesForTest()
 
         # load project
         self.loadTestProject()
 
         # get area
         datetimefile1_orig = self.Utils.creation_date(
-            self.pluginPath + '/tests/data/zahradka__plzen-sever_/pracovni/distances_costed_cum.tif')
+            self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/distances_costed_cum.tif')
         self.Area.getArea()
         # the tiff should be the same as matrice
 
-        if self.compareFiles(self.pluginPath + '/tests/data/zahradka__plzen-sever_/pracovni/distances_costed_cum.tif',
-                             self.pluginPath + '/tests/data/zahradka__plzen-sever_/tests/distances_costed_cum.tif',
+        if self.compareFiles(self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/distances_costed_cum.tif',
+                             self.pluginPath + '/tests/data/sokolovce_piestany/tests/distances_costed_cum.tif',
                              datetimefile1_orig):
             QgsMessageLog.logMessage("INFO: Area test skončil dobře (výstupní tif odpovídá očekávanému stavu)",
                                      "Patrac")
         else:
+            self.iface.messageBar().pushMessage("Error", "Area test skončil chybou (výstupní tif neodpovídá očekávanému stavu)", level=Qgis.Critical)
             QgsMessageLog.logMessage("ERROR: Area test skončil chybou (výstupní tif neodpovídá očekávanému stavu)",
                                      "Patrac")
 
         # get sectors
         datetimefile1_orig = self.Utils.creation_date(
-            self.pluginPath + '/tests/data/zahradka__plzen-sever_/pracovni/sektory_group_selected.shp')
+            self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/sektory_group_selected.shp')
         self.widget.sliderEnd.setValue(60)
         self.Sectors.getSectors(0,60)
         # the shp should be same as matrice
-        if self.compareFiles(self.pluginPath + '/tests/data/zahradka__plzen-sever_/pracovni/sektory_group_selected.shp',
-                             self.pluginPath + '/tests/data/zahradka__plzen-sever_/tests/sektory_group_selected.shp',
+        if self.compareFiles(self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/sektory_group_selected.shp',
+                             self.pluginPath + '/tests/data/sokolovce_piestany/tests/sektory_group_selected.shp',
                              datetimefile1_orig):
             QgsMessageLog.logMessage("INFO: Sectors test skončil dobře (výstupní SHP odpovídá očekávanému stavu)",
                                      "Patrac")
         else:
+            self.iface.messageBar().pushMessage("Error", "Sectors test skončil chybou (výstupní SHP neodpovídá očekávanému stavu)", level=Qgis.Critical)
             QgsMessageLog.logMessage("ERROR: Sectors test skončil chybou (výstupní SHP neodpovídá očekávanému stavu)",
                                      "Patrac")
 
         # repost export
         datetimefile1_orig = self.Utils.creation_date(
-            self.pluginPath + '/tests/data/zahradka__plzen-sever_/sektory/report.html')
+            self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/report.html.4')
         self.Sectors.reportExportSectors(True, True)
         # the html should be same as matrice
-        if self.compareFiles(self.pluginPath + '/tests/data/zahradka__plzen-sever_/sektory/report.html',
-                             self.pluginPath + '/tests/data/zahradka__plzen-sever_/tests/report.html',
+        if self.compareFiles(self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/report.html.4',
+                             self.pluginPath + '/tests/data/sokolovce_piestany/tests/report.html.4',
                              datetimefile1_orig):
             QgsMessageLog.logMessage(
                 "INFO: Report_Export test skončil dobře (výstupní HTML odpovídá očekávanému stavu)", "Patrac")
         else:
+            self.iface.messageBar().pushMessage("Error", "Report_Export test skončil chybou (výstupní HTML neodpovídá očekávanému stavu)", level=Qgis.Critical)
             QgsMessageLog.logMessage(
                 "ERROR: Report_Export test skončil chybou (výstupní HTML neodpovídá očekávanému stavu)", "Patrac")
 

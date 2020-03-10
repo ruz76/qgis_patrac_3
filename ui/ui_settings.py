@@ -79,6 +79,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
     def __init__(self, pluginPath, parent=None):
         """Constructor."""
         super(Ui_Settings, self).__init__(parent)
+        self.parent = parent
         self.setupUi(self)
         self.pluginPath = pluginPath
         self.main = parent
@@ -104,7 +105,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.pushButtonHds.clicked.connect(self.testHds)
         self.pushButtonUpdatePlugin.clicked.connect(self.updatePlugin)
         self.pushButtonUpdateData.clicked.connect(self.updateData)
-        self.pushButtonGetRasters.clicked.connect(self.getRasters)
+
         self.pushButtonGetSystemUsers.clicked.connect(self.refreshSystemUsers)
         self.comboBoxArea.currentIndexChanged.connect(self.refreshSystemUsers)
         self.comboBoxTime.currentIndexChanged.connect(self.refreshSystemUsers)
@@ -154,10 +155,9 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.labelPath.setText("Cesta k projektu: " + prjfi.absolutePath())
 
     def testHds(self):
-        msg = "Funkce není v této verzi podporována"
-        QMessageBox.information(self.main.iface.mainWindow(), "Nedostupné", msg)
-        return
+        self.parent.setCursor(Qt.WaitCursor)
         self.main.testHds()
+        self.parent.setCursor(Qt.ArrowCursor)
 
     def updatePlugin(self):
         currentVersion = self.getCurrentVersion()
@@ -729,29 +729,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         if isinstance(strOrUnicode, str):
             return strOrUnicode.encode(encoding)
         return strOrUnicode
-
-    def getRasters(self):
-        self.copyRasters("128")
-        self.copyRasters("64")
-        self.copyRasters("32")
-        self.copyRasters("16")
-        self.copyRasters("8")
-        self.copyRasters("4")
-
-    def copyRasters(self, level):
-        msg = "Funkce není v této verzi podporována"
-        QMessageBox.information(self.main.iface.mainWindow(), "Nedostupné", msg)
-        return
-        path_to = self.lineEditZpmTo.text()
-        path_from = self.lineEditZpmFrom.text()
-        copy(path_from + level + "K/metadata.csv", path_to + "ZPM_" + level + "tis/")
-        with open(path_to + level + ".name") as fp:
-            line = fp.readline()
-            while line:
-                line = line.rstrip()
-                copy(path_from + level + "K/" + line.upper() + ".tif", path_to + "ZPM_" + level + "tis/")
-                copy(path_from + level + "K/" + line.upper() + ".wld", path_to + "ZPM_" + level + "tis/")
-                line = fp.readline()
 
     def showQrCode(self):
         url = "https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=" + self.searchID

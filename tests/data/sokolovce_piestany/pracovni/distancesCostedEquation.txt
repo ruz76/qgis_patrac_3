@@ -1,0 +1,1 @@
+min((distances0_costed/1),(distances1_costed/1))*1

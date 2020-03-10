@@ -1,0 +1,43 @@
+<div id="areas" class="fixed400">
+
+<h2>Typy povrchů</h2>
+<ul>
+<li>volný schůdný bez porostu: 1 ha</li>
+<li>volný schůdný s porostem: 82 ha</li>
+<li>volný obtížně schůdný: 0 ha</li>
+<li>porost lehce průchozí: 241 ha</li>
+<li>porost obtížně průchozí: 0 ha</li>
+<li>zastavěné území měst a obcí: 0 ha</li>
+<li>městské parky a hřiště s pohybem osob: 0 ha</li>
+<li>městské parky a hřiště bez osob: 0 ha</li>
+<li>vodní plocha: 0 ha</li>
+<li>ostatní plochy: 0 ha</li>
+</ul>
+</div>
+<div id="teams" class="fixed400">
+<h2>Psovodi</h2>
+<p>Plocha pro pátrání vhodná pro psovoda je 323 ha.
+<p>K dispozici je 28 psovodů.
+<p>Oblast propátrají přibližně za 2 h.
+<p>Součástí je prostor, kde je možno psovody nahradit rojnicí. Jedná se o 241 ha.
+<p>Součástí je prostor vhodný pro vrtulník (dron) o rozloze 83 ha.
+<h2>Rojnice</h2>
+<p>Plocha pro pátrání vhodná pro rojnici je 0.0 ha.
+<p>K dispozici je 60 osob pro rojnici.
+<p>Oblast propátrají přibližně za 0 h.
+</div>
+<div id="time" class="fixed400">
+<h2>Propátrání do stanoveného času</h2>
+
+<p>K propátrání do 3 hodin potřebujete:</p>
+
+<ul>
+
+<li>16 psovodů</li>
+
+<li>0 pátračů do rojnice</li>
+
+<li>Minimálně jeden vrtulník (dron)</li>
+
+</ul>
+</div>

@@ -197,31 +197,6 @@ class Project(object):
             position = position + 1
         return name
 
-    def openProjectSimple(self):
-        # Tries to open simple project for generating search project
-        simpleProjectPath = ''
-
-        if os.path.isfile('C:/patracdata/cr/projekty/simple/simple.qgs'):
-            simpleProjectPath = 'C:/patracdata/cr/projekty/simple/simple.qgs'
-        if os.path.isfile('D:/patracdata/cr/projekty/simple/simple.qgs'):
-            simpleProjectPath = 'D:/patracdata/cr/projekty/simple/simple.qgs'
-        if os.path.isfile('E:/patracdata/cr/projekty/simple/simple.qgs'):
-            simpleProjectPath = 'E:/patracdata/cr/projekty/simple/simple.qgs'
-        if os.path.isfile('/data/patracdata/cr/projekty/simple/simple.qgs'):
-            simpleProjectPath = '/data/patracdata/cr/projekty/simple/simple.qgs'
-
-        if simpleProjectPath == '':
-            QMessageBox.information(None, "CHYBA:",
-                                    "Nepodařilo se načíst výchozí projekt. Zkuste jej prosím načíst ručně.")
-            return False
-        else:
-            project = QgsProject.instance()
-            project.read(QFileInfo(simpleProjectPath))
-            #QMessageBox.information(None, "INFO:",
-            #                        u"Podařilo se načíst výchozí projekt. Vyhledejte znovu obec a vygenerujte projekt pro hledání.")
-
-            return True
-
     def getRegion(self):
         layer = None
         for lyr in list(QgsMapLayerRegistry.instance().mapLayers().values()):
@@ -290,21 +265,6 @@ class Project(object):
         # Check if the project has okresy_pseudo.shp
 
         QgsMessageLog.logMessage("CREATING PROJECT", "Patrac")
-        #project = QgsProject.instance()
-        #project.clear()
-        #QgsMapLayerRegistry.instance().mapLayers().clear()
-
-        #if not self.openProjectSimple():
-        #    return
-
-        # if not self.checkLayer("okresy_pseudo.shp"):
-            #QMessageBox.information(None, "CHYBA:",
-            #                        u"Projekt neobsahuje vrstvu okresy. Pokusím se otevřít výchozí projekt.")
-            # QgsMessageLog.logMessage("checkLayer(okresy_pseudo.shp)", "Patrac")
-            # if not self.openProjectSimple():
-            #    return
-
-        # QgsMessageLog.logMessage("openProjectSimple OK", "Patrac")
 
         name = self.widget.municipalities_names[index]
         region = self.widget.municipalities_regions[index]
