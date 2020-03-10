@@ -52,7 +52,7 @@ class PatracPlugin(object):
                        ]
 
     def __init__(self, iface):
-        debug.RemoteDebugger.setup_remote_pydev_debug('localhost',10999)
+        # debug.RemoteDebugger.setup_remote_pydev_debug('localhost',10999)
 
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
