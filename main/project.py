@@ -328,13 +328,16 @@ class Project(object):
             p.wait()
 
         # self.copyQGSTemplate(NEW_PROJECT_PATH, TEMPLATES_PATH, KRAJ_DATA_PATH)
-        QMessageBox.information(None, "INFO:",
-                                "Projekt vytvořen. Pokusím se o jeho načtení, buďte prosím trpěliví. V případě chyby vytvoření zopakujte.");
+        # QMessageBox.information(None, "INFO:",
+        #                         "Projekt vytvořen. Pokusím se o jeho načtení, buďte prosím trpěliví. V případě chyby vytvoření zopakujte.");
+
         project = QgsProject.instance()
         QgsMessageLog.logMessage(NEW_PROJECT_PATH + '/' + NAMESAFE + '.qgs', "Patrac")
         project.read(NEW_PROJECT_PATH + '/' + NAMESAFE + '.qgs')
+
         # self.do_msearch()
         self.zoomToExtent(XMIN, YMIN, XMAX, YMAX)
+
         # self.addAllZPMRasters(KRAJ_DATA_PATH)
         self.widget.Sectors.recalculateSectors(True)
         self.createNewSearch(name, desc, region)
