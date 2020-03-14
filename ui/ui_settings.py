@@ -192,8 +192,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         try:
             req = urllib.request.urlopen(url)
             totalSize = 16800000
-            if req.info().getheader('Content-Length') is not None:
-                totalSize = int(req.info().getheader('Content-Length').strip())
+            if req.info().get('Content-Length') is not None:
+                totalSize = int(req.info().get('Content-Length').strip())
             downloaded = 0
             CHUNK = 256 * 1024
             self.progressBarUpdatePlugin.setMinimum(0)
