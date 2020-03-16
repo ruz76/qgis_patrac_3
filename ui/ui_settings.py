@@ -422,7 +422,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             response = urllib.request.urlopen(
                 self.serverUrl + 'users.php?operation=changestatus&id=pcr007&status_to=' + status + '&ids=' + ids + "&searchid=" + searchid,
                 None, 5)
-            changed = response.read()
+            changed = str(response.read())
             self.refreshSystemUsers()
             QgsMessageLog.logMessage(changed, "Patrac")
             return changed
