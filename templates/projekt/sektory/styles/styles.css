@@ -1,0 +1,19 @@
+*{font-family: 'Sans', sans-serif;}
+
+.fixed400 {
+      border: solid;
+      border-color: aquamarine;
+      padding: 5px;
+      width: 400px
+    }
+
+    .flex-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    em {
+      font-weight: bold;
+    }
+
+.rolldown {color: #0000FF}
