@@ -58,78 +58,6 @@ class Project(object):
         self.canvas = self.widget.canvas
         self.serverUrl = self.widget.serverUrl
 
-    def addZPMRasters(self, KRAJ_DATA_PATH, Level, Layers_Count, minscaledenominator, maxscaledenominator):
-        XCENTER = self.widget.canvas.extent().center().x()
-        YCENTER = self.widget.canvas.extent().center().y()
-        if not os.path.isfile(KRAJ_DATA_PATH + "/raster/ZPM_" + Level + "tis/metadata.csv"):
-            QgsMessageLog.logMessage("ZPM " + Level + " se nepodařilo načíst", "Patrac")
-            return
-        with open(KRAJ_DATA_PATH + "/raster/ZPM_" + Level + "tis/metadata.csv", "r") as fileInput:
-            rasters = list()
-            rasters_count = 0
-            for row in csv.reader(fileInput, delimiter=';'):
-                distance = math.hypot(XCENTER - float(row[1]), YCENTER - float(row[2]))
-                raster = ZPM_Raster(row[0], distance, row[3], row[4], row[5], row[6])
-                # print "Not ordered " + raster.name + " " + str(raster.distance)
-                if rasters_count > 0:
-                    counter = 0
-                    inserted = False
-                    for x in rasters:
-                        if x.distance > distance:
-                            rasters.insert(counter, raster)
-                            inserted = True
-                            break
-                        counter = counter + 1
-                    if not inserted:
-                        rasters.append(raster)
-                else:
-                    rasters.append(raster)
-                rasters_count = rasters_count + 1
-            for x in range(0, Layers_Count):
-                if x < len(rasters):
-                    raster = rasters[x]
-                    # print "Ordered " + raster.name + " " + str(raster.distance)
-                    self.addRasterLayerToGroup(KRAJ_DATA_PATH + "/raster/ZPM_" + Level + "tis/" + raster.name,
-                                               raster.name,
-                                               "zbg_" + Level + "tis_orig", minscaledenominator, maxscaledenominator)
-
-    def addRasterLayerToGroup(self, path, label, group, minscaledenominator, maxscaledenominator):
-        """Adds raster layer to map"""
-        raster = QgsRasterLayer(path, label, "gdal")
-        if not raster.isValid():
-            QgsMessageLog.logMessage("Vrstvu " + path + " se nepodařilo načíst", "Patrac")
-        else:
-            raster.setCrs(QgsCoordinateReferenceSystem(5514, QgsCoordinateReferenceSystem.EpsgCrsId))
-            raster.setScaleBasedVisibility(True)
-            raster.setMinimumScale(maxscaledenominator)
-            raster.setMaximumScale(minscaledenominator)
-            QgsProject.instance().addMapLayer(raster, False)
-            root = QgsProject.instance().layerTreeRoot()
-            mygroup = root.findGroup(group)
-            mygroup.addLayer(raster)
-            mygroup.setExpanded(False)
-
-    def addAllZPMRasters(self, KRAJ_DATA_PATH):
-        if os.path.isfile(KRAJ_DATA_PATH + "/VERSION"):
-            self.addZPMRasters(KRAJ_DATA_PATH, "1024", 1, 1000000, 2000000)
-            self.addZPMRasters(KRAJ_DATA_PATH, "512", 1, 500000, 1000000)
-            self.addZPMRasters(KRAJ_DATA_PATH, "256", 4, 250000, 500000)
-            self.addZPMRasters(KRAJ_DATA_PATH, "128", 2, 125000, 250000)
-            self.addZPMRasters(KRAJ_DATA_PATH, "64", 4, 60000, 125000)
-            self.addZPMRasters(KRAJ_DATA_PATH, "32", 6, 20000, 60000)
-            self.addZPMRasters(KRAJ_DATA_PATH, "16", 9, 10000, 20000)
-            self.addZPMRasters(KRAJ_DATA_PATH, "8", 9, 5000, 10000)
-            self.addZPMRasters(KRAJ_DATA_PATH, "4", 72, 1, 5000)
-        else:
-            self.addZPMRasters(KRAJ_DATA_PATH, "100", 4, 80000, 1000000)
-            self.addZPMRasters(KRAJ_DATA_PATH, "50", 4, 40000, 80000)
-            self.addZPMRasters(KRAJ_DATA_PATH, "25", 6, 20000, 40000)
-            self.addZPMRasters(KRAJ_DATA_PATH, "16", 9, 10000, 20000)
-            self.addZPMRasters(KRAJ_DATA_PATH, "8", 9, 5000, 10000)
-            self.addZPMRasters(KRAJ_DATA_PATH, "3", 72, 1, 5000)
-
-        self.widget.iface.messageBar().clearWidgets()
-
     def copyTemplate(self, NEW_PROJECT_PATH, TEMPLATES_PATH, NAMESAFE):
         if not os.path.isdir(NEW_PROJECT_PATH):
             os.mkdir(NEW_PROJECT_PATH)
@@ -153,10 +81,6 @@ class Project(object):
                  NEW_PROJECT_PATH + "/pracovni/sektory_group.shp")
             copy(NEW_PROJECT_PATH + "/pracovni/sektory_group_selected.shx",
                  NEW_PROJECT_PATH + "/pracovni/sektory_group.shx")
-            # copy(NEW_PROJECT_PATH + "/pracovni/sektory_group_selected.prj",
-            #     NEW_PROJECT_PATH + "/pracovni/sektory_group.prj")
-            # copy(NEW_PROJECT_PATH + "/pracovni/sektory_group_selected.qpj",
-            #     NEW_PROJECT_PATH + "/pracovni/sektory_group.qpj")
             copy(NEW_PROJECT_PATH + "/pracovni/sektory_group_selected.qml",
                  NEW_PROJECT_PATH + "/pracovni/sektory_group.qml")
             os.mkdir(NEW_PROJECT_PATH + "/search")
@@ -307,7 +231,7 @@ class Project(object):
         # set working dir to new path
         QSettings().setValue("UI/lastProjectDir", DATAPATH + "/../../../kraje/" + region + "/projekty/" + NAMESAFE)
 
-        TEMPLATES_PATH = DATAPATH + "/../../../kraje/templates"
+        TEMPLATES_PATH = self.pluginPath + "/templates"
         KRAJ_DATA_PATH = DATAPATH + "/../../../kraje/" + region
         self.copyTemplate(NEW_PROJECT_PATH, TEMPLATES_PATH, NAMESAFE)
 
@@ -327,9 +251,6 @@ class Project(object):
                                   XMIN, YMIN, XMAX, YMAX, KRAJ_DATA_PATH))
             p.wait()
 
-        # self.copyQGSTemplate(NEW_PROJECT_PATH, TEMPLATES_PATH, KRAJ_DATA_PATH)
-        # QMessageBox.information(None, "INFO:",
-        #                         "Projekt vytvořen. Pokusím se o jeho načtení, buďte prosím trpěliví. V případě chyby vytvoření zopakujte.");
 
         project = QgsProject.instance()
         QgsMessageLog.logMessage(NEW_PROJECT_PATH + '/' + NAMESAFE + '.qgs', "Patrac")
@@ -338,7 +259,6 @@ class Project(object):
         # self.do_msearch()
         self.zoomToExtent(XMIN, YMIN, XMAX, YMAX)
 
-        # self.addAllZPMRasters(KRAJ_DATA_PATH)
         self.widget.Sectors.recalculateSectors(True)
         self.createNewSearch(name, desc, region)
         self.widget.settingsdlg.updateSettings()

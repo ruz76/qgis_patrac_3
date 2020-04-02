@@ -150,6 +150,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.sectorsLabelsOff.clicked.connect(self.setSectorsLabelsOff)
         self.sectorsProgressStyle.clicked.connect(self.setSectorsProgressStyle)
         self.sectorsUnitsStyle.clicked.connect(self.setSectorsUnitsStyle)
+        self.sectorsUnitsRecommendedStyle.clicked.connect(self.setSectorsUnitsRecommendedStyle)
         self.sectorsProgress.clicked.connect(self.setSectorsProgress)
         self.sectorsProgressStateNotStarted.clicked.connect(self.setSectorsProgress)
         self.sectorsProgressStateStarted.clicked.connect(self.setSectorsProgress)
@@ -1200,3 +1201,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def setSectorsUnitsStyle(self):
         self.Styles.setSectorsStyle('units')
+
+    def setSectorsUnitsRecommendedStyle(self):
+        self.Styles.setSectorsStyle('units_recommended')

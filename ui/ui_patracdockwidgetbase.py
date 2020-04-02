@@ -267,6 +267,11 @@ class Ui_PatracDockWidget(object):
         self.sectorsUniqueStyle.setText("Sektory dle typu")
         self.verticalLayoutStyle.addWidget(self.sectorsUniqueStyle)
 
+        self.sectorsUnitsRecommendedStyle = QPushButton(self.dockWidgetContents)
+        self.sectorsUnitsRecommendedStyle.setObjectName(_fromUtf8("sectorsUnitsRecommendedStyle"))
+        self.sectorsUnitsRecommendedStyle.setText("Sektory dle doporučených prostředků")
+        self.verticalLayoutStyle.addWidget(self.sectorsUnitsRecommendedStyle)
+
         self.sectorsProgressStyle = QPushButton(self.dockWidgetContents)
         self.sectorsProgressStyle.setObjectName(_fromUtf8("sectorsProgressStyle"))
         self.sectorsProgressStyle.setText("Sektory dle stavu")
