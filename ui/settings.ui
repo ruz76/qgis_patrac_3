@@ -756,7 +756,7 @@
     <widget class="QLabel" name="labelAccessKey">
      <property name="geometry">
       <rect>
-       <x>310</x>
+       <x>330</x>
        <y>400</y>
        <width>91</width>
        <height>21</height>
@@ -769,9 +769,9 @@
     <widget class="QLineEdit" name="lineEditAccessKey">
      <property name="geometry">
       <rect>
-       <x>410</x>
+       <x>430</x>
        <y>400</y>
-       <width>421</width>
+       <width>461</width>
        <height>31</height>
       </rect>
      </property>
@@ -783,21 +783,21 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>400</y>
+       <y>350</y>
        <width>131</width>
        <height>21</height>
       </rect>
      </property>
      <property name="text">
-      <string>Vzdálenost v km</string>
+      <string>Rádius (km)</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEditDistance">
      <property name="geometry">
       <rect>
-       <x>160</x>
-       <y>400</y>
-       <width>113</width>
+       <x>130</x>
+       <y>350</y>
+       <width>171</width>
        <height>31</height>
       </rect>
      </property>
@@ -809,8 +809,8 @@
      <property name="geometry">
       <rect>
        <x>670</x>
-       <y>500</y>
-       <width>161</width>
+       <y>450</y>
+       <width>221</width>
        <height>31</height>
       </rect>
      </property>
@@ -822,7 +822,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>560</y>
+       <y>550</y>
        <width>77</width>
        <height>21</height>
       </rect>
@@ -834,9 +834,9 @@
     <widget class="QLineEdit" name="lineEditUsername">
      <property name="geometry">
       <rect>
-       <x>160</x>
-       <y>560</y>
-       <width>113</width>
+       <x>130</x>
+       <y>550</y>
+       <width>161</width>
        <height>31</height>
       </rect>
      </property>
@@ -844,8 +844,8 @@
     <widget class="QLabel" name="labelPassword">
      <property name="geometry">
       <rect>
-       <x>320</x>
-       <y>560</y>
+       <x>330</x>
+       <y>550</y>
        <width>77</width>
        <height>21</height>
       </rect>
@@ -857,9 +857,9 @@
     <widget class="QLineEdit" name="lineEditPassword">
      <property name="geometry">
       <rect>
-       <x>410</x>
-       <y>560</y>
-       <width>201</width>
+       <x>430</x>
+       <y>550</y>
+       <width>181</width>
        <height>31</height>
       </rect>
      </property>
@@ -871,8 +871,8 @@
      <property name="geometry">
       <rect>
        <x>670</x>
-       <y>560</y>
-       <width>161</width>
+       <y>550</y>
+       <width>221</width>
        <height>31</height>
       </rect>
      </property>
@@ -884,8 +884,8 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>540</y>
-       <width>811</width>
+       <y>510</y>
+       <width>861</width>
        <height>16</height>
       </rect>
      </property>
@@ -909,9 +909,9 @@
     <widget class="QLineEdit" name="lineEditServerUrl">
      <property name="geometry">
       <rect>
-       <x>160</x>
+       <x>130</x>
        <y>450</y>
-       <width>671</width>
+       <width>501</width>
        <height>31</height>
       </rect>
      </property>
@@ -935,9 +935,9 @@
     <widget class="QLineEdit" name="lineEditTitle">
      <property name="geometry">
       <rect>
-       <x>160</x>
+       <x>130</x>
        <y>300</y>
-       <width>671</width>
+       <width>171</width>
        <height>31</height>
       </rect>
      </property>
@@ -948,8 +948,8 @@
     <widget class="QLabel" name="labelText">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>350</y>
+       <x>330</x>
+       <y>300</y>
        <width>77</width>
        <height>21</height>
       </rect>
@@ -961,14 +961,92 @@
     <widget class="QLineEdit" name="lineEditText">
      <property name="geometry">
       <rect>
-       <x>160</x>
-       <y>350</y>
-       <width>671</width>
+       <x>430</x>
+       <y>300</y>
+       <width>461</width>
        <height>31</height>
       </rect>
      </property>
      <property name="text">
       <string>Popis události</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelPhone">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>400</y>
+       <width>77</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Telefon</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditPhone">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>400</y>
+       <width>171</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>775032091</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelLon">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>350</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Longitude</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditLongitude">
+     <property name="geometry">
+      <rect>
+       <x>430</x>
+       <y>350</y>
+       <width>161</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>15.33819</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelLattitude">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>350</y>
+       <width>77</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Lattitude</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditLattitude">
+     <property name="geometry">
+      <rect>
+       <x>720</x>
+       <y>350</y>
+       <width>171</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>49.74396</string>
      </property>
     </widget>
    </widget>

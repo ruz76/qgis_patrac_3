@@ -78,6 +78,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.minVal = 0
         self.serverUrl = 'http://gisak.vsb.cz/patrac/'
         self.currentStep = 1
+        self.projectname = ""
+        self.projectdesc = ""
 
         userPluginPath = QFileInfo(QgsApplication.qgisUserDatabaseFilePath()).path() + "/python/plugins/qgis_patrac"
         systemPluginPath = QgsApplication.prefixPath() + "/python/plugins/qgis_patrac"
@@ -211,12 +213,13 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.guideCopyGpx.clicked.connect(self.copyGpx)
 
     def runCreateProject(self):
-        name = self.msearch.text()
-        self.Project.createProject(name)
+        self.projectname = self.msearch.text()
+        self.Project.createProject(self.projectname)
 
     def runCreateProjectGuide(self, index):
-        desc = self.guideSearchDescription.text()
-        self.Project.createProject(index, desc)
+        self.projectname = self.municipalities_names[index]
+        self.projectdesc = self.guideSearchDescription.text()
+        self.Project.createProject(index, self.projectdesc)
 
     def municipalitySearch(self, textBox):
         """Tries to find municipallity in list and zoom to coordinates of it."""

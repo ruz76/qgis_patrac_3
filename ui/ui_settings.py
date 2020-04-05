@@ -131,6 +131,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.fillCmbArea()
         self.fillCmbTime()
         self.fillCmbStatus()
+        self.fillCentroid()
 
     def refreshSystemUsersSetSheduler(self):
         QMessageBox.information(None, "NOT IMPLEMENTED", "Tato funkce není zatím implementována")
@@ -139,6 +140,23 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         #    periodic_scheduler = PeriodicScheduler()
         #    periodic_scheduler.setup(INTERVAL, self.refreshSystemUsers)  # it executes the event just once
         #    periodic_scheduler.run()  # it starts the scheduler
+
+    def fillCentroid(self):
+        lon, lat = self.getCentroid()
+        if lon == 0 and lat == 0:
+            return
+        else:
+            self.lineEditLongitude.setText(str(lon))
+            self.lineEditLattitude.setText(str(lat))
+
+    def getCentroid(self):
+        center = self.iface.mapCanvas().center()
+        srs = self.iface.mapCanvas().mapSettings().destinationCrs()
+        source_crs = QgsCoordinateReferenceSystem(srs)
+        dest_crs = QgsCoordinateReferenceSystem(4326)
+        transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
+        xyWGS = transform.transform(center.x(), center.y())
+        return xyWGS
 
     def createIncident(self):
         if len(self.lineEditTitle.text()) < 5:
@@ -153,25 +171,39 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         if len(self.lineEditServerUrl.text()) < 50:
             QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte URL serveru")
             return
+        if len(self.lineEditPhone.text()) < 9:
+            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte váš telefon")
+            return
+
         distance = 500
         try:
             distance = int(self.lineEditDistance.text())
         except ValueError:
             QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte vzdálenost v kilometrech")
             return
+        lon = 0
+        try:
+            lon = float(self.lineEditLongitude.text())
+        except ValueError:
+            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte longitute ve formátu 18.14556")
+            return
+        lat = 0
+        try:
+            lat = float(self.lineEditLattitude.text())
+        except ValueError:
+            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte lattitude ve formátu 48.54556")
+            return
 
         url = self.lineEditServerUrl.text() + "?"
         url += "accessKey=" + self.lineEditAccessKey.text()
-        url += "&lat=48.1"
-        url += "&lng=15.4"
+        url += "&lat=" + str(lat)
+        url += "&lng=" + str(lon)
         url += "&title=" + urllib.parse.quote(self.lineEditTitle.text())
         url += "&text=" + urllib.parse.quote(self.lineEditText.text())
         url += "&searchRadius=" + str(distance)
-        url += "&userPhone=775032091"
+        url += "&userPhone=" + str(self.lineEditPhone.text())
         url += "&createIncident=1"
         data = self.getDataFromUrl(url, 5)
-        # print(url)
-        # print(data)
         if len(data) > 20:
             self.fillSystemUsersHS(data)
         else:
@@ -234,6 +266,11 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
     def updateSettings(self):
         self.showSearchId()
         self.showPath()
+        self.fillCentroid()
+        if self.parent.projectname != "":
+            self.lineEditTitle.setText(self.parent.projectname)
+        if self.parent.projectdesc != "":
+            self.lineEditText.setText(self.parent.projectdesc)
 
     def showSearchId(self):
         # Fills textEdit with SearchID
