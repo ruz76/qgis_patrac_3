@@ -116,6 +116,11 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.pushButtonShowHelp.clicked.connect(self.showHelp)
         self.buttonBox.accepted.connect(self.accept)
 
+        # Psovodi HS
+        self.pushButtonCreateIncident.clicked.connect(self.createIncident)
+        self.pushButtonIncidentEdit.clicked.connect(self.incidentEdit)
+        self.incidentId = None
+
         # set up empty sheduler
         self.pushButtonGetSystemUsersShedule.clicked.connect(self.refreshSystemUsersSetSheduler)
         self.periodic_scheduler = None
@@ -134,6 +139,97 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         #    periodic_scheduler = PeriodicScheduler()
         #    periodic_scheduler.setup(INTERVAL, self.refreshSystemUsers)  # it executes the event just once
         #    periodic_scheduler.run()  # it starts the scheduler
+
+    def createIncident(self):
+        if len(self.lineEditTitle.text()) < 5:
+            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte Název")
+            return
+        if len(self.lineEditText.text()) < 5:
+            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte Popis")
+            return
+        if len(self.lineEditAccessKey.text()) < 24:
+            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte API Key")
+            return
+        if len(self.lineEditServerUrl.text()) < 50:
+            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte URL serveru")
+            return
+        distance = 500
+        try:
+            distance = int(self.lineEditDistance.text())
+        except ValueError:
+            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte vzdálenost v kilometrech")
+            return
+
+        url = self.lineEditServerUrl.text() + "?"
+        url += "accessKey=" + self.lineEditAccessKey.text()
+        url += "&lat=48.1"
+        url += "&lng=15.4"
+        url += "&title=" + urllib.parse.quote(self.lineEditTitle.text())
+        url += "&text=" + urllib.parse.quote(self.lineEditText.text())
+        url += "&searchRadius=" + str(distance)
+        url += "&userPhone=775032091"
+        url += "&createIncident=1"
+        data = self.getDataFromUrl(url, 5)
+        # print(url)
+        # print(data)
+        if len(data) > 20:
+            self.fillSystemUsersHS(data)
+        else:
+            QMessageBox.information(self.main.iface.mainWindow(), "Chyba", "Nepodařilo se založit incident")
+
+    def fillSystemUsersHS(self, data):
+        msg = "Nepodařilo se načíst data o psovodech"
+        hsdata = None
+        try:
+            hsdata = json.loads(data)
+        except:
+            QMessageBox.information(self.main.iface.mainWindow(), "Chyba", msg)
+            return
+
+        if hsdata["ok"] == 1:
+            # print(hsdata["users"])
+            self.incidentId = hsdata["IncidentId"]
+            self.tableWidgetSystemUsersHS.setHorizontalHeaderLabels(["Jméno", "Telefon"])
+            self.tableWidgetSystemUsersHS.setColumnWidth(1, 300);
+            self.tableWidgetSystemUsersHS.setRowCount(len(hsdata["users"]))
+            i = 0
+            for user in hsdata["users"]:
+                self.tableWidgetSystemUsersHS.setItem(i, 0, QTableWidgetItem(user["name"]))
+                self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(user["phone"]))
+                i += 1
+        else:
+            QMessageBox.information(self.main.iface.mainWindow(), "Chyba", msg)
+
+    def incidentEdit(self):
+        msg = "Nepodařilo se získat přístup"
+        if len(self.lineEditUsername.text()) < 3:
+            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte uživatele")
+            return
+        if len(self.lineEditPassword.text()) < 5:
+            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte heslo")
+            return
+
+        url = "https://www.horskasluzba.cz/cz/hscr-sbook-login?"
+        url += "L=" + urllib.parse.quote(self.lineEditUsername.text())
+        url += "H=" + urllib.parse.quote(self.lineEditPassword.text())
+        data = self.getDataFromUrl(url, 5)
+        if len(data) > 5:
+            hsdata = None
+            try:
+                hsdata = json.loads(data)
+            except:
+                QMessageBox.information(self.main.iface.mainWindow(), "Chyba", msg)
+                return
+            if hsdata["ok"] == 1:
+                urlToOpen = "https://www.horskasluzba.cz/cz/kniha-sluzeb/vyzvy?"
+                urlToOpen += "action=show-record"
+                urlToOpen += "&record_id=" + str(self.incidentId)
+                urlToOpen += "&t=" + hsdata["token"]
+                webbrowser.get().open(urlToOpen)
+            else:
+                QMessageBox.information(self.main.iface.mainWindow(), "Chyba", msg)
+        else:
+            QMessageBox.information(self.main.iface.mainWindow(), "Chyba", msg)
 
     def updateSettings(self):
         self.showSearchId()

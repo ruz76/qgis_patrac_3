@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>933</width>
-    <height>515</height>
+    <width>932</width>
+    <height>730</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>570</x>
-     <y>470</y>
+     <y>680</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -35,7 +35,7 @@
      <x>10</x>
      <y>10</y>
      <width>911</width>
-     <height>441</height>
+     <height>651</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -242,7 +242,7 @@
        <x>20</x>
        <y>20</y>
        <width>881</width>
-       <height>381</height>
+       <height>431</height>
       </rect>
      </property>
      <property name="currentIndex">
@@ -261,7 +261,7 @@
          <x>10</x>
          <y>10</y>
          <width>851</width>
-         <height>371</height>
+         <height>341</height>
         </rect>
        </property>
        <property name="rowCount">
@@ -529,7 +529,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>1 stupeň = 1 s pro 10 m navíc</string>
+      <string>Dle algoritmu r.walk</string>
      </property>
     </widget>
     <widget class="QLabel" name="labelLimit">
@@ -558,6 +558,19 @@
       <string>Více než 45 stupňů znamená neprůchozí</string>
      </property>
     </widget>
+    <widget class="QLabel" name="labelFrictionInfo">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>410</y>
+       <width>871</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Tření není možno měnit v tomto okně. Změna je možná ruční úpravou konfigurace aplikace.</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_Units">
     <attribute name="title">
@@ -569,7 +582,7 @@
        <x>20</x>
        <y>10</y>
        <width>871</width>
-       <height>381</height>
+       <height>431</height>
       </rect>
      </property>
      <property name="rowCount">
@@ -599,7 +612,7 @@
        <x>10</x>
        <y>60</y>
        <width>881</width>
-       <height>301</height>
+       <height>341</height>
       </rect>
      </property>
      <property name="columnCount">
@@ -629,9 +642,9 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>370</y>
+       <y>390</y>
        <width>351</width>
-       <height>41</height>
+       <height>61</height>
       </rect>
      </property>
      <property name="title">
@@ -641,7 +654,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>0</y>
+        <y>20</y>
         <width>231</width>
         <height>27</height>
        </rect>
@@ -704,7 +717,7 @@
      <property name="geometry">
       <rect>
        <x>550</x>
-       <y>370</y>
+       <y>410</y>
        <width>241</width>
        <height>27</height>
       </rect>
@@ -714,10 +727,248 @@
      <property name="geometry">
       <rect>
        <x>280</x>
-       <y>370</y>
+       <y>410</y>
        <width>231</width>
        <height>27</height>
       </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_UsersHS">
+    <attribute name="title">
+     <string>Psovodi HS</string>
+    </attribute>
+    <widget class="QTableWidget" name="tableWidgetSystemUsersHS">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>881</width>
+       <height>261</height>
+      </rect>
+     </property>
+     <property name="columnCount">
+      <number>2</number>
+     </property>
+     <column/>
+     <column/>
+    </widget>
+    <widget class="QLabel" name="labelAccessKey">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>400</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Access key</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditAccessKey">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>400</y>
+       <width>421</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>EA5FARS3sN7sZHrWwtkFVMzS</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelDistance_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>400</y>
+       <width>131</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Vzdálenost v km</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditDistance">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>400</y>
+       <width>113</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>500</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonCreateIncident">
+     <property name="geometry">
+      <rect>
+       <x>670</x>
+       <y>500</y>
+       <width>161</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Vytvořit incident</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelUsername">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>560</y>
+       <width>77</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Uživatel</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditUsername">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>560</y>
+       <width>113</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelPassword">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>560</y>
+       <width>77</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Heslo</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditPassword">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>560</y>
+       <width>201</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonIncidentEdit">
+     <property name="geometry">
+      <rect>
+       <x>670</x>
+       <y>560</y>
+       <width>161</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Správa incidentu</string>
+     </property>
+    </widget>
+    <widget class="Line" name="line_5">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>540</y>
+       <width>811</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelUrlHS">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>450</y>
+       <width>131</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ServerURL</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditServerUrl">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>450</y>
+       <width>671</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>https://www.horskasluzba.cz/cz/app-patrac-new-incident-test</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelTitle">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>300</y>
+       <width>77</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Název</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditTitle">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>300</y>
+       <width>671</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Název</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelText">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>350</y>
+       <width>77</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Popis</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditText">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>350</y>
+       <width>671</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Popis události</string>
      </property>
     </widget>
    </widget>
