@@ -776,7 +776,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>EA5FARS3sN7sZHrWwtkFVMzS</string>
+      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="labelDistance_2">
