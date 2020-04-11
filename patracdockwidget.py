@@ -83,8 +83,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         userPluginPath = QFileInfo(QgsApplication.qgisUserDatabaseFilePath()).path() + "/python/plugins/qgis_patrac"
         systemPluginPath = QgsApplication.prefixPath() + "/python/plugins/qgis_patrac"
-        print(userPluginPath)
-        print(systemPluginPath)
+
         if QFileInfo(userPluginPath).exists():
             self.pluginPath = userPluginPath
         else:
@@ -283,6 +282,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.tabGuideSteps.setCurrentIndex(1)
         self.currentStep = 2
 
+        self.Styles.setSectorsStyle('single')
+
     def checkStep(self, nextStep):
         if self.currentStep == nextStep - 1:
             return True
@@ -316,6 +317,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.tabGuideSteps.setCurrentIndex(2)
         self.currentStep = 3
 
+
     def runGuideStep3Next(self):
         if not self.checkStep(4):
             return
@@ -343,6 +345,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         # move to next tab (tab 5)
         self.tabGuideSteps.setCurrentIndex(4)
         self.currentStep = 5
+
+        prjfi = QFileInfo(QgsProject.instance().fileName())
+        DATAPATH = prjfi.absolutePath()
+        self.guideMaxTime.setText(open(DATAPATH + "/config/maxtime.txt", 'r').read())
 
     def runGuideStep5Next(self):
         if not self.checkStep(6):
@@ -479,9 +485,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                                     "Při kopírování sektorů došlo k chybě. Zkopírujte přes správce souborů z cesty: " + DATAPATH + '/sektory/gpx/all.gpx')
 
     def saveUnitsInformation(self):
-        f = io.open(self.pluginPath + '/grass/units.txt.tmp', 'w', encoding='utf-8')
+        settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+        f = io.open(settingsPath + '/grass/units.txt.tmp', 'w', encoding='utf-8')
 
-        with open(self.pluginPath + "/grass/units.txt", "r") as fileInput:
+        with open(settingsPath + "/grass/units.txt", "r") as fileInput:
             i=0
             for row in csv.reader(fileInput, delimiter=';'):
                 unicode_row = row
@@ -505,10 +512,17 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 f.write("\n")
         f.close()
 
-        copy(self.pluginPath + '/grass/units.txt.tmp', self.pluginPath + "/grass/units.txt")
+        copy(settingsPath + '/grass/units.txt.tmp', self.pluginPath + "/grass/units.txt")
 
     def saveMaxTimeInformation(self):
-        f = io.open(self.pluginPath + '/grass/maxtime.txt', 'w', encoding='utf-8')
+        prjfi = QFileInfo(QgsProject.instance().fileName())
+        DATAPATH = prjfi.absolutePath()
+
+        f = io.open(DATAPATH + '/config/maxtime.txt', 'w', encoding='utf-8')
+        f.write(self.guideMaxTime.text())
+        f.close()
+
+        f = io.open(self.pluginPath + "/../../../qgis_patrac_settings/grass/" + 'maxtime.txt', 'w', encoding='utf-8')
         f.write(self.guideMaxTime.text())
         f.close()
 

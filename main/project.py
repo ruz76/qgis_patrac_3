@@ -64,12 +64,10 @@ class Project(object):
 
             # sets the settings to zero, so no radial and no weight limit is used
             os.mkdir(NEW_PROJECT_PATH + "/config")
-            f = open(NEW_PROJECT_PATH + '/config/weightlimit.txt', 'w')
-            f.write("0")
-            f.close()
-            f = open(NEW_PROJECT_PATH + '/config/radialsettings.txt', 'w')
-            f.write("0")
-            f.close()
+            settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+            copy(settingsPath + "/grass/" + "weightlimit.txt", NEW_PROJECT_PATH + '/config/weightlimit.txt')
+            copy(settingsPath + "/grass/" + "maxtime.txt", NEW_PROJECT_PATH + '/config/maxtime.txt')
+            copy(settingsPath + "/grass/" + "radialsettings.txt", NEW_PROJECT_PATH + '/config/radialsettings.txt')
 
             copy(TEMPLATES_PATH + "/projekt/clean_v3.qgs", NEW_PROJECT_PATH + "/" + NAMESAFE + ".qgs")
             os.mkdir(NEW_PROJECT_PATH + "/pracovni")

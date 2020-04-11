@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>5</number>
+    <number>7</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -242,11 +242,11 @@
        <x>20</x>
        <y>20</y>
        <width>881</width>
-       <height>431</height>
+       <height>571</height>
       </rect>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab_LSOM">
       <attribute name="title">
@@ -261,7 +261,7 @@
          <x>10</x>
          <y>10</y>
          <width>851</width>
-         <height>341</height>
+         <height>511</height>
         </rect>
        </property>
        <property name="rowCount">
@@ -304,7 +304,7 @@
          <x>10</x>
          <y>10</y>
          <width>851</width>
-         <height>371</height>
+         <height>511</height>
         </rect>
        </property>
        <property name="rowCount">
@@ -347,7 +347,7 @@
          <x>10</x>
          <y>10</y>
          <width>851</width>
-         <height>371</height>
+         <height>501</height>
         </rect>
        </property>
        <property name="rowCount">
@@ -390,7 +390,7 @@
          <x>10</x>
          <y>10</y>
          <width>851</width>
-         <height>371</height>
+         <height>501</height>
         </rect>
        </property>
        <property name="rowCount">
@@ -435,7 +435,7 @@
        <x>10</x>
        <y>10</y>
        <width>881</width>
-       <height>341</height>
+       <height>481</height>
       </rect>
      </property>
      <property name="rowCount">
@@ -510,7 +510,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>370</y>
+       <y>530</y>
        <width>111</width>
        <height>21</height>
       </rect>
@@ -523,7 +523,7 @@
      <property name="geometry">
       <rect>
        <x>120</x>
-       <y>360</y>
+       <y>520</y>
        <width>241</width>
        <height>31</height>
       </rect>
@@ -536,7 +536,7 @@
      <property name="geometry">
       <rect>
        <x>380</x>
-       <y>370</y>
+       <y>530</y>
        <width>77</width>
        <height>21</height>
       </rect>
@@ -549,7 +549,7 @@
      <property name="geometry">
       <rect>
        <x>430</x>
-       <y>360</y>
+       <y>520</y>
        <width>351</width>
        <height>31</height>
       </rect>
@@ -562,7 +562,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>410</y>
+       <y>570</y>
        <width>871</width>
        <height>21</height>
       </rect>
@@ -582,7 +582,7 @@
        <x>20</x>
        <y>10</y>
        <width>871</width>
-       <height>431</height>
+       <height>581</height>
       </rect>
      </property>
      <property name="rowCount">
@@ -612,7 +612,7 @@
        <x>10</x>
        <y>60</y>
        <width>881</width>
-       <height>341</height>
+       <height>481</height>
       </rect>
      </property>
      <property name="columnCount">
@@ -641,8 +641,8 @@
     <widget class="QGroupBox" name="groupBox">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>390</y>
+       <x>50</x>
+       <y>550</y>
        <width>351</width>
        <height>61</height>
       </rect>
@@ -716,8 +716,8 @@
     <widget class="QComboBox" name="comboBoxArea">
      <property name="geometry">
       <rect>
-       <x>550</x>
-       <y>410</y>
+       <x>600</x>
+       <y>570</y>
        <width>241</width>
        <height>27</height>
       </rect>
@@ -726,8 +726,8 @@
     <widget class="QComboBox" name="comboBoxTime">
      <property name="geometry">
       <rect>
-       <x>280</x>
-       <y>410</y>
+       <x>330</x>
+       <y>570</y>
        <width>231</width>
        <height>27</height>
       </rect>
@@ -1120,6 +1120,19 @@
      </property>
      <property name="value">
       <number>0</number>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonSaveStyle">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>170</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Uložit styl do šablony</string>
      </property>
     </widget>
    </widget>

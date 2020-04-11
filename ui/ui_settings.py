@@ -82,6 +82,11 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.parent = parent
         self.setupUi(self)
         self.pluginPath = pluginPath
+        self.settingsPath = pluginPath + "/../../../qgis_patrac_settings"
+        prjfi = QFileInfo(QgsProject.instance().fileName())
+        DATAPATH = prjfi.absolutePath()
+        self.systemid = open(self.settingsPath + "/config/systemid.txt", 'r').read()
+
         self.main = parent
         self.iface = self.main.iface
         self.serverUrl = 'http://gisak.vsb.cz/patrac/'
@@ -92,16 +97,22 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.comboBoxFriction.addItem("Pastorková")
         self.comboBoxFriction.addItem("Vlastní")
         # Fills tables with distances
-        self.fillTableWidgetDistance("/grass/distancesLSOM.txt", self.tableWidgetDistancesLSOM)
-        self.fillTableWidgetDistance("/grass/distancesHill.txt", self.tableWidgetDistancesHill)
-        self.fillTableWidgetDistance("/grass/distancesUK.txt", self.tableWidgetDistancesUK)
-        self.fillTableWidgetDistance("/grass/distancesUser.txt", self.tableWidgetDistancesUser)
+        self.fillTableWidgetDistance("/grass/distancesLSOM.txt", self.tableWidgetDistancesLSOM, "system")
+        self.fillTableWidgetDistance("/grass/distancesHill.txt", self.tableWidgetDistancesHill, "system")
+        self.fillTableWidgetDistance("/grass/distancesUK.txt", self.tableWidgetDistancesUK, "system")
+        self.fillTableWidgetDistance("/grass/distancesUser.txt", self.tableWidgetDistancesUser, "user")
         # Fills table with friction values
         self.fillTableWidgetFriction("/grass/friction.csv", self.tableWidgetFriction)
+
         # Fills table with search units
         self.fillTableWidgetUnits("/grass/units.txt", self.tableWidgetUnits)
+
         # Fills values for weights of the points
-        self.fillLineEdit("/grass/weightlimit.txt", self.lineEditWeightLimit)
+        if os.path.isfile(DATAPATH + "/config/weightlimit.txt"):
+            self.fillLineEdit(DATAPATH + "/config/weightlimit.txt", self.lineEditWeightLimit)
+        else:
+            self.fillLineEdit(self.settingsPath + "/grass/weightlimit.txt", self.lineEditWeightLimit)
+
         self.pushButtonHds.clicked.connect(self.testHds)
         self.pushButtonUpdatePlugin.clicked.connect(self.updatePlugin)
         self.pushButtonUpdateData.clicked.connect(self.updateData)
@@ -127,11 +138,29 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
         self.pushButtonShowQrCode.clicked.connect(self.showQrCode)
 
+        self.pushButtonSaveStyle.clicked.connect(self.saveStyle)
+
         # fill filtering combos
         self.fillCmbArea()
         self.fillCmbTime()
         self.fillCmbStatus()
         self.fillCentroid()
+
+    def saveStyle(self):
+
+        prjfi = QFileInfo(QgsProject.instance().fileName())
+        DATAPATH = prjfi.absolutePath()
+
+        layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if DATAPATH + "/pracovni/sektory_group.shp" in lyr.source():
+                layer = lyr
+                break
+
+        if layer is not None:
+            settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+            name = open(settingsPath + "/styles/sektory_group.txt", 'r').read()
+            layer.saveNamedStyle(settingsPath + '/styles/sectors_' + name + '.qml')
 
     def refreshSystemUsersSetSheduler(self):
         QMessageBox.information(None, "NOT IMPLEMENTED", "Tato funkce není zatím implementována")
@@ -333,8 +362,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
     def getQrCode(self):
         img = qrcode.make('Some data here')
 
-    def fillLineEdit(self, fileName, lineEdit):
-        content = open(self.pluginPath + fileName, 'r').read()
+    def fillLineEdit(self, filePath, lineEdit):
+        content = open(filePath, 'r').read()
         lineEdit.setText(content)
 
     def getRegion(self):
@@ -451,9 +480,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             return
         # Connects to the server to call the selected users on duty
         try:
-            # TODO change hardcoded value for id
             response = urllib.request.urlopen(
-                self.serverUrl + 'users.php?operation=changestatus&id=pcr007&status_to=' + status + '&ids=' + ids + "&searchid=" + searchid,
+                self.serverUrl + 'users.php?operation=changestatus&id=' + self.systemid + '&status_to=' + status + '&ids=' + ids + "&searchid=" + searchid,
                 None, 5)
             changed = str(response.read())
             self.refreshSystemUsers()
@@ -478,8 +506,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             self.fillTableWidgetSystemUsers(list, self.tableWidgetSystemUsers)
 
     def getSystemUsers(self):
-        # TODO change hardcoded value for id to value from configuration
-        return self.getDataFromUrl(self.serverUrl + 'users.php?operation=getsystemusers&id=pcr007', 5)
+        return self.getDataFromUrl(self.serverUrl + 'users.php?operation=getsystemusers&id=' + self.systemid, 5)
 
     def getDataFromUrl(self, url, timeout):
         response = None
@@ -601,9 +628,10 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         tableWidget.setHorizontalHeaderLabels(["Počet", "Poznámka"])
         tableWidget.setVerticalHeaderLabels(
             ["Pes", "Člověk do rojnice", "Kůň", "Čtyřkolka", "Vrtulník", "Potápěč", "Jiné"])
-        tableWidget.setColumnWidth(1, 600);
+        tableWidget.setColumnWidth(1, 600)
+        settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
         # Reads CSV and populate the table
-        with open(self.pluginPath + fileName, "r") as fileInput:
+        with open(settingsPath + fileName, "r") as fileInput:
             i = 0
             for row in csv.reader(fileInput, delimiter=';'):
                 j = 0
@@ -614,14 +642,19 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                     j = j + 1
                 i = i + 1
 
-    def fillTableWidgetDistance(self, fileName, tableWidget):
+    def fillTableWidgetDistance(self, fileName, tableWidget, type):
         """Fills table with distances"""
         tableWidget.setHorizontalHeaderLabels(['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '95%'])
         tableWidget.setVerticalHeaderLabels(
             ["Dítě 1-3", "Dítě 4-6", "Dítě 7-12", "Dítě 13-15", "Deprese", "Psychická nemoc", "Retardovaný",
              "Alzheimer", "Turista", "Demence"])
+
+        currentPath = self.pluginPath
+        if type == "user":
+            currentPath = self.pluginPath + "/../../../qgis_patrac_settings"
+
         # Reads CSV and populate the table
-        with open(self.pluginPath + fileName, "r") as fileInput:
+        with open(currentPath + fileName, "r") as fileInput:
             i = 0
             for row in csv.reader(fileInput, delimiter=','):
                 j = 0
@@ -683,8 +716,10 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
     def accept(self):
         """Writes settings to the appropriate files"""
+        settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+
         # Distances are fixed, but the user can change user distances, so only the one table is written
-        f = open(self.pluginPath + '/grass/distancesUser.txt', 'w')
+        f = open(settingsPath + '/grass/distancesUser.txt', 'w')
         for i in range(0, 10):
             for j in range(0, 9):
                 value = self.tableWidgetDistancesUser.item(i, j).text()
@@ -697,7 +732,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             f.write("\n")
         f.close()
         # Units can be changes so the units.txt is written
-        f = io.open(self.pluginPath + '/grass/units.txt', 'w', encoding='utf-8')
+        f = io.open(settingsPath + '/grass/units.txt', 'w', encoding='utf-8')
         for i in range(0, 7):
             for j in range(0, 2):
                 value = self.tableWidgetUnits.item(i, j).text()
@@ -721,7 +756,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             shutil.copy(self.pluginPath + "/grass/distancesUK.txt", self.pluginPath + "/grass/distances.txt")
 
         if self.comboBoxDistance.currentIndex() == 3:
-            shutil.copy(self.pluginPath + "/grass/distancesUser.txt", self.pluginPath + "/grass/distances.txt")
+            settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+            shutil.copy(settingsPath + "/grass/distancesUser.txt", self.pluginPath + "/grass/distances.txt")
 
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
@@ -734,7 +770,18 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         f.write(self.lineEditWeightLimit.text())
         f.close()
 
+        f = open(self.settingsPath + '/grass/weightlimit.txt', 'w')
+        f.write(self.lineEditWeightLimit.text())
+        f.close()
+
         f = open(DATAPATH + '/config/radialsettings.txt', 'w')
+        if self.checkBoxRadial.isChecked():
+            f.write("1")
+        else:
+            f.write("0")
+        f.close()
+
+        f = open(self.settingsPath + '/grass/radialsettings.txt', 'w')
         if self.checkBoxRadial.isChecked():
             f.write("1")
         else:

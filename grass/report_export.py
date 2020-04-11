@@ -255,10 +255,11 @@ CUR_PT = 0
 CUR_VPT = 0
 # TODO check how it works in Windows - seems that this works in Linux and commented line in Windows
 fileInput = None
+settingsPath = PLUGIN_PATH + "/../../../qgis_patrac_settings"
 if system == 'win':
-    fileInput = open(PLUGIN_PATH + "/grass/units.txt", encoding='utf-8', mode="r")
+    fileInput = open(settingsPath + "/grass/units.txt", encoding='utf-8', mode="r")
 elif system == 'linux':
-    fileInput = open(PLUGIN_PATH + "/grass/units.txt", mode="r")
+    fileInput = open(settingsPath + "/grass/units.txt", mode="r")
 
 i = 0
 for row in csv.reader(fileInput, delimiter=';'):
@@ -335,9 +336,9 @@ if SUM_P9 > 0:
 f.write(u"</div>\n")
 
 maxtime = 3
-if os.path.isfile(PLUGIN_PATH + "/grass/maxtime.txt"):
+if os.path.isfile(DATAPATH + "/config/maxtime.txt"):
     try:
-        maxtime = int(open(PLUGIN_PATH + "/grass/maxtime.txt", 'r').read())
+        maxtime = int(open(DATAPATH + "/config/maxtime.txt", 'r').read())
     except ValueError:
         maxtime = 3
 

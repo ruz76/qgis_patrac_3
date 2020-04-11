@@ -27,6 +27,9 @@
 
 
 import os
+from os import path
+from shutil import copy
+from glob import glob
 import configparser
 
 from qgis.PyQt.QtWidgets import *
@@ -81,6 +84,26 @@ class PatracPlugin(object):
             self.translator = QTranslator()
             self.translator.load(self.localePath)
             QCoreApplication.installTranslator(self.translator)
+
+        self.checkSettings()
+
+    def checkSettings(self):
+        pluginPath = path.dirname(__file__)
+        profilePath = pluginPath + "/../../../"
+        if not os.path.isdir(profilePath + "qgis_patrac_settings"):
+            os.mkdir(profilePath + "qgis_patrac_settings")
+            os.mkdir(profilePath + "qgis_patrac_settings/config")
+            os.mkdir(profilePath + "qgis_patrac_settings/styles")
+            os.mkdir(profilePath + "qgis_patrac_settings/grass")
+            copy(pluginPath + "/config/systemid.txt", profilePath + "qgis_patrac_settings/config/")
+            copy(pluginPath + "/config/paths.txt", profilePath + "qgis_patrac_settings/config/")
+            copy(pluginPath + "/grass/maxtime.txt", profilePath + "qgis_patrac_settings/grass/")
+            copy(pluginPath + "/grass/units.txt", profilePath + "qgis_patrac_settings/grass/")
+            copy(pluginPath + "/grass/weightlimit.txt", profilePath + "qgis_patrac_settings/grass/")
+            copy(pluginPath + "/grass/radialsettings.txt", profilePath + "qgis_patrac_settings/grass/")
+            copy(pluginPath + "/grass/distancesUser.txt", profilePath + "qgis_patrac_settings/grass/")
+            for file in glob(pluginPath + "/styles/*"):
+                copy(file, profilePath + "qgis_patrac_settings/styles/")
 
     def initGui(self):
         # if int(self.qgsVersion) < 10900:

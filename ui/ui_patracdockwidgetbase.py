@@ -186,13 +186,6 @@ class Ui_PatracDockWidget(object):
         self.horizontalLayoutToolbar_5.addWidget(self.tbtnExtendRegion)
         self.tbtnExtendRegion.setToolTip(QApplication.translate("PatracDockWidget", "Roszšířit oblast", None))
 
-        self.tbtnImportPaths = QPushButton(self.dockWidgetContents)
-        self.tbtnImportPaths.setObjectName(_fromUtf8("tbtnImportPaths"))
-        self.tbtnImportPaths.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "import_paths.png")));
-        self.tbtnImportPaths.setIconSize(QSize(32, 32));
-        self.tbtnImportPaths.setFixedSize(QSize(42, 42));
-        self.horizontalLayoutToolbar_5.addWidget(self.tbtnImportPaths)
-        self.tbtnImportPaths.setToolTip(QApplication.translate("PatracDockWidget", "Importovat cesty z GPS", None))
         self.tbtnShowSearchers = QPushButton(self.dockWidgetContents)
         self.tbtnShowSearchers.setObjectName(_fromUtf8("tbtnShowSearchers"))
         self.tbtnShowSearchers.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "show_searchers.png")));
@@ -235,6 +228,14 @@ class Ui_PatracDockWidget(object):
         self.helpShow.setToolTip(
             QApplication.translate("PatracDockWidget", "Nápověda", None))
         self.horizontalGeneralToolbarLayout.addWidget(self.helpShow)
+
+        self.tbtnImportPaths = QPushButton(self.dockWidgetContents)
+        self.tbtnImportPaths.setObjectName(_fromUtf8("tbtnImportPaths"))
+        self.tbtnImportPaths.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "import_paths.png")));
+        self.tbtnImportPaths.setIconSize(QSize(32, 32));
+        self.tbtnImportPaths.setFixedSize(QSize(42, 42));
+        self.tbtnImportPaths.setToolTip(QApplication.translate("PatracDockWidget", "Importovat cesty z GPS", None))
+        self.horizontalGeneralToolbarLayout.addWidget(self.tbtnImportPaths)
 
         self.tbtnShowSettings = QPushButton(self.dockWidgetContents)
         self.tbtnShowSettings.setObjectName(_fromUtf8("tbtnShowSettings"))
@@ -507,7 +508,8 @@ class Ui_PatracDockWidget(object):
         self.tabGuideStep6.setLayout(self.verticalGuideLayoutStep6)
 
     def loadAvailableUnits(self):
-        with open(self.pluginPath + "/grass/units.txt", "r") as fileInput:
+        settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+        with open(settingsPath + "/grass/units.txt", "r") as fileInput:
             i=0
             for row in csv.reader(fileInput, delimiter=';'):
                 unicode_row = row
