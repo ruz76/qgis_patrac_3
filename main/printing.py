@@ -47,24 +47,30 @@ class Printing(object):
         self.canvas = self.widget.canvas
 
     def exportPDF(self, extent, path):
+        self.export(extent, path)
+        self.exportTiles(extent, path)
+
+    def exportTiles(self, extent, path):
+        widthprint = 0.27
+        widthmap = extent.width()
+        heightmap = extent.height()
+        rect = QgsRectangle(extent.xMinimum(), extent.yMinimum(), extent.xMinimum() + widthmap / 2, extent.yMinimum() + heightmap / 2)
+        self.export(rect, path + "_1.pdf")
+        rect = QgsRectangle(extent.xMinimum(), extent.yMinimum() + heightmap / 2, extent.xMinimum() + widthmap / 2, extent.yMinimum() + heightmap)
+        self.export(rect, path + "_2.pdf")
+        rect = QgsRectangle(extent.xMinimum() + widthmap / 2, extent.yMinimum() + heightmap / 2, extent.xMinimum() + widthmap, extent.yMinimum() + heightmap)
+        self.export(rect, path + "_3.pdf")
+        rect = QgsRectangle(extent.xMinimum() + widthmap / 2, extent.yMinimum(), extent.xMinimum() + widthmap, extent.yMinimum() + heightmap / 2)
+        self.export(rect, path + "_4.pdf")
+
+    def export(self, extent, path):
         project = QgsProject.instance()
         layout = project.layoutManager().layoutByName("Basic")
-        # composition = composer.composition()
         maps = [item for item in list(layout.items()) if
                 item.type() == QgsLayoutItemRegistry.LayoutMap and item.scene()]
         composer_map = maps[0]
-        # composer_map.setMapCanvas(self.canvas)
         extent.scale(1.1)
         composer_map.zoomToExtent(extent)
-        # composer_map.updateItem()
-        # layout.refreshItems()
         layout.updateSettings()
-        # https://gis.stackexchange.com/questions/216863/set-print-composer-to-map-canvas-extent-using-python
-        # moveX = composer_map.extent().center().x() - canvas.extent().center().x()
-        # moveY = composer_map.extent().center().y() - canvas.extent().center().y()
-        # unitCon = composer_map.mapUnitsToMM()
-        # print str(moveX) + " " + str(moveY) + " " + str(unitCon) + " " + str(canvas.scale())
-        # composer_map.moveContent(-moveX * unitCon, moveY * unitCon)
-        # composer_map.setNewScale(canvas.scale())
         exporter = QgsLayoutExporter(layout)
         exporter.exportToPdf(path, QgsLayoutExporter.PdfExportSettings())

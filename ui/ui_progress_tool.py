@@ -60,7 +60,7 @@ class ProgressMapTool(QgsMapTool):
     def analyzeTrack(self, sector):
         currentLayer = self.canvas.currentLayer()
         # TODO check also vector and line
-        if currentLayer.crs().authid() != "EPSG:4326":
+        if currentLayer != None and currentLayer.crs().authid() != "EPSG:4326":
             QMessageBox.information(None, "CHYBA:", "Vybraná vrstva není stopou. Vyberte správnou vrstvu.")
             return
         provider = currentLayer.dataProvider()
@@ -77,6 +77,9 @@ class ProgressMapTool(QgsMapTool):
                 buffer_union = geom
             else:
                 buffer_union = buffer_union.combine(geom)
+        if buffer_union == None:
+            QMessageBox.information(None, "CHYBA:", "Vybraná vrstva neobsahuje stopy. Vyberte správnou vrstvu.")
+            return
         difference = sector.geometry().difference(buffer_union)
         uri = "multipolygon?crs=epsg:5514"
         layer = QgsVectorLayer(uri, sector['label'], "memory")

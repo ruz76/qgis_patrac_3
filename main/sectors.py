@@ -490,6 +490,10 @@ class Sectors(object):
         # f.write(u"\n<p>Pro propátrání referenční plochy (cca 30 ha) se počítá 3 hodiny jedním týmem.</p>\n");
         f.write('<p><a href="report.pdf"><img src="styles/pdf.png" alt="PDF" width="40"></a>&nbsp;<a href="gpx/all.gpx">'
                 '<img src="styles/gpx.png" alt="GPX" width="40"></a></p>\n')
+        f.write('<p><a href="report.pdf_1.pdf">Detail J-Z&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
+        f.write('<p><a href="report.pdf_2.pdf">Detail S-Z&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
+        f.write('<p><a href="report.pdf_3.pdf">Detail S-V&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
+        f.write('<p><a href="report.pdf_4.pdf">Detail J-V&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
         f.write('</div>\n')
 
         # Reads units report
