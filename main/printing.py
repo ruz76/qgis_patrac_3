@@ -47,7 +47,7 @@ class Printing(object):
         self.canvas = self.widget.canvas
 
     def exportPDF(self, extent, path):
-        self.export(extent, path)
+        self.export(extent, path, 1.1)
         self.exportTiles(extent, path)
 
     def exportTiles(self, extent, path):
@@ -55,21 +55,21 @@ class Printing(object):
         widthmap = extent.width()
         heightmap = extent.height()
         rect = QgsRectangle(extent.xMinimum(), extent.yMinimum(), extent.xMinimum() + widthmap / 2, extent.yMinimum() + heightmap / 2)
-        self.export(rect, path + "_1.pdf")
+        self.export(rect, path + "_1.pdf", 1.2)
         rect = QgsRectangle(extent.xMinimum(), extent.yMinimum() + heightmap / 2, extent.xMinimum() + widthmap / 2, extent.yMinimum() + heightmap)
-        self.export(rect, path + "_2.pdf")
+        self.export(rect, path + "_2.pdf", 1.2)
         rect = QgsRectangle(extent.xMinimum() + widthmap / 2, extent.yMinimum() + heightmap / 2, extent.xMinimum() + widthmap, extent.yMinimum() + heightmap)
-        self.export(rect, path + "_3.pdf")
+        self.export(rect, path + "_3.pdf", 1.2)
         rect = QgsRectangle(extent.xMinimum() + widthmap / 2, extent.yMinimum(), extent.xMinimum() + widthmap, extent.yMinimum() + heightmap / 2)
-        self.export(rect, path + "_4.pdf")
+        self.export(rect, path + "_4.pdf", 1.2)
 
-    def export(self, extent, path):
+    def export(self, extent, path, scale):
         project = QgsProject.instance()
         layout = project.layoutManager().layoutByName("Basic")
         maps = [item for item in list(layout.items()) if
                 item.type() == QgsLayoutItemRegistry.LayoutMap and item.scene()]
         composer_map = maps[0]
-        extent.scale(1.1)
+        extent.scale(scale)
         composer_map.zoomToExtent(extent)
         layout.updateSettings()
         exporter = QgsLayoutExporter(layout)

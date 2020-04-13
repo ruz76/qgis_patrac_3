@@ -461,7 +461,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         if len(drives_gpx) == 0:
             # Not Garmin. TODO
-            QMessageBox.information(None, "INFO:", "Nenašel jsem připojenou GPS. Soubor musite uložit jako z reportu ručně.")
+            QMessageBox.information(None, "INFO:", "Nenašel jsem připojenou GPS. Soubor musite uložit z reportu ručně.")
 
         if len(drives_gpx) > 1:
             # We have more than one place with garmin/GPX
@@ -512,7 +512,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 f.write("\n")
         f.close()
 
-        copy(settingsPath + '/grass/units.txt.tmp', self.pluginPath + "/grass/units.txt")
+        copy(settingsPath + '/grass/units.txt.tmp', settingsPath + "/grass/units.txt")
 
     def saveMaxTimeInformation(self):
         prjfi = QFileInfo(QgsProject.instance().fileName())
