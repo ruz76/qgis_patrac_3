@@ -62,11 +62,14 @@ from time import gmtime, strftime
 
 import csv, io, webbrowser, filecmp, uuid, random, getpass
 
-#If on windows
+from .connect.connect import *
+
+# If on windows
 try:
     import win32api
 except:
     QgsMessageLog.logMessage("Linux - no win api", "Patrac")
+
 
 class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def __init__(self, plugin):
@@ -89,8 +92,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         else:
             self.pluginPath = systemPluginPath
 
-        #QUICKFIX:
-        #self.pluginPath = "/usr/share/qgis/python/plugins/qgis_patrac"
+        # QUICKFIX:
+        # self.pluginPath = "/usr/share/qgis/python/plugins/qgis_patrac"
         self.pluginPath = path.dirname(__file__)
 
         QDockWidget.__init__(self, None)
@@ -117,7 +120,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.tbtnShowSettings.clicked.connect(self.showSettings)
         self.tbtnExtendRegion.clicked.connect(self.extendRegion)
         self.tbtnImportPaths.clicked.connect(self.showImportGpx)
-        #self.tbtnShowSearchers.clicked.connect(self.showPeopleSimulation)
+        # self.tbtnShowSearchers.clicked.connect(self.showPeopleSimulation)
         self.tbtnShowSearchers.clicked.connect(self.showPeople)
         self.tbtnShowSearchersTracks.clicked.connect(self.showPeopleTracks)
         self.tbtnShowMessage.clicked.connect(self.showMessage)
@@ -190,7 +193,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def setStepsConnection(self):
         # Autocompleter fro search of municipalities
         self.setCompleter(self.guideMunicipalitySearch)
-        #self.guideMunicipalitySearch.returnPressed.connect(self.runGuideMunicipalitySearch)
+        # self.guideMunicipalitySearch.returnPressed.connect(self.runGuideMunicipalitySearch)
 
         # Step 1 Next
         self.guideStep1Next.clicked.connect(self.runGuideMunicipalitySearch)
@@ -243,7 +246,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 return -1
             else:
                 # if the municipality has coords
-                #self.zoomto(x, y)
+                # self.zoomto(x, y)
                 return i
         except (KeyError, IOError):
             QMessageBox.information(self.iface.mainWindow(), "Chybná obec", "Obec nebyla nalezena")
@@ -316,7 +319,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         # move to next tab (tab 3)
         self.tabGuideSteps.setCurrentIndex(2)
         self.currentStep = 3
-
 
     def runGuideStep3Next(self):
         if not self.checkStep(4):
@@ -421,9 +423,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 extent = xform.transform(layer.extent())
                 self.Printing.exportPDF(extent, DATAPATH + "/sektory/report.pdf")
 
-
         # exports map of sectors to PDF
-        #if self.chkGeneratePDF.isChecked():
+        # if self.chkGeneratePDF.isChecked():
         #    self.exportPDF(layer.extent(), DATAPATH + "/sektory/report.pdf")
 
         #    provider = layer.dataProvider()
@@ -453,7 +454,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         drives_gpx = []
         for drive in drives:
             if os.path.isdir(drive + 'Garmin/GPX'):
-               drives_gpx.append(drive)
+                drives_gpx.append(drive)
 
         if len(drives_gpx) == 1:
             # nice, only one GPX dir is available
@@ -489,7 +490,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         f = io.open(settingsPath + '/grass/units.txt.tmp', 'w', encoding='utf-8')
 
         with open(settingsPath + "/grass/units.txt", "r") as fileInput:
-            i=0
+            i = 0
             for row in csv.reader(fileInput, delimiter=';'):
                 unicode_row = row
                 # dog
@@ -507,8 +508,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                         f.write(field)
                     else:
                         f.write(";" + field)
-                    j=j+1
-                i=i+1
+                    j = j + 1
+                i = i + 1
                 f.write("\n")
         f.close()
 
@@ -539,7 +540,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.municipalities_regions = []
         # reads list of municipalities from CSV
         with open(self.pluginPath + "/ui/obce_okr_kr_utf8_20180131.csv", "r") as fileInput:
-        # with open(self.pluginPath + "/ui/sk_obce_okr_kr_utf8.csv", "r") as fileInput:
+            # with open(self.pluginPath + "/ui/sk_obce_okr_kr_utf8.csv", "r") as fileInput:
             for row in csv.reader(fileInput, delimiter=';'):
                 unicode_row = row
                 # sets the name (and province in brackets for iunique identification)
@@ -632,7 +633,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             return
         self.spinStart.setValue(value)
 
-        #if not self.chkManualUpdate.isChecked():
+        # if not self.chkManualUpdate.isChecked():
         self.updatePatrac()
 
     def __updateSliderStart(self, value):
@@ -651,7 +652,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             return
         self.spinEnd.setValue(value)
 
-        #if not self.chkManualUpdate.isChecked():
+        # if not self.chkManualUpdate.isChecked():
         self.updatePatrac()
 
     def __updateSliderEnd(self, value):
@@ -734,7 +735,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def recalculateSectorsExpert(self):
         self.Sectors.recalculateSectors(False)
         # TODO change icon and name of the function
-        #self.extendRegion()
+        # self.extendRegion()
 
     def extendRegion(self):
         msg = "Funkce není v této verzi podporována. Pro pátrání v další oblasti vytvořte nový projekt."
@@ -1030,24 +1031,26 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             QMessageBox.information(None, "CHYBA:",
                                     "Projekt neobsahuje vrstvu pátračů. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
             return
-        self.setCursor(Qt.WaitCursor)
-        prjfi = QFileInfo(QgsProject.instance().fileName())
-        DATAPATH = prjfi.absolutePath()
-        layer = None
-        for lyr in list(QgsProject.instance().mapLayers().values()):
-            if DATAPATH + "/pracovni/patraci_lines.shp" in lyr.source():
-                layer = lyr
-                break
-        provider = layer.dataProvider()
-        features = provider.getFeatures()
-        sectorid = 0
-        response = None
-        try:
-            # Connects the server with log
-            response = urllib.request.urlopen(
-                self.serverUrl + 'track.php?searchid=' + self.getSearchID(), None, 20)
-            # Reads locations from response
-            locations = str(response.read())
+
+        self.tracks = Connect()
+        self.tracks.setUrl(self.serverUrl + 'track.php?searchid=' + self.getSearchID())
+        self.tracks.setTimeout(20)
+        self.tracks.statusChanged.connect(self.onShowPeopleTractResponse)
+        self.tracks.start()
+
+    def onShowPeopleTractResponse(self, response):
+        if response.status == 200:
+            prjfi = QFileInfo(QgsProject.instance().fileName())
+            DATAPATH = prjfi.absolutePath()
+            layer = None
+            for lyr in list(QgsProject.instance().mapLayers().values()):
+                if DATAPATH + "/pracovni/patraci_lines.shp" in lyr.source():
+                    layer = lyr
+                    break
+            provider = layer.dataProvider()
+            features = provider.getFeatures()
+            sectorid = 0
+            locations = str(response.data.read())
             if "Error" in locations:
                 self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
                 # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
@@ -1057,7 +1060,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             lines = locations.split("\n")
             if len(lines) < 1 or len(lines[0]) < 10:
                 # Wrong response
-                self.setCursor(Qt.ArrowCursor)
+                self.iface.messageBar().pushMessage("Error", "Stopy jsou prázdné.", level=Qgis.Warning)
                 return
             # Deletes all features in layer patraci.shp
             layer.startEditing()
@@ -1087,13 +1090,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                     self.addFeaturePolyLineFromPoints(points, cols, provider)
             layer.commitChanges()
             layer.triggerRepaint()
-        except urllib.error.URLError as e:
+        else:
             self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
-            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
-        except socket.timeout:
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
-            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
-        self.setCursor(Qt.ArrowCursor)
 
     def showPeople(self):
         """Shows location of logged positions in map"""
@@ -1104,31 +1102,34 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                                     "Projekt neobsahuje vrstvu pátračů. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
             return
 
-        self.setCursor(Qt.WaitCursor)
-        prjfi = QFileInfo(QgsProject.instance().fileName())
-        DATAPATH = prjfi.absolutePath()
-        layer = None
-        for lyr in list(QgsProject.instance().mapLayers().values()):
-            if DATAPATH + "/pracovni/patraci.shp" in lyr.source():
-                layer = lyr
-                break
-        provider = layer.dataProvider()
-        features = provider.getFeatures()
-        sectorid = 0
-        response = None
-        try:
-            # Connects the server with locations
-            response = urllib.request.urlopen(
-                self.serverUrl + 'loc.php?searchid=' + self.getSearchID(), None, 5)
-            layer.startEditing()
+        self.positions = Connect()
+        self.positions.setUrl(self.serverUrl + 'loc.php?searchid=' + self.getSearchID())
+        self.positions.statusChanged.connect(self.onShowPeopleResponse)
+        self.positions.start()
+
+    def onShowPeopleResponse(self, response):
+        if response.status == 200:
+            prjfi = QFileInfo(QgsProject.instance().fileName())
+            DATAPATH = prjfi.absolutePath()
+            layer = None
+            for lyr in list(QgsProject.instance().mapLayers().values()):
+                if DATAPATH + "/pracovni/patraci.shp" in lyr.source():
+                    layer = lyr
+                    break
+            provider = layer.dataProvider()
+            features = provider.getFeatures()
+            sectorid = 0
             listOfIds = [feat.id() for feat in layer.getFeatures()]
             # Deletes all features in layer patraci.shp
             layer.deleteFeatures(listOfIds)
             # Reads locations from response
-            locations = str(response.read())
+            locations = str(response.data.read())
             # print("LOCATIONS: " + locations)
             # Splits to lines
             lines = locations.split("\n")
+            if len(lines) < 1 or len(lines[0]) < 20:
+                self.iface.messageBar().pushMessage("Error", "Pozice jsou prázdné.", level=Qgis.Warning)
+                return
             # Loops the lines
             for line in lines:
                 if line != "":  # add other needed checks to skip titles
@@ -1144,17 +1145,12 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                         fet.setAttributes([str(cols[0]), str(cols[1]), str(cols[2]), str(cols[3]).decode('utf8')])
                         provider.addFeatures([fet])
                     except:
-                        QgsMessageLog.logMessage("Problém s načtením dat z databáze: " + line, "Patrac")
+                        self.iface.messageBar().pushMessage("Error", "Problém s načtením dat z databáze: " + line, level=Qgis.Warning)
                         pass
             layer.commitChanges()
             layer.triggerRepaint()
-        except urllib.error.URLError as e:
+        else:
             self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
-            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
-        except socket.timeout:
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
-            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
-        self.setCursor(Qt.ArrowCursor)
 
     def showPeopleSimulation(self):
         """Shows location of logged positions in map"""

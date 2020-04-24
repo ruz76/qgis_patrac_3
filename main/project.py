@@ -41,6 +41,8 @@ from qgis.PyQt.QtWidgets import *
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import *
 
+from .. connect.connect import *
+
 class ZPM_Raster():
     def __init__(self, name, distance, xmin, ymin, xmax, ymax):
         self.name = name
@@ -57,6 +59,9 @@ class Project(object):
         self.iface = self.widget.plugin.iface
         self.canvas = self.widget.canvas
         self.serverUrl = self.widget.serverUrl
+        self.settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+        self.systemid = open(self.settingsPath + "/config/systemid.txt", 'r').read().rstrip("\n")
+
 
     def copyTemplate(self, NEW_PROJECT_PATH, TEMPLATES_PATH, NAMESAFE):
         if not os.path.isdir(NEW_PROJECT_PATH):
@@ -309,18 +314,18 @@ class Project(object):
         return searchid20
 
     def createSearchOnServer(self, searchid, name, desc, region):
-        response = None
-        # Connects to the server to obtain list of users based on list of locations
-        try:
-            escaped_name = quote(name.encode('utf-8'))
-            escaped_desc = quote(desc.encode('utf-8'))
-            url = self.serverUrl + 'search.php?operation=createnewsearch&id=pcr007&searchid='\
-                  + searchid + '&name=' + escaped_name + '&desc=' + escaped_desc + '&region=' + region
-            response = urllib.request.urlopen(url, None, 5)
-            searchStatus = response.read()
-        except urllib.error.URLError:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
-        except socket.timeout:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
-        # TODO - if we can not connect to server, we should connect later
-        # self.getMessage()
+        escaped_name = quote(name.encode('utf-8'))
+        escaped_desc = quote(desc.encode('utf-8'))
+        url = self.serverUrl + 'search.php?operation=createnewsearch&id=' + self.systemid + '&searchid=' \
+              + searchid + '&name=' + escaped_name + '&desc=' + escaped_desc + '&region=' + region
+        self.createSearch = Connect()
+        self.createSearch.setUrl(url)
+        self.createSearch.statusChanged.connect(self.onCreateSearchOnServerResponse)
+        self.createSearch.start()
+
+    def onCreateSearchOnServerResponse(self, response):
+        if response.status == 200:
+            searchStatus = response.data.read()
+        else:
+            # TODO - if we can not connect to server, we should connect later
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)

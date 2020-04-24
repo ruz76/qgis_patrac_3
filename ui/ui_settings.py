@@ -46,6 +46,7 @@ import tempfile
 import zipfile
 from shutil import copy
 import sched, time
+from .. connect.connect import *
 
 #If on windows
 try:
@@ -55,19 +56,6 @@ except:
 
 
 # import qrcode
-
-class PeriodicScheduler(object):
-    def __init__(self):
-        self.scheduler = sched.scheduler(time.time, time.sleep)
-
-    def setup(self, interval, action, actionargs=()):
-        action(*actionargs)
-        self.scheduler.enter(interval, 1, self.setup,
-                             (interval, action, actionargs))
-
-    def run(self):
-        self.scheduler.run()
-
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'settings.ui'))
@@ -85,7 +73,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.settingsPath = pluginPath + "/../../../qgis_patrac_settings"
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
-        self.systemid = open(self.settingsPath + "/config/systemid.txt", 'r').read()
+        self.systemid = open(self.settingsPath + "/config/systemid.txt", 'r').read().rstrip("\n")
 
         self.main = parent
         self.iface = self.main.iface
@@ -117,6 +105,12 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.pushButtonUpdatePlugin.clicked.connect(self.updatePlugin)
         self.pushButtonUpdateData.clicked.connect(self.updateData)
 
+        # fill filtering combos
+        self.fillCmbArea()
+        self.fillCmbTime()
+        self.fillCmbStatus()
+        self.fillCentroid()
+
         self.pushButtonGetSystemUsers.clicked.connect(self.refreshSystemUsers)
         self.comboBoxArea.currentIndexChanged.connect(self.refreshSystemUsers)
         self.comboBoxTime.currentIndexChanged.connect(self.refreshSystemUsers)
@@ -140,12 +134,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
         self.pushButtonSaveStyle.clicked.connect(self.saveStyle)
 
-        # fill filtering combos
-        self.fillCmbArea()
-        self.fillCmbTime()
-        self.fillCmbStatus()
-        self.fillCentroid()
-
     def saveStyle(self):
 
         prjfi = QFileInfo(QgsProject.instance().fileName())
@@ -164,11 +152,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
     def refreshSystemUsersSetSheduler(self):
         QMessageBox.information(None, "NOT IMPLEMENTED", "Tato funkce není zatím implementována")
-        # if self.periodic_scheduler is None:
-        #    INTERVAL = 5  # every second
-        #    periodic_scheduler = PeriodicScheduler()
-        #    periodic_scheduler.setup(INTERVAL, self.refreshSystemUsers)  # it executes the event just once
-        #    periodic_scheduler.run()  # it starts the scheduler
 
     def fillCentroid(self):
         lon, lat = self.getCentroid()
@@ -232,11 +215,21 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         url += "&searchRadius=" + str(distance)
         url += "&userPhone=" + str(self.lineEditPhone.text())
         url += "&createIncident=1"
-        data = self.getDataFromUrl(url, 5)
-        if len(data) > 20:
-            self.fillSystemUsersHS(data)
+
+        self.incident = Connect()
+        self.incident.setUrl(url)
+        self.incident.statusChanged.connect(self.onIncidentResponse)
+        self.incident.start()
+
+    def onIncidentResponse(self, response):
+        if response.status == 200:
+            data = response.data.read().decode('utf-8')
+            if len(data) > 20:
+                self.fillSystemUsersHS(data)
+            else:
+                QMessageBox.information(self.main.iface.mainWindow(), "Chyba", "Nepodařilo se založit incident")
         else:
-            QMessageBox.information(self.main.iface.mainWindow(), "Chyba", "Nepodařilo se založit incident")
+            self.iface.messageBar().pushMessage("Chyba", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
 
     def fillSystemUsersHS(self, data):
         msg = "Nepodařilo se načíst data o psovodech"
@@ -262,7 +255,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             QMessageBox.information(self.main.iface.mainWindow(), "Chyba", msg)
 
     def incidentEdit(self):
-        msg = "Nepodařilo se získat přístup"
         if len(self.lineEditUsername.text()) < 3:
             QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte uživatele")
             return
@@ -273,24 +265,35 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         url = "https://www.horskasluzba.cz/cz/hscr-sbook-login?"
         url += "L=" + urllib.parse.quote(self.lineEditUsername.text())
         url += "H=" + urllib.parse.quote(self.lineEditPassword.text())
-        data = self.getDataFromUrl(url, 5)
-        if len(data) > 5:
-            hsdata = None
-            try:
-                hsdata = json.loads(data)
-            except:
-                QMessageBox.information(self.main.iface.mainWindow(), "Chyba", msg)
-                return
-            if hsdata["ok"] == 1:
-                urlToOpen = "https://www.horskasluzba.cz/cz/kniha-sluzeb/vyzvy?"
-                urlToOpen += "action=show-record"
-                urlToOpen += "&record_id=" + str(self.incidentId)
-                urlToOpen += "&t=" + hsdata["token"]
-                webbrowser.get().open(urlToOpen)
+
+        self.sbookaccess = Connect()
+        self.sbookaccess.setUrl(url)
+        self.sbookaccess.statusChanged.connect(self.onSbookAccess)
+        self.sbookaccess.start()
+
+    def onSbookAccess(self, response):
+        msg = "Nepodařilo se získat přístup"
+        if response.status == 200:
+            data = response.data.read().decode('utf-8')
+            if len(data) > 5:
+                hsdata = None
+                try:
+                    hsdata = json.loads(data)
+                except:
+                    QMessageBox.information(self.main.iface.mainWindow(), "Chyba", msg)
+                    return
+                if hsdata["ok"] == 1:
+                    urlToOpen = "https://www.horskasluzba.cz/cz/kniha-sluzeb/vyzvy?"
+                    urlToOpen += "action=show-record"
+                    urlToOpen += "&record_id=" + str(self.incidentId)
+                    urlToOpen += "&t=" + hsdata["token"]
+                    webbrowser.get().open(urlToOpen)
+                else:
+                    QMessageBox.information(self.main.iface.mainWindow(), "Chyba", msg)
             else:
                 QMessageBox.information(self.main.iface.mainWindow(), "Chyba", msg)
         else:
-            QMessageBox.information(self.main.iface.mainWindow(), "Chyba", msg)
+            self.iface.messageBar().pushMessage("Chyba", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
 
     def updateSettings(self):
         self.showSearchId()
@@ -468,7 +471,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         return idsOutput
 
     def setStatus(self, status, searchid):
-        response = None
         idsSelected = self.getSelectedSystemUsers()
         statuses = self.getSelectedSystemUsersStatuses()
         ids = self.removeSleepingSystemUsers(idsSelected, statuses)
@@ -478,55 +480,41 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         if ids == "":
             QMessageBox.information(None, "INFO:", "Nevybrali jste žádného uživatele, kterého by šlo oslovit.")
             return
+
         # Connects to the server to call the selected users on duty
-        try:
-            response = urllib.request.urlopen(
-                self.serverUrl + 'users.php?operation=changestatus&id=' + self.systemid + '&status_to=' + status + '&ids=' + ids + "&searchid=" + searchid,
-                None, 5)
-            changed = str(response.read())
+        self.connect = Connect()
+        self.connect.setUrl(self.serverUrl + 'users.php?operation=changestatus&id=' + self.systemid + '&status_to=' + status + '&ids=' + ids + "&searchid=" + searchid)
+        self.connect.statusChanged.connect(self.onStatusChanged)
+        self.connect.start()
+
+    def onStatusChanged(self, response):
+        print(response.status)
+        if response.status == 200:
             self.refreshSystemUsers()
-            QgsMessageLog.logMessage(changed, "Patrac")
-            return changed
-        except urllib.error.URLError:
+            QgsMessageLog.logMessage(str(response.data.read()), "Patrac")
+        else:
             self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
-            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
-            return ""
-        except urllib.error.HTTPError:
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
-            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
-            return ""
-        except socket.timeout:
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
-            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
-            return ""
 
     def refreshSystemUsers(self):
-        list = self.getSystemUsers()
-        if list != "":
-            self.fillTableWidgetSystemUsers(list, self.tableWidgetSystemUsers)
+        self.systemusers = Connect()
+        self.systemusers.setUrl(self.serverUrl + 'users.php?operation=getsystemusers&id=' + self.systemid)
+        self.systemusers.statusChanged.connect(self.onRefreshSystemUsers)
+        self.systemusers.start()
 
-    def getSystemUsers(self):
-        return self.getDataFromUrl(self.serverUrl + 'users.php?operation=getsystemusers&id=' + self.systemid, 5)
+    def onRefreshSystemUsers(self, response):
+        if response.status == 200:
+            list = response.data.read().decode('utf-8')
+            if list != "":
+                self.fillTableWidgetSystemUsers(list, self.tableWidgetSystemUsers)
+        else:
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
 
     def getDataFromUrl(self, url, timeout):
-        response = None
-        # Connects to the server to obtain list of users based on list of locations
-        try:
-            response = urllib.request.urlopen(url, None, timeout)
-            system_users = response.read().decode('utf-8')
-            return system_users
-        except urllib.error.URLError:
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
-            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
-            return ""
-        except urllib.error.HTTPError:
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
-            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
-            return ""
-        except socket.timeout:
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
-            # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
-            return ""
+        # self.connect = Connect()
+        # self.connect.setUrl(url)
+        # self.connect.statusChanged.connect(self.onGetDataFromUrl)
+        # self.connect.start()
+        return ""
 
     def fillTableWidgetSystemUsers(self, list, tableWidget):
         """Fills table with units"""

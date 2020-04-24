@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-#******************************************************************************
+# ******************************************************************************
 #
 # Patrac
 # ---------------------------------------------------------
@@ -23,13 +23,13 @@
 # to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 # MA 02111-1307, USA.
 #
-#******************************************************************************
+# ******************************************************************************
 
 import os
 import shutil
 import csv
 
-from qgis.PyQt import QtWidgets,QtGui, uic
+from qgis.PyQt import QtWidgets, QtGui, uic
 from qgis.PyQt.QtWidgets import QFileDialog
 from qgis.PyQt.QtWidgets import QMessageBox
 from qgis.PyQt.QtCore import *
@@ -43,8 +43,11 @@ import io
 import datetime
 import webbrowser
 
+from ..connect.connect import *
+
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'message.ui'))
+
 
 class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
     """Dialog for sending the messages
@@ -52,6 +55,7 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
         TODO - add possibility to send message to all users
         TODO - gets searchid from settings
     """
+
     def __init__(self, pluginPath, DATAPATH, parent=None):
         """Constructor."""
         super(Ui_Message, self).__init__(parent)
@@ -74,7 +78,7 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
         self.lineEditPath.setText(self.DATAPATH + "/sektory/gpx/all.gpx")
 
     def messagesDoubleClick(self, item):
-        #print item.text()
+        # print item.text()
         items = item.text().split("@")
         if (len(items) == 2):
             attachment = str(items[1]).strip()
@@ -85,7 +89,7 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
                     webbrowser.open("file://" + self.DATAPATH + "/pracovni/" + attachment)
 
     def fillMessagesList(self):
-        #read file with messages and
+        # read file with messages and
         if os.path.exists(self.DATAPATH + "/pracovni/zpravy.txt"):
             # print self.DATAPATH + "/pracovni/zpravy.txt"
             with io.open(self.DATAPATH + "/pracovni/zpravy.txt", encoding='utf-8') as f:
@@ -97,15 +101,16 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
                     else:
                         item += line
 
-
     def fillSearchersList(self):
-        self.listViewModel = QStandardItemModel()
-        response = None
-        # Connects to the server to obtain list of users based on list of locations
-        try:
-            response = urllib.request.urlopen(
-                self.serverUrl + 'loc.php?searchid=' + self.getSearchID(), None, 5)
-            locations = str(response.read())
+        self.filllist = Connect()
+        self.filllist.setUrl(self.serverUrl + 'loc.php?searchid=' + self.getSearchID())
+        self.filllist.statusChanged.connect(self.onFillSearchersList)
+        self.filllist.start()
+
+    def onFillSearchersList(self, response):
+        if response.status == 200:
+            self.listViewModel = QStandardItemModel()
+            locations = str(response.data.read().decode("utf-8"))
             lines = locations.split("\n")
             lineid = 0
             # Loops via locations
@@ -114,21 +119,17 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
                     cols = line.split(";")
                     if cols != None:
                         # Adds name of the user and session id to the list
-                        #self.comboBoxUsers.addItem(str(cols[3]).decode('utf8') + ' (' + str(cols[0]) + ')')
-                        item = QStandardItem(str(cols[3]).decode('utf8') + ' (' + str(cols[0]) + ')')
-                        #item = QStandardItem(str(cols[3]).decode('utf8'))
+                        # self.comboBoxUsers.addItem(str(cols[3]).decode('utf8') + ' (' + str(cols[0]) + ')')
+                        item = QStandardItem(str(cols[3]) + ' (' + str(cols[0]) + ')')
+                        # item = QStandardItem(str(cols[3]).decode('utf8'))
                         item.setCheckable(True)
                         self.listViewModel.appendRow(item)
                 lineid += 1
             self.listViewSearchers.setModel(self.listViewModel)
-        except urllib.error.URLError:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
-            self.close()
-        except socket.timeout:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
-            self.close()
-
-        self.getMessage()
+            self.getMessage()
+        else:
+            # TODO - if we can not connect to server, we should connect later
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
 
     def getSearchID(self):
         prjfi = QFileInfo(QgsProject.instance().fileName())
@@ -186,76 +187,78 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
 
     def accept(self):
         """Sends the message"""
-        #Gets the filename
+        # Gets the filename
         filename1 = self.lineEditPath.text()
-        #Gets the sessionid from combobox
-        #id = str(self.comboBoxUsers.currentText()).split("(")[1][:-1]
+        # Gets the sessionid from combobox
+        # id = str(self.comboBoxUsers.currentText()).split("(")[1][:-1]
         ids = self.getSearchersIDS()
         QgsMessageLog.logMessage("Recipients: " + ids, "Patrac")
         if ids == "":
             QMessageBox.information(None, "ERROR:", "Nebyl vybrán příjemce. Nemohu zprávu odeslat.")
             return
-        #TODO test if something is selected
-        #Gets the message as plain text
+        # TODO test if something is selected
+        # Gets the message as plain text
         message = self.plainTextEditMessage.toPlainText()
         searchid = self.getSearchID()
         now = datetime.datetime.now().strftime("%d.%m. %H:%M")
-        #now = str(datetime.datetime.now())
+
+        self.sendmessage = ConnectPost()
+        self.sendmessage.setUrl(self.serverUrl + "message.php")
+        self.sendmessage.statusChanged.connect(self.onSendMessageResponse)
+
         if filename1:
             if os.path.isfile(filename1):
-                #If the file exists
-                with open(filename1, 'rb') as f: r = requests.post(self.serverUrl + "message.php",
-                                                                   data={'message': message, 'ids': ids,
-                                                                         'operation': 'insertmessages',
-                                                                         'searchid': searchid,
-                                                                         'from_id': 'coordinator' + searchid},
-                                                                   files={'fileToUpload': f})
-                QgsMessageLog.logMessage("Response: " + r.text, "Patrac")
-                #Adds message info to the list of sent messages
-                #Should be better - possibility to read whole message
+                # If the file exists
                 self.listWidgetHistory.addItem(now + "\n" + self.getSearchersNames() + "\n" + message + "\n@ " + filename1)
-                #Stores message sinto file for archiving
+                # Stores message sinto file for archiving
                 with io.open(self.DATAPATH + "/pracovni/zpravy.txt", encoding='utf-8', mode="a") as messages:
                     messages.write(now + "\n" + self.getSearchersNames() + "\n" + message + "\n@ " + filename1 + "\n--------------------\n")
+                self.sendmessage.setData({'message': message, 'ids': ids,
+                 'operation': 'insertmessages',
+                 'searchid': searchid,
+                 'from_id': 'coordinator' + searchid})
         else:
-            #If file is not specified then send without file
-            #r = requests.post('http://gisak.vsb.cz/patrac/mserver.php', data = {'message': message, 'id': id, 'operation': 'insertmessage', 'searchid': 'AAA111BBB'})
-            r = requests.post(self.serverUrl + "message.php",
-                              data={'message': message, 'ids': ids, 'operation': 'insertmessages',
-                                    'searchid': searchid, 'from_id': 'coordinator' + searchid})
-            QgsMessageLog.logMessage("Response: " + r.text, "Patrac")
-            # Adds message info to the list of sent messages
-            # Should be better - possibility to read whole message
+            # If file is not specified then send without file
             self.listWidgetHistory.addItem(now + "\n" + self.getSearchersNames() + "\n" + message)
             # Stores message sinto file for archiving
             with io.open(self.DATAPATH + "/pracovni/zpravy.txt", encoding='utf-8', mode="a") as messages:
                 messages.write(now + "\n" + self.getSearchersNames() + "\n" + message + "\n--------------------\n")
 
+            self.sendmessage.setData({'message': message, 'ids': ids, 'operation': 'insertmessages',
+                                    'searchid': searchid, 'from_id': 'coordinator' + searchid})
+
         self.listWidgetHistory.item(0).setForeground(QColor(255, 0, 0, 255))
         self.listWidgetHistory.scrollToBottom()
+        self.sendmessage.start()
+
+    def onSendMessageResponse(self, response):
+        if response.status != 200:
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
 
     def markMessageAsReaded(self, sysid):
-        response = None
-        # Connects to the server to mark message as readed
-        try:
-            response = urllib.request.urlopen(
-                self.serverUrl + 'message.php?operation=markmessage&searchid='
-                + self.getSearchID() + '&id=coordinator' + self.getSearchID()
-                + '&sysid=' + sysid,
-                None, 5)
-            message = response.read()
-        except urllib.error.URLError:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
-        except socket.timeout:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
+        self.markmessage = Connect()
+        self.markmessage.setUrl(self.serverUrl + 'message.php?operation=markmessage&searchid='
+                                + self.getSearchID() + '&id=coordinator' + self.getSearchID()
+                                + '&sysid=' + sysid)
+        self.markmessage.statusChanged.connect(self.onMarkMessageAsReadedResponse)
+        self.markmessage.start()
+
+    def onMarkMessageAsReadedResponse(self, response):
+        if response.status == 200:
+            message = response.data.read()
+        else:
+            # TODO - if we can not connect to server, we should connect later
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
 
     def getMessage(self):
-        response = None
-        # Connects to the server to obtain message for coordinator
-        try:
-            response = urllib.request.urlopen(
-                self.serverUrl + 'message.php?operation=getmessages&lastereceivedmessageid=0&searchid=' + self.getSearchID() + '&sessionid=coordinator' + self.getSearchID(), None, 5)
-            message = response.read()
+        self.getmessage = Connect()
+        self.getmessage.setUrl(self.serverUrl + 'message.php?operation=getmessages&lastereceivedmessageid=0&searchid=' + self.getSearchID() + '&sessionid=coordinator' + self.getSearchID())
+        self.getmessage.statusChanged.connect(self.onGetMessageResponse)
+        self.getmessage.start()
+
+    def onGetMessageResponse(self, response):
+        if response.status == 200:
+            message = response.data.read()
             self.listWidgetMessages.clear()
             data = json.loads(message.decode('utf8'))
             for message in data["messages"]:
@@ -266,34 +269,29 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
                     messageForView += " @ " + message["file"]
                 self.listWidgetMessages.addItem("\n" + messageForView)
                 self.listWidgetMessages.scrollToBottom()
+        else:
+            # TODO - if we can not connect to server, we should connect later
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
 
-        except urllib.error.URLError:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
-        except socket.timeout:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
 
     def getAttachment(self, filename, shared):
         response = None
         fileplacement = None
-        # Connects to the server to obtain message for coordinator
-        try:
-            if shared == "1":
-                fileplacement = "shared"
-            else:
-                fileplacement = 'coordinator' + self.getSearchID()
+        if shared == "1":
+            fileplacement = "shared"
+        else:
+            fileplacement = 'coordinator' + self.getSearchID()
 
-            #print "FF: " + filename
-            url = self.serverUrl + 'message.php?operation=getfile&searchid=' + self.getSearchID() + '&id=' + fileplacement + '&filename=' + filename
-            #print "URL:" + url
-            # download the url contents in binary format
-            r = requests.get(url)
-
-            # open method to open a file on your system and write the contents
-            with open(self.DATAPATH + "/pracovni/" + filename, "wb") as code:
-                code.write(r.content)
+        self.getfile = ConnectFile()
+        self.getfile.setUrl(self.serverUrl + 'message.php?operation=getfile&searchid=' + self.getSearchID() + '&id=' + fileplacement + '&filename=' + filename)
+        self.getfile.setFilename(filename)
+        self.getfile.statusChanged.connect(self.onGetFileResponse)
+        self.getfile.start()
 
 
-        except urllib.error.URLError:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem při stažení přílohy.")
-        except socket.timeout:
-            QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem při stažení přílohy.")
+    def onGetFileResponse(self, response):
+        if response.status == 200:
+            with io.open(self.DATAPATH + "/pracovni/" + response.filename, "wb") as code:
+                code.write(response.content)
+        else:
+            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
