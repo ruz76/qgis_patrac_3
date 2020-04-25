@@ -104,6 +104,9 @@ class PatracPlugin(object):
             copy(pluginPath + "/grass/distancesUser.txt", profilePath + "qgis_patrac_settings/grass/")
             for file in glob(pluginPath + "/styles/*"):
                 copy(file, profilePath + "qgis_patrac_settings/styles/")
+        else:
+            if not os.path.isfile(profilePath + "qgis_patrac_settings/grass/buffer.csv"):
+                copy(pluginPath + "/grass/buffer.csv", profilePath + "qgis_patrac_settings/grass/")
 
     def initGui(self):
         # if int(self.qgsVersion) < 10900:

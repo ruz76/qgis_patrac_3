@@ -161,6 +161,28 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.sectorsProgressType.activated.connect(self.setSectorsProgress)
         self.sectorsProgressStateFinished.clicked.connect(self.setSectorsProgress)
         self.sectorsProgressAnalyzeTrack.clicked.connect(self.setSectorsProgress)
+        self.sectorsProgressAnalyzeType.currentIndexChanged.connect(self.sectorsProgressAnalyzeTypeChanged)
+        self.sectorsProgressAnalyzeValue.textChanged.connect(self.sectorsProgressAnalyzeValueChanged)
+        self.loadBuffers()
+
+    def sectorsProgressAnalyzeValueChanged(self):
+        self.buffers[self.sectorsProgressAnalyzeType.currentIndex()] = self.sectorsProgressAnalyzeValue.text()
+        if self.sectorsProgressAnalyzeTrack.isChecked() == True:
+            self.progresstool.setAttribute(-1)
+            self.progresstool.setUnit(self.sectorsProgressAnalyzeType.currentIndex())
+            self.progresstool.setType(0)
+            self.progresstool.setValue(self.sectorsProgressAnalyzeValue.text())
+
+    def sectorsProgressAnalyzeTypeChanged(self):
+        self.sectorsProgressAnalyzeValue.setText(self.buffers[self.sectorsProgressAnalyzeType.currentIndex()])
+
+    def loadBuffers(self):
+        settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+        self.buffers = []
+        with open(settingsPath + "/grass/buffer.csv", "r") as fileInput:
+            for row in csv.reader(fileInput, delimiter=';'):
+                self.buffers.append(row[1])
+                self.sectorsProgressAnalyzeType.addItem(row[0])
 
     def getPatracDataPath(self):
         DATAPATH = ''
@@ -810,6 +832,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         attribute = 3
         type = 1
         unit = 0
+        value = 50
         if self.sectorsProgressStateNotStarted.isChecked() == True:
             attribute = 3
             type = 0
@@ -823,10 +846,13 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if self.sectorsProgressAnalyzeTrack.isChecked() == True:
             attribute = -1
             type = 0
+            unit = self.sectorsProgressAnalyzeType.currentIndex()
+            value = self.sectorsProgressAnalyzeValue.text()
         self.progresstool.setAttribute(attribute)
         self.progresstool.setUnit(unit)
         self.progresstool.setType(type)
         self.progresstool.setLayer(layer)
+        self.progresstool.setValue(value)
         self.plugin.iface.mapCanvas().setMapTool(self.progresstool)
 
     def definePlaces(self):

@@ -318,10 +318,10 @@ class Ui_PatracDockWidget(object):
         self.sectorsProgressStateStarted.setText("Pátrání zahájeno")
         self.sectorsProgressType = QComboBox(self.dockWidgetContents)
         self.sectorsProgressType.setObjectName(_fromUtf8("sectorsProgressType"))
-        self.sectorsProgressType.addItem(_fromUtf8("KPT"))
-        self.sectorsProgressType.addItem(_fromUtf8("PT"))
-        self.sectorsProgressType.addItem(_fromUtf8("APT"))
-        self.sectorsProgressType.addItem(_fromUtf8("JPT"))
+        self.sectorsProgressType.addItem(_fromUtf8("Psovod"))
+        self.sectorsProgressType.addItem(_fromUtf8("Rojnice"))
+        self.sectorsProgressType.addItem(_fromUtf8("Dron"))
+        self.sectorsProgressType.addItem(_fromUtf8("Jiný"))
 
         self.horizontalSectorsProgressStateStarted.addWidget(self.sectorsProgressStateStarted)
         self.horizontalSectorsProgressStateStarted.addWidget(self.sectorsProgressType)
@@ -334,7 +334,19 @@ class Ui_PatracDockWidget(object):
         self.sectorsProgressAnalyzeTrack = QRadioButton(self.dockWidgetContents)
         self.sectorsProgressAnalyzeTrack.setObjectName(_fromUtf8("sectorsProgressStateFinished"))
         self.sectorsProgressAnalyzeTrack.setText("Analýza propátrání")
-        self.verticalLayoutProgress.addWidget(self.sectorsProgressAnalyzeTrack)
+        self.sectorsProgressAnalyzeType = QComboBox(self.dockWidgetContents)
+        self.sectorsProgressAnalyzeType.setObjectName(_fromUtf8("sectorsProgressAnalyzeType"))
+
+        self.sectorsProgressAnalyzeValue = QLineEdit()
+        self.onlyInt = QIntValidator()
+        self.sectorsProgressAnalyzeValue.setValidator(self.onlyInt)
+        self.horizontalSectorsAnalyzeTrack = QHBoxLayout()
+        self.horizontalSectorsAnalyzeTrack.setObjectName(_fromUtf8("horizontalSectorsAnalyzeTrack"))
+        self.horizontalSectorsAnalyzeTrack.addWidget(self.sectorsProgressAnalyzeTrack)
+        self.horizontalSectorsAnalyzeTrack.addWidget(self.sectorsProgressAnalyzeType)
+        self.horizontalSectorsAnalyzeTrack.addWidget(self.sectorsProgressAnalyzeValue)
+        self.verticalLayoutProgress.addLayout(self.horizontalSectorsAnalyzeTrack)
+
         self.sectorsProgress = QPushButton(self.dockWidgetContents)
         self.sectorsProgress.setObjectName(_fromUtf8("sectorsProgress"))
         self.sectorsProgress.setText("Aktivovat")
@@ -506,6 +518,7 @@ class Ui_PatracDockWidget(object):
 
         self.verticalGuideLayoutStep6.addLayout(self.horizontalLayoutToolbarGuide6)
         self.tabGuideStep6.setLayout(self.verticalGuideLayoutStep6)
+
 
     def loadAvailableUnits(self):
         settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"

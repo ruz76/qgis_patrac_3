@@ -22,6 +22,7 @@ class ProgressMapTool(QgsMapTool):
         self.type = ''
         self.attribute = 3
         self.layer = None
+        self.value = 50
         self.pluginPath = ''
         self.iface = iface
 
@@ -43,6 +44,9 @@ class ProgressMapTool(QgsMapTool):
     def setLayer(self, layer):
         self.layer = layer
 
+    def setValue(self, value):
+        self.value = value
+
     def setAttribute(self, attribute):
         self.attribute = attribute
 
@@ -58,6 +62,7 @@ class ProgressMapTool(QgsMapTool):
             self.point = xform.transform(self.point)
 
     def analyzeTrack(self, sector):
+        # TODO Rojnice - krajníci
         currentLayer = self.canvas.currentLayer()
         # TODO check also vector and line
         if currentLayer != None and currentLayer.crs().authid() != "EPSG:4326":
@@ -72,7 +77,7 @@ class ProgressMapTool(QgsMapTool):
         for feature in features:
             geom = feature.geometry()
             geom.transform(xform)
-            geom = geom.buffer(50,2)
+            geom = geom.buffer(int(self.value),2)
             if buffer_union is None:
                 buffer_union = geom
             else:
