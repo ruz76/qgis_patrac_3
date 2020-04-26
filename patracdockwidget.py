@@ -147,6 +147,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.Area = Area(self)
         self.Sectors = Sectors(self)
         self.Hds = Hds(self)
+
         self.Styles = Styles(self)
         self.sectorsUniqueStyle.clicked.connect(self.setSectorsUniqueValuesStyle)
         self.sectorsSingleStyle.clicked.connect(self.setSectorsSingleValuesStyle)
@@ -155,7 +156,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.sectorsProgressStyle.clicked.connect(self.setSectorsProgressStyle)
         self.sectorsUnitsStyle.clicked.connect(self.setSectorsUnitsStyle)
         self.sectorsUnitsRecommendedStyle.clicked.connect(self.setSectorsUnitsRecommendedStyle)
-        self.sectorsProgress.clicked.connect(self.setSectorsProgress)
+
+        # self.sectorsProgress.clicked.connect(self.setSectorsProgress)
         self.sectorsProgressStateNotStarted.clicked.connect(self.setSectorsProgress)
         self.sectorsProgressStateStarted.clicked.connect(self.setSectorsProgress)
         self.sectorsProgressType.activated.connect(self.setSectorsProgress)
@@ -164,6 +166,13 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.sectorsProgressAnalyzeType.currentIndexChanged.connect(self.sectorsProgressAnalyzeTypeChanged)
         self.sectorsProgressAnalyzeValue.textChanged.connect(self.sectorsProgressAnalyzeValueChanged)
         self.loadBuffers()
+
+        self.tabWidget.currentChanged.connect(self.onTabChanged)
+
+    def onTabChanged(self, index):
+        # If the tab is activated we activate the tool
+        if index == 2:
+            self.setSectorsProgress()
 
     def sectorsProgressAnalyzeValueChanged(self):
         self.buffers[self.sectorsProgressAnalyzeType.currentIndex()] = self.sectorsProgressAnalyzeValue.text()

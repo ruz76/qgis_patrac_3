@@ -347,10 +347,6 @@ class Ui_PatracDockWidget(object):
         self.horizontalSectorsAnalyzeTrack.addWidget(self.sectorsProgressAnalyzeValue)
         self.verticalLayoutProgress.addLayout(self.horizontalSectorsAnalyzeTrack)
 
-        self.sectorsProgress = QPushButton(self.dockWidgetContents)
-        self.sectorsProgress.setObjectName(_fromUtf8("sectorsProgress"))
-        self.sectorsProgress.setText("Aktivovat")
-        self.verticalLayoutProgress.addWidget(self.sectorsProgress)
 
     def setGuideSteps(self):
         self.tabGuideSteps = QTabWidget()

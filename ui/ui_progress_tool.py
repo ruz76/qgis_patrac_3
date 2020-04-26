@@ -61,6 +61,26 @@ class ProgressMapTool(QgsMapTool):
             xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
             self.point = xform.transform(self.point)
 
+    def analyzeTrackDouble(self, features, sector):
+        # TODO
+        return None
+
+    def analyzeTrackSingle(self, features, sector):
+        crs_src = QgsCoordinateReferenceSystem(4326)
+        crs_dest = QgsCoordinateReferenceSystem(5514)
+        xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
+        buffer_union = None
+        for feature in features:
+            geom = feature.geometry()
+            geom.transform(xform)
+            if geom.intersects(sector.geometry()):
+                geom = geom.buffer(int(self.value),2)
+                if buffer_union is None:
+                    buffer_union = geom
+                else:
+                    buffer_union = buffer_union.combine(geom)
+        return buffer_union
+
     def analyzeTrack(self, sector):
         # TODO Rojnice - krajníci
         currentLayer = self.canvas.currentLayer()
@@ -70,21 +90,17 @@ class ProgressMapTool(QgsMapTool):
             return
         provider = currentLayer.dataProvider()
         features = provider.getFeatures()
-        crs_src = QgsCoordinateReferenceSystem(4326)
-        crs_dest = QgsCoordinateReferenceSystem(5514)
-        xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
+
         buffer_union = None
-        for feature in features:
-            geom = feature.geometry()
-            geom.transform(xform)
-            geom = geom.buffer(int(self.value),2)
-            if buffer_union is None:
-                buffer_union = geom
-            else:
-                buffer_union = buffer_union.combine(geom)
+        if self.unit == 2:
+            buffer_union = self.analyzeTrackDouble(features, sector)
+        else:
+            buffer_union = self.analyzeTrackSingle(features, sector)
+
         if buffer_union == None:
-            QMessageBox.information(None, "CHYBA:", "Vybraná vrstva neobsahuje stopy. Vyberte správnou vrstvu.")
+            QMessageBox.information(None, "CHYBA:", "Vybraná vrstva neobsahuje stopy pro analýzu. Vyberte správnou vrstvu nebo jiný pátrací prostředek.")
             return
+
         difference = sector.geometry().difference(buffer_union)
         uri = "multipolygon?crs=epsg:5514"
         layer = QgsVectorLayer(uri, sector['label'], "memory")
@@ -98,12 +114,6 @@ class ProgressMapTool(QgsMapTool):
         layer.loadNamedStyle(self.pluginPath + '/styles/not_searched.qml')
         layer.triggerRepaint()
         QgsProject.instance().addMapLayer(layer)
-        # root = QgsProject.instance().layerTreeRoot()
-        # mygroup = root.findGroup(u"nepropátráno")
-        # if mygroup is None:
-        #     mygroup = root.addGroup(u"nepropátráno")
-        # mygroup.addLayer(layer)
-        # mygroup.setExpanded(False)
         self.iface.setActiveLayer(currentLayer)
 
     def canvasReleaseEvent(self, e):
