@@ -94,12 +94,12 @@ class ProgressMapTool(QgsMapTool):
         buffer_union = None
         if self.unit == 2:
             buffer_union = self.analyzeTrackDouble(features, sector)
+            QMessageBox.information(None, "CHYBA:", "Tato funkce není zatím implementována.")
         else:
             buffer_union = self.analyzeTrackSingle(features, sector)
-
-        if buffer_union == None:
-            QMessageBox.information(None, "CHYBA:", "Vybraná vrstva neobsahuje stopy pro analýzu. Vyberte správnou vrstvu nebo jiný pátrací prostředek.")
-            return
+            if buffer_union == None:
+                QMessageBox.information(None, "CHYBA:", "Vybraná vrstva neobsahuje stopy pro analýzu. Vyberte správnou vrstvu nebo jiný pátrací prostředek.")
+                return
 
         difference = sector.geometry().difference(buffer_union)
         uri = "multipolygon?crs=epsg:5514"
