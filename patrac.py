@@ -86,6 +86,7 @@ class PatracPlugin(object):
             QCoreApplication.installTranslator(self.translator)
 
         self.checkSettings()
+        self.copyDoc()
 
     def checkSettings(self):
         pluginPath = path.dirname(__file__)
@@ -107,6 +108,37 @@ class PatracPlugin(object):
         else:
             if not os.path.isfile(profilePath + "qgis_patrac_settings/grass/buffer.csv"):
                 copy(pluginPath + "/grass/buffer.csv", profilePath + "qgis_patrac_settings/grass/")
+
+    def copyDocDir(self, DATAPATH, pluginPath, name):
+        if not os.path.isdir(DATAPATH + "doc/" + name):
+            os.mkdir(DATAPATH + "doc/" + name)
+        for file in glob(pluginPath + "/doc/" + name + "/*"):
+            copy(file, DATAPATH + "doc/" + name + "/")
+
+    def copyDoc(self):
+        pluginPath = path.dirname(__file__)
+        DATAPATH = self.getPatracDataPath()
+        if not os.path.isdir(DATAPATH + "doc"):
+            os.mkdir(DATAPATH + "doc")
+        copy(pluginPath + "/doc/index.html", DATAPATH + "doc/")
+        self.copyDocDir(DATAPATH, pluginPath, "css")
+        self.copyDocDir(DATAPATH, pluginPath, "fonts")
+        self.copyDocDir(DATAPATH, pluginPath, "images")
+        self.copyDocDir(DATAPATH, pluginPath, "js")
+
+    def getPatracDataPath(self):
+        DATAPATH = ''
+        if os.path.isfile('C:/patracdata/cr/projekty/simple/simple.qgs'):
+            DATAPATH = 'C:/patracdata/'
+        if os.path.isfile('D:/patracdata/cr/projekty/simple/simple.qgs'):
+            DATAPATH = 'D:/patracdata/'
+        if os.path.isfile('E:/patracdata/cr/projekty/simple/simple.qgs'):
+            DATAPATH = 'E:/patracdata/'
+        if os.path.isfile('/data/patracdata/cr/projekty/simple/simple.qgs'):
+            DATAPATH = '/data/patracdata/'
+
+        return DATAPATH
+
 
     def initGui(self):
         # if int(self.qgsVersion) < 10900:
