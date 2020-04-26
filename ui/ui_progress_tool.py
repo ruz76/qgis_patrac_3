@@ -95,6 +95,7 @@ class ProgressMapTool(QgsMapTool):
         if self.unit == 2:
             buffer_union = self.analyzeTrackDouble(features, sector)
             QMessageBox.information(None, "CHYBA:", "Tato funkce není zatím implementována.")
+            return
         else:
             buffer_union = self.analyzeTrackSingle(features, sector)
             if buffer_union == None:
