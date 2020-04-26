@@ -184,6 +184,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def sectorsProgressAnalyzeTypeChanged(self):
         self.sectorsProgressAnalyzeValue.setText(self.buffers[self.sectorsProgressAnalyzeType.currentIndex()])
+        if self.sectorsProgressAnalyzeType.currentIndex() == 2:
+            self.horizontalSectorsAnalyzeTrackNumberOfPersonsContainer.setEnabled(True)
+        else:
+            self.horizontalSectorsAnalyzeTrackNumberOfPersonsContainer.setEnabled(False)
 
     def loadBuffers(self):
         settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
