@@ -103,6 +103,7 @@ class PatracPlugin(object):
             copy(pluginPath + "/grass/weightlimit.txt", profilePath + "qgis_patrac_settings/grass/")
             copy(pluginPath + "/grass/radialsettings.txt", profilePath + "qgis_patrac_settings/grass/")
             copy(pluginPath + "/grass/distancesUser.txt", profilePath + "qgis_patrac_settings/grass/")
+            copy(pluginPath + "/grass/buffer.csv", profilePath + "qgis_patrac_settings/grass/")
             for file in glob(pluginPath + "/styles/*"):
                 copy(file, profilePath + "qgis_patrac_settings/styles/")
         else:
