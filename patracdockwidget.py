@@ -167,6 +167,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.sectorsProgressAnalyzeValue.textChanged.connect(self.sectorsProgressAnalyzeValueChanged)
         self.sectorsProgressAnalyzeNumberOfPersons.textChanged.connect(self.sectorsProgressAnalyzeNumberOfPersonsChanged)
         self.loadBuffers()
+        self.sectorsProgressAnalyzeNumberOfPersons.setText("10")
 
         self.tabWidget.currentChanged.connect(self.onTabChanged)
 
