@@ -7,8 +7,8 @@ from qgis.PyQt.QtCore import QSettings
 from qgis.core import *
 from qgis.gui import *
 
-from .ui_result import Ui_Result
-
+import processing
+import sys
 
 class ProgressMapTool(QgsMapTool):
     """Map tool for click in the map"""
@@ -23,6 +23,7 @@ class ProgressMapTool(QgsMapTool):
         self.attribute = 3
         self.layer = None
         self.value = 50
+        self.numberOfSearchers = 10
         self.pluginPath = ''
         self.iface = iface
 
@@ -45,7 +46,16 @@ class ProgressMapTool(QgsMapTool):
         self.layer = layer
 
     def setValue(self, value):
-        self.value = value
+        try:
+            self.value = int(value)
+        except:
+            self.value = 50
+
+    def setNumberOfSearchers(self, numberOfSearchers):
+        try:
+            self.numberOfSearchers = int(numberOfSearchers)
+        except:
+            self.numberOfSearchers = 0
 
     def setAttribute(self, attribute):
         self.attribute = attribute
@@ -61,8 +71,110 @@ class ProgressMapTool(QgsMapTool):
             xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
             self.point = xform.transform(self.point)
 
-    def analyzeTrackDouble(self, features, sector):
-        # TODO
+    def transformTrack(self, layer):
+        params = {
+            'INPUT' : layer,
+            'TARGET_CRS': 'EPSG:5514',
+            'OUTPUT': 'memory:transformed'
+        }
+        res = processing.run('qgis:reprojectlayer', params)
+        return res['OUTPUT']
+
+    def getLayerFeatures(self, layer):
+        provider = layer.dataProvider()
+        return provider.getFeatures()
+
+    def getClosestSegment(self, features, geom):
+        currentGeom = None
+        currentDistance = sys.float_info.max
+        for feature in features:
+            geom2 = feature.geometry()
+            dist = geom2.distance(geom)
+            if dist < currentDistance:
+                currentDistance = dist
+                currentGeom = geom2
+
+        currentGeom.convertToSingleType()
+        polyline = currentGeom.asPolyline()
+        line = QgsLineString(QgsPoint(polyline[0]), QgsPoint(polyline[1]))
+        line.extend(200, 200)
+        line = QgsGeometry.fromWkt(line.asWkt())
+        return line
+
+    def getSideBuffer(self, layer, side, distance):
+        params = {
+            'INPUT' : layer,
+            'DISTANCE': distance,
+            'SIDE': side,
+            'JOIN_STYLE': 0,
+            'OUTPUT': 'memory:sidebuffer'
+        }
+        res = processing.run('qgis:singlesidedbuffer', params)
+        return res['OUTPUT']
+
+    def unionLayers(self, layer1, layer2):
+        params = {
+            'INPUT' : layer1,
+            'OVERLAY': layer2,
+            'OUTPUT': 'memory:union'
+        }
+        res = processing.run('qgis:union', params)
+        return res['OUTPUT']
+
+    def dissolveLayer(self, layer):
+        params = {
+            'INPUT' : layer,
+            'OUTPUT': 'memory:dissolve'
+        }
+        res = processing.run('qgis:dissolve', params)
+        return res['OUTPUT']
+
+    def getUnionBuffer(self, layer1, layer2, dir1, dir2, dist1, dist2):
+        buffer1_A = self.getSideBuffer(layer1, dir1, dist2)
+        buffer2_A = self.getSideBuffer(layer1, dir2, dist1)
+        buffer1_B = self.getSideBuffer(layer2, dir2, dist2)
+        buffer2_B = self.getSideBuffer(layer2, dir1, dist1)
+        tmp_layer = self.unionLayers(buffer1_A, buffer2_A)
+        tmp_layer = self.unionLayers(tmp_layer, buffer1_B)
+        tmp_layer = self.unionLayers(tmp_layer, buffer2_B)
+        tmp_layer = self.dissolveLayer(tmp_layer)
+        features = self.getLayerFeatures(tmp_layer)
+        geom = None
+        for feature in features:
+            geom = feature.geometry()
+        return geom
+        # QgsProject.instance().addMapLayer(tmp_layer)
+        # QgsProject.instance().addMapLayer(right_buffer2)
+
+    def analyzeTrackDouble(self, layers, sector):
+        layer1 = self.transformTrack(layers[0])
+        layer2 = self.transformTrack(layers[1])
+        features1 = self.getLayerFeatures(layer1)
+        features2 = self.getLayerFeatures(layer2)
+        for feature in features1:
+            geom = feature.geometry()
+            if geom.intersects(sector.geometry()):
+                # we are inside sector
+                geom.convertToSingleType()
+                polyline = geom.asPolyline()
+                if len(polyline) > 1:
+                    # print(polyline)
+                    line = QgsLineString(QgsPoint(polyline[0]), QgsPoint(polyline[1]))
+                    # print(line)
+                    line.extend(0, 200)
+                    # print(line)
+                    line = QgsGeometry.fromWkt(line.asWkt())
+                    line.rotate(90, polyline[4])
+                    # print(line)
+                    line2 = self.getClosestSegment(features2, line)
+                    buffer_size = float((self.numberOfSearchers * self.value * 2) - (self.value * 2)) / float(2)
+                    if line.intersects(line2):
+                        return self.getUnionBuffer(layer1, layer2, 1, 0, self.value, buffer_size)
+                    else:
+                        return self.getUnionBuffer(layer1, layer2, 0, 1, buffer_size, self.value)
+                else:
+                    # can not determine the order of tracks
+                    return None
         return None
 
     def analyzeTrackSingle(self, features, sector):
@@ -74,7 +186,7 @@ class ProgressMapTool(QgsMapTool):
             geom = feature.geometry()
             geom.transform(xform)
             if geom.intersects(sector.geometry()):
-                geom = geom.buffer(int(self.value),2)
+                geom = geom.buffer(self.value, 2)
                 if buffer_union is None:
                     buffer_union = geom
                 else:
@@ -82,21 +194,32 @@ class ProgressMapTool(QgsMapTool):
         return buffer_union
 
     def analyzeTrack(self, sector):
-        # TODO Rojnice - krajníci
-        currentLayer = self.canvas.currentLayer()
-        # TODO check also vector and line
-        if currentLayer != None and currentLayer.crs().authid() != "EPSG:4326":
-            QMessageBox.information(None, "CHYBA:", "Vybraná vrstva není stopou. Vyberte správnou vrstvu.")
+        selectedLayers = self.iface.layerTreeView().selectedLayers()
+        if len(selectedLayers) < 1:
+            QMessageBox.information(None, "CHYBA:", "Musíte vybrat stopu.")
             return
-        provider = currentLayer.dataProvider()
-        features = provider.getFeatures()
-
+        # TODO check also vector and line
         buffer_union = None
         if self.unit == 2:
-            buffer_union = self.analyzeTrackDouble(features, sector)
-            QMessageBox.information(None, "CHYBA:", "Tato funkce není zatím implementována.")
-            return
+            if int(self.numberOfSearchers) < 3:
+                QMessageBox.information(None, "CHYBA:", "Musíte zadat počet pátračů, včetně krajníků.")
+                return
+            if len(selectedLayers) != 2:
+                QMessageBox.information(None, "CHYBA:", "Musíte vybrat dvě vrstvy.")
+                return
+            if selectedLayers[0] != None and selectedLayers[0].crs().authid() != "EPSG:4326" and selectedLayers[1] != None and selectedLayers[1].crs().authid() != "EPSG:4326":
+                QMessageBox.information(None, "CHYBA:", "Vybrané vrstvy nejsou stopou. Vyberte správné vrstvu.")
+                return
+            buffer_union = self.analyzeTrackDouble(selectedLayers, sector)
         else:
+            if len(selectedLayers) != 1:
+                QMessageBox.information(None, "CHYBA:", "Musíte vybrat pouze jednu vrstvu.")
+                return
+            if selectedLayers[0] != None and selectedLayers[0].crs().authid() != "EPSG:4326":
+                QMessageBox.information(None, "CHYBA:", "Vybraná vrstva není stopou. Vyberte správnou vrstvu.")
+                return
+            provider = selectedLayers[0].dataProvider()
+            features = provider.getFeatures()
             buffer_union = self.analyzeTrackSingle(features, sector)
             if buffer_union == None:
                 QMessageBox.information(None, "CHYBA:", "Vybraná vrstva neobsahuje stopy pro analýzu. Vyberte správnou vrstvu nebo jiný pátrací prostředek.")
@@ -115,7 +238,8 @@ class ProgressMapTool(QgsMapTool):
         layer.loadNamedStyle(self.pluginPath + '/styles/not_searched.qml')
         layer.triggerRepaint()
         QgsProject.instance().addMapLayer(layer)
-        self.iface.setActiveLayer(currentLayer)
+        # TODO select both layers if necessary
+        self.iface.setActiveLayer(selectedLayers[0])
 
     def canvasReleaseEvent(self, e):
         if self.point is not None and self.layer is not None:

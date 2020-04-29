@@ -165,6 +165,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.sectorsProgressAnalyzeTrack.clicked.connect(self.setSectorsProgress)
         self.sectorsProgressAnalyzeType.currentIndexChanged.connect(self.sectorsProgressAnalyzeTypeChanged)
         self.sectorsProgressAnalyzeValue.textChanged.connect(self.sectorsProgressAnalyzeValueChanged)
+        self.sectorsProgressAnalyzeNumberOfPersons.textChanged.connect(self.sectorsProgressAnalyzeNumberOfPersonsChanged)
         self.loadBuffers()
 
         self.tabWidget.currentChanged.connect(self.onTabChanged)
@@ -173,6 +174,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         # If the tab is activated we activate the tool
         if index == 2:
             self.setSectorsProgress()
+
+    def sectorsProgressAnalyzeNumberOfPersonsChanged(self):
+        self.progresstool.setNumberOfSearchers(self.sectorsProgressAnalyzeNumberOfPersons.text())
 
     def sectorsProgressAnalyzeValueChanged(self):
         self.buffers[self.sectorsProgressAnalyzeType.currentIndex()] = self.sectorsProgressAnalyzeValue.text()
@@ -846,6 +850,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         type = 1
         unit = 0
         value = 50
+        numberOfSearchers = 10
         if self.sectorsProgressStateNotStarted.isChecked() == True:
             attribute = 3
             type = 0
@@ -861,11 +866,14 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             type = 0
             unit = self.sectorsProgressAnalyzeType.currentIndex()
             value = self.sectorsProgressAnalyzeValue.text()
+            numberOfSearchers = self.sectorsProgressAnalyzeNumberOfPersons.text()
+
         self.progresstool.setAttribute(attribute)
         self.progresstool.setUnit(unit)
         self.progresstool.setType(type)
         self.progresstool.setLayer(layer)
         self.progresstool.setValue(value)
+        self.progresstool.setNumberOfSearchers(numberOfSearchers)
         self.plugin.iface.mapCanvas().setMapTool(self.progresstool)
 
     def definePlaces(self):
