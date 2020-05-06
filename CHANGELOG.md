@@ -1,5 +1,27 @@
 # Changelog 
 
+## Version 3.12.5 (2020-05-06)
+
+#### Improvements
+
+* Buffer only on features that are in sector.
+* Activate progress tool on tab selection.
+* Number of persons
+* Copy doc into safe location.
+* Updated image in doc.
+
+#### Bug Fixes
+
+* Message fix
+* Exit on bad input
+* Copy config
+* Default value for number of persons
+
+#### New Features
+
+* Search track analyze for Krajnici
+* Settings for speed of search
+
 ## Version 3.12.4 (2020-04-26)
 
 #### Improvements
