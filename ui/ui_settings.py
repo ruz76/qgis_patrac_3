@@ -74,6 +74,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
         self.systemid = open(self.settingsPath + "/config/systemid.txt", 'r').read().rstrip("\n")
+        self.unitsLabels = ["Pes", "Člověk do rojnice", "Kůň", "Čtyřkolka", "Vrtulník", "Potápěč", "Jiné"]
 
         self.main = parent
         self.iface = self.main.iface
@@ -94,6 +95,9 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
         # Fills table with search units
         self.fillTableWidgetUnits("/grass/units.txt", self.tableWidgetUnits)
+
+        # Fills table with search units
+        self.fillTableWidgetUnitsTimes("/grass/units_times.csv", self.tableWidgetUnitsTimes)
 
         # Fills values for weights of the points
         if os.path.isfile(DATAPATH + "/config/weightlimit.txt"):
@@ -614,9 +618,35 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
     def fillTableWidgetUnits(self, fileName, tableWidget):
         """Fills table with units"""
         tableWidget.setHorizontalHeaderLabels(["Počet", "Poznámka"])
-        tableWidget.setVerticalHeaderLabels(
-            ["Pes", "Člověk do rojnice", "Kůň", "Čtyřkolka", "Vrtulník", "Potápěč", "Jiné"])
+        tableWidget.setVerticalHeaderLabels(self.unitsLabels)
         tableWidget.setColumnWidth(1, 600)
+        settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+        # Reads CSV and populate the table
+        with open(settingsPath + fileName, "r") as fileInput:
+            i = 0
+            for row in csv.reader(fileInput, delimiter=';'):
+                j = 0
+                unicode_row = row
+                # yield row.encode('utf-8')
+                for field in unicode_row:
+                    tableWidget.setItem(i, j, QTableWidgetItem(field))
+                    j = j + 1
+                i = i + 1
+
+    def fillTableWidgetUnitsTimes(self, fileName, tableWidget):
+        """Fills table with units"""
+        tableWidget.setVerticalHeaderLabels(
+            ["volný schůdný bez porostu",
+             "volný schůdný s porostem",
+             "volný obtížně schůdný",
+             "porost lehce průchozí",
+             "porost obtížně průchozí",
+             "zastavěné území měst a obcí",
+             "městské parky a hřiště s pohybem osob",
+             "městské parky a hřiště bez osob",
+             "vodní plocha",
+             "ostatní plochy"])
+        tableWidget.setHorizontalHeaderLabels(self.unitsLabels)
         settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
         # Reads CSV and populate the table
         with open(settingsPath + fileName, "r") as fileInput:
@@ -719,6 +749,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                     f.write("," + value)
             f.write("\n")
         f.close()
+
         # Units can be changes so the units.txt is written
         f = io.open(settingsPath + '/grass/units.txt', 'w', encoding='utf-8')
         for i in range(0, 7):
@@ -733,6 +764,22 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                     f.write(";" + unicodeValue)
             f.write("\n")
         f.close()
+
+        # Units can be changes so the units.txt is written
+        f = io.open(settingsPath + '/grass/units_times.csv', 'w', encoding='utf-8')
+        for i in range(0, 10):
+            for j in range(0, 7):
+                value = self.tableWidgetUnitsTimes.item(i, j).text()
+                if value == '':
+                    value = '0'
+                unicodeValue = self.getUnicode(value)
+                if j == 0:
+                    f.write(unicodeValue)
+                else:
+                    f.write(";" + unicodeValue)
+            f.write("\n")
+        f.close()
+
         # According to the selected distances combo is copied one of the distances file to the distances.txt
         if self.comboBoxDistance.currentIndex() == 0:
             shutil.copy(self.pluginPath + "/grass/distancesLSOM.txt", self.pluginPath + "/grass/distances.txt")

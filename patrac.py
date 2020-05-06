@@ -104,11 +104,14 @@ class PatracPlugin(object):
             copy(pluginPath + "/grass/radialsettings.txt", profilePath + "qgis_patrac_settings/grass/")
             copy(pluginPath + "/grass/distancesUser.txt", profilePath + "qgis_patrac_settings/grass/")
             copy(pluginPath + "/grass/buffer.csv", profilePath + "qgis_patrac_settings/grass/")
+            copy(pluginPath + "/grass/units_times.csv", profilePath + "qgis_patrac_settings/grass/")
             for file in glob(pluginPath + "/styles/*"):
                 copy(file, profilePath + "qgis_patrac_settings/styles/")
         else:
             if not os.path.isfile(profilePath + "qgis_patrac_settings/grass/buffer.csv"):
                 copy(pluginPath + "/grass/buffer.csv", profilePath + "qgis_patrac_settings/grass/")
+            if not os.path.isfile(profilePath + "qgis_patrac_settings/grass/units_times.csv"):
+                copy(pluginPath + "/grass/units_times.csv", profilePath + "qgis_patrac_settings/grass/")
 
     def copyDocDir(self, DATAPATH, pluginPath, name):
         if not os.path.isdir(DATAPATH + "doc/" + name):

@@ -293,20 +293,31 @@ f.write(u"<li>ostatní plochy: " + str(int(math.ceil(SUM_P10))) + u" ha</li>\n")
 f.write(u"</ul>\n")
 f.write(u"</div>\n")
 
+
+unitsTimesPath = PLUGIN_PATH + "/../../../qgis_patrac_settings/grass/units_times.csv"
+# Reads CSV and populates the array
+unitsTimes = []
+with open(unitsTimesPath, "r") as fileInput:
+    for row in csv.reader(fileInput, delimiter=';'):
+        row_out = []
+        for field in row:
+            row_out.append(float(field))
+        unitsTimes.append(row_out)
+
 KPT = SUM_P2 + SUM_P3 + SUM_P5
 KPT_PT = SUM_P1 + SUM_P4 + SUM_P8
 f.write(u'<div id="teams" class="fixed400">\n')
 f.write(u"<h2>Psovodi</h2>\n")
 f.write(u"<p>Plocha pro pátrání vhodná pro psovoda je " + str(int(math.ceil(KPT + KPT_PT))) + u" ha.\n")
 f.write(u"<p>K dispozici je " + str(CUR_KPT) + u" psovodů.\n")
-P2_P3_P5_KPT = float(SUM_P2) / float(7) + float(SUM_P3) / float(4) + float(SUM_P5) / float(4)
-P1_P4_P8_KPT = float(SUM_P1) / float(10) + float(SUM_P4) / float(7) + float(SUM_P8) / float(5)
+P2_P3_P5_KPT = float(SUM_P2) / unitsTimes[1][0] + float(SUM_P3) / unitsTimes[2][0] + float(SUM_P5) / unitsTimes[4][0]
+P1_P4_P8_KPT = float(SUM_P1) / unitsTimes[0][0] + float(SUM_P4) / unitsTimes[3][0] + float(SUM_P8) / unitsTimes[7][0]
 if CUR_KPT > 0:
     f.write(u"<p>Oblast propátrají přibližně za " + str(
         int(math.ceil((P2_P3_P5_KPT + P1_P4_P8_KPT) / float(CUR_KPT)))) + u" h.\n")
+
 if KPT_PT > 0:
-    P1_P4_P8_PT = float(SUM_P1) / (float(7) / float(20)) + float(SUM_P4) / (float(7) / float(20)) + float(SUM_P8) / (
-                float(5) / float(20))
+    P1_P4_P8_PT = float(SUM_P1) / unitsTimes[0][1] + float(SUM_P4) / unitsTimes[3][1] + float(SUM_P8) / unitsTimes[7][1]
     f.write(
         u"<p>Součástí je prostor, kde je možno psovody nahradit rojnicí. Jedná se o " + str(int(math.ceil(KPT_PT))) + u" ha.\n")
 if (SUM_P2 + SUM_P1) > 0:
@@ -318,8 +329,7 @@ f.write(u"<h2>Rojnice</h2>\n")
 f.write(u"<p>Plocha pro pátrání vhodná pro rojnici je " + str(round(PT)) + u" ha.\n")
 f.write(u"<p>K dispozici je " + str(CUR_PT) + u" osob pro rojnici.\n")
 if CUR_PT > 0:
-    P6_P7_P10_PT = float(SUM_P6) / (float(1) / float(20)) + float(SUM_P7) / (float(5) / float(20)) + float(SUM_P10) / (
-                float(5) / float(20))
+    P6_P7_P10_PT = float(SUM_P6) / unitsTimes[5][1] + float(SUM_P7) / unitsTimes[6][1] + float(SUM_P10) / unitsTimes[9][1]
     f.write(u"<p>Oblast propátrají přibližně za " + str(int(math.ceil(P6_P7_P10_PT / float(CUR_PT)))) + u" h.\n")
 else:
     f.write(u"<p>Nejsou k dispozici žádní pátrači do rojnice. Je nutné nějaké zajistit.\n")
