@@ -75,9 +75,9 @@ class PatracPlugin(object):
             localeFullName = QSettings().value("locale/userLocale", "")
 
         if QFileInfo(userPluginPath).exists():
-            translationPath = userPluginPath + "/i18n/patrac_" + localeFullName + ".qm"
+            translationPath = userPluginPath + "/i18n/qgis_patrac_" + localeFullName + ".qm"
         else:
-            translationPath = systemPluginPath + "/i18n/patrac_" + localeFullName + ".qm"
+            translationPath = systemPluginPath + "/i18n/qgis_patrac_" + localeFullName + ".qm"
 
         self.localePath = translationPath
         if QFileInfo(self.localePath).exists():

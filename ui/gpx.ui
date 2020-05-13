@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Načtení GPX</string>
+   <string>Load GPX</string>
   </property>
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
@@ -27,7 +27,7 @@
    </property>
    <widget class="QWidget" name="tabAll">
     <attribute name="title">
-     <string>Výběrem ze všech</string>
+     <string>From all</string>
     </attribute>
     <widget class="QListView" name="listViewTracks">
      <property name="geometry">
@@ -65,7 +65,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Identifikace GPS</string>
+      <string>GPS identifier</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEditName">
@@ -88,7 +88,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Sloučit záznamy do jednoho</string>
+      <string>Group records</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -97,7 +97,7 @@
    </widget>
    <widget class="QWidget" name="tabTime">
     <attribute name="title">
-     <string>Podle reportu z pátrání</string>
+     <string>Based on report from search</string>
     </attribute>
     <widget class="QTableWidget" name="tableWidgetSectors">
      <property name="enabled">

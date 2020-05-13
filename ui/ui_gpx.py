@@ -84,7 +84,7 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
         """Fills table with search sectors
            The table is used for cut of GPX according to time.
         """
-        tableWidget.setHorizontalHeaderLabels(['ID', 'Od', 'Do'])
+        tableWidget.setHorizontalHeaderLabels(['ID', self.tr('From'), self.tr('To')])
         with open(self.DATAPATH + fileName, "r") as fileInput:
             i=0
             for row in csv.reader(fileInput, delimiter=','):    
@@ -100,8 +100,8 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
         """Shows list of Windows drives"""
         drives = win32api.GetLogicalDriveStrings()
         drives = drives.split('\000')[:-1]
-        item, ok = QInputDialog.getItem(self, "select input dialog",
-                                        "list of drives", drives, 0, False)
+        item, ok = QInputDialog.getItem(self, self.tr("select input dialog"),
+                                        self.tr("list of drives"), drives, 0, False)
         if ok and item:
             return item
         else:
@@ -112,12 +112,12 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
         username = getpass.getuser()
         drives = []
         if not os.path.isdir('/media/' + username + '/'):
-            QgsMessageLog.logMessage("Nebyl nalezen " + '/media/' + username + '/. Nutno pripojit pro test.', "Patrac")
+            QgsMessageLog.logMessage(self.tr("Not found ") + '/media/' + username + '/. ' + self.tr('Necessary for test.'), "Patrac")
             return None
         for dirname in os.listdir('/media/' + username + '/'):
             drives.append('/media/' + username + '/' + dirname + '/')
-        item, ok = QInputDialog.getItem(self, "select input dialog",
-                                        "list of drives", drives, 0, False)
+        item, ok = QInputDialog.getItem(self, self.tr("select input dialog"),
+                                        self.tr("list of drives"), drives, 0, False)
         if ok and item:
             return item
         else:
@@ -137,7 +137,7 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
             if drive is None:
                 #drive = "C:/" Very dangerous feature. Reads all GPX from the C: drive. It can take a lot of time.
                 #removed
-                QgsMessageLog.logMessage("Nebyl vybrán žádný disk. Nebudu hledat data.", "Patrac")
+                QgsMessageLog.logMessage(self.tr("Not found any disk. Will not search for data."), "Patrac")
                 return
             #TODO - do it better to handle another devices than Garmin
             self.path = drive[:-1] + '/'
@@ -148,7 +148,7 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
             if drive is None:
                 #drive = "C:/" Very dangerous feature. Reads all GPX from the C: drive. It can take a lot of time.
                 #removed
-                QgsMessageLog.logMessage("Nebyl vybrán žádný disk. Nebudu hledat data.", "Patrac")
+                QgsMessageLog.logMessage(self.tr("Not found any disk. Will not search for data."), "Patrac")
                 return
             self.path = drive
 
@@ -222,13 +222,13 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
                         item.setCheckable(True)
                         self.listViewModel.appendRow(item)
                     else:
-                        item = QStandardItem("Another Type of GPX")
+                        item = QStandardItem(self.tr("Another Type of GPX"))
                         item.setCheckable(False)
                         self.listViewModel.appendRow(item)
                         #print("Line {}: {}".format(cnt, line))
             self.listViewTracks.setModel(self.listViewModel)
         else:
-            QgsMessageLog.logMessage("Nebyl nalezen žádný záznam:", "Patrac")
+            QgsMessageLog.logMessage(self.tr("No records found") + ":", "Patrac")
 
     def iso_time_to_local(self, iso):
         """COnverts UTC to local time zone"""
@@ -262,7 +262,7 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
             if vector.featureCount() > 0:
                 QgsProject.instance().addMapLayer(vector)
             else:
-                QMessageBox.information(None, "INFO:", "Soubory GPX neobsahují žádné stopy.")
+                QMessageBox.information(None, self.tr("INFO"), self.tr("There are not any tracks in the GPX."))
 
     def acceptAll(self):
         """Creates groupped version of GPX tracks"""
@@ -344,4 +344,4 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
             if vector.featureCount() > 0:
                 QgsProject.instance().addMapLayer(vector)
             else:
-                QMessageBox.information(None, "INFO:", "V daném období nejsou žádná data.")
+                QMessageBox.information(None, self.tr("INFO"), self.tr("No data fro selected time range."))

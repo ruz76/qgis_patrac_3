@@ -154,15 +154,15 @@ class Project(object):
         if region is not None:
             region = region.lower()
         else:
-            QMessageBox.information(None, "CHYBA:",
-                                    "Extent mapy je mimo ČR. Nemám data nemohu pokračovat.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None),
+                                                                 QApplication.translate("Patrac", "Out of Czech Republic. Can not continue.", None))
             return None
 
         DATAPATH = self.getSimpleProjectDataPath()
 
         if DATAPATH == '':
-            QMessageBox.information(None, "KRITICKÁ CHYBA:",
-                                    "Nepodařilo se najít adresář s daty. Nemohu pokračovat.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
+                                                                 QApplication.translate("Patrac", "No data. Can not continue.", None))
             return None
 
         regionOut = None
@@ -177,8 +177,8 @@ class Project(object):
 
     def checkRegionExtent(self):
         if (self.canvas.extent().width() > 10000) or (self.canvas.extent().height() > 10000):
-            reply = QMessageBox.question(self, 'Region',
-                                         'Region je příliš rozsáhlý. Výpočty budou pomalé. Chcete pokračovat?',
+            reply = QMessageBox.question(self, QApplication.translate("Patrac", 'Region', None),
+                                                                      QApplication.translate("Patrac", 'The area is large. Computing will be slow. Do you want to continue?', None),
                                          QMessageBox.Yes, QMessageBox.No)
 
             if reply == QMessageBox.Yes:
@@ -200,8 +200,8 @@ class Project(object):
         region = self.checkRegion(region)
 
         if region is None:
-            QMessageBox.information(None, "CHYBA:",
-                                    "Pro daný kraj nemám k dispozici data. Nemám data nemohu pokračovat.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None),
+                                                                 QApplication.translate("Patrac", "Do not have data for seleted region. Can not continue.", None))
             return
 
         # if not self.checkRegionExtent():
@@ -328,4 +328,4 @@ class Project(object):
             searchStatus = response.data.read()
         else:
             # TODO - if we can not connect to server, we should connect later
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)

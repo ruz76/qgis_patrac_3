@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Místa</string>
+   <string>Places</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="title">
-    <string>Posun vybraného místa na souřadnice</string>
+    <string>Move selected place to coordinates</string>
    </property>
    <widget class="QLineEdit" name="lineEditX">
     <property name="geometry">
@@ -71,7 +71,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Zem. délka</string>
+     <string>Longitude</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButtonWGS">
@@ -152,7 +152,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Zem. šířka</string>
+     <string>Latitude</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEditLat">
@@ -238,7 +238,7 @@
     </rect>
    </property>
    <property name="title">
-    <string>Převod linií a polygonů na body</string>
+    <string>Lines (polygons) to points</string>
    </property>
    <widget class="QCheckBox" name="checkBoxLine">
     <property name="geometry">
@@ -250,7 +250,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Převést linie na body</string>
+     <string>Convert lines to points</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="checkBoxPolygon">
@@ -263,12 +263,9 @@
      </rect>
     </property>
     <property name="text">
-     <string>Převést polygony na body</string>
+     <string>Convert polygons to points</string>
     </property>
    </widget>
-   <zorder>checkBoxLine</zorder>
-   <zorder>checkBoxPolygon</zorder>
-   <zorder>groupBoxMove</zorder>
   </widget>
  </widget>
  <resources/>

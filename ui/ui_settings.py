@@ -82,7 +82,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.comboBoxDistance.addItem("LSOM")
         self.comboBoxDistance.addItem("Hill")
         self.comboBoxDistance.addItem("UK")
-        self.comboBoxDistance.addItem("Vlastní")
+        self.comboBoxDistance.addItem(self.tr("User specific"))
         self.comboBoxFriction.addItem("Pastorková")
         self.comboBoxFriction.addItem("Vlastní")
         # Fills tables with distances
@@ -106,7 +106,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             self.fillLineEdit(self.settingsPath + "/grass/weightlimit.txt", self.lineEditWeightLimit)
 
         self.pushButtonHds.clicked.connect(self.testHds)
-        self.pushButtonUpdatePlugin.clicked.connect(self.updatePlugin)
         self.pushButtonUpdateData.clicked.connect(self.updateData)
 
         # fill filtering combos
@@ -327,11 +326,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.parent.setCursor(Qt.WaitCursor)
         self.main.testHds()
         self.parent.setCursor(Qt.ArrowCursor)
-
-    def updatePlugin(self):
-        msg = "Aktualizace se nově provádí přes menu Zásuvné moduly"
-        QMessageBox.information(self.main.iface.mainWindow(), "Nová verze", msg)
-        return
 
     def updateData(self):
         msg = "Funkce není v této verzi podporována"

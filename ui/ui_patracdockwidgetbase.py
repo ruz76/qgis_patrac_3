@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 from qgis.PyQt import QtWidgets,QtCore, QtGui
 from qgis.PyQt.QtWidgets import *
 from qgis.PyQt.QtGui import *
@@ -36,10 +35,10 @@ class Ui_PatracDockWidget(object):
 
         self.tabWidget = QTabWidget()
         self.tabGuide = QWidget()
-        self.tabWidget.addTab(self.tabGuide, QApplication.translate("tabGuide", "Průvodce", None))
+        self.tabWidget.addTab(self.tabGuide, QApplication.translate("PatracDockWidget", "Guide", None))
 
         self.tabStyle = QWidget()
-        self.tabWidget.addTab(self.tabStyle, "Zobrazení")
+        self.tabWidget.addTab(self.tabStyle, QApplication.translate("PatracDockWidget", "View", None))
 
         self.verticalLayoutStyle = QVBoxLayout(self.tabStyle)
         self.verticalLayoutStyle.setObjectName(_fromUtf8("verticalLayoutStyle"))
@@ -47,7 +46,7 @@ class Ui_PatracDockWidget(object):
         self.setUpStyles()
 
         self.tabProgress = QWidget()
-        self.tabWidget.addTab(self.tabProgress, "Průběh")
+        self.tabWidget.addTab(self.tabProgress, QApplication.translate("PatracDockWidget", "State", None))
 
         self.verticalLayoutProgress = QVBoxLayout(self.tabProgress)
         self.verticalLayoutProgress.setObjectName(_fromUtf8("verticalLayoutProgress"))
@@ -56,7 +55,7 @@ class Ui_PatracDockWidget(object):
 
 
         self.tabExpert = QWidget()
-        self.tabWidget.addTab(self.tabExpert, "Expert")
+        self.tabWidget.addTab(self.tabExpert, QApplication.translate("PatracDockWidget", "Expert", None))
 
         self.verticalLayout = QVBoxLayout(self.tabExpert)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
@@ -79,7 +78,7 @@ class Ui_PatracDockWidget(object):
         self.tbtnDefinePlaces.setIconSize(QSize(32,32));
         self.tbtnDefinePlaces.setFixedSize(QSize(42,42));
         self.horizontalLayoutToolbar.addWidget(self.tbtnDefinePlaces)
-        self.tbtnDefinePlaces.setToolTip(QApplication.translate("PatracDockWidget", "Správa míst", None)) 
+        self.tbtnDefinePlaces.setToolTip(QApplication.translate("PatracDockWidget", "Places management", None))
 
         self.tbtnGetSectors = QPushButton(self.dockWidgetContents)
         self.tbtnGetSectors.setObjectName(_fromUtf8("tbtnGetSectors"))  
@@ -87,7 +86,7 @@ class Ui_PatracDockWidget(object):
         self.tbtnGetSectors.setIconSize(QSize(32,32));
         self.tbtnGetSectors.setFixedSize(QSize(42,42));
         self.horizontalLayoutToolbar.addWidget(self.tbtnGetSectors)
-        self.tbtnGetSectors.setToolTip(QApplication.translate("PatracDockWidget", "Vybrat sektory", None)) 
+        self.tbtnGetSectors.setToolTip(QApplication.translate("PatracDockWidget", "Select sectors", None))
 
         self.tbtnRecalculateSectors = QPushButton(self.dockWidgetContents)
         self.tbtnRecalculateSectors.setObjectName(_fromUtf8("tbtnRecalculateSectors"))  
@@ -95,7 +94,7 @@ class Ui_PatracDockWidget(object):
         self.tbtnRecalculateSectors.setIconSize(QSize(32,32));
         self.tbtnRecalculateSectors.setFixedSize(QSize(42,42));
         self.horizontalLayoutToolbar.addWidget(self.tbtnRecalculateSectors)
-        self.tbtnRecalculateSectors.setToolTip(QApplication.translate("PatracDockWidget", "Přečíslovat sektory", None)) 
+        self.tbtnRecalculateSectors.setToolTip(QApplication.translate("PatracDockWidget", "Renumber sectors", None))
 
         self.tbtnExportSectors = QPushButton(self.dockWidgetContents)
         self.tbtnExportSectors.setObjectName(_fromUtf8("tbtnExportSectors"))  
@@ -103,7 +102,7 @@ class Ui_PatracDockWidget(object):
         self.tbtnExportSectors.setIconSize(QSize(32,32));
         self.tbtnExportSectors.setFixedSize(QSize(42,42));
         self.horizontalLayoutToolbar.addWidget(self.tbtnExportSectors)
-        self.tbtnExportSectors.setToolTip(QApplication.translate("PatracDockWidget", "Exportovat sektory", None))
+        self.tbtnExportSectors.setToolTip(QApplication.translate("PatracDockWidget", "Export sectors", None))
 
         self.tbtnReportExportSectors = QPushButton(self.dockWidgetContents)
         self.tbtnReportExportSectors.setObjectName(_fromUtf8("tbtnReportExportSectors"))
@@ -111,7 +110,7 @@ class Ui_PatracDockWidget(object):
         self.tbtnReportExportSectors.setIconSize(QSize(32, 32));
         self.tbtnReportExportSectors.setFixedSize(QSize(42, 42));
         self.horizontalLayoutToolbar.addWidget(self.tbtnReportExportSectors)
-        self.tbtnReportExportSectors.setToolTip(QApplication.translate("PatracDockWidget", "Vytvořit report", None))
+        self.tbtnReportExportSectors.setToolTip(QApplication.translate("PatracDockWidget", "Create report", None))
 
         self.verticalLayout.addLayout(self.horizontalLayoutToolbar) 
 
@@ -122,16 +121,16 @@ class Ui_PatracDockWidget(object):
         #self.horizontalLayout_6.setObjectName(_fromUtf8("horizontalLayout_6"))
         self.comboPerson = QComboBox(self.dockWidgetContents)
         self.comboPerson.setObjectName(_fromUtf8("comboPerson"))
-        self.comboPerson.addItem(_fromUtf8("Dítě 1-3"))
-        self.comboPerson.addItem(_fromUtf8("Dítě 4-6"))
-        self.comboPerson.addItem(_fromUtf8("Dítě 7-12"))
-        self.comboPerson.addItem(_fromUtf8("Dítě 13-15"))
-        self.comboPerson.addItem(_fromUtf8("Deprese"))
-        self.comboPerson.addItem(_fromUtf8("Psychická nemoc"))
-        self.comboPerson.addItem(_fromUtf8("Retardovaný"))
-        self.comboPerson.addItem(_fromUtf8("Alzheimer"))
-        self.comboPerson.addItem(_fromUtf8("Turista"))
-        self.comboPerson.addItem(_fromUtf8("Demence"))
+        self.comboPerson.addItem(QApplication.translate("PatracDockWidget", "Child 1-3", None))
+        self.comboPerson.addItem(QApplication.translate("PatracDockWidget", "Child 4-6", None))
+        self.comboPerson.addItem(QApplication.translate("PatracDockWidget", "Child 7-12", None))
+        self.comboPerson.addItem(QApplication.translate("PatracDockWidget", "Child 13-15", None))
+        self.comboPerson.addItem(QApplication.translate("PatracDockWidget", "Despondent", None))
+        self.comboPerson.addItem(QApplication.translate("PatracDockWidget", "Psychical ilness", None))
+        self.comboPerson.addItem(QApplication.translate("PatracDockWidget", "Retarded", None))
+        self.comboPerson.addItem(QApplication.translate("PatracDockWidget", "Alzheimer", None))
+        self.comboPerson.addItem(QApplication.translate("PatracDockWidget", "Turist", None))
+        self.comboPerson.addItem(QApplication.translate("PatracDockWidget", "Demention", None))
         self.horizontalLayout_4.addWidget(self.comboPerson)
         #self.verticalLayout.addLayout(self.horizontalLayout_6)
         
@@ -184,7 +183,7 @@ class Ui_PatracDockWidget(object):
         self.tbtnExtendRegion.setIconSize(QSize(32, 32));
         self.tbtnExtendRegion.setFixedSize(QSize(42, 42));
         self.horizontalLayoutToolbar_5.addWidget(self.tbtnExtendRegion)
-        self.tbtnExtendRegion.setToolTip(QApplication.translate("PatracDockWidget", "Roszšířit oblast", None))
+        self.tbtnExtendRegion.setToolTip(QApplication.translate("PatracDockWidget", "Extend area", None))
 
         self.tbtnShowSearchers = QPushButton(self.dockWidgetContents)
         self.tbtnShowSearchers.setObjectName(_fromUtf8("tbtnShowSearchers"))
@@ -193,7 +192,7 @@ class Ui_PatracDockWidget(object):
         self.tbtnShowSearchers.setFixedSize(QSize(42, 42));
         self.horizontalLayoutToolbar_5.addWidget(self.tbtnShowSearchers)
         self.tbtnShowSearchers.setToolTip(
-            QApplication.translate("PatracDockWidget", "Ukázat pátrače (body)", None))
+            QApplication.translate("PatracDockWidget", "Show searchers (points)", None))
 
         self.tbtnShowSearchersTracks = QPushButton(self.dockWidgetContents)
         self.tbtnShowSearchersTracks.setObjectName(_fromUtf8("tbtnShowSearchersTracks"))
@@ -202,7 +201,7 @@ class Ui_PatracDockWidget(object):
         self.tbtnShowSearchersTracks.setFixedSize(QSize(42, 42));
         self.horizontalLayoutToolbar_5.addWidget(self.tbtnShowSearchersTracks)
         self.tbtnShowSearchersTracks.setToolTip(
-            QApplication.translate("PatracDockWidget", "Ukázat pátrače (linie)", None))
+            QApplication.translate("PatracDockWidget", "Show searchers (lines)", None))
 
         self.tbtnShowMessage = QPushButton(self.dockWidgetContents)
         self.tbtnShowMessage.setObjectName(_fromUtf8("tbtnShowMessage"))
@@ -211,7 +210,7 @@ class Ui_PatracDockWidget(object):
         self.tbtnShowMessage.setFixedSize(QSize(42, 42));
         self.horizontalLayoutToolbar_5.addWidget(self.tbtnShowMessage)
         self.tbtnShowMessage.setToolTip(
-            QApplication.translate("PatracDockWidget", "Zprávy", None))
+            QApplication.translate("PatracDockWidget", "Messages", None))
 
         self.verticalLayout.addLayout(self.horizontalLayoutToolbar_5)
 
@@ -226,7 +225,7 @@ class Ui_PatracDockWidget(object):
         self.helpShow.setIconSize(QSize(32, 32));
         self.helpShow.setFixedSize(QSize(42, 42));
         self.helpShow.setToolTip(
-            QApplication.translate("PatracDockWidget", "Nápověda", None))
+            QApplication.translate("PatracDockWidget", "Help", None))
         self.horizontalGeneralToolbarLayout.addWidget(self.helpShow)
 
         self.tbtnImportPaths = QPushButton(self.dockWidgetContents)
@@ -234,7 +233,7 @@ class Ui_PatracDockWidget(object):
         self.tbtnImportPaths.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "import_paths.png")));
         self.tbtnImportPaths.setIconSize(QSize(32, 32));
         self.tbtnImportPaths.setFixedSize(QSize(42, 42));
-        self.tbtnImportPaths.setToolTip(QApplication.translate("PatracDockWidget", "Importovat cesty z GPS", None))
+        self.tbtnImportPaths.setToolTip(QApplication.translate("PatracDockWidget", "Import from GPS", None))
         self.horizontalGeneralToolbarLayout.addWidget(self.tbtnImportPaths)
 
         self.tbtnShowSettings = QPushButton(self.dockWidgetContents)
@@ -243,7 +242,7 @@ class Ui_PatracDockWidget(object):
         self.tbtnShowSettings.setIconSize(QSize(32, 32));
         self.tbtnShowSettings.setFixedSize(QSize(42, 42));
         self.tbtnShowSettings.setToolTip(
-            QApplication.translate("PatracDockWidget", "Nastavení", None))
+            QApplication.translate("PatracDockWidget", "Settings", None))
         self.horizontalGeneralToolbarLayout.addWidget(self.tbtnShowSettings)
 
         self.tbtnInsertFinal = QPushButton(self.dockWidgetContents)
@@ -252,7 +251,7 @@ class Ui_PatracDockWidget(object):
         self.tbtnInsertFinal.setIconSize(QSize(32, 32));
         self.tbtnInsertFinal.setFixedSize(QSize(42, 42));
         self.tbtnInsertFinal.setToolTip(QApplication.translate(
-            "PatracDockWidget", "Zadat výsledek", None))
+            "PatracDockWidget", "Result", None))
         self.horizontalGeneralToolbarLayout.addWidget(self.tbtnInsertFinal)
 
         self.tabLayout.addWidget(self.tabWidget)
@@ -265,48 +264,48 @@ class Ui_PatracDockWidget(object):
     def setUpStyles(self):
         self.sectorsUniqueStyle = QPushButton(self.dockWidgetContents)
         self.sectorsUniqueStyle.setObjectName(_fromUtf8("sectorsUniqueStyle"))
-        self.sectorsUniqueStyle.setText("Sektory dle typu")
+        self.sectorsUniqueStyle.setText(QApplication.translate("PatracDockWidget", "Sectors by type", None))
         self.verticalLayoutStyle.addWidget(self.sectorsUniqueStyle)
 
         self.sectorsUnitsRecommendedStyle = QPushButton(self.dockWidgetContents)
         self.sectorsUnitsRecommendedStyle.setObjectName(_fromUtf8("sectorsUnitsRecommendedStyle"))
-        self.sectorsUnitsRecommendedStyle.setText("Sektory dle doporučených prostředků")
+        self.sectorsUnitsRecommendedStyle.setText(QApplication.translate("PatracDockWidget", "Sectors by recommended units", None))
         self.verticalLayoutStyle.addWidget(self.sectorsUnitsRecommendedStyle)
 
         self.sectorsProgressStyle = QPushButton(self.dockWidgetContents)
         self.sectorsProgressStyle.setObjectName(_fromUtf8("sectorsProgressStyle"))
-        self.sectorsProgressStyle.setText("Sektory dle stavu")
+        self.sectorsProgressStyle.setText(QApplication.translate("PatracDockWidget", "Sectors by state", None))
         self.verticalLayoutStyle.addWidget(self.sectorsProgressStyle)
 
         self.sectorsUnitsStyle = QPushButton(self.dockWidgetContents)
         self.sectorsUnitsStyle.setObjectName(_fromUtf8("sectorsUnitsStyle"))
-        self.sectorsUnitsStyle.setText("Sektory dle prostředků")
+        self.sectorsUnitsStyle.setText(QApplication.translate("PatracDockWidget", "Sectors by units", None))
         self.verticalLayoutStyle.addWidget(self.sectorsUnitsStyle)
 
         self.sectorsSingleStyle = QPushButton(self.dockWidgetContents)
         self.sectorsSingleStyle.setObjectName(_fromUtf8("sectorsSingleStyle"))
-        self.sectorsSingleStyle.setText("Odbarvit sektory")
+        self.sectorsSingleStyle.setText(QApplication.translate("PatracDockWidget", "Remove colors", None))
         self.verticalLayoutStyle.addWidget(self.sectorsSingleStyle)
 
         self.sectorsLabelsOn = QPushButton(self.dockWidgetContents)
         self.sectorsLabelsOn.setObjectName(_fromUtf8("sectorsLabelsOn"))
-        self.sectorsLabelsOn.setText("Zapnout popisky sektorů")
+        self.sectorsLabelsOn.setText(QApplication.translate("PatracDockWidget", "Labels on", None))
         self.verticalLayoutStyle.addWidget(self.sectorsLabelsOn)
 
         self.sectorsLabelsOff = QPushButton(self.dockWidgetContents)
         self.sectorsLabelsOff.setObjectName(_fromUtf8("sectorsLabelsOff"))
-        self.sectorsLabelsOff.setText("Vypnout popisky sektorů")
+        self.sectorsLabelsOff.setText(QApplication.translate("PatracDockWidget", "Labels off", None))
         self.verticalLayoutStyle.addWidget(self.sectorsLabelsOff)
 
     def setUpProgress(self):
         self.sectorsProgressStateLabel = QLabel(self.dockWidgetContents)
         self.sectorsProgressStateLabel.setObjectName(_fromUtf8("sectorsProgressStateLabel"))
-        self.sectorsProgressStateLabel.setText("Vyberte typ operace. Klikněte do sektoru pro změnu stavu. Pokud chcete analyzovat propátrání, vyberte nejdříve vrstvu se stopou v seznamu vrstev.")
+        self.sectorsProgressStateLabel.setText(QApplication.translate("PatracDockWidget", "Select type of operation. Click into the sector. For search analyze select the track.", None))
         self.sectorsProgressStateLabel.setWordWrap(True)
         self.verticalLayoutProgress.addWidget(self.sectorsProgressStateLabel)
         self.sectorsProgressStateNotStarted = QRadioButton(self.dockWidgetContents)
         self.sectorsProgressStateNotStarted.setObjectName(_fromUtf8("sectorsProgressStateNotStarted"))
-        self.sectorsProgressStateNotStarted.setText("Pátrání nezahájeno")
+        self.sectorsProgressStateNotStarted.setText(QApplication.translate("PatracDockWidget", "Search not started", None))
         self.verticalLayoutProgress.addWidget(self.sectorsProgressStateNotStarted)
 
         self.horizontalSectorsProgressStateStarted = QHBoxLayout()
@@ -315,13 +314,13 @@ class Ui_PatracDockWidget(object):
         self.sectorsProgressStateStarted = QRadioButton(self.dockWidgetContents)
         self.sectorsProgressStateStarted.setObjectName(_fromUtf8("sectorsProgressStateStarted"))
         self.sectorsProgressStateStarted.setChecked(True)
-        self.sectorsProgressStateStarted.setText("Pátrání zahájeno")
+        self.sectorsProgressStateStarted.setText(QApplication.translate("PatracDockWidget", "Search started", None))
         self.sectorsProgressType = QComboBox(self.dockWidgetContents)
         self.sectorsProgressType.setObjectName(_fromUtf8("sectorsProgressType"))
-        self.sectorsProgressType.addItem(_fromUtf8("Psovod"))
-        self.sectorsProgressType.addItem(_fromUtf8("Rojnice"))
-        self.sectorsProgressType.addItem(_fromUtf8("Dron"))
-        self.sectorsProgressType.addItem(_fromUtf8("Jiný"))
+        self.sectorsProgressType.addItem(QApplication.translate("PatracDockWidget", "Handler", None))
+        self.sectorsProgressType.addItem(QApplication.translate("PatracDockWidget", "Person", None))
+        self.sectorsProgressType.addItem(QApplication.translate("PatracDockWidget", "Drone", None))
+        self.sectorsProgressType.addItem(QApplication.translate("PatracDockWidget", "Other", None))
 
         self.horizontalSectorsProgressStateStarted.addWidget(self.sectorsProgressStateStarted)
         self.horizontalSectorsProgressStateStarted.addWidget(self.sectorsProgressType)
@@ -329,7 +328,7 @@ class Ui_PatracDockWidget(object):
 
         self.sectorsProgressStateFinished = QRadioButton(self.dockWidgetContents)
         self.sectorsProgressStateFinished.setObjectName(_fromUtf8("sectorsProgressStateFinished"))
-        self.sectorsProgressStateFinished.setText("Pátrání dokončeno")
+        self.sectorsProgressStateFinished.setText(QApplication.translate("PatracDockWidget", "Search finished", None))
         self.verticalLayoutProgress.addWidget(self.sectorsProgressStateFinished)
 
         self.horizontalSectorsAnalyzeTrackSeparator = QHBoxLayout()
@@ -337,7 +336,7 @@ class Ui_PatracDockWidget(object):
 
         self.sectorsProgressAnalyzeTrack = QRadioButton(self.dockWidgetContents)
         self.sectorsProgressAnalyzeTrack.setObjectName(_fromUtf8("sectorsProgressStateFinished"))
-        self.sectorsProgressAnalyzeTrack.setText("Analýza propátrání")
+        self.sectorsProgressAnalyzeTrack.setText(QApplication.translate("PatracDockWidget", "Analyze the search", None))
         self.sectorsProgressAnalyzeType = QComboBox(self.dockWidgetContents)
         self.sectorsProgressAnalyzeType.setObjectName(_fromUtf8("sectorsProgressAnalyzeType"))
         self.horizontalSectorsAnalyzeTrack = QHBoxLayout()
@@ -350,7 +349,7 @@ class Ui_PatracDockWidget(object):
         self.horizontalSectorsAnalyzeTrackValue.setObjectName(_fromUtf8("horizontalSectorsAnalyzeTrackValue"))
         self.sectorsAnalyzeTrackValueLabel = QLabel(self.dockWidgetContents)
         self.sectorsAnalyzeTrackValueLabel.setObjectName(_fromUtf8("sectorsAnalyzeTrackValueLabel"))
-        self.sectorsAnalyzeTrackValueLabel.setText("Obálka v m")
+        self.sectorsAnalyzeTrackValueLabel.setText(QApplication.translate("PatracDockWidget", "Buffer in m", None))
         self.horizontalSectorsAnalyzeTrackValue.addWidget(self.sectorsAnalyzeTrackValueLabel)
         self.sectorsProgressAnalyzeValue = QLineEdit()
         self.onlyInt = QIntValidator()
@@ -363,7 +362,7 @@ class Ui_PatracDockWidget(object):
         self.horizontalSectorsAnalyzeTrackNumberOfPersons.setObjectName(_fromUtf8("horizontalSectorsAnalyzeTrackNumberOfPersons"))
         self.sectorsAnalyzeTrackNumberOfPersons = QLabel(self.dockWidgetContents)
         self.sectorsAnalyzeTrackNumberOfPersons.setObjectName(_fromUtf8("sectorsAnalyzeTrackValueLabel"))
-        self.sectorsAnalyzeTrackNumberOfPersons.setText("Počet osob v rojnici")
+        self.sectorsAnalyzeTrackNumberOfPersons.setText(QApplication.translate("PatracDockWidget", "Number of persons", None))
         self.horizontalSectorsAnalyzeTrackNumberOfPersons.addWidget(self.sectorsAnalyzeTrackNumberOfPersons)
         self.sectorsProgressAnalyzeNumberOfPersons = QLineEdit()
         self.onlyInt = QIntValidator()
@@ -400,22 +399,22 @@ class Ui_PatracDockWidget(object):
         self.verticalGuideLayoutStep1.setObjectName(_fromUtf8("verticalGuideLayoutStep1"))
         self.guideLabelStep1 = QLabel(self.dockWidgetContents)
         self.guideLabelStep1.setObjectName(_fromUtf8("guideLabelStep1"))
-        self.guideLabelStep1.setText("Zadejte název obce a popis")
+        self.guideLabelStep1.setText(QApplication.translate("PatracDockWidget", "Enter name and description", None))
         self.guideLabelStep1.setWordWrap(True)
         self.verticalGuideLayoutStep1.addWidget(self.guideLabelStep1)
         self.guideMunicipalitySearch = QLineEdit()
         self.guideMunicipalitySearch.setMaximumWidth(280)
         self.guideMunicipalitySearch.setAlignment(Qt.AlignLeft)
-        self.guideMunicipalitySearch.setPlaceholderText("Zadejte název obce ...")
+        self.guideMunicipalitySearch.setPlaceholderText(QApplication.translate("PatracDockWidget", "Enter name", None))
         self.verticalGuideLayoutStep1.addWidget(self.guideMunicipalitySearch)
         self.guideSearchDescription = QLineEdit()
         self.guideSearchDescription.setMaximumWidth(280)
         self.guideSearchDescription.setAlignment(Qt.AlignLeft)
-        self.guideSearchDescription.setPlaceholderText("Zadejte stručný popis pátrání")
+        self.guideSearchDescription.setPlaceholderText(QApplication.translate("PatracDockWidget", "Brief description", None))
         self.verticalGuideLayoutStep1.addWidget(self.guideSearchDescription)
         self.guideStep1Next = QPushButton(self.dockWidgetContents)
         self.guideStep1Next.setObjectName(_fromUtf8("guideStep1Next"))
-        self.guideStep1Next.setText("Další")
+        self.guideStep1Next.setText(QApplication.translate("PatracDockWidget", "Next", None))
         self.verticalGuideLayoutStep1.addWidget(self.guideStep1Next)
         self.tabGuideStep1.setLayout(self.verticalGuideLayoutStep1)
 
@@ -424,13 +423,12 @@ class Ui_PatracDockWidget(object):
         self.verticalGuideLayoutStep2.setObjectName(_fromUtf8("verticalGuideLayoutStep2"))
         self.guideLabelStep2 = QLabel(self.dockWidgetContents)
         self.guideLabelStep2.setObjectName(_fromUtf8("guideLabelStep2"))
-        self.guideLabelStep2.setText("Klikněte do mapy, kde máte hlášení o spatření osoby. Kliknout můžete vícekrát."
-                                     "Mapu si můžete přiblížit, ale následně je nutné se přepnout zpět na aktuálně aktivní ikonu.")
+        self.guideLabelStep2.setText(QApplication.translate("PatracDockWidget", "Click into the map for report of the last seen.", None))
         self.guideLabelStep2.setWordWrap(True)
         self.verticalGuideLayoutStep2.addWidget(self.guideLabelStep2)
         self.guideStep2Next = QPushButton(self.dockWidgetContents)
         self.guideStep2Next.setObjectName(_fromUtf8("guideStep2Next"))
-        self.guideStep2Next.setText("Další")
+        self.guideStep2Next.setText(QApplication.translate("PatracDockWidget", "Next", None))
         self.verticalGuideLayoutStep2.addWidget(self.guideStep2Next)
         self.tabGuideStep2.setLayout(self.verticalGuideLayoutStep2)
 
@@ -439,25 +437,25 @@ class Ui_PatracDockWidget(object):
         self.verticalGuideLayoutStep3.setObjectName(_fromUtf8("verticalGuideLayoutStep3"))
         self.guideLabelStep3 = QLabel(self.dockWidgetContents)
         self.guideLabelStep3.setObjectName(_fromUtf8("guideLabelStep3"))
-        self.guideLabelStep3.setText("Vyberte typ pohřešované osoby. Následně dojde k určení pravděpodobnosti výskytu. Výpočet může trvat i několik minut.")
+        self.guideLabelStep3.setText(QApplication.translate("PatracDockWidget", "Select type of the person", None))
         self.guideLabelStep3.setWordWrap(True)
         self.verticalGuideLayoutStep3.addWidget(self.guideLabelStep3)
         self.guideComboPerson = QComboBox(self.dockWidgetContents)
         self.guideComboPerson.setObjectName(_fromUtf8("guideComboPerson"))
-        self.guideComboPerson.addItem(_fromUtf8("Dítě 1-3"))
-        self.guideComboPerson.addItem(_fromUtf8("Dítě 3-6"))
-        self.guideComboPerson.addItem(_fromUtf8("Dítě 7-12"))
-        self.guideComboPerson.addItem(_fromUtf8("Dítě 13-15"))
-        self.guideComboPerson.addItem(_fromUtf8("Deprese"))
-        self.guideComboPerson.addItem(_fromUtf8("Psychická nemoc"))
-        self.guideComboPerson.addItem(_fromUtf8("Retardovaný"))
-        self.guideComboPerson.addItem(_fromUtf8("Alzheimer"))
-        self.guideComboPerson.addItem(_fromUtf8("Turista"))
-        self.guideComboPerson.addItem(_fromUtf8("Demence"))
+        self.guideComboPerson.addItem(QApplication.translate("PatracDockWidget", "Child 1-3", None))
+        self.guideComboPerson.addItem(QApplication.translate("PatracDockWidget", "Child 3-6", None))
+        self.guideComboPerson.addItem(QApplication.translate("PatracDockWidget", "Child 7-12", None))
+        self.guideComboPerson.addItem(QApplication.translate("PatracDockWidget", "Child 13-15", None))
+        self.guideComboPerson.addItem(QApplication.translate("PatracDockWidget", "Despondent", None))
+        self.guideComboPerson.addItem(QApplication.translate("PatracDockWidget", "Psychical ilness", None))
+        self.guideComboPerson.addItem(QApplication.translate("PatracDockWidget", "Retarded", None))
+        self.guideComboPerson.addItem(QApplication.translate("PatracDockWidget", "Alzheimer", None))
+        self.guideComboPerson.addItem(QApplication.translate("PatracDockWidget", "Turist", None))
+        self.guideComboPerson.addItem(QApplication.translate("PatracDockWidget", "Demention", None))
         self.verticalGuideLayoutStep3.addWidget(self.guideComboPerson)
         self.guideStep3Next = QPushButton(self.dockWidgetContents)
         self.guideStep3Next.setObjectName(_fromUtf8("guideStep3Next"))
-        self.guideStep3Next.setText("Další")
+        self.guideStep3Next.setText(QApplication.translate("PatracDockWidget", "Next", None))
         self.verticalGuideLayoutStep3.addWidget(self.guideStep3Next)
         self.tabGuideStep3.setLayout(self.verticalGuideLayoutStep3)
 
@@ -466,8 +464,7 @@ class Ui_PatracDockWidget(object):
         self.verticalGuideLayoutStep4.setObjectName(_fromUtf8("verticalGuideLayoutStep4"))
         self.guideLabelStep4 = QLabel(self.dockWidgetContents)
         self.guideLabelStep4.setObjectName(_fromUtf8("guideLabelStep4"))
-        self.guideLabelStep4.setText("Procento případů jsem nastavil na 70%. Procento můžete změnit. "
-                                     "Zvýšení procenta však vede k delší době výpočtu a výběru větší oblasti, než je obvykle možné propátrat v rozumné době.")
+        self.guideLabelStep4.setText(QApplication.translate("PatracDockWidget", "The search area is set to 70%", None))
         self.guideLabelStep4.setWordWrap(True)
         self.verticalGuideLayoutStep4.addWidget(self.guideLabelStep4)
         self.guideSpinEnd = QSpinBox(self.dockWidgetContents)
@@ -477,7 +474,7 @@ class Ui_PatracDockWidget(object):
         self.verticalGuideLayoutStep4.addWidget(self.guideSpinEnd)
         self.guideStep4Next = QPushButton(self.dockWidgetContents)
         self.guideStep4Next.setObjectName(_fromUtf8("guideStep4Next"))
-        self.guideStep4Next.setText("Další")
+        self.guideStep4Next.setText(QApplication.translate("PatracDockWidget", "Next", None))
         self.verticalGuideLayoutStep4.addWidget(self.guideStep4Next)
         self.tabGuideStep4.setLayout(self.verticalGuideLayoutStep4)
 
@@ -486,17 +483,17 @@ class Ui_PatracDockWidget(object):
         self.verticalGuideLayoutStep5.setObjectName(_fromUtf8("verticalGuideLayoutStep5"))
         self.guideLabelStep5 = QLabel(self.dockWidgetContents)
         self.guideLabelStep5.setObjectName(_fromUtf8("guideLabelStep5"))
-        self.guideLabelStep5.setText("Zde můžete upravit počty prostředků, pokud je aktuálně znáte.")
+        self.guideLabelStep5.setText(QApplication.translate("PatracDockWidget", "Number of units", None))
         self.guideLabelStep5.setWordWrap(True)
         self.verticalGuideLayoutStep5.addWidget(self.guideLabelStep5)
         self.loadAvailableUnits()
         self.guideLabelStep5b = QLabel(self.dockWidgetContents)
         self.guideLabelStep5b.setObjectName(_fromUtf8("guideLabelStep5b"))
-        self.guideLabelStep5b.setText("Nebo stanovit maximální dobu pátrání.")
+        self.guideLabelStep5b.setText(QApplication.translate("PatracDockWidget", "Or maximum time for search", None))
         self.guideLabelStep5b.setWordWrap(True)
         self.verticalGuideLayoutStep5.addWidget(self.guideLabelStep5b)
         self.guideMaxTimeLabel = QLabel(self.dockWidgetContents)
-        self.guideMaxTimeLabel.setText("Maximální doba pátrání")
+        self.guideMaxTimeLabel.setText(QApplication.translate("PatracDockWidget", "Maximum time for search", None))
         self.guideMaxTime = QLineEdit()
         self.guideMaxTime.setText("3")
         self.horizontalMaxTimeLayout = QHBoxLayout(self.tabGuideStep5)
@@ -505,7 +502,7 @@ class Ui_PatracDockWidget(object):
         self.verticalGuideLayoutStep5.addLayout(self.horizontalMaxTimeLayout)
         self.guideStep5Next = QPushButton(self.dockWidgetContents)
         self.guideStep5Next.setObjectName(_fromUtf8("guideStep5Next"))
-        self.guideStep5Next.setText("Další")
+        self.guideStep5Next.setText(QApplication.translate("PatracDockWidget", "Next", None))
         self.verticalGuideLayoutStep5.addWidget(self.guideStep5Next)
         self.tabGuideStep5.setLayout(self.verticalGuideLayoutStep5)
 
@@ -514,23 +511,23 @@ class Ui_PatracDockWidget(object):
         self.verticalGuideLayoutStep6.setObjectName(_fromUtf8("verticalGuideLayoutStep6"))
         self.guideLabelStep6 = QLabel(self.dockWidgetContents)
         self.guideLabelStep6.setObjectName(_fromUtf8("guideLabelStep6"))
-        self.guideLabelStep6.setText("Téměř dokončeno. Report obsahuje odkazy na PDF pro tisk a GPX pro GPS přijímače. PDF zatím nebyly vygenerovány. Generování PDF může trvat poměrně dlouho (řádově minuty). \nNezapomeňte zadat výsledek pátrání.")
+        self.guideLabelStep6.setText(QApplication.translate("PatracDockWidget", "Almost finished. You may generate PDF and then show the report.", None))
         self.guideLabelStep6.setWordWrap(True)
         self.verticalGuideLayoutStep6.addWidget(self.guideLabelStep6)
         self.chkGenerateOverallPDF = QCheckBox(self.dockWidgetContents)
-        self.chkGenerateOverallPDF.setText("Vygenerovat souhrnné PDF pro tisk")
+        self.chkGenerateOverallPDF.setText(QApplication.translate("PatracDockWidget", "Generate PDF", None))
         self.verticalGuideLayoutStep6.addWidget(self.chkGenerateOverallPDF)
         #self.chkGeneratePDF = QCheckBox(self.dockWidgetContents)
         #self.chkGeneratePDF.setText(u"Vygenerovat PDF pro tisk")
         #self.verticalGuideLayoutStep6.addWidget(self.chkGeneratePDF)
         self.guideShowReport = QPushButton(self.dockWidgetContents)
         self.guideShowReport.setObjectName(_fromUtf8("guideShowReport"))
-        self.guideShowReport.setText("Zobrazit report")
+        self.guideShowReport.setText(QApplication.translate("PatracDockWidget", "Show report", None))
         self.verticalGuideLayoutStep6.addWidget(self.guideShowReport)
 
         self.guideCopyGpx = QPushButton(self.dockWidgetContents)
         self.guideCopyGpx.setObjectName(_fromUtf8("guideCopyGpx"))
-        self.guideCopyGpx.setText("Uložit sektory na GPS")
+        self.guideCopyGpx.setText(QApplication.translate("PatracDockWidget", "Save sectors to GPS", None))
         self.verticalGuideLayoutStep6.addWidget(self.guideCopyGpx)
 
         self.horizontalLayoutToolbarGuide6 = QHBoxLayout()
@@ -549,7 +546,7 @@ class Ui_PatracDockWidget(object):
                 # dog
                 if i == 0:
                     self.guideDogCountLabel = QLabel(self.dockWidgetContents)
-                    self.guideDogCountLabel.setText("Pes")
+                    self.guideDogCountLabel.setText(QApplication.translate("PatracDockWidget", "Handler", None))
                     self.guideDogCount = QLineEdit()
                     self.guideDogCount.setText(unicode_row[0])
                     self.horizontalDogCountLayout = QHBoxLayout(self.tabGuideStep5)
@@ -559,7 +556,7 @@ class Ui_PatracDockWidget(object):
                 # person
                 if i == 1:
                     self.guidePersonCountLabel = QLabel(self.dockWidgetContents)
-                    self.guidePersonCountLabel.setText("Člověk do rojnice")
+                    self.guidePersonCountLabel.setText(QApplication.translate("PatracDockWidget", "Person", None))
                     self.guidePersonCount = QLineEdit()
                     self.guidePersonCount.setText(unicode_row[0])
                     self.horizontalPersonCountLayout = QHBoxLayout(self.tabGuideStep5)
@@ -569,7 +566,7 @@ class Ui_PatracDockWidget(object):
                 # diver
                 if i == 5:
                     self.guideDiverCountLabel = QLabel(self.dockWidgetContents)
-                    self.guideDiverCountLabel.setText("Potápěč")
+                    self.guideDiverCountLabel.setText(QApplication.translate("PatracDockWidget", "Diver", None))
                     self.guideDiverCount = QLineEdit()
                     self.guideDiverCount.setText(unicode_row[0])
                     self.horizontalDiverCountLayout = QHBoxLayout(self.tabGuideStep5)
@@ -580,10 +577,10 @@ class Ui_PatracDockWidget(object):
 
     def retranslateUi(self, PatracDockWidget):
         PatracDockWidget.setWindowTitle(QApplication.translate(
-            "PatracDockWidget", "Pátrač", None))
+            "PatracDockWidget", "Searcher", None))
         self.btnGetArea.setText(QApplication.translate(
-            "PatracDockWidget", "Určit prostor", None))
+            "PatracDockWidget", "Determine area", None))
         self.label.setText(QApplication.translate(
-            "PatracDockWidget", "Hodnoty min/max", None))
+            "PatracDockWidget", "Values min/max", None))
         self.label_2.setText(QApplication.translate(
-            "PatracDockWidget", "Hodnoty max/min", None))
+            "PatracDockWidget", "Values max/min", None))

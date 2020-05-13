@@ -129,7 +129,7 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
             self.getMessage()
         else:
             # TODO - if we can not connect to server, we should connect later
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
     def getSearchID(self):
         prjfi = QFileInfo(QgsProject.instance().fileName())
@@ -194,7 +194,7 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
         ids = self.getSearchersIDS()
         QgsMessageLog.logMessage("Recipients: " + ids, "Patrac")
         if ids == "":
-            QMessageBox.information(None, "ERROR:", "Nebyl vybrán příjemce. Nemohu zprávu odeslat.")
+            QMessageBox.information(None, self.tr("ERROR"), self.tr("No recipient."))
             return
         # TODO test if something is selected
         # Gets the message as plain text
@@ -233,7 +233,7 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
 
     def onSendMessageResponse(self, response):
         if response.status != 200:
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
     def markMessageAsReaded(self, sysid):
         self.markmessage = Connect()
@@ -248,7 +248,7 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
             message = response.data.read()
         else:
             # TODO - if we can not connect to server, we should connect later
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
     def getMessage(self):
         self.getmessage = Connect()
@@ -271,7 +271,7 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
                 self.listWidgetMessages.scrollToBottom()
         else:
             # TODO - if we can not connect to server, we should connect later
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
 
     def getAttachment(self, filename, shared):
@@ -294,4 +294,4 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
             with io.open(self.DATAPATH + "/pracovni/" + response.filename, "wb") as code:
                 code.write(response.content)
         else:
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)

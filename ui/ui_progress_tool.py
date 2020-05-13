@@ -196,33 +196,33 @@ class ProgressMapTool(QgsMapTool):
     def analyzeTrack(self, sector):
         selectedLayers = self.iface.layerTreeView().selectedLayers()
         if len(selectedLayers) < 1:
-            QMessageBox.information(None, "CHYBA:", "Musíte vybrat stopu.")
+            QMessageBox.information(None, self.tr("CHYBA:"), self.tr("You have to select track."))
             return
         # TODO check also vector and line
         buffer_union = None
         if self.unit == 2:
             if int(self.numberOfSearchers) < 3:
-                QMessageBox.information(None, "CHYBA:", "Musíte zadat počet pátračů, včetně krajníků.")
+                QMessageBox.information(None, self.tr("CHYBA:"), self.tr("You have to enter number of persons including siders."))
                 return
             if len(selectedLayers) != 2:
-                QMessageBox.information(None, "CHYBA:", "Musíte vybrat dvě vrstvy.")
+                QMessageBox.information(None, self.tr("CHYBA:"), self.tr("You have to select two tracks."))
                 return
             if selectedLayers[0] != None and selectedLayers[0].crs().authid() != "EPSG:4326" and selectedLayers[1] != None and selectedLayers[1].crs().authid() != "EPSG:4326":
-                QMessageBox.information(None, "CHYBA:", "Vybrané vrstvy nejsou stopou. Vyberte správné vrstvu.")
+                QMessageBox.information(None, self.tr("CHYBA:"), self.tr("Selected layers are not tracks."))
                 return
             buffer_union = self.analyzeTrackDouble(selectedLayers, sector)
         else:
             if len(selectedLayers) != 1:
-                QMessageBox.information(None, "CHYBA:", "Musíte vybrat pouze jednu vrstvu.")
+                QMessageBox.information(None, self.tr("CHYBA:"), self.tr("Yout have to select just one layer."))
                 return
             if selectedLayers[0] != None and selectedLayers[0].crs().authid() != "EPSG:4326":
-                QMessageBox.information(None, "CHYBA:", "Vybraná vrstva není stopou. Vyberte správnou vrstvu.")
+                QMessageBox.information(None, self.tr("CHYBA:"), self.tr("Selected layer is not track."))
                 return
             provider = selectedLayers[0].dataProvider()
             features = provider.getFeatures()
             buffer_union = self.analyzeTrackSingle(features, sector)
             if buffer_union == None:
-                QMessageBox.information(None, "CHYBA:", "Vybraná vrstva neobsahuje stopy pro analýzu. Vyberte správnou vrstvu nebo jiný pátrací prostředek.")
+                QMessageBox.information(None, self.tr("CHYBA:"), self.tr("Select track does not have data to analyze. Select another track or unit."))
                 return
 
         difference = sector.geometry().difference(buffer_union)
@@ -266,4 +266,4 @@ class ProgressMapTool(QgsMapTool):
                         break
             except Exception as e:
                 self.layer.setSubsetString(subsetString)
-                QgsMessageLog.logMessage("canvasReleaseEvent crash " + str(e), "Patrac")
+                QgsMessageLog.logMessage(self.tr("canvasReleaseEvent crash") + ": " + str(e), "Patrac")

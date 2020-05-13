@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Nastavení</string>
+   <string>Settings</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -39,11 +39,11 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>8</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
-     <string>Metody a Volby</string>
+     <string>Methods and options</string>
     </attribute>
     <widget class="QComboBox" name="comboBoxDistance">
      <property name="geometry">
@@ -65,7 +65,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Vzdálenost</string>
+      <string>Distance</string>
      </property>
     </widget>
     <widget class="QLabel" name="labelFriction">
@@ -78,7 +78,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Tření</string>
+      <string>Friction</string>
      </property>
     </widget>
     <widget class="QComboBox" name="comboBoxFriction">
@@ -127,7 +127,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Identifikátor pátrání</string>
+      <string>Search identifier</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEditSearchID">
@@ -150,7 +150,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Zahrnout body s váhou větší než</string>
+      <string>Use places with weight higher than</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEditWeightLimit">
@@ -186,7 +186,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Pracovat se směrem pohybu</string>
+      <string>Use direction of movement</string>
      </property>
      <property name="checked">
       <bool>false</bool>
@@ -202,7 +202,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Cesta k projektu: ...</string>
+      <string>Path to project</string>
      </property>
     </widget>
     <widget class="Line" name="line_3">
@@ -234,7 +234,7 @@
    </widget>
    <widget class="QWidget" name="tab_3">
     <attribute name="title">
-     <string>Vzdálenost</string>
+     <string>Distance</string>
     </attribute>
     <widget class="QTabWidget" name="tabWidget_2">
      <property name="geometry">
@@ -382,7 +382,7 @@
      </widget>
      <widget class="QWidget" name="tab_Vzdalenost_PCR">
       <attribute name="title">
-       <string>Vlastní</string>
+       <string>User defined</string>
       </attribute>
       <widget class="QTableWidget" name="tableWidgetDistancesUser">
        <property name="geometry">
@@ -427,7 +427,7 @@
    </widget>
    <widget class="QWidget" name="tab_Friction">
     <attribute name="title">
-     <string>Tření</string>
+     <string>Friction</string>
     </attribute>
     <widget class="QTableWidget" name="tableWidgetFriction">
      <property name="geometry">
@@ -516,7 +516,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Sklon terénu</string>
+      <string>Slope</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEditLinear">
@@ -529,7 +529,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Dle algoritmu r.walk</string>
+      <string>r.walk algorithm</string>
      </property>
     </widget>
     <widget class="QLabel" name="labelLimit">
@@ -555,7 +555,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Více než 45 stupňů znamená neprůchozí</string>
+      <string>More than 45 degrees is not passable</string>
      </property>
     </widget>
     <widget class="QLabel" name="labelFrictionInfo">
@@ -568,13 +568,13 @@
       </rect>
      </property>
      <property name="text">
-      <string>Tření není možno měnit v tomto okně. Změna je možná ruční úpravou konfigurace aplikace.</string>
+      <string>The friction is not possible to change here. You have to change friction map in the datastore.</string>
      </property>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_Units">
     <attribute name="title">
-     <string>Pátrači</string>
+     <string>Searchers</string>
     </attribute>
     <widget class="QTableWidget" name="tableWidgetUnits">
      <property name="geometry">
@@ -604,7 +604,7 @@
    </widget>
    <widget class="QWidget" name="tab_UnitsTime">
     <attribute name="title">
-     <string>Pátrači ha (km)/h</string>
+     <string>Searchers by ha (km) per hour</string>
     </attribute>
     <widget class="QTableWidget" name="tableWidgetUnitsTimes">
      <property name="geometry">
@@ -612,7 +612,7 @@
        <x>10</x>
        <y>10</y>
        <width>871</width>
-       <height>511</height>
+       <height>441</height>
       </rect>
      </property>
      <property name="rowCount">
@@ -643,13 +643,13 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>540</y>
+       <y>480</y>
        <width>851</width>
-       <height>61</height>
+       <height>121</height>
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tabulka zobrazuje plochy (v hektarech) nebo vzdálenosti (v km), které dokáže daný prostředek propátrat za jednu hodinu. &lt;/p&gt;&lt;p&gt;Hektar plochy si představte jako dvě vesnická fotbalová hřiště. V případě skvělých podmínek dokáže psovod propátrat 10 ha / hodinu.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>speed_comment</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -658,7 +658,7 @@
    </widget>
    <widget class="QWidget" name="tab_Users">
     <attribute name="title">
-     <string>Psovodi</string>
+     <string>Handlers</string>
     </attribute>
     <widget class="QTableWidget" name="tableWidgetSystemUsers">
      <property name="geometry">
@@ -790,7 +790,7 @@
    </widget>
    <widget class="QWidget" name="tab_UsersHS">
     <attribute name="title">
-     <string>Psovodi HS</string>
+     <string>Handlers HS</string>
     </attribute>
     <widget class="QTableWidget" name="tableWidgetSystemUsersHS">
      <property name="geometry">
@@ -843,7 +843,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Rádius (km)</string>
+      <string>Radius (km)</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEditDistance">
@@ -869,7 +869,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Vytvořit incident</string>
+      <string>Create event</string>
      </property>
     </widget>
     <widget class="QLabel" name="labelUsername">
@@ -882,7 +882,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Uživatel</string>
+      <string>User</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEditUsername">
@@ -905,7 +905,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Heslo</string>
+      <string>Password</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEditPassword">
@@ -931,7 +931,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Správa incidentu</string>
+      <string>Event management</string>
      </property>
     </widget>
     <widget class="Line" name="line_5">
@@ -983,7 +983,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Název</string>
+      <string>Title</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEditTitle">
@@ -996,7 +996,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Název</string>
+      <string>Title</string>
      </property>
     </widget>
     <widget class="QLabel" name="labelText">
@@ -1009,7 +1009,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Popis</string>
+      <string>Description</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEditText">
@@ -1022,7 +1022,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Popis události</string>
+      <string>Event description</string>
      </property>
     </widget>
     <widget class="QLabel" name="labelPhone">
@@ -1035,7 +1035,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Telefon</string>
+      <string>Phone</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEditPhone">
@@ -1106,32 +1106,32 @@
    </widget>
    <widget class="QWidget" name="tab_Tests">
     <attribute name="title">
-     <string>Údržba</string>
+     <string>Management</string>
     </attribute>
     <widget class="QPushButton" name="pushButtonHds">
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>120</y>
+       <y>70</y>
        <width>191</width>
        <height>31</height>
       </rect>
      </property>
      <property name="text">
-      <string>Spustit základní test</string>
+      <string>Run basic test</string>
      </property>
     </widget>
     <widget class="QCheckBox" name="checkBoxUpdateData">
      <property name="geometry">
       <rect>
        <x>230</x>
-       <y>70</y>
+       <y>20</y>
        <width>311</width>
        <height>26</height>
       </rect>
      </property>
      <property name="text">
-      <string>Aktualizovat pouze kraj ve výřezu</string>
+      <string>Update only current region</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -1141,58 +1141,32 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>70</y>
-       <width>191</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Aktualizovat databázi</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButtonUpdatePlugin">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
        <y>20</y>
        <width>191</width>
        <height>31</height>
       </rect>
      </property>
      <property name="text">
-      <string>Aktualizovat plugin</string>
-     </property>
-    </widget>
-    <widget class="QProgressBar" name="progressBarUpdatePlugin">
-     <property name="geometry">
-      <rect>
-       <x>230</x>
-       <y>20</y>
-       <width>641</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="value">
-      <number>0</number>
+      <string>Update data</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButtonSaveStyle">
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>170</y>
+       <y>120</y>
        <width>191</width>
        <height>31</height>
       </rect>
      </property>
      <property name="text">
-      <string>Uložit styl do šablony</string>
+      <string>Save style to the template</string>
      </property>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_Help">
     <attribute name="title">
-     <string>Nápověda</string>
+     <string>Help</string>
     </attribute>
     <widget class="QPushButton" name="pushButtonShowHelp">
      <property name="geometry">
@@ -1204,7 +1178,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Zobrazit nápovědu</string>
+      <string>Show help</string>
      </property>
     </widget>
    </widget>

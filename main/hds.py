@@ -91,7 +91,7 @@ class Hds(object):
             QgsMessageLog.logMessage("INFO: Area test skončil dobře (výstupní tif odpovídá očekávanému stavu)",
                                      "Patrac")
         else:
-            self.iface.messageBar().pushMessage("Error", "Area test skončil chybou (výstupní tif neodpovídá očekávanému stavu)", level=Qgis.Critical)
+            self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "Area test error", None), level=Qgis.Critical)
             QgsMessageLog.logMessage("ERROR: Area test skončil chybou (výstupní tif neodpovídá očekávanému stavu)",
                                      "Patrac")
 
@@ -107,7 +107,7 @@ class Hds(object):
             QgsMessageLog.logMessage("INFO: Sectors test skončil dobře (výstupní SHP odpovídá očekávanému stavu)",
                                      "Patrac")
         else:
-            self.iface.messageBar().pushMessage("Error", "Sectors test skončil chybou (výstupní SHP neodpovídá očekávanému stavu)", level=Qgis.Critical)
+            self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "Sectors test error", None), level=Qgis.Critical)
             QgsMessageLog.logMessage("ERROR: Sectors test skončil chybou (výstupní SHP neodpovídá očekávanému stavu)",
                                      "Patrac")
 
@@ -122,7 +122,7 @@ class Hds(object):
             QgsMessageLog.logMessage(
                 "INFO: Report_Export test skončil dobře (výstupní HTML odpovídá očekávanému stavu)", "Patrac")
         else:
-            self.iface.messageBar().pushMessage("Error", "Report_Export test skončil chybou (výstupní HTML neodpovídá očekávanému stavu)", level=Qgis.Critical)
+            self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "Report test error", None), level=Qgis.Critical)
             QgsMessageLog.logMessage(
                 "ERROR: Report_Export test skončil chybou (výstupní HTML neodpovídá očekávanému stavu)", "Patrac")
 

@@ -54,8 +54,8 @@ class Sectors(object):
 
         # Check if the project has sektory_group.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt neobsahuje vrstvu sektorů. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None),
+                                                                 QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         prjfi = QFileInfo(QgsProject.instance().fileName())
@@ -130,8 +130,8 @@ class Sectors(object):
     def extendRegion(self):
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt neobsahuje vrstvu sektorů. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None),
+                                                                 QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         QgsMessageLog.logMessage("Spoustim python " + self.pluginPath + "/grass/export.py", "Patrac")
@@ -191,8 +191,8 @@ class Sectors(object):
                 break
 
         if layer == None:
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt nemá načtenu vrstvu sektorů. Nemohu pokračovat.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None),
+                                                                 QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         layerToAdd = None
@@ -202,8 +202,8 @@ class Sectors(object):
                 break
 
         if layerToAdd == None:
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt nemá načtenu vrstvu k přidání sektorů. Nemohu pokračovat.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None),
+                                                                 QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         # we remove the subset if it is set
@@ -253,8 +253,8 @@ class Sectors(object):
 
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt neobsahuje vrstvu sektorů. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR",
+                                    "Wrong project.", None))
             return
 
         self.widget.setCursor(Qt.WaitCursor)
@@ -267,8 +267,8 @@ class Sectors(object):
                 break
 
         if layer == None:
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt nemá načtenu vrstvu sektorů. Nemohu pokračovat.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None),
+                                                                 QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         provider = layer.dataProvider()
@@ -322,8 +322,8 @@ class Sectors(object):
 
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt neobsahuje vrstvu sektorů. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None),
+                                                                 QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         sectorid = self.recalculateSectors(False)
@@ -421,8 +421,8 @@ class Sectors(object):
 
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt neobsahuje vrstvu sektorů. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None),
+                                                                 QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         sectorid = self.recalculateSectors(False)
@@ -486,14 +486,14 @@ class Sectors(object):
         f.write('<div id="pdf" class="fixed400">\n')
         # f.write(u"\n<h2>Doba pro pátrání</h2>\n");
         # f.write(u"\n<p>Pro propátrání se počítá 3 hodiny jedním týmem</p>\n");
-        f.write("\n<h2>GPX a PDF pro pátrání</h2>\n");
+        f.write("\n<h2>" + QApplication.translate("Patrac", "GPX and PDF for search", None) + "</h2>\n");
         # f.write(u"\n<p>Pro propátrání referenční plochy (cca 30 ha) se počítá 3 hodiny jedním týmem.</p>\n");
         f.write('<p><a href="report.pdf"><img src="styles/pdf.png" alt="PDF" width="40"></a>&nbsp;<a href="gpx/all.gpx">'
                 '<img src="styles/gpx.png" alt="GPX" width="40"></a></p>\n')
-        f.write('<p><a href="report.pdf_1.pdf">Detail J-Z&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
-        f.write('<p><a href="report.pdf_2.pdf">Detail S-Z&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
-        f.write('<p><a href="report.pdf_3.pdf">Detail S-V&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
-        f.write('<p><a href="report.pdf_4.pdf">Detail J-V&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
+        f.write('<p><a href="report.pdf_1.pdf">Detail ' + QApplication.translate("Patrac", 'S-W', None) + '&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
+        f.write('<p><a href="report.pdf_2.pdf">Detail ' + QApplication.translate("Patrac", 'N-W', None) + '&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
+        f.write('<p><a href="report.pdf_3.pdf">Detail ' + QApplication.translate("Patrac", 'N-E', None) + '&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
+        f.write('<p><a href="report.pdf_4.pdf">Detail ' + QApplication.translate("Patrac", 'S-E', None) + '&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
         f.write('</div>\n')
 
         # Reads units report

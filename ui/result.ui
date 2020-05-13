@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Nález</string>
+   <string>Result</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -39,11 +39,11 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab1">
     <attribute name="title">
-     <string>Vstup</string>
+     <string>Input</string>
     </attribute>
     <widget class="QComboBox" name="comboBoxTerrain">
      <property name="geometry">
@@ -108,7 +108,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Pohřešována od</string>
+      <string>Missing from</string>
      </property>
     </widget>
     <widget class="QLabel" name="labelHourHourFromMissing">
@@ -121,7 +121,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Oznámení od pohřešování (h)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>Reported after missing (h)</string>
      </property>
     </widget>
     <widget class="QLabel" name="labelAge">
@@ -134,7 +134,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Věk</string>
+      <string>Age</string>
      </property>
     </widget>
     <widget class="QComboBox" name="comboBoxSex">
@@ -157,7 +157,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Fyzická kondice</string>
+      <string>Physical condition</string>
      </property>
     </widget>
     <widget class="QLabel" name="labelHealth">
@@ -170,7 +170,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Známý zdravotní stav</string>
+      <string>Known health state</string>
      </property>
     </widget>
     <widget class="QSpinBox" name="spinBoxAge">
@@ -193,7 +193,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Příčina</string>
+      <string>Purpose</string>
      </property>
     </widget>
     <widget class="QComboBox" name="comboBoxCondition">
@@ -216,7 +216,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Znalost terénu</string>
+      <string>Known terrain</string>
      </property>
     </widget>
     <widget class="QLabel" name="labelSex">
@@ -229,13 +229,13 @@
       </rect>
      </property>
      <property name="text">
-      <string>Pohlaví</string>
+      <string>Sex</string>
      </property>
     </widget>
    </widget>
    <widget class="QWidget" name="tab2">
     <attribute name="title">
-     <string>Výstup</string>
+     <string>Output</string>
     </attribute>
     <widget class="QComboBox" name="comboBoxPlace">
      <property name="geometry">
@@ -277,7 +277,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Pozice z kliknutí v mapě</string>
+      <string>Position from map</string>
      </property>
     </widget>
     <widget class="QLabel" name="labelNote">
@@ -290,7 +290,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Poznámka</string>
+      <string>Note</string>
      </property>
     </widget>
     <widget class="QComboBox" name="comboBoxHealth2">
@@ -313,7 +313,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Hodin od oznámení</string>
+      <string>Hours from report</string>
      </property>
     </widget>
     <widget class="QLabel" name="labelPlace">
@@ -326,7 +326,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Místo</string>
+      <string>Place</string>
      </property>
     </widget>
     <widget class="QComboBox" name="comboBoxPlace2">
@@ -359,7 +359,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Upřesnění místa</string>
+      <string>Detail information about place</string>
      </property>
     </widget>
     <widget class="QLabel" name="labelHealth2">
@@ -372,7 +372,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Aktuální zdravotní stav</string>
+      <string>Current health state</string>
      </property>
     </widget>
    </widget>
@@ -387,7 +387,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Ukončeno bez vypátrání</string>
+    <string>Finished without success</string>
    </property>
   </widget>
  </widget>

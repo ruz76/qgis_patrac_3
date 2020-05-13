@@ -55,8 +55,8 @@ class Area(object):
 
         # Check if the project has mista.shp
         if not self.Utils.checkLayer("/pracovni/mista.shp"):
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt neobsahuje vrstvu míst. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None) + ":",
+                                    QApplication.translate("Patrac", "Wrong project", None))
             return
 
         # Vybrana vrstva
@@ -76,7 +76,7 @@ class Area(object):
                 layer = lyr
                 break
         if layer == None:
-            QMessageBox.information(None, "INFO:", "Nebyla nalezena vrstva s místy. Nemohu určit oblast.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "INFO", None), QApplication.translate("Patrac", "Can not find places layer. Can not compute.", None))
             self.widget.setCursor(Qt.ArrowCursor)
             return
 
@@ -85,8 +85,8 @@ class Area(object):
         if len(features) == 0:
             # There is not any place defined
             # Place the place to the center of the map
-            QMessageBox.information(None, "INFO:",
-                                    "Vrstva s místy neobsahuje žádný prvek. Vkládám bod do středu mapy s aktuálním časem.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "INFO:", None),
+                                                                 QApplication.translate("Patrac", "Layer with places is empty. Placing point in the center of the map.", None))
             self.addPlaceToTheCenter()
 
         # If there is just one point - impossible to define direction
@@ -204,7 +204,7 @@ class Area(object):
         f_coords = open(self.pluginPath + '/grass/coords.txt', 'w')
         f_coords.write(coords)
         f_coords.close()
-        QgsMessageLog.logMessage("Souřadnice: " + coords, "Patrac")
+        QgsMessageLog.logMessage("Coordinates: " + coords, "Patrac")
         if sys.platform.startswith('win'):
             # p = subprocess.Popen((self.pluginPath + "/grass/run_cost_distance.bat", DATAPATH, self.pluginPath, str(id)
             #                       , str(self.widget.personType)),
@@ -251,7 +251,7 @@ class Area(object):
         featuresIndex = 0
         weightLimit = self.Utils.getWeightLimit()
         for feature in features:
-            print("VAHA: " + str(feature["vaha"]))
+            # print("VAHA: " + str(feature["vaha"]))
             if str(feature["vaha"]) == 'NULL' or feature["vaha"] > weightLimit:
                 featuresIndex += 1
                 index = 0
@@ -276,7 +276,7 @@ class Area(object):
         to_geom = geom.asPoint()
         # Computes azimuth from two last points of collection
         azimuth = self.azimuth(from_geom, to_geom)
-        QgsMessageLog.logMessage("Azimut " + str(azimuth), "Patrac")
+        QgsMessageLog.logMessage("Azimuth " + str(azimuth), "Patrac")
         # QgsMessageLog.logMessage(u"Čas " + str(cas_datetime_max1) + " Id " + str(id_max1), "Patrac")
         # QgsMessageLog.logMessage(u"Čas " + str(cas_datetime_max2) + " Id " + str(id_max2), "Patrac")
         # cas_diff = cas_datetime_max2 - cas_datetime_max1
@@ -284,7 +284,7 @@ class Area(object):
         # QgsMessageLog.logMessage(u"Doba " + str(cas_diff_seconds), "Patrac")
         distance = QgsDistanceArea()
         distance_m = distance.measureLine(from_geom, to_geom)
-        QgsMessageLog.logMessage("Vzdálenost " + str(distance_m), "Patrac")
+        QgsMessageLog.logMessage("Distance " + str(distance_m), "Patrac")
         # speed_m_s = distance_m / cas_diff_seconds
         # QgsMessageLog.logMessage(u"Rychlost " + str(speed_m_s), "Patrac")
         return azimuth

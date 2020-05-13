@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Zprávy</string>
+   <string>Messages</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -49,7 +49,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Procházet</string>
+    <string>Browse</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEditPath">
@@ -92,7 +92,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Všichni</string>
+    <string>All</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnCheckNone">
@@ -105,7 +105,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Nikdo</string>
+    <string>None</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnRefresh">
@@ -118,7 +118,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Obnovit</string>
+    <string>Referesh</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButtonGpx">
@@ -131,7 +131,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Vložit GPX</string>
+    <string>Insert GPX</string>
    </property>
   </widget>
   <widget class="QListWidget" name="listWidgetMessages">
