@@ -405,7 +405,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="79"/>
+        <location filename="../patracdockwidget.py" line="526"/>
         <source>INFO</source>
         <translation type="unfinished"></translation>
     </message>
@@ -470,12 +470,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="332"/>
+        <location filename="../patracdockwidget.py" line="1204"/>
         <source>Can not connect to the server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="424"/>
+        <location filename="../patracdockwidget.py" line="1211"/>
         <source>Wrong project.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -502,6 +502,106 @@
     <message>
         <location filename="../main/sectors.py" line="497"/>
         <source>S-E</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="1204"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="231"/>
+        <source>Can not find web browser to open help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="295"/>
+        <source>Wrong municipality</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="295"/>
+        <source>The municipality has not been found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="337"/>
+        <source>Step</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="337"/>
+        <source>You skipped the step. Do you want to continue?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="451"/>
+        <source>No probability layer. Can not continue.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="482"/>
+        <source>Can not find web browser to open report</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="508"/>
+        <source>Did not find GPS. You have to copy GPX manually from the report.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="512"/>
+        <source>select input dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="512"/>
+        <source>list of drives</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="526"/>
+        <source>The sectors has been copied into the device: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="528"/>
+        <source>Can not copy. You have copy it manually from the path: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="662"/>
+        <source>No probability layer. Please try step 3 again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="784"/>
+        <source>The function is not available. Please create new project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="785"/>
+        <source>Not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="1114"/>
+        <source>Tracks are empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="1199"/>
+        <source>Problem to read data from: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="1182"/>
+        <source>Positions are empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="1211"/>
+        <source>CHYBA:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1396,8 +1496,398 @@
 <context>
     <name>Ui_Settings</name>
     <message>
-        <location filename="../ui/ui_settings.py" line="85"/>
+        <location filename="../ui/ui_settings.py" line="87"/>
         <source>User specific</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="77"/>
+        <source>Handler</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="77"/>
+        <source>Searcher</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="77"/>
+        <source>Rider</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="77"/>
+        <source>Car</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="77"/>
+        <source>Drone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="77"/>
+        <source>Diver</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="77"/>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="82"/>
+        <source>LSOM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="83"/>
+        <source>Hill</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="84"/>
+        <source>UK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="86"/>
+        <source>Pastorkova</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="332"/>
+        <source>Not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="157"/>
+        <source>The function is not implemented</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="265"/>
+        <source>Wrong input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="178"/>
+        <source>Enter Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="181"/>
+        <source>Enter description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="184"/>
+        <source>Enter API Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="187"/>
+        <source>Enter server URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="190"/>
+        <source>Enter phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="197"/>
+        <source>Enter distance in km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="203"/>
+        <source>Enter longitute in format 18.14556</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="209"/>
+        <source>Enter latitude in format 48.54556</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="509"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="233"/>
+        <source>Can not create incident</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="509"/>
+        <source>Can not connect to the server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="238"/>
+        <source>Can not read data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="521"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="249"/>
+        <source>Phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="262"/>
+        <source>Enter user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="265"/>
+        <source>Enter password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="278"/>
+        <source>Can not get access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="376"/>
+        <source>Wrong project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="377"/>
+        <source>Wrong project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="323"/>
+        <source>Path to the project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="331"/>
+        <source>Function is not supported</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="359"/>
+        <source>Can not find web browser to open help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="480"/>
+        <source>INFO</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="477"/>
+        <source>Some of the selected handlersare in sleeping or released state. You have to wait for their wakeup.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="480"/>
+        <source>You did not select handler that can be called.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="521"/>
+        <source>Sysid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="521"/>
+        <source>Status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="521"/>
+        <source>Search id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="682"/>
+        <source>Region</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="521"/>
+        <source>Arrive until</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="599"/>
+        <source>ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="599"/>
+        <source>Time per 10m</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="599"/>
+        <source>KOD</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="599"/>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="616"/>
+        <source>Note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="616"/>
+        <source>Count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="634"/>
+        <source>empty easy no cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="634"/>
+        <source>empty easy with cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="634"/>
+        <source>empty difficult</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="634"/>
+        <source>cover easy to pass</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="634"/>
+        <source>cover difficult to pass</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="634"/>
+        <source>intravilan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="634"/>
+        <source>parks and playgrounds with people</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="634"/>
+        <source>parks and playgrounds without people</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="634"/>
+        <source>water body</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="634"/>
+        <source>other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="662"/>
+        <source>Child 1-3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="662"/>
+        <source>Child 4-6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="662"/>
+        <source>Child 7-12</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="662"/>
+        <source>Child 13-15</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="662"/>
+        <source>Despondent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="662"/>
+        <source>Psychical illness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="662"/>
+        <source>Retarded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="662"/>
+        <source>Alzheimer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="662"/>
+        <source>Turist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="662"/>
+        <source>Demention</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="695"/>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="683"/>
+        <source>Region and surrounding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="718"/>
+        <source>waiting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="720"/>
+        <source>call on duty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="722"/>
+        <source>ready to go</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="724"/>
+        <source>can not arrive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="726"/>
+        <source>call to come</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_settings.py" line="728"/>
+        <source>on duty</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -225,7 +225,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             # webbrowser.get().open("file://" + self.pluginPath + "/doc/index.html")
             # webbrowser.open("file://" + self.pluginPath + "/doc/index.html")
         except (webbrowser.Error):
-            self.iface.messageBar().pushMessage("Error", "Can not find web browser to open help", level=Qgis.Critical)
+            self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Can not find web browser to open help", None), level=Qgis.Critical)
 
     def getPluginPath(self):
         return self.pluginPath
@@ -282,14 +282,14 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 i = i + 1
             # if the municipality is not found
             if x == -1:
-                QMessageBox.information(self.iface.mainWindow(), "Chybná obec", "Obec nebyla nalezena")
+                QMessageBox.information(self.iface.mainWindow(), QApplication.translate("Patrac", "Wrong municipality", None), QApplication.translate("Patrac", "The municipality has not been found", None))
                 return -1
             else:
                 # if the municipality has coords
                 # self.zoomto(x, y)
                 return i
         except (KeyError, IOError):
-            QMessageBox.information(self.iface.mainWindow(), "Chybná obec", "Obec nebyla nalezena")
+            QMessageBox.information(self.iface.mainWindow(), QApplication.translate("Patrac", "Wrong municipality", None), QApplication.translate("Patrac", "The municipality has not been found", None))
             return -1
         except IndexError:
             return -1
@@ -331,8 +331,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if self.currentStep == nextStep - 1:
             return True
         else:
-            reply = QMessageBox.question(self, 'Krok',
-                                         'Přeskočili jste krok v průvodci. Chcete pokračovat?',
+            reply = QMessageBox.question(self, QApplication.translate("Patrac", 'Step', None),
+                                         QApplication.translate("Patrac", 'You skipped the step. Do you want to continue?', None),
                                          QMessageBox.Yes, QMessageBox.No)
 
             if reply == QMessageBox.Yes:
@@ -428,8 +428,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 break
 
         if layer == None:
-            QMessageBox.information(None, "CHYBA:",
-                                    "Nemohu najít vrstvu pravděpodobnosti. Nemohu pokračovat.");
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                                                 QApplication.translate("Patrac", "No probability layer. Can not continue.", None));
             return
 
         transparencyList = []
@@ -445,8 +445,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 break
 
         if layer == None:
-            QMessageBox.information(None, "CHYBA:",
-                                    "Nemohu najít vrstvu sektorů. Nemohu pokračovat.");
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                                                 QApplication.translate("Patrac", "No probability layer. Can not continue.", None));
             return
 
         # exports overall map with all sectors to PDF
@@ -476,7 +476,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             webbrowser.get().open("file://" + DATAPATH + "/sektory/report.html")
             # webbrowser.get().open("file://" + DATAPATH + "/sektory/report.html")
         except (webbrowser.Error):
-            self.iface.messageBar().pushMessage("Error", "Can not find web browser to open report", level=Qgis.Critical)
+            self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Can not find web browser to open report", None), level=Qgis.Critical)
 
         self.setCursor(Qt.ArrowCursor)
 
@@ -502,11 +502,11 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         if len(drives_gpx) == 0:
             # Not Garmin. TODO
-            QMessageBox.information(None, "INFO:", "Nenašel jsem připojenou GPS. Soubor musite uložit z reportu ručně.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "INFO", None), QApplication.translate("Patrac", "Did not find GPS. You have to copy GPX manually from the report.", None))
 
         if len(drives_gpx) > 1:
             # We have more than one place with garmin/GPX
-            item, ok = QInputDialog.getItem(self, "select input dialog", "list of drives", drives_gpx, 0, False)
+            item, ok = QInputDialog.getItem(self, QApplication.translate("Patrac", "select input dialog", None), QApplication.translate("Patrac", "list of drives", None), drives_gpx, 0, False)
             if ok and item:
                 self.copyGpxToPath(item + 'Garmin/GPX')
 
@@ -520,10 +520,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             a = 10
             # TODO report error	
         if os.path.isfile(path + "/sektory_" + time + ".gpx"):
-            QMessageBox.information(None, "INFO:", "Sektory byly zkopírovány do zařízení: " + path + "/sektory_" + time + ".gpx")
+            QMessageBox.information(None, QApplication.translate("Patrac", "INFO", None), QApplication.translate("Patrac", "The sectors has been copied into the device" + ": ", None) + path + "/sektory_" + time + ".gpx")
         else:
-            QMessageBox.information(None, "CHYBA:",
-                                    "Při kopírování sektorů došlo k chybě. Zkopírujte přes správce souborů z cesty: " + DATAPATH + '/sektory/gpx/all.gpx')
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                                                 QApplication.translate("Patrac", "Can not copy. You have copy it manually from the path" + ": ", None) + DATAPATH + '/sektory/gpx/all.gpx')
 
     def saveUnitsInformation(self):
         settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
@@ -656,8 +656,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 break
 
         if layer == None:
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt neobsahuje vrstvu pravděpodobnosti. Zkuste prosím znovu použít krok 3 v průvodci.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                                                 QApplication.translate("Patrac", "No probability layer. Please try step 3 again.", None))
             return
 
         layer.renderer().rasterTransparency().setTransparentSingleValuePixelList(transparencyList)
@@ -778,8 +778,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         # self.extendRegion()
 
     def extendRegion(self):
-        msg = "Funkce není v této verzi podporována. Pro pátrání v další oblasti vytvořte nový projekt."
-        QMessageBox.information(self.main.iface.mainWindow(), "Nedostupné", msg)
+        msg = QApplication.translate("Patrac", "The function is not available. Please create new project.", None)
+        QMessageBox.information(self.main.iface.mainWindow(), QApplication.translate("Patrac", "Not available", None), msg)
         return
         self.Sectors.extendRegion()
 
@@ -792,8 +792,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         """Show the dialog for sending messages"""
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt neobsahuje vrstvu sektorů. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                                                 QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         prjfi = QFileInfo(QgsProject.instance().fileName())
@@ -807,8 +807,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         """Shows the dialog for import of GPX tracks"""
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt neobsahuje vrstvu sektorů. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                                                 QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         self.importgpxdlg = Ui_Gpx(self.pluginPath)
@@ -820,8 +820,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         """
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt neobsahuje vrstvu sektorů. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                                                 QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         prjfi = QFileInfo(QgsProject.instance().fileName())
@@ -833,8 +833,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def setSectorsProgress(self):
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt neobsahuje vrstvu sektorů. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                                                 QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         layer = None
@@ -884,8 +884,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         """
         # Check if the project has mista.shp
         if not self.Utils.checkLayer("/pracovni/mista.shp"):
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt neobsahuje vrstvu míst. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                                                 QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         # Get center of the map
@@ -1076,8 +1076,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         """Shows tracks of logged positions in map"""
         # Check if the project has patraci_lines.shp
         if not self.Utils.checkLayer("/pracovni/patraci_lines.shp"):
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt neobsahuje vrstvu pátračů. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                                                 QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         self.tracks = Connect()
@@ -1100,7 +1100,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             sectorid = 0
             locations = str(response.data.read())
             if "Error" in locations:
-                self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+                self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
                 # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
                 return
             listOfIds = [feat.id() for feat in layer.getFeatures()]
@@ -1108,7 +1108,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             lines = locations.split("\n")
             if len(lines) < 1 or len(lines[0]) < 10:
                 # Wrong response
-                self.iface.messageBar().pushMessage("Error", "Stopy jsou prázdné.", level=Qgis.Warning)
+                self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Tracks are empty.", None), level=Qgis.Warning)
                 return
             # Deletes all features in layer patraci.shp
             layer.startEditing()
@@ -1132,22 +1132,22 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                                 point = QgsPointXY(float(xy[0]), float(xy[1]))
                                 points.append(point)
                             except:
-                                QgsMessageLog.logMessage("Problém s načtením dat z databáze: " + line.decode('utf8'), "Patrac")
+                                QgsMessageLog.logMessage(QApplication.translate("Patrac", "Problem to read data from" + ": ", None) + line.decode('utf8'), "Patrac")
                                 pass
                         position = position + 1
                     self.addFeaturePolyLineFromPoints(points, cols, provider)
             layer.commitChanges()
             layer.triggerRepaint()
         else:
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
 
     def showPeople(self):
         """Shows location of logged positions in map"""
 
         # Check if the project has patraci.shp
         if not self.Utils.checkLayer("/pracovni/patraci.shp"):
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt neobsahuje vrstvu pátračů. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                                                 QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         self.positions = Connect()
@@ -1176,7 +1176,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             # Splits to lines
             lines = locations.split("\n")
             if len(lines) < 1 or len(lines[0]) < 20:
-                self.iface.messageBar().pushMessage("Error", "Pozice jsou prázdné.", level=Qgis.Warning)
+                self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Positions are empty.", None), level=Qgis.Warning)
                 return
             # Loops the lines
             for line in lines:
@@ -1193,20 +1193,19 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                         fet.setAttributes([str(cols[0]), str(cols[1]), str(cols[2]), str(cols[3]).decode('utf8')])
                         provider.addFeatures([fet])
                     except:
-                        self.iface.messageBar().pushMessage("Error", "Problém s načtením dat z databáze: " + line, level=Qgis.Warning)
+                        self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Problem to read data from" + ": ", None) + line, level=Qgis.Warning)
                         pass
             layer.commitChanges()
             layer.triggerRepaint()
         else:
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
 
     def showPeopleSimulation(self):
         """Shows location of logged positions in map"""
 
         # Check if the project has patraci.shp
         if not self.Utils.checkLayer("/pracovni/patraci.shp"):
-            QMessageBox.information(None, "CHYBA:",
-                                    "Projekt neobsahuje vrstvu pátračů. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.")
+            QMessageBox.information(None, QApplication.translate("Patrac", "CHYBA:", None), QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         self.setCursor(Qt.WaitCursor)

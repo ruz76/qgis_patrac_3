@@ -74,17 +74,17 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
         self.systemid = open(self.settingsPath + "/config/systemid.txt", 'r').read().rstrip("\n")
-        self.unitsLabels = ["Pes", "Člověk do rojnice", "Kůň", "Čtyřkolka", "Vrtulník", "Potápěč", "Jiné"]
+        self.unitsLabels = [self.tr("Handler"), self.tr("Searcher"), self.tr("Rider"), self.tr("Car"), self.tr("Drone"), self.tr("Diver"), self.tr("Other")]
 
         self.main = parent
         self.iface = self.main.iface
         self.serverUrl = 'http://gisak.vsb.cz/patrac/'
-        self.comboBoxDistance.addItem("LSOM")
-        self.comboBoxDistance.addItem("Hill")
-        self.comboBoxDistance.addItem("UK")
+        self.comboBoxDistance.addItem(self.tr("LSOM"))
+        self.comboBoxDistance.addItem(self.tr("Hill"))
+        self.comboBoxDistance.addItem(self.tr("UK"))
         self.comboBoxDistance.addItem(self.tr("User specific"))
-        self.comboBoxFriction.addItem("Pastorková")
-        self.comboBoxFriction.addItem("Vlastní")
+        self.comboBoxFriction.addItem(self.tr("Pastorkova"))
+        self.comboBoxFriction.addItem(self.tr("User specific"))
         # Fills tables with distances
         self.fillTableWidgetDistance("/grass/distancesLSOM.txt", self.tableWidgetDistancesLSOM, "system")
         self.fillTableWidgetDistance("/grass/distancesHill.txt", self.tableWidgetDistancesHill, "system")
@@ -154,7 +154,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             layer.saveNamedStyle(settingsPath + '/styles/sectors_' + name + '.qml')
 
     def refreshSystemUsersSetSheduler(self):
-        QMessageBox.information(None, "NOT IMPLEMENTED", "Tato funkce není zatím implementována")
+        QMessageBox.information(None, self.tr("Not available"), self.tr("The function is not implemented"))
 
     def fillCentroid(self):
         lon, lat = self.getCentroid()
@@ -175,38 +175,38 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
     def createIncident(self):
         if len(self.lineEditTitle.text()) < 5:
-            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte Název")
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter Title"))
             return
         if len(self.lineEditText.text()) < 5:
-            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte Popis")
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter description"))
             return
         if len(self.lineEditAccessKey.text()) < 24:
-            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte API Key")
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter API Key"))
             return
         if len(self.lineEditServerUrl.text()) < 50:
-            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte URL serveru")
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter server URL"))
             return
         if len(self.lineEditPhone.text()) < 9:
-            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte váš telefon")
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter phone"))
             return
 
         distance = 500
         try:
             distance = int(self.lineEditDistance.text())
         except ValueError:
-            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte vzdálenost v kilometrech")
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter distance in km"))
             return
         lon = 0
         try:
             lon = float(self.lineEditLongitude.text())
         except ValueError:
-            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte longitute ve formátu 18.14556")
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter longitute in format 18.14556"))
             return
         lat = 0
         try:
             lat = float(self.lineEditLattitude.text())
         except ValueError:
-            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte lattitude ve formátu 48.54556")
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter latitude in format 48.54556"))
             return
 
         url = self.lineEditServerUrl.text() + "?"
@@ -230,23 +230,23 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             if len(data) > 20:
                 self.fillSystemUsersHS(data)
             else:
-                QMessageBox.information(self.main.iface.mainWindow(), "Chyba", "Nepodařilo se založit incident")
+                QMessageBox.information(self.main.iface.mainWindow(), self.tr("Error"), self.tr("Can not create incident"))
         else:
-            self.iface.messageBar().pushMessage("Chyba", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
     def fillSystemUsersHS(self, data):
-        msg = "Nepodařilo se načíst data o psovodech"
+        msg = self.tr("Can not read data")
         hsdata = None
         try:
             hsdata = json.loads(data)
         except:
-            QMessageBox.information(self.main.iface.mainWindow(), "Chyba", msg)
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Error"), msg)
             return
 
         if hsdata["ok"] == 1:
             # print(hsdata["users"])
             self.incidentId = hsdata["IncidentId"]
-            self.tableWidgetSystemUsersHS.setHorizontalHeaderLabels(["Jméno", "Telefon"])
+            self.tableWidgetSystemUsersHS.setHorizontalHeaderLabels([self.tr("Name"), self.tr("Phone")])
             self.tableWidgetSystemUsersHS.setColumnWidth(1, 300);
             self.tableWidgetSystemUsersHS.setRowCount(len(hsdata["users"]))
             i = 0
@@ -255,14 +255,14 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                 self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(user["phone"]))
                 i += 1
         else:
-            QMessageBox.information(self.main.iface.mainWindow(), "Chyba", msg)
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Error", msg))
 
     def incidentEdit(self):
         if len(self.lineEditUsername.text()) < 3:
-            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte uživatele")
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter user"))
             return
         if len(self.lineEditPassword.text()) < 5:
-            QMessageBox.information(self.main.iface.mainWindow(), "Chybný vstup", "Zadejte heslo")
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter password"))
             return
 
         url = "https://www.horskasluzba.cz/cz/hscr-sbook-login?"
@@ -275,7 +275,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.sbookaccess.start()
 
     def onSbookAccess(self, response):
-        msg = "Nepodařilo se získat přístup"
+        msg = self.tr("Can not get access")
         if response.status == 200:
             data = response.data.read().decode('utf-8')
             if len(data) > 5:
@@ -283,7 +283,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                 try:
                     hsdata = json.loads(data)
                 except:
-                    QMessageBox.information(self.main.iface.mainWindow(), "Chyba", msg)
+                    QMessageBox.information(self.main.iface.mainWindow(), self.tr("Error"), msg)
                     return
                 if hsdata["ok"] == 1:
                     urlToOpen = "https://www.horskasluzba.cz/cz/kniha-sluzeb/vyzvy?"
@@ -296,7 +296,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             else:
                 QMessageBox.information(self.main.iface.mainWindow(), "Chyba", msg)
         else:
-            self.iface.messageBar().pushMessage("Chyba", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
     def updateSettings(self):
         self.showSearchId()
@@ -315,12 +315,12 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             self.searchID = open(DATAPATH + "/config/searchid.txt", 'r').read()
             self.lineEditSearchID.setText(self.searchID)
         else:
-            msg = "Nemohu najít konfigurační soubor s identifikátorem pátrání. Některé funkce nebudou dostupné."
-            QMessageBox.information(self.main.iface.mainWindow(), "Chybný projekt", msg)
+            msg = self.tr("Wrong project.")
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong project"), msg)
 
     def showPath(self):
         prjfi = QFileInfo(QgsProject.instance().fileName())
-        self.labelPath.setText("Cesta k projektu: " + prjfi.absolutePath())
+        self.labelPath.setText(self.tr("Path to the project") + ": " + prjfi.absolutePath())
 
     def testHds(self):
         self.parent.setCursor(Qt.WaitCursor)
@@ -328,12 +328,9 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.parent.setCursor(Qt.ArrowCursor)
 
     def updateData(self):
-        msg = "Funkce není v této verzi podporována"
-        QMessageBox.information(self.main.iface.mainWindow(), "Nedostupné", msg)
+        msg = self.tr("Function is not supported")
+        QMessageBox.information(self.main.iface.mainWindow(), self.tr("Not available"), msg)
         return
-        QMessageBox.information(None, "INFO", "Tato funkce není zatím implementována plně. Aktualizuji šablonu a fixuji sklady.")
-        currentVersion = self.getCurrentVersion()
-        self.downloadTemplate(currentVersion)
 
     def getPatracDataPath(self):
         DATAPATH = ''
@@ -358,7 +355,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             # webbrowser.get().open("file://" + self.pluginPath + "/doc/index.html")
             # webbrowser.open("file://" + self.pluginPath + "/doc/index.html")
         except (webbrowser.Error):
-            self.iface.messageBar().pushMessage("Error", "Can not find web browser to open help", level=Qgis.Critical)
+            self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not find web browser to open help"), level=Qgis.Critical)
 
     def getQrCode(self):
         img = qrcode.make('Some data here')
@@ -375,8 +372,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             region = open(DATAPATH + "/config/region.txt", 'r').read()
             return region.upper()
         else:
-            msg = "Nemohu najít konfigurační soubor s regionem pátrání. Některé funkce nebudou dostupné."
-            QMessageBox.information(self.main.iface.mainWindow(), "Chybný projekt", msg)
+            msg = self.tr("Wrong project.")
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong project"), msg)
             return "KH"
 
     def getRegionAndSurrounding(self):
@@ -473,10 +470,10 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         statuses = self.getSelectedSystemUsersStatuses()
         ids = self.removeSleepingSystemUsers(idsSelected, statuses)
         if len(ids) != len(idsSelected):
-            QMessageBox.information(None, "INFO:",
-                                    "Někteří vybraní uživatelé jsou ve stavu sleeping nebo released. Je nutné počkat až se sami probudí.")
+            QMessageBox.information(None, self.tr("INFO"),
+                                                  self.tr("Some of the selected handlersare in sleeping or released state. You have to wait for their wakeup."))
         if ids == "":
-            QMessageBox.information(None, "INFO:", "Nevybrali jste žádného uživatele, kterého by šlo oslovit.")
+            QMessageBox.information(None, self.tr("INFO"), self.tr("You did not select handler that can be called."))
             return
 
         # Connects to the server to call the selected users on duty
@@ -491,7 +488,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             self.refreshSystemUsers()
             QgsMessageLog.logMessage(str(response.data.read()), "Patrac")
         else:
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
     def refreshSystemUsers(self):
         self.systemusers = Connect()
@@ -505,7 +502,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             if list != "":
                 self.fillTableWidgetSystemUsers(list, self.tableWidgetSystemUsers)
         else:
-            self.iface.messageBar().pushMessage("Error", "Nepodařilo se spojit se serverem.", level=Qgis.Warning)
+            self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
     def getDataFromUrl(self, url, timeout):
         # self.connect = Connect()
@@ -516,7 +513,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
     def fillTableWidgetSystemUsers(self, list, tableWidget):
         """Fills table with units"""
-        tableWidget.setHorizontalHeaderLabels(["Sysid", "Jméno", "Status", "Id pátrání", "Kraj", "Příjezd do"])
+        tableWidget.setHorizontalHeaderLabels([self.tr("Sysid"), self.tr("Name"), self.tr("Status"), self.tr("Search id"), self.tr("Region"), self.tr("Arrive until")])
         tableWidget.setColumnWidth(1, 300);
         # Reads list and populate the table
         lines = list.split("\n")
@@ -594,7 +591,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
     def fillTableWidgetFriction(self, fileName, tableWidget):
         """Fills table with units"""
-        tableWidget.setHorizontalHeaderLabels(["ID", "Čas (10m)", "KOD", "Popis", "Poznámka"])
+        tableWidget.setHorizontalHeaderLabels([self.tr("ID"), self.tr("Time per 10m"), self.tr("KOD"), self.tr("Description"), self.tr("Note")])
         tableWidget.setColumnWidth(3, 300);
         tableWidget.setColumnWidth(4, 300);
         # Reads CSV and populate the table
@@ -611,7 +608,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
     def fillTableWidgetUnits(self, fileName, tableWidget):
         """Fills table with units"""
-        tableWidget.setHorizontalHeaderLabels(["Počet", "Poznámka"])
+        tableWidget.setHorizontalHeaderLabels([self.tr("Count"), self.tr("Note")])
         tableWidget.setVerticalHeaderLabels(self.unitsLabels)
         tableWidget.setColumnWidth(1, 600)
         settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
@@ -630,16 +627,16 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
     def fillTableWidgetUnitsTimes(self, fileName, tableWidget):
         """Fills table with units"""
         tableWidget.setVerticalHeaderLabels(
-            ["volný schůdný bez porostu",
-             "volný schůdný s porostem",
-             "volný obtížně schůdný",
-             "porost lehce průchozí",
-             "porost obtížně průchozí",
-             "zastavěné území měst a obcí",
-             "městské parky a hřiště s pohybem osob",
-             "městské parky a hřiště bez osob",
-             "vodní plocha",
-             "ostatní plochy"])
+            [self.tr("empty easy no cover"),
+                     self.tr("empty easy with cover"),
+                             self.tr("empty difficult"),
+                                     self.tr("cover easy to pass"),
+                                             self.tr("cover difficult to pass"),
+                                                     self.tr("intravilan"),
+                                                             self.tr("parks and playgrounds with people"),
+                                                                     self.tr("parks and playgrounds without people"),
+                                                                             self.tr("water body"),
+                                                                                     self.tr("other")])
         tableWidget.setHorizontalHeaderLabels(self.unitsLabels)
         settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
         # Reads CSV and populate the table
@@ -658,8 +655,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         """Fills table with distances"""
         tableWidget.setHorizontalHeaderLabels(['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '95%'])
         tableWidget.setVerticalHeaderLabels(
-            ["Dítě 1-3", "Dítě 4-6", "Dítě 7-12", "Dítě 13-15", "Deprese", "Psychická nemoc", "Retardovaný",
-             "Alzheimer", "Turista", "Demence"])
+            [self.tr("Child 1-3"), self.tr("Child 4-6"), self.tr("Child 7-12"), self.tr("Child 13-15"), self.tr("Despondent"), self.tr("Psychical illness"), self.tr("Retarded"),
+             self.tr("Alzheimer"), self.tr("Turist"), self.tr("Demention")])
 
         currentPath = self.pluginPath
         if type == "user":
@@ -676,12 +673,12 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                 i = i + 1
 
     def fillCmbArea(self):
-        self.comboBoxArea.addItem("Všichni")
-        self.comboBoxArea.addItem("Kraj")
-        self.comboBoxArea.addItem("Kraj a okolí")
+        self.comboBoxArea.addItem(self.tr("All"))
+        self.comboBoxArea.addItem(self.tr("Region"))
+        self.comboBoxArea.addItem(self.tr("Region and surrounding"))
 
     def fillCmbTime(self):
-        self.comboBoxTime.addItem("Všichni")
+        self.comboBoxTime.addItem(self.tr("All"))
         self.comboBoxTime.addItem("< 1h")
         self.comboBoxTime.addItem("< 2h")
         self.comboBoxTime.addItem("< 3h")
@@ -690,40 +687,40 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.comboBoxTime.addItem("> 5h")
 
     def fillCmbStatus(self):
-        self.comboBoxStatus.addItem("Všichni")
-        self.comboBoxStatus.addItem("čeká")
-        self.comboBoxStatus.addItem("pozván")
-        self.comboBoxStatus.addItem("k dispozici")
-        self.comboBoxStatus.addItem("nemohu přijet")
-        self.comboBoxStatus.addItem("vyzván k příjezdu")
-        self.comboBoxStatus.addItem("na cestě nebo v pátrání")
+        self.comboBoxStatus.addItem(self.tr("All"))
+        self.comboBoxStatus.addItem(self.tr("waiting"))
+        self.comboBoxStatus.addItem(self.tr("call on duty"))
+        self.comboBoxStatus.addItem(self.tr("ready to go"))
+        self.comboBoxStatus.addItem(self.tr("can not arrive"))
+        self.comboBoxStatus.addItem(self.tr("call to come"))
+        self.comboBoxStatus.addItem(self.tr("on duty"))
 
     def getStatusName(self, status):
         if status == "waiting":
-            return "čeká"
+            return self.tr("waiting")
         if status == "callonduty":
-            return "pozván"
+            return self.tr("call on duty")
         if status == "readytogo":
-            return "k dispozici"
+            return self.tr("ready to go")
         if status == "cannotarrive":
-            return "nemohu přijet"
+            return self.tr("can not arrive")
         if status == "calltocome":
-            return "vyzván k příjezdu"
+            return self.tr("call to come")
         if status == "onduty":
-            return "na cestě nebo v pátrání"
+            return self.tr("on duty")
 
     def getStatusCode(self, status):
-        if status == "čeká":
+        if status == self.tr("waiting"):
             return "waiting"
-        if status == "pozván":
+        if status == self.tr("call on duty"):
             return "callonduty"
-        if status == "k dispozici":
+        if status == self.tr("ready to go"):
             return "readytogo"
-        if status == "nemohu přijet":
+        if status == self.tr("can not arrive"):
             return "cannotarrive"
-        if status == "vyzván k příjezdu":
+        if status == self.tr("call to come"):
             return "calltocome"
-        if status == "na cestě nebo v pátrání":
+        if status == self.tr("on duty"):
             return "onduty"
 
     def accept(self):
