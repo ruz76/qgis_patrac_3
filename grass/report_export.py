@@ -10,6 +10,7 @@ import csv
 from grass_config import *
 from os import path
 import time
+from report_export_cs import *
 
 # DATA
 # define GRASS DATABASE
@@ -132,7 +133,7 @@ for i in range(1, COUNT + 1):
     if REPORT == "":
         # Some problem occured
         f.write(u'<div id="a' + str(i) + 's">\n')
-        f.write(u'Při zpracování sektoru nastala chyba.')
+        f.write(errorProcessSector)
         f.write(u'</div>\n')
         f.close()
         continue
@@ -214,16 +215,16 @@ for i in range(1, COUNT + 1):
     # Writes output to the report
     f.write(u'<div id="a' + str(i) + 's">\n')
     f.write(u"<ul>\n")
-    f.write(u"<li>volný schůdný bez porostu: " + str(P1) + u" %</li>\n")
-    f.write(u"<li>volný schůdný s porostem: " + str(P2) + u" %</li>\n")
-    f.write(u"<li>volný obtížně schůdný: " + str(P3) + u" %</li>\n")
-    f.write(u"<li>porost lehce průchozí: " + str(P4) + u" %</li>\n")
-    f.write(u"<li>porost obtížně průchozí: " + str(P5) + u" %</li>\n")
-    f.write(u"<li>zastavěné území měst a obcí: " + str(P6) + u" %</li>\n")
-    f.write(u"<li>městské parky a hřiště s pohybem osob: " + str(P7) + u" %</li>\n")
-    f.write(u"<li>městské parky a hřiště bez osob: " + str(P8) + u" %</li>\n")
-    f.write(u"<li>vodní plocha: " + str(P9) + u" %</li>\n")
-    f.write(u"<li>ostatní plochy: " + str(P10) + u" %</li>\n")
+    f.write(u"<li>" + p1label + ": " + str(P1) + u" %</li>\n")
+    f.write(u"<li>" + p2label + ": " + str(P2) + u" %</li>\n")
+    f.write(u"<li>" + p3label + ": " + str(P3) + u" %</li>\n")
+    f.write(u"<li>" + p4label + ": " + str(P4) + u" %</li>\n")
+    f.write(u"<li>" + p5label + ": " + str(P5) + u" %</li>\n")
+    f.write(u"<li>" + p6label + ": " + str(P6) + u" %</li>\n")
+    f.write(u"<li>" + p7label + ": " + str(P7) + u" %</li>\n")
+    f.write(u"<li>" + p8label + ": " + str(P8) + u" %</li>\n")
+    f.write(u"<li>" + p9label + ": " + str(P9) + u" %</li>\n")
+    f.write(u"<li>" + p10label + ": " + str(P10) + u" %</li>\n")
     f.write(u"</ul>\n")
     f.write(u"</div>\n")
 
@@ -278,18 +279,18 @@ fileInput.close()
 
 
 f.write(u'<div id="areas" class="fixed400">\n')
-f.write(u"\n<h2>Typy povrchů</h2>\n");
+f.write(u"\n<h2>" + typesOfLanduse + "</h2>\n");
 f.write(u"<ul>\n")
-f.write(u"<li>volný schůdný bez porostu: " + str(int(math.ceil(SUM_P1))) + u" ha</li>\n")
-f.write(u"<li>volný schůdný s porostem: " + str(int(math.ceil(SUM_P2))) + u" ha</li>\n")
-f.write(u"<li>volný obtížně schůdný: " + str(int(math.ceil(SUM_P3))) + u" ha</li>\n")
-f.write(u"<li>porost lehce průchozí: " + str(int(math.ceil(SUM_P4))) + u" ha</li>\n")
-f.write(u"<li>porost obtížně průchozí: " + str(int(math.ceil(SUM_P5))) + u" ha</li>\n")
-f.write(u"<li>zastavěné území měst a obcí: " + str(int(math.ceil(SUM_P6))) + u" ha</li>\n")
-f.write(u"<li>městské parky a hřiště s pohybem osob: " + str(int(math.ceil(SUM_P7))) + u" ha</li>\n")
-f.write(u"<li>městské parky a hřiště bez osob: " + str(int(math.ceil(SUM_P8))) + u" ha</li>\n")
-f.write(u"<li>vodní plocha: " + str(int(math.ceil(SUM_P9))) + u" ha</li>\n")
-f.write(u"<li>ostatní plochy: " + str(int(math.ceil(SUM_P10))) + u" ha</li>\n")
+f.write(u"<li>" + p1label + ": " + str(int(math.ceil(SUM_P1))) + u" ha</li>\n")
+f.write(u"<li>" + p2label + ": " + str(int(math.ceil(SUM_P2))) + u" ha</li>\n")
+f.write(u"<li>" + p3label + ": " + str(int(math.ceil(SUM_P3))) + u" ha</li>\n")
+f.write(u"<li>" + p4label + ": " + str(int(math.ceil(SUM_P4))) + u" ha</li>\n")
+f.write(u"<li>" + p5label + ": " + str(int(math.ceil(SUM_P5))) + u" ha</li>\n")
+f.write(u"<li>" + p6label + ": " + str(int(math.ceil(SUM_P6))) + u" ha</li>\n")
+f.write(u"<li>" + p7label + ": " + str(int(math.ceil(SUM_P7))) + u" ha</li>\n")
+f.write(u"<li>" + p8label + ": " + str(int(math.ceil(SUM_P8))) + u" ha</li>\n")
+f.write(u"<li>" + p9label + ": " + str(int(math.ceil(SUM_P9))) + u" ha</li>\n")
+f.write(u"<li>" + p10label + ": " + str(int(math.ceil(SUM_P10))) + u" ha</li>\n")
 f.write(u"</ul>\n")
 f.write(u"</div>\n")
 
@@ -307,41 +308,41 @@ with open(unitsTimesPath, "r") as fileInput:
 KPT = SUM_P2 + SUM_P3 + SUM_P5
 KPT_PT = SUM_P1 + SUM_P4 + SUM_P8
 f.write(u'<div id="teams" class="fixed400">\n')
-f.write(u"<h2>Psovodi</h2>\n")
-f.write(u"<p>Plocha pro pátrání vhodná pro psovoda je " + str(int(math.ceil(KPT + KPT_PT))) + u" ha.\n")
-f.write(u"<p>K dispozici je " + str(CUR_KPT) + u" psovodů.\n")
+f.write(u"<h2>" + handlersLabel + "</h2>\n")
+f.write(u"<p>" + areaForhandlersLabel + " " + str(int(math.ceil(KPT + KPT_PT))) + u" ha.\n")
+f.write(u"<p>" + availableLabel + " " + str(CUR_KPT) + u" " + handlersLabel2 + ".\n")
 P2_P3_P5_KPT = float(SUM_P2) / unitsTimes[1][0] + float(SUM_P3) / unitsTimes[2][0] + float(SUM_P5) / unitsTimes[4][0]
 P1_P4_P8_KPT = float(SUM_P1) / unitsTimes[0][0] + float(SUM_P4) / unitsTimes[3][0] + float(SUM_P8) / unitsTimes[7][0]
 if CUR_KPT > 0:
-    f.write(u"<p>Oblast propátrají přibližně za " + str(
+    f.write(u"<p>" + searchingForTime + " " + str(
         int(math.ceil((P2_P3_P5_KPT + P1_P4_P8_KPT) / float(CUR_KPT)))) + u" h.\n")
 
 if KPT_PT > 0:
     P1_P4_P8_PT = float(SUM_P1) / unitsTimes[0][1] + float(SUM_P4) / unitsTimes[3][1] + float(SUM_P8) / unitsTimes[7][1]
     f.write(
-        u"<p>Součástí je prostor, kde je možno psovody nahradit rojnicí. Jedná se o " + str(int(math.ceil(KPT_PT))) + u" ha.\n")
+        u"<p>" + handlersSubstitute + " " + str(int(math.ceil(KPT_PT))) + u" ha.\n")
 if (SUM_P2 + SUM_P1) > 0:
-    f.write(u"<p>Součástí je prostor vhodný pro vrtulník (dron) o rozloze " + str(
+    f.write(u"<p>" + dronArea + " " + str(
         int(math.ceil(SUM_P2 + SUM_P1))) + u" ha.\n")
 
 PT = SUM_P6 + SUM_P7 + SUM_P10
-f.write(u"<h2>Rojnice</h2>\n")
-f.write(u"<p>Plocha pro pátrání vhodná pro rojnici je " + str(round(PT)) + u" ha.\n")
-f.write(u"<p>K dispozici je " + str(CUR_PT) + u" osob pro rojnici.\n")
+f.write(u"<h2>" + searchersLabel + "</h2>\n")
+f.write(u"<p>" + searchersArea + " " + str(round(PT)) + u" ha.\n")
+f.write(u"<p>" + availableLabel + " " + str(CUR_PT) + u" " + searchersLabel2 + ".\n")
 if CUR_PT > 0:
     P6_P7_P10_PT = float(SUM_P6) / unitsTimes[5][1] + float(SUM_P7) / unitsTimes[6][1] + float(SUM_P10) / unitsTimes[9][1]
-    f.write(u"<p>Oblast propátrají přibližně za " + str(int(math.ceil(P6_P7_P10_PT / float(CUR_PT)))) + u" h.\n")
+    f.write(u"<p>" + searchingForTime + " " + str(int(math.ceil(P6_P7_P10_PT / float(CUR_PT)))) + u" h.\n")
 else:
-    f.write(u"<p>Nejsou k dispozici žádní pátrači do rojnice. Je nutné nějaké zajistit.\n")
+    f.write(u"<p>" + noSearchers + ".\n")
 
 if SUM_P9 > 0:
-    f.write(u"<h2>Potápěč</h2>\n")
-    f.write(u"<p>Vodní plochy v oblasti mají " + str(int(math.ceil(SUM_P9))) + u" ha.\n")
+    f.write(u"<h2>" + diverLabel + "</h2>\n")
+    f.write(u"<p>" + waterArea + " " + str(int(math.ceil(SUM_P9))) + u" ha.\n")
     if CUR_VPT > 0:
         # TODO count time for divers
         A = 100  # placeholder
     else:
-        f.write(u"<p>Nejsou k dispozici žádní potápěči. Je nutné nějaké zajistit.\n")
+        f.write(u"<p>" + noDivers + ".\n")
 
 f.write(u"</div>\n")
 
@@ -356,18 +357,16 @@ if maxtime <= 0:
     maxtime = 3
 
 f.write(u'<div id="time" class="fixed400">\n')
-f.write(u"<h2>Propátrání do stanoveného času</h2>\n")
-f.write(u"\n<p>K propátrání do " + str(int(maxtime)) + u" hodin potřebujete:</p>\n")
+f.write(u"<h2>" + timeLabel + "</h2>\n")
+f.write(u"\n<p>" + searchUntil + " " + str(int(maxtime)) + u" " + unitsNeeded + ":</p>\n")
 f.write(u"\n<ul>\n")
-f.write(u"\n<li>" + str(int(math.ceil((P2_P3_P5_KPT + P1_P4_P8_KPT) / float(maxtime)))) + u" psovodů</li>\n")
-f.write(u"\n<li>" + str(int(math.ceil((P6_P7_P10_PT) / float(maxtime)))) + u" pátračů do rojnice</li>\n")
+f.write(u"\n<li>" + str(int(math.ceil((P2_P3_P5_KPT + P1_P4_P8_KPT) / float(maxtime)))) + u" " + handlersLabel2 + "</li>\n")
+f.write(u"\n<li>" + str(int(math.ceil((P6_P7_P10_PT) / float(maxtime)))) + u" " + searchersLabel2 + "</li>\n")
 if SUM_P9 > 0:
-    f.write(u"\n<li>Minimálně jeden potápěč</li>\n")
+    f.write(u"\n<li>" + atLeastOneDiver + "</li>\n")
 if (SUM_P2 + SUM_P1) > 0:
-    f.write(u"\n<li>Minimálně jeden vrtulník (dron)</li>\n")
+    f.write(u"\n<li>" + atLeastOneDrone + "</li>\n")
 f.write(u"\n</ul>\n")
 f.write(u"</div>\n")
 
 f.close()
-
-time.sleep(10)
