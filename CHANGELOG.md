@@ -1,5 +1,12 @@
 # Changelog 
 
+## Version 3.12.6 (2020-05-15)
+
+#### Improvements
+
+* Moved strings into translation config files
+* Translated into English
+
 ## Version 3.12.5 (2020-05-06)
 
 #### Improvements
