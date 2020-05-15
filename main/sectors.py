@@ -451,14 +451,20 @@ class Sectors(object):
         for feature in features:
             LABELS = LABELS + "!" + str(feature['label'])
 
+        overrideLocale = bool(QSettings().value("locale/overrideFlag", False))
+        if not overrideLocale:
+            localeFullName = QLocale.system().name()
+        else:
+            localeFullName = QSettings().value("locale/userLocale", "")
+
         # GRASS exports to SHP
         if sys.platform.startswith('win'):
             p = subprocess.Popen(
-                (self.pluginPath + "/grass/run_report_export.bat", DATAPATH, self.pluginPath, str(sectorid), LABELS))
+                (self.pluginPath + "/grass/run_report_export.bat", DATAPATH, self.pluginPath, str(sectorid), LABELS, localeFullName))
             p.wait()
         else:
             p = subprocess.Popen(('bash', self.pluginPath + "/grass/run_report_export.sh", DATAPATH, self.pluginPath,
-                                  str(sectorid), LABELS))
+                                  str(sectorid), LABELS, localeFullName))
             p.wait()
 
         # prepare all sectors to one file
@@ -518,8 +524,8 @@ class Sectors(object):
 
             f.write('<div id="a' + str(i) + '" class="fixed400">\n')
             # Prints previously obtained area and label of the sector
-            f.write("<p>SEKTOR " + feature['label'] + " (" + str(feature['area_ha']) + " ha)"
-                    + '<label class="rolldown" for="a' + str(i) + 'sc"> Typy povrchu </label></p>' + "\n")
+            f.write("<p>" + QApplication.translate("Patrac", "SECTOR", None) + " " + feature['label'] + " (" + str(feature['area_ha']) + " ha)"
+                    + '<label class="rolldown" for="a' + str(i) + 'sc">' + QApplication.translate("Patrac", "Types of terrain", None) + '</label></p>' + "\n")
             f.write('<input id="a' + str(i) + 'sc" type="checkbox" style="display: none">\n')
 
             # Reads sector report

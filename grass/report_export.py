@@ -10,7 +10,11 @@ import csv
 from grass_config import *
 from os import path
 import time
-from report_export_cs import *
+
+if sys.argv[5] == "cs":
+  from report_export_cs import *
+else:
+  from report_export_en import *
 
 # DATA
 # define GRASS DATABASE

@@ -5,4 +5,4 @@ unset PYTHONPATH
 unset GISBASE
 unset LD_LIBRARY_PATH
 #printenv
-python $2/grass/report_export.py $1 $2 $3 $4
+python $2/grass/report_export.py $1 $2 $3 $4 $5

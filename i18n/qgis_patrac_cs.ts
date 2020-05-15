@@ -6,7 +6,7 @@
     <message>
         <location filename="../aboutdialog.py" line="50"/>
         <source>Version: %s</source>
-        <translation>Verze</translation>
+        <translation>Verze: %s</translation>
     </message>
     <message>
         <location filename="../aboutdialog.py" line="66"/>
@@ -145,7 +145,7 @@
     <message>
         <location filename="../ui/settings.ui" line="231"/>
         <source>UkÃ¡zat QR</source>
-        <translation>Ukázat QR</translation>
+        <translation type="obsolete">Ukázat QR</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="253"/>
@@ -215,26 +215,26 @@
     <message>
         <location filename="../ui/settings.ui" line="692"/>
         <source>Obnovit</source>
-        <translation>Obnovit</translation>
+        <translation type="obsolete">Obnovit</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="728"/>
         <source>Oslovit</source>
-        <translation>Oslovit</translation>
+        <translation type="obsolete">Oslovit</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="741"/>
         <source>Uspat</source>
-        <translation>Uspat</translation>
+        <translation type="obsolete">Uspat</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="754"/>
         <source>Vyzvat</source>
-        <translation>Vyzvat</translation>
+        <translation type="obsolete">Vyzvat</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="767"/>
-        <source>Obnovovat automaticky</source>
+        <source>Refresh periodically</source>
         <translation>Obnovovat automaticky</translation>
     </message>
     <message>
@@ -362,6 +362,31 @@
         <source>Show help</source>
         <translation>Zobrazit nápovědu</translation>
     </message>
+    <message>
+        <location filename="../ui/settings.ui" line="231"/>
+        <source>Show QR</source>
+        <translation>Ukázat QR</translation>
+    </message>
+    <message>
+        <location filename="../ui/settings.ui" line="692"/>
+        <source>Refresh</source>
+        <translation>Obnovit</translation>
+    </message>
+    <message>
+        <location filename="../ui/settings.ui" line="728"/>
+        <source>Ask</source>
+        <translation>Oslovit</translation>
+    </message>
+    <message>
+        <location filename="../ui/settings.ui" line="741"/>
+        <source>Sleep</source>
+        <translation>Uspat</translation>
+    </message>
+    <message>
+        <location filename="../ui/settings.ui" line="754"/>
+        <source>Call</source>
+        <translation>Vyzvat</translation>
+    </message>
 </context>
 <context>
     <name>MessageDialog</name>
@@ -484,27 +509,27 @@
         <translation>Chybný projekt. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="490"/>
+        <location filename="../main/sectors.py" line="496"/>
         <source>GPX and PDF for search</source>
         <translation>GPX a PDF pro pátrání</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="494"/>
+        <location filename="../main/sectors.py" line="500"/>
         <source>S-W</source>
         <translation>J-Z</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="495"/>
+        <location filename="../main/sectors.py" line="501"/>
         <source>N-W</source>
         <translation>S-Z</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="496"/>
+        <location filename="../main/sectors.py" line="502"/>
         <source>N-E</source>
         <translation>S-V</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="497"/>
+        <location filename="../main/sectors.py" line="503"/>
         <source>S-E</source>
         <translation>J-V</translation>
     </message>
@@ -607,6 +632,16 @@
         <location filename="../patracdockwidget.py" line="1211"/>
         <source>CHYBA:</source>
         <translation>CHYBA:</translation>
+    </message>
+    <message>
+        <location filename="../main/sectors.py" line="529"/>
+        <source>SECTOR</source>
+        <translation>SEKTOR</translation>
+    </message>
+    <message>
+        <location filename="../main/sectors.py" line="529"/>
+        <source>Types of terrain</source>
+        <translation>Typy povrchu</translation>
     </message>
 </context>
 <context>
@@ -942,7 +977,7 @@
     <message>
         <location filename="../ui/ui_progress_tool.py" line="228"/>
         <source>CHYBA:</source>
-        <translation>ERROR:</translation>
+        <translation>CHYBA:</translation>
     </message>
     <message>
         <location filename="../ui/ui_progress_tool.py" line="202"/>
@@ -1627,7 +1662,7 @@
     <message>
         <location filename="../ui/ui_settings.py" line="509"/>
         <source>Can not connect to the server.</source>
-        <translation>Nepodařilo se spojit se serverem</translation>
+        <translation>Nepodařilo se spojit se serverem.</translation>
     </message>
     <message>
         <location filename="../ui/ui_settings.py" line="238"/>

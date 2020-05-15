@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>8</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -228,7 +228,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Ukázat QR</string>
+      <string>Show QR</string>
      </property>
     </widget>
    </widget>
@@ -246,7 +246,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_LSOM">
       <attribute name="title">
@@ -689,7 +689,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Obnovit</string>
+      <string>Refresh</string>
      </property>
     </widget>
     <widget class="QGroupBox" name="groupBox">
@@ -725,7 +725,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Oslovit</string>
+      <string>Ask</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButtonPutToSleep">
@@ -738,7 +738,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Uspat</string>
+      <string>Sleep</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButtonJoinSearch">
@@ -751,7 +751,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Vyzvat</string>
+      <string>Call</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButtonGetSystemUsersShedule">
@@ -764,7 +764,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Obnovovat automaticky</string>
+      <string>Refresh periodically</string>
      </property>
     </widget>
     <widget class="QComboBox" name="comboBoxArea">
