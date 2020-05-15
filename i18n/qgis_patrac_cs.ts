@@ -954,7 +954,7 @@
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="579"/>
         <source>Searcher</source>
-        <translation>Člověk do rojnice</translation>
+        <translation>Pátrač</translation>
     </message>
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="581"/>
