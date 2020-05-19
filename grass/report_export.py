@@ -11,7 +11,7 @@ from grass_config import *
 from os import path
 import time
 
-if sys.argv[5] == "cs":
+if sys.argv[5][:2] == "cs":
   from report_export_cs import *
 else:
   from report_export_en import *
