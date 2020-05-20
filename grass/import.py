@@ -75,20 +75,32 @@ DATAINPUTPATH=str(sys.argv[7])
 #Sets the region for export
 #g.region e=-641060.857143 w=-658275.142857 n=-1036549.0 s=-1046549.0
 print(gscript.read_command('g.region', e=XMAX, w=XMIN, n=YMAX, s=YMIN, res='5'))
+
 #Imports landuse
 #Bin would be better (size is smaller, export is faster), but there are some problems with import
 print(gscript.read_command('r.in.ascii', output='landuse', input=DATAPATH+'/grassdata/landuse.ascii', overwrite=True))
+# Delete the file
+os.remove(DATAPATH+'/grassdata/landuse.ascii')
+
 #Imports friction_slope
 #Bin would be better (size is smaller, export is faster), but there are some problems with import
 print(gscript.read_command('r.in.ascii', output='friction_slope', input=DATAPATH+'/grassdata/friction_slope.ascii', overwrite=True))
+# Delete the file
+os.remove(DATAPATH+'/grassdata/friction_slope.ascii')
+
 #Problem with null data - set to 10000
 # print gscript.read_command('r.null', map='friction_slope', null='10000')
 #Imports sectors and select them according to Extent
 #Bin would be better (size is smaller, export is faster), but there are some problems with import
 #Imports friction
 print(gscript.read_command('r.in.ascii', output='friction', input=DATAPATH+'/grassdata/friction.ascii', overwrite=True))
+# Delete the file
+os.remove(DATAPATH+'/grassdata/friction.ascii')
+
 #Imports dem
 print(gscript.read_command('r.in.ascii', output='dem', input=DATAPATH+'/grassdata/dem.ascii', overwrite=True))
+# Delete the file
+os.remove(DATAPATH+'/grassdata/dem.ascii')
 
 #If the data are from ZABAGED
 if os.path.isfile(DATAINPUTPATH+'/vektor/ZABAGED/line_x/merged_polygons_groupped.shp'):
