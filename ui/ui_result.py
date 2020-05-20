@@ -133,11 +133,13 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         self.saveHTML()
         self.closeSearch()
         self.zipDir()
+        self.zipForServer()
         self.close()
 
     def acceptNotFound(self):
         self.closeSearch()
         self.zipDir()
+        self.zipForServer()
         self.close()
 
     def saveHTML(self):
@@ -203,6 +205,27 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         for root, dirs, files in os.walk(self.DATAPATH):
             for file in files:
                 zipf.write(os.path.join(root, file))
+        zipf.close()
+        self.setCursor(Qt.ArrowCursor)
+
+    def zipForServer(self):
+        self.setCursor(Qt.WaitCursor)
+        parts = self.DATAPATH.split('/')
+        filename = parts[len(parts)-1] + "_" + strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + "_export.zip"
+        zipf = zipfile.ZipFile(self.DATAPATH + '/../' + filename, 'w', zipfile.ZIP_DEFLATED)
+        for root, dirs, files in os.walk(self.DATAPATH + '/search/gpx'):
+            for file in files:
+                zipf.write(os.path.join(root, file))
+        zipf.write(self.DATAPATH + '/search/result.xml')
+        zipf.write(self.DATAPATH + '/pracovni/mista.shp')
+        zipf.write(self.DATAPATH + '/pracovni/mista.shx')
+        zipf.write(self.DATAPATH + '/pracovni/mista.dbf')
+        zipf.write(self.DATAPATH + '/pracovni/sektory_group.shp')
+        zipf.write(self.DATAPATH + '/pracovni/sektory_group.shx')
+        zipf.write(self.DATAPATH + '/pracovni/sektory_group.dbf')
+        zipf.write(self.DATAPATH + '/pracovni/patraci_lines.shp')
+        zipf.write(self.DATAPATH + '/pracovni/patraci_lines.shx')
+        zipf.write(self.DATAPATH + '/pracovni/patraci_lines.dbf')
         zipf.close()
         self.setCursor(Qt.ArrowCursor)
 

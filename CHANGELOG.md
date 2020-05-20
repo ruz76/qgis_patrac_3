@@ -6,6 +6,7 @@
 
 * Show result as a new layer in the map
 * Build more than 4 tiles of PDF when necessary
+* Remove ascii exports
 
 #### New Features
 
