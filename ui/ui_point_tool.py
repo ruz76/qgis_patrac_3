@@ -8,14 +8,16 @@ from .ui_result import Ui_Result
 
 class PointMapTool(QgsMapTool):
   """Map tool for click in the map"""
-  def __init__(self, canvas):
+  def __init__(self, canvas, widget):
       self.canvas = canvas
+      self.widget = widget
       QgsMapTool.__init__(self, self.canvas)
       self.reset()
       #Dialog for setting result output
       self.dialog = Ui_Result()
       self.DATAPATH = ''
       self.searchid = ''
+      self.Utils = self.widget.Utils
 
   def reset(self):
       self.point = None
@@ -36,6 +38,20 @@ class PointMapTool(QgsMapTool):
           crs_dest = QgsCoordinateReferenceSystem(5514)
           xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
           self.point = xform.transform(self.point)
+
+      self.addToCanvas(self.point)
+
+  def addToCanvas(self, point):
+      layer = QgsVectorLayer("Point", "result", "memory")
+      pr = layer.dataProvider()
+      f = QgsFeature()
+      f.setGeometry(QgsGeometry.fromPointXY(point))
+      pr.addFeature(f)
+      layer.updateExtents()
+      crs = QgsCoordinateReferenceSystem("EPSG:5514")
+      QgsVectorFileWriter.writeAsVectorFormat(layer, self.Utils.getDataPath() + "/pracovni/result.shp",
+                                              "utf-8", crs, "ESRI Shapefile")
+      self.Utils.addVectorLayer(self.Utils.getDataPath() + "/pracovni/result.shp", "result")
 
   def canvasReleaseEvent(self, e):
       if self.point is not None:

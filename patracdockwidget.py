@@ -127,12 +127,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         self.tbtnInsertFinal.clicked.connect(self.insertFinal)
 
-        # Dialogs and tools are defined here
-        self.settingsdlg = Ui_Settings(self.pluginPath, self)
-        self.coordsdlg = Ui_Coords(self.plugin.iface.mapCanvas())
-        self.pointtool = PointMapTool(self.plugin.iface.mapCanvas())
-        self.progresstool = ProgressMapTool(self.plugin.iface.mapCanvas(), self.plugin.iface)
-
         self.setStepsConnection()
 
         # Help show
@@ -147,6 +141,12 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.Area = Area(self)
         self.Sectors = Sectors(self)
         self.Hds = Hds(self)
+
+        # Dialogs and tools are defined here
+        self.settingsdlg = Ui_Settings(self.pluginPath, self)
+        self.coordsdlg = Ui_Coords(self.plugin.iface.mapCanvas())
+        self.pointtool = PointMapTool(self.plugin.iface.mapCanvas(), self)
+        self.progresstool = ProgressMapTool(self.plugin.iface.mapCanvas(), self.plugin.iface)
 
         self.Styles = Styles(self)
         self.sectorsUniqueStyle.clicked.connect(self.setSectorsUniqueValuesStyle)
