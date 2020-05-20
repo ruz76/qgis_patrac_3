@@ -454,14 +454,14 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             srs = self.canvas.mapSettings().destinationCrs()
             current_crs = srs.authid()
             if current_crs == "EPSG:5514":
-                self.Printing.exportPDF(layer.extent(), DATAPATH + "/sektory/report.pdf")
+                self.Printing.exportPDF(layer.extent(), DATAPATH + "/sektory/")
             else:
                 srs = self.canvas.mapSettings().destinationCrs()
                 crs_src = QgsCoordinateReferenceSystem(5514)
                 crs_dest = QgsCoordinateReferenceSystem(srs)
                 xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
                 extent = xform.transform(layer.extent())
-                self.Printing.exportPDF(extent, DATAPATH + "/sektory/report.pdf")
+                self.Printing.exportPDF(extent, DATAPATH + "/sektory/")
 
         # exports map of sectors to PDF
         # if self.chkGeneratePDF.isChecked():

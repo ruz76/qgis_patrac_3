@@ -442,7 +442,7 @@ class Sectors(object):
 
         # exports overall map with all sectors to PDF
         if exportPDF:
-            self.Printing.exportPDF(layer.extent(), DATAPATH + "/sektory/report.pdf")
+            self.Printing.exportPDF(layer.extent(), DATAPATH + "/sektory/")
 
         provider = layer.dataProvider()
         features = provider.getFeatures()
@@ -496,10 +496,7 @@ class Sectors(object):
         # f.write(u"\n<p>Pro propátrání referenční plochy (cca 30 ha) se počítá 3 hodiny jedním týmem.</p>\n");
         f.write('<p><a href="report.pdf"><img src="styles/pdf.png" alt="PDF" width="40"></a>&nbsp;<a href="gpx/all.gpx">'
                 '<img src="styles/gpx.png" alt="GPX" width="40"></a></p>\n')
-        f.write('<p><a href="report.pdf_1.pdf">Detail ' + QApplication.translate("Patrac", 'S-W', None) + '&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
-        f.write('<p><a href="report.pdf_2.pdf">Detail ' + QApplication.translate("Patrac", 'N-W', None) + '&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
-        f.write('<p><a href="report.pdf_3.pdf">Detail ' + QApplication.translate("Patrac", 'N-E', None) + '&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
-        f.write('<p><a href="report.pdf_4.pdf">Detail ' + QApplication.translate("Patrac", 'S-E', None) + '&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
+        f.write('<!--tilemap-->')
         f.write('</div>\n')
 
         # Reads units report

@@ -25,16 +25,10 @@
 #
 # The sliders and layer transparency are based on https://github.com/alexbruy/raster-transparency
 # ******************************************************************************
-
-import csv, io, math, subprocess, os, sys, uuid
+import fileinput
 
 from qgis.core import *
 from qgis.gui import *
-
-from datetime import datetime, timedelta
-from shutil import copy
-from time import gmtime, strftime
-from glob import glob
 
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import *
@@ -47,21 +41,43 @@ class Printing(object):
         self.canvas = self.widget.canvas
 
     def exportPDF(self, extent, path):
-        self.export(extent, path, 1.1)
-        self.exportTiles(extent, path)
+        self.exportAll(extent, path, 1.1)
 
     def exportTiles(self, extent, path):
-        widthprint = 0.27
+        widthmax = 6000
+        heightmax = 3500
         widthmap = extent.width()
         heightmap = extent.height()
-        rect = QgsRectangle(extent.xMinimum(), extent.yMinimum(), extent.xMinimum() + widthmap / 2, extent.yMinimum() + heightmap / 2)
-        self.export(rect, path + "_1.pdf", 1.2)
-        rect = QgsRectangle(extent.xMinimum(), extent.yMinimum() + heightmap / 2, extent.xMinimum() + widthmap / 2, extent.yMinimum() + heightmap)
-        self.export(rect, path + "_2.pdf", 1.2)
-        rect = QgsRectangle(extent.xMinimum() + widthmap / 2, extent.yMinimum() + heightmap / 2, extent.xMinimum() + widthmap, extent.yMinimum() + heightmap)
-        self.export(rect, path + "_3.pdf", 1.2)
-        rect = QgsRectangle(extent.xMinimum() + widthmap / 2, extent.yMinimum(), extent.xMinimum() + widthmap, extent.yMinimum() + heightmap / 2)
-        self.export(rect, path + "_4.pdf", 1.2)
+        if widthmap < 2 * widthmax:
+            widthmax = widthmax / 2
+        if heightmap < 2 * heightmax:
+            heightmax = heightmax / 2
+        cols = int(widthmap / widthmax) + 1 # we need to handle round - may use roundup ot increase number of cols by 1
+        rows = int(heightmap / heightmax) + 1 # we need to handle round - may use roundup ot increase number of cols by 1
+        tilemap = ""
+        tilemap += '<table style="width: 400px; height: 250px">\n'
+        for row in range(rows):
+            tilemap += '<tr>\n'
+            for col in range(cols):
+                rect = QgsRectangle(extent.xMinimum() + (col * widthmax),
+                                    extent.yMaximum() - (row * heightmax),
+                                    extent.xMinimum() + (col * widthmax) + widthmax,
+                                    extent.yMaximum() - (row * heightmax) - heightmax)
+                tilemap += '<td style="border: 1px solid; width: 100px; height: 50px; text-align: center"><a href="report_' + str(row) + '_' + str(col) + '.pdf">' + str(row) + '-' + str(col) + '&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></a></td>\n'
+                self.export(rect, path + "report_" + str(row) + "_" + str(col) + ".pdf", 1.2)
+            tilemap += '</tr>\n'
+        tilemap += '</table>\n'
+
+        # Read in the file
+        with open(path + "report.html", 'r') as file :
+            filedata = file.read()
+
+        # Replace the target string
+        filedata = filedata.replace("<!--tilemap-->", tilemap)
+
+        # Write the file out again
+        with open(path + "report.html", 'w') as file:
+            file.write(filedata)
 
     def export(self, extent, path, scale):
         project = QgsProject.instance()
@@ -74,3 +90,16 @@ class Printing(object):
         layout.updateSettings()
         exporter = QgsLayoutExporter(layout)
         exporter.exportToPdf(path, QgsLayoutExporter.PdfExportSettings())
+
+    def exportAll(self, extent, path, scale):
+        project = QgsProject.instance()
+        layout = project.layoutManager().layoutByName("Basic")
+        maps = [item for item in list(layout.items()) if
+                item.type() == QgsLayoutItemRegistry.LayoutMap and item.scene()]
+        composer_map = maps[0]
+        extent.scale(scale)
+        composer_map.zoomToExtent(extent)
+        layout.updateSettings()
+        exporter = QgsLayoutExporter(layout)
+        exporter.exportToPdf(path + "report.pdf", QgsLayoutExporter.PdfExportSettings())
+        self.exportTiles(composer_map.extent(), path)
