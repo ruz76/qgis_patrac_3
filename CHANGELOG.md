@@ -1,5 +1,20 @@
 # Changelog 
 
+## Version 3.12.7 (2020-05-24)
+
+#### Improvements
+
+* Show result as a new layer in the map
+* Build more than 4 tiles of PDF when necessary
+
+#### New Features
+
+* Push result to storage server for archiving
+
+#### Bug Fixes
+
+* Result accept twice run
+
 ## Version 3.12.6 (2020-05-15)
 
 #### Improvements

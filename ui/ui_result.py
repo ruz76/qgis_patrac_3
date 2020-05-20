@@ -37,6 +37,8 @@ from qgis.core import *
 from qgis.gui import *
 import urllib.request, urllib.error, urllib.parse
 import socket
+import zipfile
+from time import gmtime, strftime
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -51,7 +53,6 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         """Constructor."""
         super(Ui_Result, self).__init__(parent)
         self.setupUi(self)
-        self.buttonBox.accepted.connect(self.accept)
         self.pushButtonNotFound.clicked.connect(self.acceptNotFound)
 
         self.DATAPATH = ''
@@ -131,10 +132,12 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         self.saveXML()
         self.saveHTML()
         self.closeSearch()
+        self.zipDir()
         self.close()
 
     def acceptNotFound(self):
         self.closeSearch()
+        self.zipDir()
         self.close()
 
     def saveHTML(self):
@@ -191,6 +194,17 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         xml.write("<note>" + self.plainTextEditNote.toPlainText() + "</note>\n")
         xml.write("</result>\n")
         xml.close()
+
+    def zipDir(self):
+        self.setCursor(Qt.WaitCursor)
+        parts = self.DATAPATH.split('/')
+        filename = parts[len(parts)-1] + "_" + strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".zip"
+        zipf = zipfile.ZipFile(self.DATAPATH + '/../' + filename, 'w', zipfile.ZIP_DEFLATED)
+        for root, dirs, files in os.walk(self.DATAPATH):
+            for file in files:
+                zipf.write(os.path.join(root, file))
+        zipf.close()
+        self.setCursor(Qt.ArrowCursor)
 
     def setDataPath(self, DATAPATH):
         self.DATAPATH = DATAPATH
