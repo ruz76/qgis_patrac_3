@@ -15,6 +15,7 @@
 #### Bug Fixes
 
 * Result accept twice run
+* Message not append a file to post
 
 ## Version 3.12.6 (2020-05-15)
 

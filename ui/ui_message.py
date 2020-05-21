@@ -213,6 +213,7 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
                 # Stores message sinto file for archiving
                 with io.open(self.DATAPATH + "/pracovni/zpravy.txt", encoding='utf-8', mode="a") as messages:
                     messages.write(now + "\n" + self.getSearchersNames() + "\n" + message + "\n@ " + filename1 + "\n--------------------\n")
+                self.sendmessage.setFilename(filename1)
                 self.sendmessage.setData({'message': message, 'ids': ids,
                  'operation': 'insertmessages',
                  'searchid': searchid,
