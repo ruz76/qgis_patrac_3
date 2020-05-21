@@ -39,6 +39,7 @@ import urllib.request, urllib.error, urllib.parse
 import socket
 import zipfile
 from time import gmtime, strftime
+from ..connect.connect import *
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -49,9 +50,10 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'result.ui'))
 
 class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
-    def __init__(self, parent=None):
+    def __init__(self, widget):
         """Constructor."""
-        super(Ui_Result, self).__init__(parent)
+        super(Ui_Result, self).__init__()
+        self.widget = widget
         self.setupUi(self)
         self.pushButtonNotFound.clicked.connect(self.acceptNotFound)
 
@@ -227,7 +229,26 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         zipf.write(self.DATAPATH + '/pracovni/patraci_lines.shx')
         zipf.write(self.DATAPATH + '/pracovni/patraci_lines.dbf')
         zipf.close()
+
+        self.serverUrl = 'http://gisak.vsb.cz/patrac/'
+        self.archivefile = ConnectPost()
+        self.archivefile.setUrl(self.serverUrl + "archive.php")
+        self.archivefile.statusChanged.connect(self.onArchiveFileResponse)
+        self.archivefile.setFilename(self.DATAPATH + '/../' + filename)
+        self.archivefile.setData({'operation': 'archive'})
+        self.archivefile.start()
+
         self.setCursor(Qt.ArrowCursor)
+
+    def onArchiveFileResponse(self, response):
+        if response.status != 200:
+            self.widget.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
+            return
+        if response.data.startswith('E'):
+            self.widget.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not upload result to the server."), level=Qgis.Warning)
+            return
+
+        self.widget.iface.messageBar().pushMessage(self.tr("Success"), self.tr("Result uploaded to the server."), level=Qgis.Info)
 
     def setDataPath(self, DATAPATH):
         self.DATAPATH = DATAPATH

@@ -26,7 +26,7 @@ class Connect(QThread):
             response = urllib.request.urlopen(self.url, None, self.timeout)
             # response = response.read().decode('utf-8') # str(response.read())
             responseToReturn.data = response
-            responseToReturn.status = 200
+            responseToReturn.status = response.status_code
         except urllib.error.URLError:
             responseToReturn.status = 500
             responseToReturn.data = ""
@@ -61,13 +61,14 @@ class ConnectPost(QThread):
 
     def run(self):
         responseToReturn = Response()
-        response = None
+        print("SHIT", self.filename)
         try:
             if self.filename is not None:
                 if os.path.isfile(self.filename):
-                    with open(self.filename, 'rb') as f: r = requests.post(self.url,
-                                                               data=self.data,
-                                                               files={'fileToUpload': f})
+                    with open(self.filename, 'rb') as f:
+                        r = requests.post(self.url, data=self.data, files={'fileToUpload': f})
+                        responseToReturn.status = r.status_code
+                        responseToReturn.data = r.text
                 else:
                     responseToReturn.status = 500
                     responseToReturn.data = ""
@@ -109,7 +110,7 @@ class ConnectFile(QThread):
             response = requests.get(self.url)
             responseToReturn.data = response
             responseToReturn.filename = self.filename
-            responseToReturn.status = 200
+            responseToReturn.status = response.status_code
         except urllib.error.URLError:
             responseToReturn.status = 500
             responseToReturn.data = ""

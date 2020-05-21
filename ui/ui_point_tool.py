@@ -14,7 +14,7 @@ class PointMapTool(QgsMapTool):
       QgsMapTool.__init__(self, self.canvas)
       self.reset()
       #Dialog for setting result output
-      self.dialog = Ui_Result()
+      self.dialog = Ui_Result(self.widget)
       self.DATAPATH = ''
       self.searchid = ''
       self.Utils = self.widget.Utils
