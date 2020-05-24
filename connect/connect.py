@@ -26,7 +26,8 @@ class Connect(QThread):
             response = urllib.request.urlopen(self.url, None, self.timeout)
             # response = response.read().decode('utf-8') # str(response.read())
             responseToReturn.data = response
-            responseToReturn.status = response.status_code
+            # print(dir(response.status))
+            responseToReturn.status = response.status
         except urllib.error.URLError:
             responseToReturn.status = 500
             responseToReturn.data = ""
