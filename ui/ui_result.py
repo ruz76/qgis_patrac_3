@@ -53,7 +53,11 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
     def __init__(self, widget):
         """Constructor."""
         super(Ui_Result, self).__init__()
+
         self.widget = widget
+        self.serverUrl = self.widget.serverUrl
+        self.systemid = self.widget.systemid
+
         self.setupUi(self)
         self.pushButtonNotFound.clicked.connect(self.acceptNotFound)
 
@@ -230,7 +234,6 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         zipf.write(self.DATAPATH + '/pracovni/patraci_lines.dbf')
         zipf.close()
 
-        self.serverUrl = 'http://gisak.vsb.cz/patrac/'
         self.archivefile = ConnectPost()
         self.archivefile.setUrl(self.serverUrl + "archive.php")
         self.archivefile.statusChanged.connect(self.onArchiveFileResponse)
@@ -240,12 +243,18 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
 
         self.setCursor(Qt.ArrowCursor)
 
+    def onArchiveFileResponseError(self):
+        self.database = Database(self.widget.pluginPath + "/settings.db")
+        self.database.insertRequest(self.archivefile.url, str(self.archivefile.data), self.archivefile.filename)
+
     def onArchiveFileResponse(self, response):
         if response.status != 200:
             self.widget.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
+            self.onArchiveFileResponseError()
             return
         if response.data.startswith('E'):
             self.widget.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not upload result to the server."), level=Qgis.Warning)
+            self.onArchiveFileResponseError()
             return
 
         self.widget.iface.messageBar().pushMessage(self.tr("Success"), self.tr("Result uploaded to the server."), level=Qgis.Info)
@@ -257,14 +266,16 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         self.searchid = searchid
 
     def closeSearch(self):
-        response = None
-        # Connects to the server to close the search
-        try:
-            url = 'http://gisak.vsb.cz/patrac/search.php?operation=closesearch&id=pcr007&searchid=' + self.searchid
-            # print url
-            response = urllib.request.urlopen(url, None, 5)
-            searchStatus = response.read()
-        except urllib.error.URLError:
-            QMessageBox.information(None, self.tr("INFO"), self.tr("Can not connect to the server."))
-        except socket.timeout:
-            QMessageBox.information(None, self.tr("INFO"), self.tr("Can not connect to the server."))
+        url = self.serverUrl + 'search.php?operation=closesearch&id=' + self.systemid + '&searchid=' + self.searchid
+        self.closeSearchConnect = Connect()
+        self.closeSearchConnect.setUrl(url)
+        self.closeSearchConnect.statusChanged.connect(self.onCloseSearchServerResponse)
+        self.closeSearchConnect.start()
+
+    def onCloseSearchServerResponse(self, response):
+        if response.status == 200:
+            searchStatus = response.data.read()
+        else:
+            self.database = Database(self.widget.pluginPath + "/settings.db")
+            self.database.insertRequest(self.closeSearchConnect.url, None, None)
+            self.widget.iface.messageBar().pushMessage(QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)

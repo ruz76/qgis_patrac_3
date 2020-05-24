@@ -327,5 +327,6 @@ class Project(object):
         if response.status == 200:
             searchStatus = response.data.read()
         else:
-            # TODO - if we can not connect to server, we should connect later
+            self.database = Database(self.widget.pluginPath + "/settings.db")
+            self.database.insertRequest(self.createSearch.url, None, None)
             self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)

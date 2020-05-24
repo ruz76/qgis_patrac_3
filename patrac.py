@@ -41,6 +41,7 @@ from qgis.gui import *
 
 from . import patracdockwidget
 from . import aboutdialog
+from .connect.connect import *
 
 from . import resources_rc
 
@@ -87,6 +88,8 @@ class PatracPlugin(object):
 
         self.checkSettings()
         self.copyDoc()
+        self.checkRequests = CheckRequests(userPluginPath + "/settings.db")
+        self.checkRequests.start()
 
     def checkSettings(self):
         pluginPath = path.dirname(__file__)

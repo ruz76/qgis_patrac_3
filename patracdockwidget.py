@@ -95,6 +95,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         # QUICKFIX:
         # self.pluginPath = "/usr/share/qgis/python/plugins/qgis_patrac"
         self.pluginPath = path.dirname(__file__)
+        self.settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+        self.systemid = open(self.settingsPath + "/config/systemid.txt", 'r').read().rstrip("\n")
 
         QDockWidget.__init__(self, None)
         self.setupUi(self)

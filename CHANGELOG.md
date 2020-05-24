@@ -7,6 +7,8 @@
 * Show result as a new layer in the map
 * Build more than 4 tiles of PDF when necessary
 * Remove ascii exports
+* Resend createsearch, archive search, close search requests 
+in a case when there is not a network.
 
 #### New Features
 
