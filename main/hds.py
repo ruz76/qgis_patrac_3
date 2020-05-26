@@ -28,16 +28,14 @@
 
 import csv, io, math, subprocess, os, sys, uuid, filecmp
 
+from qgis.PyQt.QtWidgets import *
+from qgis.PyQt.QtCore import *
+from qgis.PyQt.QtGui import *
+
 from qgis.core import *
 from qgis.gui import *
 
-from datetime import datetime, timedelta
 from shutil import copy
-from time import gmtime, strftime
-from glob import glob
-
-from qgis.PyQt.QtCore import *
-from qgis.PyQt.QtGui import *
 
 class Hds(object):
     def __init__(self, widget):
@@ -50,12 +48,8 @@ class Hds(object):
         self.Sectors = self.widget.Sectors
 
     def copyFilesForTest(self):
-        copy(self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/distances_costed_cum.tif',
-             self.pluginPath + '/tests/data/sokolovce_piestany/tests/distances_costed_cum.tif')
-        copy(self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/sektory_group_selected.shp',
-             self.pluginPath + '/tests/data/sokolovce_piestany/tests/sektory_group_selected.shp')
-        copy(self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/report.html.4',
-             self.pluginPath + '/tests/data/sokolovce_piestany/tests/report.html.4')
+        copy(self.pluginPath + '/tests/data/sokolovce_piestany/tests/distances_costed_cum.tif',
+             self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/distances_costed_cum.tif')
 
     # Tests
     def loadTestProject(self):
@@ -65,6 +59,11 @@ class Hds(object):
     def compareFiles(self, file1, file2, datetimefile1_orig):
         # we test just the binary content
         datetimefile1 = self.Utils.creation_date(file1)
+        print(datetimefile1)
+        print(datetimefile1_orig)
+        print(file1)
+        print(file2)
+        print(filecmp.cmp(file1, file2))
         if (filecmp.cmp(file1, file2)) and (datetimefile1 != datetimefile1_orig):
             return True
         else:
@@ -97,12 +96,12 @@ class Hds(object):
 
         # get sectors
         datetimefile1_orig = self.Utils.creation_date(
-            self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/sektory_group_selected.shp')
+            self.pluginPath + '/tests/data/sokolovce_piestany/sektory/shp/all.shp')
         self.widget.sliderEnd.setValue(60)
         self.Sectors.getSectors(0,60)
         # the shp should be same as matrice
-        if self.compareFiles(self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/sektory_group_selected.shp',
-                             self.pluginPath + '/tests/data/sokolovce_piestany/tests/sektory_group_selected.shp',
+        if self.compareFiles(self.pluginPath + '/tests/data/sokolovce_piestany/sektory/gpx/all.gpx',
+                             self.pluginPath + '/tests/data/sokolovce_piestany/tests/all.gpx',
                              datetimefile1_orig):
             QgsMessageLog.logMessage("INFO: Sectors test skončil dobře (výstupní SHP odpovídá očekávanému stavu)",
                                      "Patrac")
@@ -111,10 +110,10 @@ class Hds(object):
             QgsMessageLog.logMessage("ERROR: Sectors test skončil chybou (výstupní SHP neodpovídá očekávanému stavu)",
                                      "Patrac")
 
-        # repost export
+        # report export
         datetimefile1_orig = self.Utils.creation_date(
             self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/report.html.4')
-        self.Sectors.reportExportSectors(True, True)
+        self.Sectors.reportExportSectors(False, True)
         # the html should be same as matrice
         if self.compareFiles(self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/report.html.4',
                              self.pluginPath + '/tests/data/sokolovce_piestany/tests/report.html.4',

@@ -440,10 +440,6 @@ class Sectors(object):
                 layer = lyr
                 break
 
-        # exports overall map with all sectors to PDF
-        if exportPDF:
-            self.Printing.exportPDF(layer.extent(), DATAPATH + "/sektory/")
-
         provider = layer.dataProvider()
         features = provider.getFeatures()
 
@@ -605,6 +601,10 @@ class Sectors(object):
         footer = io.open(DATAPATH + '/pracovni/report_footer.html', encoding='utf-8', mode='r').read()
         f.write(footer)
         f.close()
+
+        # exports overall map with all sectors to PDF
+        if exportPDF:
+            self.Printing.exportPDF(layer.extent(), DATAPATH + "/sektory/")
 
         self.widget.setCursor(Qt.ArrowCursor)
         # Opens report in default browser

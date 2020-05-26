@@ -52,10 +52,8 @@ from .main.styles import Styles
 
 from os import path
 
-import os, sys, subprocess, time, urllib.request, urllib.error, urllib.parse, math, socket
+import os, sys, subprocess, time, math, socket
 
-from glob import glob
-from urllib.parse import quote
 from datetime import datetime, timedelta
 from shutil import copy
 from time import gmtime, strftime

@@ -324,7 +324,9 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
     def testHds(self):
         self.parent.setCursor(Qt.WaitCursor)
+        self.setCursor(Qt.WaitCursor)
         self.main.testHds()
+        self.setCursor(Qt.ArrowCursor)
         self.parent.setCursor(Qt.ArrowCursor)
 
     def updateData(self):
