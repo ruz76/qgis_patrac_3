@@ -19,6 +19,7 @@ in a case when there is not a network.
 * Result accept twice run
 * Message not append a file to post
 * HTTP reponse other than 200 is not handled
+* Fixed basic test
 
 ## Version 3.12.6 (2020-05-15)
 

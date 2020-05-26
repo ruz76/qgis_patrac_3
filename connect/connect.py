@@ -47,22 +47,23 @@ class CheckRequests(QThread):
                 c = conn.cursor()
                 c.execute("SELECT id, url, data, filename FROM requests LIMIT 1")
                 row = c.fetchone()
-                if row[3] is None:
-                    # print("NO FILE")
-                    self.rowid = row[0]
-                    self.simpleGet = Connect()
-                    self.simpleGet.setUrl(row[1])
-                    self.simpleGet.statusChanged.connect(self.onResponse)
-                    self.simpleGet.start()
-                else:
-                    # print("FILE", row[2])
-                    self.rowid = row[0]
-                    self.postFile = ConnectPost()
-                    self.postFile.setUrl(row[1])
-                    self.postFile.setFilename(row[3])
-                    self.postFile.setData(ast.literal_eval(row[2]))
-                    self.postFile.statusChanged.connect(self.onResponsePostFile)
-                    self.postFile.start()
+                if row is not None:
+                    if row[3] is None:
+                        # print("NO FILE")
+                        self.rowid = row[0]
+                        self.simpleGet = Connect()
+                        self.simpleGet.setUrl(row[1])
+                        self.simpleGet.statusChanged.connect(self.onResponse)
+                        self.simpleGet.start()
+                    else:
+                        # print("FILE", row[2])
+                        self.rowid = row[0]
+                        self.postFile = ConnectPost()
+                        self.postFile.setUrl(row[1])
+                        self.postFile.setFilename(row[3])
+                        self.postFile.setData(ast.literal_eval(row[2]))
+                        self.postFile.statusChanged.connect(self.onResponsePostFile)
+                        self.postFile.start()
                 conn.close()
 
             except Error as e:
