@@ -298,16 +298,20 @@ f.write(u"<li>" + p10label + ": " + str(int(math.ceil(SUM_P10))) + u" ha</li>\n"
 f.write(u"</ul>\n")
 f.write(u"</div>\n")
 
-
+fileInput = None
 unitsTimesPath = PLUGIN_PATH + "/../../../qgis_patrac_settings/grass/units_times.csv"
+if system == 'win':
+    fileInput = open(unitsTimesPath, encoding='utf-8', mode="r")
+elif system == 'linux':
+    fileInput = open(unitsTimesPath, mode="r")
+
 # Reads CSV and populates the array
 unitsTimes = []
-with open(unitsTimesPath, "r") as fileInput:
-    for row in csv.reader(fileInput, delimiter=';'):
-        row_out = []
-        for field in row:
-            row_out.append(float(field))
-        unitsTimes.append(row_out)
+for row in csv.reader(fileInput, delimiter=';'):
+    row_out = []
+    for field in row:
+        row_out.append(float(field))
+    unitsTimes.append(row_out)
 
 KPT = SUM_P2 + SUM_P3 + SUM_P5
 KPT_PT = SUM_P1 + SUM_P4 + SUM_P8
