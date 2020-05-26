@@ -779,7 +779,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def extendRegion(self):
         msg = QApplication.translate("Patrac", "The function is not available. Please create new project.", None)
-        QMessageBox.information(self.main.iface.mainWindow(), QApplication.translate("Patrac", "Not available", None), msg)
+        QMessageBox.information(None, QApplication.translate("Patrac", "Not available", None), msg)
         return
         self.Sectors.extendRegion()
 

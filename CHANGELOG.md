@@ -1,6 +1,6 @@
 # Changelog 
 
-## Version 3.12.7 (2020-05-24)
+## Version 3.12.7 (2020-05-26)
 
 #### Improvements
 

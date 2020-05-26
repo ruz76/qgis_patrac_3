@@ -31,11 +31,6 @@ import csv, io, math, subprocess, os, sys, uuid, webbrowser
 from qgis.core import *
 from qgis.gui import *
 
-from datetime import datetime, timedelta
-from shutil import copy
-from time import gmtime, strftime
-from glob import glob
-
 from qgis.PyQt.QtWidgets import *
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import *
@@ -604,7 +599,17 @@ class Sectors(object):
 
         # exports overall map with all sectors to PDF
         if exportPDF:
-            self.Printing.exportPDF(layer.extent(), DATAPATH + "/sektory/")
+            srs = self.canvas.mapSettings().destinationCrs()
+            current_crs = srs.authid()
+            if current_crs == "EPSG:5514":
+                self.Printing.exportPDF(layer.extent(), DATAPATH + "/sektory/")
+            else:
+                srs = self.canvas.mapSettings().destinationCrs()
+                crs_src = QgsCoordinateReferenceSystem(5514)
+                crs_dest = QgsCoordinateReferenceSystem(srs)
+                xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
+                extent = xform.transform(layer.extent())
+                self.Printing.exportPDF(extent, DATAPATH + "/sektory/")
 
         self.widget.setCursor(Qt.ArrowCursor)
         # Opens report in default browser
