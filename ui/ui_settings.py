@@ -357,9 +357,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         except (webbrowser.Error):
             self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not find web browser to open help"), level=Qgis.Critical)
 
-    def getQrCode(self):
-        img = qrcode.make('Some data here')
-
     def fillLineEdit(self, filePath, lineEdit):
         content = open(filePath, 'r').read()
         lineEdit.setText(content)

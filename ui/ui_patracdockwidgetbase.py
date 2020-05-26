@@ -19,14 +19,6 @@ class Ui_PatracDockWidget(object):
 
         self.pluginPath = PatracDockWidget.pluginPath
 
-        # for i in inspect.getmembers(PatracDockWidget):
-        #     # Ignores anything starting with underscore
-        #     # (that is, private and protected attributes)
-        #     if not i[0].startswith('_'):
-        #         # Ignores methods
-        #         if not inspect.ismethod(i[1]):
-        #             print(i)
-
         self.dockWidgetContents = QWidget()
         self.dockWidgetContents.setObjectName(_fromUtf8("dockWidgetContents"))
 
@@ -83,32 +75,32 @@ class Ui_PatracDockWidget(object):
         self.tbtnGetSectors = QPushButton(self.dockWidgetContents)
         self.tbtnGetSectors.setObjectName(_fromUtf8("tbtnGetSectors"))  
         self.tbtnGetSectors.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "select_sectors.png")));
-        self.tbtnGetSectors.setIconSize(QSize(32,32));
-        self.tbtnGetSectors.setFixedSize(QSize(42,42));
+        self.tbtnGetSectors.setIconSize(QSize(32,32))
+        self.tbtnGetSectors.setFixedSize(QSize(42,42))
         self.horizontalLayoutToolbar.addWidget(self.tbtnGetSectors)
         self.tbtnGetSectors.setToolTip(QApplication.translate("PatracDockWidget", "Select sectors", None))
 
         self.tbtnRecalculateSectors = QPushButton(self.dockWidgetContents)
         self.tbtnRecalculateSectors.setObjectName(_fromUtf8("tbtnRecalculateSectors"))  
         self.tbtnRecalculateSectors.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "number_sectors.png")));
-        self.tbtnRecalculateSectors.setIconSize(QSize(32,32));
-        self.tbtnRecalculateSectors.setFixedSize(QSize(42,42));
+        self.tbtnRecalculateSectors.setIconSize(QSize(32,32))
+        self.tbtnRecalculateSectors.setFixedSize(QSize(42,42))
         self.horizontalLayoutToolbar.addWidget(self.tbtnRecalculateSectors)
         self.tbtnRecalculateSectors.setToolTip(QApplication.translate("PatracDockWidget", "Renumber sectors", None))
 
         self.tbtnExportSectors = QPushButton(self.dockWidgetContents)
         self.tbtnExportSectors.setObjectName(_fromUtf8("tbtnExportSectors"))  
         self.tbtnExportSectors.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "export_sectors.png")));
-        self.tbtnExportSectors.setIconSize(QSize(32,32));
-        self.tbtnExportSectors.setFixedSize(QSize(42,42));
+        self.tbtnExportSectors.setIconSize(QSize(32,32))
+        self.tbtnExportSectors.setFixedSize(QSize(42,42))
         self.horizontalLayoutToolbar.addWidget(self.tbtnExportSectors)
         self.tbtnExportSectors.setToolTip(QApplication.translate("PatracDockWidget", "Export sectors", None))
 
         self.tbtnReportExportSectors = QPushButton(self.dockWidgetContents)
         self.tbtnReportExportSectors.setObjectName(_fromUtf8("tbtnReportExportSectors"))
         self.tbtnReportExportSectors.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "report_export_sectors.png")));
-        self.tbtnReportExportSectors.setIconSize(QSize(32, 32));
-        self.tbtnReportExportSectors.setFixedSize(QSize(42, 42));
+        self.tbtnReportExportSectors.setIconSize(QSize(32, 32))
+        self.tbtnReportExportSectors.setFixedSize(QSize(42, 42))
         self.horizontalLayoutToolbar.addWidget(self.tbtnReportExportSectors)
         self.tbtnReportExportSectors.setToolTip(QApplication.translate("PatracDockWidget", "Create report", None))
 
@@ -179,35 +171,35 @@ class Ui_PatracDockWidget(object):
 
         self.tbtnExtendRegion = QPushButton(self.dockWidgetContents)
         self.tbtnExtendRegion.setObjectName(_fromUtf8("tbtnImportPaths"))
-        self.tbtnExtendRegion.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "extend_region.png")));
-        self.tbtnExtendRegion.setIconSize(QSize(32, 32));
-        self.tbtnExtendRegion.setFixedSize(QSize(42, 42));
+        self.tbtnExtendRegion.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "extend_region.png")))
+        self.tbtnExtendRegion.setIconSize(QSize(32, 32))
+        self.tbtnExtendRegion.setFixedSize(QSize(42, 42))
         self.horizontalLayoutToolbar_5.addWidget(self.tbtnExtendRegion)
         self.tbtnExtendRegion.setToolTip(QApplication.translate("PatracDockWidget", "Extend area", None))
 
         self.tbtnShowSearchers = QPushButton(self.dockWidgetContents)
         self.tbtnShowSearchers.setObjectName(_fromUtf8("tbtnShowSearchers"))
-        self.tbtnShowSearchers.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "show_searchers.png")));
-        self.tbtnShowSearchers.setIconSize(QSize(32, 32));
-        self.tbtnShowSearchers.setFixedSize(QSize(42, 42));
+        self.tbtnShowSearchers.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "show_searchers.png")))
+        self.tbtnShowSearchers.setIconSize(QSize(32, 32))
+        self.tbtnShowSearchers.setFixedSize(QSize(42, 42))
         self.horizontalLayoutToolbar_5.addWidget(self.tbtnShowSearchers)
         self.tbtnShowSearchers.setToolTip(
             QApplication.translate("PatracDockWidget", "Show searchers (points)", None))
 
         self.tbtnShowSearchersTracks = QPushButton(self.dockWidgetContents)
         self.tbtnShowSearchersTracks.setObjectName(_fromUtf8("tbtnShowSearchersTracks"))
-        self.tbtnShowSearchersTracks.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "show_searchers_tracks.png")));
-        self.tbtnShowSearchersTracks.setIconSize(QSize(32, 32));
-        self.tbtnShowSearchersTracks.setFixedSize(QSize(42, 42));
+        self.tbtnShowSearchersTracks.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "show_searchers_tracks.png")))
+        self.tbtnShowSearchersTracks.setIconSize(QSize(32, 32))
+        self.tbtnShowSearchersTracks.setFixedSize(QSize(42, 42))
         self.horizontalLayoutToolbar_5.addWidget(self.tbtnShowSearchersTracks)
         self.tbtnShowSearchersTracks.setToolTip(
             QApplication.translate("PatracDockWidget", "Show searchers (lines)", None))
 
         self.tbtnShowMessage = QPushButton(self.dockWidgetContents)
         self.tbtnShowMessage.setObjectName(_fromUtf8("tbtnShowMessage"))
-        self.tbtnShowMessage.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "message.png")));
-        self.tbtnShowMessage.setIconSize(QSize(32, 32));
-        self.tbtnShowMessage.setFixedSize(QSize(42, 42));
+        self.tbtnShowMessage.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "message.png")))
+        self.tbtnShowMessage.setIconSize(QSize(32, 32))
+        self.tbtnShowMessage.setFixedSize(QSize(42, 42))
         self.horizontalLayoutToolbar_5.addWidget(self.tbtnShowMessage)
         self.tbtnShowMessage.setToolTip(
             QApplication.translate("PatracDockWidget", "Messages", None))
@@ -221,35 +213,35 @@ class Ui_PatracDockWidget(object):
 
         self.helpShow = QPushButton(self.dockWidgetContents)
         self.helpShow.setObjectName(_fromUtf8("helpShow"))
-        self.helpShow.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "help.png")));
-        self.helpShow.setIconSize(QSize(32, 32));
-        self.helpShow.setFixedSize(QSize(42, 42));
+        self.helpShow.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "help.png")))
+        self.helpShow.setIconSize(QSize(32, 32))
+        self.helpShow.setFixedSize(QSize(42, 42))
         self.helpShow.setToolTip(
             QApplication.translate("PatracDockWidget", "Help", None))
         self.horizontalGeneralToolbarLayout.addWidget(self.helpShow)
 
         self.tbtnImportPaths = QPushButton(self.dockWidgetContents)
         self.tbtnImportPaths.setObjectName(_fromUtf8("tbtnImportPaths"))
-        self.tbtnImportPaths.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "import_paths.png")));
-        self.tbtnImportPaths.setIconSize(QSize(32, 32));
-        self.tbtnImportPaths.setFixedSize(QSize(42, 42));
+        self.tbtnImportPaths.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "import_paths.png")))
+        self.tbtnImportPaths.setIconSize(QSize(32, 32))
+        self.tbtnImportPaths.setFixedSize(QSize(42, 42))
         self.tbtnImportPaths.setToolTip(QApplication.translate("PatracDockWidget", "Import from GPS", None))
         self.horizontalGeneralToolbarLayout.addWidget(self.tbtnImportPaths)
 
         self.tbtnShowSettings = QPushButton(self.dockWidgetContents)
         self.tbtnShowSettings.setObjectName(_fromUtf8("tbtnShowSettings"))
-        self.tbtnShowSettings.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "settings.png")));
-        self.tbtnShowSettings.setIconSize(QSize(32, 32));
-        self.tbtnShowSettings.setFixedSize(QSize(42, 42));
+        self.tbtnShowSettings.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "settings.png")))
+        self.tbtnShowSettings.setIconSize(QSize(32, 32))
+        self.tbtnShowSettings.setFixedSize(QSize(42, 42))
         self.tbtnShowSettings.setToolTip(
             QApplication.translate("PatracDockWidget", "Settings", None))
         self.horizontalGeneralToolbarLayout.addWidget(self.tbtnShowSettings)
 
         self.tbtnInsertFinal = QPushButton(self.dockWidgetContents)
         self.tbtnInsertFinal.setObjectName(_fromUtf8("tbtnInsertFinal"))
-        self.tbtnInsertFinal.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "set_result.png")));
-        self.tbtnInsertFinal.setIconSize(QSize(32, 32));
-        self.tbtnInsertFinal.setFixedSize(QSize(42, 42));
+        self.tbtnInsertFinal.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "set_result.png")))
+        self.tbtnInsertFinal.setIconSize(QSize(32, 32))
+        self.tbtnInsertFinal.setFixedSize(QSize(42, 42))
         self.tbtnInsertFinal.setToolTip(QApplication.translate(
             "PatracDockWidget", "Result", None))
         self.horizontalGeneralToolbarLayout.addWidget(self.tbtnInsertFinal)

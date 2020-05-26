@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui/aboutdialogbase.ui'
-#
-# Created: Mon Jul 29 13:57:02 2013
-#      by: PyQt4 UI code generator 4.9.1
-#
-# WARNING! All changes made in this file will be lost!
-
 from qgis.PyQt import QtCore, QtGui
 
 try:

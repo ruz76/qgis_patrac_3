@@ -79,7 +79,7 @@ class Utils(object):
         """Adds raster layer to map"""
         raster = QgsRasterLayer(path, label, "gdal")
         if not raster.isValid():
-            QgsMessageLog.logMessage("Vrstvu " + path + " se nepodařilo načíst", "Patrac")
+            QgsMessageLog.logMessage("Can not read layer: " + path, "Patrac")
         else:
             ##            crs = QgsCoordinateReferenceSystem("EPSG:4326")
             QgsProject.instance().addMapLayer(raster)

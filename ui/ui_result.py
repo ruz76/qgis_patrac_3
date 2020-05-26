@@ -152,7 +152,7 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         html = io.open(self.DATAPATH + "/search/result.html", encoding='utf-8', mode="w")
         html.write('<!DOCTYPE html>\n')
         html.write('<html><head><meta charset = "UTF-8">\n')
-        html.write('<title>Report z výsledku pátrání</title>\n')
+        html.write('<title>' + self.tr("Result") + '</title>\n')
         html.write('</head>\n')
         html.write('<body>\n')
         html.write("<h1>" + self.tr("Result") + "</h1>\n")

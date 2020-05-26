@@ -6,4 +6,4 @@ SOURCES = ../main/area.py ../main/hds.py ../main/printing.py \
           ../ui/ui_gpx.py ../ui/ui_message.py ../ui/ui_patracdockwidgetbase.py \
           ../ui/ui_point_tool.py ../ui/ui_progress_tool.py ../ui/ui_result.py \
           ../ui/ui_settings.py ../aboutdialog.py ../patracdockwidget.py
-TRANSLATIONS = qgis_patrac_en_US.ts qgis_patrac_cs.ts
+TRANSLATIONS = qgis_patrac_en_US.ts qgis_patrac_cs_CZ.ts

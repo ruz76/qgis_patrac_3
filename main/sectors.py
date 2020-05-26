@@ -560,7 +560,7 @@ class Sectors(object):
             sector.commitChanges()
 
             if not sector.isValid():
-                QgsMessageLog.logMessage("Sector " + feature['label'] + " se nepodařilo načíst", "Patrac")
+                QgsMessageLog.logMessage("Can not read sector " + feature['label'], "Patrac")
             else:
                 # Export do GPX
                 # QgsVectorFileWriter.writeAsVectorFormat(sector, DATAPATH + "/sektory/gpx/" + feature['label'] + ".gpx",
