@@ -258,7 +258,7 @@ f = io.open(DATAPATH + '/pracovni/report.html.units', encoding='utf-8', mode='w'
 CUR_KPT = 0
 CUR_PT = 0
 CUR_VPT = 0
-# TODO check how it works in Windows - seems that this works in Linux and commented line in Windows
+
 fileInput = None
 settingsPath = PLUGIN_PATH + "/../../../qgis_patrac_settings"
 if system == 'win':
@@ -347,8 +347,9 @@ if SUM_P9 > 0:
     f.write(u"<h2>" + diverLabel + "</h2>\n")
     f.write(u"<p>" + waterArea + " " + str(int(math.ceil(SUM_P9))) + u" ha.\n")
     if CUR_VPT > 0:
-        # TODO count time for divers
-        A = 100  # placeholder
+        P9_VPT = float(SUM_P9) / unitsTimes[8][4]
+        f.write(u"<p>" + availableLabel + " " + str(CUR_VPT) + u" " + diverLabel2 + ".\n")
+        f.write(u"<p>" + searchingForTime + " " + str(int(math.ceil(P9_VPT / float(CUR_VPT)))) + u" h.\n")
     else:
         f.write(u"<p>" + noDivers + ".\n")
 

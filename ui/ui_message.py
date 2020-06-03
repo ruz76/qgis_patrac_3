@@ -51,9 +51,6 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 
 class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
     """Dialog for sending the messages
-        TODO - add functionality for history
-        TODO - add possibility to send message to all users
-        TODO - gets searchid from settings
     """
 
     def __init__(self, pluginPath, DATAPATH, parent=None):
@@ -128,7 +125,6 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
             self.listViewSearchers.setModel(self.listViewModel)
             self.getMessage()
         else:
-            # TODO - if we can not connect to server, we should connect later
             self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
     def getSearchID(self):
@@ -196,7 +192,7 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
         if ids == "":
             QMessageBox.information(None, self.tr("ERROR"), self.tr("No recipient."))
             return
-        # TODO test if something is selected
+
         # Gets the message as plain text
         message = self.plainTextEditMessage.toPlainText()
         searchid = self.getSearchID()
@@ -248,7 +244,6 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
         if response.status == 200:
             message = response.data.read()
         else:
-            # TODO - if we can not connect to server, we should connect later
             self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
     def getMessage(self):
@@ -271,7 +266,6 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
                 self.listWidgetMessages.addItem("\n" + messageForView)
                 self.listWidgetMessages.scrollToBottom()
         else:
-            # TODO - if we can not connect to server, we should connect later
             self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
 
