@@ -679,7 +679,7 @@
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="89"/>
         <source>Renumber sectors</source>
-        <translation>Přečíslovat sektory</translation>
+        <translation>Přepočítat plochy</translation>
     </message>
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="97"/>

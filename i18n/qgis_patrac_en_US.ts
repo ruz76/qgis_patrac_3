@@ -651,7 +651,7 @@
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="89"/>
         <source>Renumber sectors</source>
-        <translation>Renumber sectors</translation>
+        <translation>Recalculate areas</translation>
     </message>
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="97"/>
