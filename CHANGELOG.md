@@ -1,5 +1,17 @@
 # Changelog 
 
+## Version 3.12.8 (2020-06-07)
+
+#### Improvements
+
+* Renamed button for recalculation (now is more clear)
+* Extent area is now operational again
+
+#### Bug Fixes
+
+* Fixed utf8 on locations reading
+* Fixed utf8 on tracks reading
+
 ## Version 3.12.7 (2020-05-26)
 
 #### Improvements
