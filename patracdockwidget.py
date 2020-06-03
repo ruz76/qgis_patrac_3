@@ -774,13 +774,11 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def recalculateSectorsExpert(self):
         self.Sectors.recalculateSectors(False)
-        # TODO change icon and name of the function
-        # self.extendRegion()
 
     def extendRegion(self):
-        msg = QApplication.translate("Patrac", "The function is not available. Please create new project.", None)
-        QMessageBox.information(None, QApplication.translate("Patrac", "Not available", None), msg)
-        return
+        # msg = QApplication.translate("Patrac", "The function is not available. Please create new project.", None)
+        # QMessageBox.information(None, QApplication.translate("Patrac", "Not available", None), msg)
+        # return
         self.Sectors.extendRegion()
 
     def showSettings(self):
@@ -1059,13 +1057,15 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def getSearchID(self):
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
-        searchid = open(DATAPATH + '/config/searchid.txt', 'r').read()
+        searchid = "NONE"
+        with open(DATAPATH + '/config/searchid.txt', 'r') as f:
+            searchid = f.read()
         return searchid
 
     def addFeaturePolyLineFromPoints(self, points, cols, provider):
         fet = QgsFeature()
         # Name and sessionid are on first and second place
-        fet.setAttributes([str(cols[0]), str(cols[1]), str(cols[2]), str(cols[3]).decode('utf8')])
+        fet.setAttributes([str(cols[0]), str(cols[1]), str(cols[2]), str(cols[3])])
         # Geometry is on third and fourth places
         if len(points) > 1:
             line = QgsGeometry.fromPolylineXY(points)
@@ -1098,7 +1098,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             provider = layer.dataProvider()
             features = provider.getFeatures()
             sectorid = 0
-            locations = str(response.data.read())
+            locations = response.data.read().decode("utf-8")
             if "Error" in locations:
                 self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
                 # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
@@ -1132,7 +1132,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                                 point = QgsPointXY(float(xy[0]), float(xy[1]))
                                 points.append(point)
                             except:
-                                QgsMessageLog.logMessage(QApplication.translate("Patrac", "Problem to read data from" + ": ", None) + line.decode('utf8'), "Patrac")
+                                QgsMessageLog.logMessage(QApplication.translate("Patrac", "Problem to read data from" + ": ", None) + line, "Patrac")
                                 pass
                         position = position + 1
                     self.addFeaturePolyLineFromPoints(points, cols, provider)
@@ -1171,18 +1171,21 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             # Deletes all features in layer patraci.shp
             layer.deleteFeatures(listOfIds)
             # Reads locations from response
-            locations = str(response.data.read())
+            locations = response.data.read().decode("utf-8")
+            # locations = locations.decode("utf-8")
             # print("LOCATIONS: " + locations)
             # Splits to lines
             lines = locations.split("\n")
-            if len(lines) < 1 or len(lines[0]) < 20:
+            if len(lines) < 2 or len(lines[1]) < 20:
                 self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Positions are empty.", None), level=Qgis.Warning)
                 return
             # Loops the lines
+            i = 0
             for line in lines:
-                if line != "":  # add other needed checks to skip titles
+                if line != "" and i > 0:  # add other needed checks to skip titles
                     # Splits based on semicolon
                     # TODO - add time
+                    print(line)
                     cols = line.split(";")
                     fet = QgsFeature()
                     # Geometry is on last place
@@ -1190,11 +1193,13 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                         xy = str(cols[4]).split(" ")
                         fet.setGeometry(QgsGeometry.fromPointXY(QgsPointXY(float(xy[0]), float(xy[1]))))
                         # Name and sessionid are on first and second place
-                        fet.setAttributes([str(cols[0]), str(cols[1]), str(cols[2]), str(cols[3]).decode('utf8')])
+                        fet.setAttributes([str(cols[0]), str(cols[1]), str(cols[2]), str(cols[3])])
                         provider.addFeatures([fet])
-                    except:
+                    except Exception as e:
                         self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Problem to read data from" + ": ", None) + line, level=Qgis.Warning)
+                        # print(e)
                         pass
+                i+=1
             layer.commitChanges()
             layer.triggerRepaint()
         else:
