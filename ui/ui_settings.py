@@ -364,7 +364,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         lineEdit.setText(content)
 
     def getRegion(self):
-        # TODO
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
         if DATAPATH != "" and QFileInfo(DATAPATH + "/config/region.txt").exists():

@@ -243,8 +243,6 @@ class ProgressMapTool(QgsMapTool):
         layer.loadNamedStyle(self.pluginPath + '/styles/not_searched.qml')
         layer.triggerRepaint()
         QgsProject.instance().addMapLayer(layer)
-        # TODO select both layers if necessary
-        self.iface.setActiveLayer(selectedLayers[0])
 
     def canvasReleaseEvent(self, e):
         if self.point is not None and self.layer is not None:

@@ -517,8 +517,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         try:
             copy(DATAPATH + '/sektory/gpx/all.gpx', path + "/sektory_" + time + ".gpx")
         except:
-            a = 10
-            # TODO report error	
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                    QApplication.translate("Patrac", "Can not copy. You have copy it manually from the path" + ": ", None) + DATAPATH + '/sektory/gpx/all.gpx')
         if os.path.isfile(path + "/sektory_" + time + ".gpx"):
             QMessageBox.information(None, QApplication.translate("Patrac", "INFO", None), QApplication.translate("Patrac", "The sectors has been copied into the device" + ": ", None) + path + "/sektory_" + time + ".gpx")
         else:
