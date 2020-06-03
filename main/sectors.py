@@ -135,19 +135,31 @@ class Sectors(object):
         initialExtent = open(self.Utils.getDataPath() + '/config/extent.txt', 'r').read()
         initialExtentItems = initialExtent.split(" ")
 
-        XMIN = str(self.canvas.extent().xMinimum()) \
-            if self.canvas.extent().xMinimum() < float(initialExtentItems[0]) else initialExtentItems[0]
-        YMIN = str(self.canvas.extent().yMinimum()) \
-            if self.canvas.extent().yMinimum() < float(initialExtentItems[1]) else initialExtentItems[1]
-        XMAX = str(self.canvas.extent().xMaximum()) \
-            if self.canvas.extent().xMaximum() > float(initialExtentItems[2]) else initialExtentItems[2]
-        YMAX = str(self.canvas.extent().yMaximum()) \
-            if self.canvas.extent().yMaximum() > float(initialExtentItems[3]) else initialExtentItems[3]
+        CMINX = self.canvas.extent().xMinimum()
+        CMINY = self.canvas.extent().yMinimum()
+        CMAXX = self.canvas.extent().xMaximum()
+        CMAXY = self.canvas.extent().yMaximum()
 
-        # XMIN = str(self.canvas.extent().xMinimum())
-        # YMIN = str(self.canvas.extent().yMinimum())
-        # XMAX = str(self.canvas.extent().xMaximum())
-        # YMAX = str(self.canvas.extent().yMaximum())
+        source_crs = self.canvas.mapSettings().destinationCrs()
+        current_crs = source_crs.authid()
+        if current_crs != "EPSG:5514":
+            dest_crs = QgsCoordinateReferenceSystem(5514)
+            transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
+            minJTSK = transform.transform(float(CMINX), float(CMINY))
+            CMINX = minJTSK.x()
+            CMINY = minJTSK.y()
+            maxJTSK = transform.transform(float(CMAXX), float(CMAXY))
+            CMAXX = maxJTSK.x()
+            CMAXY = maxJTSK.y()
+
+        XMIN = str(CMINX) \
+            if CMINX < float(initialExtentItems[0]) else initialExtentItems[0]
+        YMIN = str(CMINY) \
+            if CMINY < float(initialExtentItems[1]) else initialExtentItems[1]
+        XMAX = str(CMAXX) \
+            if CMAXX > float(initialExtentItems[2]) else initialExtentItems[2]
+        YMAX = str(CMAXY) \
+            if CMAXY > float(initialExtentItems[3]) else initialExtentItems[3]
 
         if sys.platform.startswith('win'):
             p = subprocess.Popen((
@@ -177,6 +189,7 @@ class Sectors(object):
             return f.read().splitlines()
 
     def appendSectors(self):
+        print(self.Utils.getDataPath() + "/pracovni/sektory_group_to_append.shp")
         self.Utils.addVectorLayer(self.Utils.getDataPath() + "/pracovni/sektory_group_to_append.shp", "Sektory k přidání")
 
         layer = None
@@ -229,7 +242,7 @@ class Sectors(object):
         sectorid = 0
         for feature in featuresToAdd:
             if str(feature['id']) not in featureIds:
-                # print("ADD " + str(feature['id']))
+                print("ADD " + str(feature['id']))
                 f.write(str(feature['id']) + "\n")
                 sectorid = sectorid + 1
                 # feature['label'] = str(startingLetter) + str(sectorid)

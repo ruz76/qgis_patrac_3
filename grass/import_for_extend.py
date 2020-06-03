@@ -101,6 +101,10 @@ if os.path.isfile(DATAINPUTPATH+'/vektor/OSM/line_x/merged_polygons_groupped.shp
     print(gscript.read_command('r.reclass', input='landuse', output='landuse_type', rules=PLUGIN_PATH+'/grass/landuse_type_osm.rules', overwrite=True))
 
 
+#Adds progress columns
+print(gscript.read_command('v.db.addcolumn', map='sectors_group_to_append', layer='1', columns='stav INTEGER'))
+print(gscript.read_command('v.db.addcolumn', map='sectors_group_to_append', layer='1', columns='prostredky VARCHAR(254)'))
+
 #Computes areas
 print(gscript.read_command('v.db.addcolumn', map='sectors_group_to_append', layer='1', columns='area_ha DOUBLE PRECISION'))
 print(gscript.read_command('v.to.db', map='sectors_group_to_append', layer='1', option='area', units='hectares', columns='area_ha'))

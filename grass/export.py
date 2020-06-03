@@ -74,6 +74,7 @@ YMIN=float(sys.argv[4])
 XMAX=float(sys.argv[5])
 YMAX=float(sys.argv[6])
 DATAOUTPUTPATH=str(sys.argv[7])
+print(sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
 
 #Sets the region for export
 #g.region e=-641060.857143 w=-658275.142857 n=-1036549.0 s=-1046549.0
