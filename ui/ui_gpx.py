@@ -135,34 +135,20 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
             drive = self.getDrive()
             #If not selected than C:, that should be always present
             if drive is None:
-                #drive = "C:/" Very dangerous feature. Reads all GPX from the C: drive. It can take a lot of time.
-                #removed
                 QgsMessageLog.logMessage(self.tr("Not found any disk. Will not search for data."), "Patrac")
                 return
-            #TODO - do it better to handle another devices than Garmin
             self.path = drive[:-1] + '/'
-        # For Linux is path set just for testing purposes
-        # TODO - change to have real connected devices
         else:
             drive = self.getDriveLinux()
             if drive is None:
-                #drive = "C:/" Very dangerous feature. Reads all GPX from the C: drive. It can take a lot of time.
-                #removed
                 QgsMessageLog.logMessage(self.tr("Not found any disk. Will not search for data."), "Patrac")
                 return
             self.path = drive
 
-        #for f in glob.iglob('E:/Garmin/GPX/*/*.gpx'):  # generator, search immediate subdirectories
         i = 0
         for root, dirnames, filenames in os.walk(self.path):
             for f in fnmatch.filter(filenames, '*.gpx'):
-            #for f in iglob(self.path, recursive=True):
-                #copyfile(f, self.DATAPATH + '/search/gpx/' + SECTOR + '/' + os.path.basename(f))
-                #First copy original file to search/gpx/ directory
-                #shutil.copyfile(os.path.join(root, f.decode('utf8')), self.DATAPATH + u'/search/gpx/' + os.path.basename(f.decode('utf8')))
-                #Then copy the same file to search/tem/ directory and name it according to position in list
                 shutil.copyfile(os.path.join(root, f), self.DATAPATH + '/search/temp/' + str(i) + '.gpx')
-                #Notice size of list.csv
                 listSize = 0
                 if i > 0:
                     listSize = os.path.getsize(self.DATAPATH + '/search/temp/list.csv')

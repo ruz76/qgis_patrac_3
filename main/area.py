@@ -93,7 +93,6 @@ class Area(object):
         # TODO - think more about this check - should be more than two, probably and in some shape as well
         if len(features) > 1:
             azimuth = self.getRadial(features)
-            # TODO read from setings
             useAzimuth = self.Utils.getProcessRadial()
             # difficult to set azimuth (for example wrong shape of the path (e.q. close to  circle))
             if azimuth <= 360 and useAzimuth:

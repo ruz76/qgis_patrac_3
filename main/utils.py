@@ -116,7 +116,6 @@ class Utils(object):
 
     def setStyle(self, path, name):
         """Copies style and replaces some definitions"""
-        # TODO - maybe just copy the style
         qml = open(path + 'style.qml', 'r').read()
         f = open(path + name + '.qml', 'w')
         qml = qml.replace("k=\"line_width\" v=\"0.26\"", "k=\"line_width\" v=\"1.2\"")

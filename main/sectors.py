@@ -366,8 +366,6 @@ class Sectors(object):
         i = 1
         for feature in features:
             # Removes existing layer according to label in features
-            # TODO - if the number of sectors is higher than in previous step, some of the layers are not removed
-            # self.removeLayer(DATAPATH + "/sektory/shp/" + feature['label'] + ".shp")
             self.Utils.copyLayer(DATAPATH, feature['label'])
             sector = QgsVectorLayer(DATAPATH + "/sektory/shp/" + feature['label'] + ".shp", feature['label'], "ogr")
             providerSector = sector.dataProvider()
@@ -533,21 +531,11 @@ class Sectors(object):
             report = io.open(DATAPATH + '/pracovni/report.html.' + str(i), encoding='utf-8', mode='r').read()
             f.write(report)
 
-            # Removes existing layer according to label in features
-            # TODO - if the number of sectors is higher than in previous step, some of the layers are not removed
-            # self.removeLayer(DATAPATH + "/sektory/shp/" + feature['label'] + ".shp")
-            # self.setStyle(DATAPATH + "/sektory/shp/", feature['label'])
-            # crs = QgsCoordinateReferenceSystem("EPSG:5514")
-            # QgsVectorFileWriter.writeAsVectorFormat(layer, DATAPATH + "/sektory/shp/" + feature['label'] + ".shp",
-            #                                        "utf-8", crs, "ESRI Shapefile")
             self.Utils.copyLayer(DATAPATH, feature['label'])
             sector = QgsVectorLayer(DATAPATH + "/sektory/shp/" + feature['label'] + ".shp", feature['label'], "ogr")
             providerSector = sector.dataProvider()
             sector.startEditing()
             fet = QgsFeature()
-
-            # report_units = io.open(DATAPATH + '/pracovni/report.html.units.' + str(i), encoding='utf-8',
-            #                        mode='r').read()
 
             fList = list()
             fList.append(0)
