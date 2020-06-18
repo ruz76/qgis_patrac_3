@@ -125,7 +125,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.buttonBox.accepted.connect(self.accept)
 
         # Psovodi HS
-        self.pushButtonCreateIncident.clicked.connect(self.createIncident)
+        self.pushButtonCheckAvailability.clicked.connect(self.checkIncidentHandlers)
+        self.pushButtonCreateIncident.clicked.connect(self.callHandlers)
         self.pushButtonIncidentEdit.clicked.connect(self.incidentEdit)
         self.incidentId = None
 
@@ -173,7 +174,13 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         xyWGS = transform.transform(center.x(), center.y())
         return xyWGS
 
-    def createIncident(self):
+    def checkIncidentHandlers(self):
+        self.createIncident("https://www.horskasluzba.cz/cz/app-patrac-new-incident-test")
+
+    def callHandlers(self):
+        self.createIncident("https://www.horskasluzba.cz/cz/app-patrac-new-incident")
+
+    def createIncident(self, urlInput):
         if len(self.lineEditTitle.text()) < 5:
             QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter Title"))
             return
@@ -182,9 +189,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             return
         if len(self.lineEditAccessKey.text()) < 24:
             QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter API Key"))
-            return
-        if len(self.lineEditServerUrl.text()) < 50:
-            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter server URL"))
             return
         if len(self.lineEditPhone.text()) < 9:
             QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter phone"))
@@ -209,7 +213,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter latitude in format 48.54556"))
             return
 
-        url = self.lineEditServerUrl.text() + "?"
+        url = urlInput + "?"
         url += "accessKey=" + self.lineEditAccessKey.text()
         url += "&lat=" + str(lat)
         url += "&lng=" + str(lon)

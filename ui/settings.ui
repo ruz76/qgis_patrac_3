@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>6</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -863,7 +863,7 @@
      <property name="geometry">
       <rect>
        <x>670</x>
-       <y>450</y>
+       <y>460</y>
        <width>221</width>
        <height>31</height>
       </rect>
@@ -945,32 +945,6 @@
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-    <widget class="QLabel" name="labelUrlHS">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>450</y>
-       <width>131</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ServerURL</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditServerUrl">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>450</y>
-       <width>501</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>https://www.horskasluzba.cz/cz/app-patrac-new-incident-test</string>
      </property>
     </widget>
     <widget class="QLabel" name="labelTitle">
@@ -1101,6 +1075,19 @@
      </property>
      <property name="text">
       <string>49.74396</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonCheckAvailability">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>460</y>
+       <width>221</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Check availibility</string>
      </property>
     </widget>
    </widget>
