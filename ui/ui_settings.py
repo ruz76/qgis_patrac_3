@@ -258,6 +258,9 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             QMessageBox.information(self.main.iface.mainWindow(), self.tr("Error", msg))
 
     def incidentEdit(self):
+        if self.incidentId is None or len(self.incidentId) < 1:
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("You have to create incident first"))
+            return
         if len(self.lineEditUsername.text()) < 3:
             QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter user"))
             return
@@ -267,7 +270,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
         url = "https://www.horskasluzba.cz/cz/hscr-sbook-login?"
         url += "L=" + urllib.parse.quote(self.lineEditUsername.text())
-        url += "H=" + urllib.parse.quote(self.lineEditPassword.text())
+        url += "&H=" + urllib.parse.quote(self.lineEditPassword.text())
 
         self.sbookaccess = Connect()
         self.sbookaccess.setUrl(url)
