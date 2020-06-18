@@ -259,10 +259,10 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                 self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(user["phone"]))
                 i += 1
         else:
-            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Error", msg))
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Error"), msg)
 
     def incidentEdit(self):
-        if self.incidentId is None or len(self.incidentId) < 1:
+        if self.incidentId is None:
             QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("You have to create incident first"))
             return
         if len(self.lineEditUsername.text()) < 3:
