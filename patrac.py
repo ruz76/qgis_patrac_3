@@ -156,6 +156,8 @@ class PatracPlugin(object):
         #                         QCoreApplication.translate("Patrac", "Je potřeba minimálně verze 2.0.\nPlugin nebude fungovat."))
         #     return None
 
+        self.createToolbar()
+
         self.dockWidget = None
 
         self.actionDock = QAction(QIcon(":/icons/patrac.png"), "Patrac", self.iface.mainWindow())
@@ -180,6 +182,31 @@ class PatracPlugin(object):
 
         self.iface.currentLayerChanged.connect(self.layerChanged)
         self.layerChanged()
+
+    def createToolbar(self):
+        self.toolbar = self.iface.addToolBar("Patrac Toolbar")
+        self.toolbar.setObjectName("Patrac Toolbar")
+        self.toolbar.addAction(self.iface.actionOpenProject())
+        self.toolbar.addAction(self.iface.actionSaveProject())
+        self.toolbar.addAction(self.iface.actionShowLayoutManager())
+        self.toolbar.addAction(self.iface.actionPan())
+        self.toolbar.addAction(self.iface.actionZoomIn())
+        self.toolbar.addAction(self.iface.actionZoomOut())
+        self.toolbar.addAction(self.iface.actionZoomToLayer())
+        self.toolbar.addAction(self.iface.actionZoomToSelected())
+        self.toolbar.addAction(self.iface.actionIdentify())
+        self.toolbar.addAction(self.iface.actionOpenTable())
+        self.toolbar.addAction(self.iface.actionOpenFieldCalculator())
+        self.toolbar.addAction(self.iface.actionSelect())
+        self.toolbar.addAction(self.iface.actionToggleEditing())
+        self.toolbar.addAction(self.iface.actionAddFeature())
+        self.toolbar.addAction(self.iface.actionMoveFeature())
+        self.toolbar.addAction(self.iface.actionDeleteSelected())
+        self.toolbar.addAction(self.iface.actionSplitFeatures())
+        self.toolbar.addAction(self.iface.actionMeasure())
+        self.toolbar.addAction(self.iface.actionMeasureArea())
+        self.toolbar.addAction(self.iface.actionAddRasterLayer())
+        self.toolbar.addAction(self.iface.actionAddOgrLayer())
 
     def unload(self):
         self.iface.currentLayerChanged.disconnect(self.layerChanged)

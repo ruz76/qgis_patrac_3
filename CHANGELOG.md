@@ -1,5 +1,16 @@
 # Changelog 
 
+## Version 3.12.9 (2020-06-21)
+
+#### Improvements
+* Changed call handlers in two rounds
+
+#### Bug Fixes
+
+* Fixed message utf8 bug #8
+* Fixed bug with login into HS book
+* Toolbar is missing
+
 ## Version 3.12.8 (2020-06-07)
 
 #### Improvements
