@@ -85,6 +85,7 @@ print(gscript.read_command('r.mapcalc', expression='coords_friction=friction * c
 stats = gscript.parse_command('r.univar', map='coords_friction', flags='g')
 
 def move_from_null():
+    print("Moving from null")
     # if the min value is null
     print(gscript.read_command('r.mapcalc', expression='friction_null_rec=if(isnull(friction), 1, null())',
                                overwrite=True))
@@ -115,7 +116,7 @@ def move_from_null():
 try:
     # Reads min value
     MIN = float(stats['min'])
-    print(MIN)
+    print("MINIMUM: " + str(MIN))
     if str(MIN) == "nan":
         move_from_null()
 except:
