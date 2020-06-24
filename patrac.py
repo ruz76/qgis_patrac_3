@@ -156,32 +156,37 @@ class PatracPlugin(object):
         #                         QCoreApplication.translate("Patrac", "Je potřeba minimálně verze 2.0.\nPlugin nebude fungovat."))
         #     return None
 
-        self.createToolbar()
-
         self.dockWidget = None
 
         self.actionDock = QAction(QIcon(":/icons/patrac.png"), "Patrac", self.iface.mainWindow())
         self.actionDock.setStatusTip(QCoreApplication.translate("Patrac", "Show/hide Patrac dockwidget"))
         self.actionDock.setWhatsThis(QCoreApplication.translate("Patrac", "Show/hide Patrac dockwidget"))
-        self.actionDock.setCheckable(True)
-
-        self.actionAbout = QAction(QIcon(":/icons/about.png"), "About", self.iface.mainWindow())
-        self.actionAbout.setStatusTip(QCoreApplication.translate("Patrac", "About Patrac"))
-        self.actionAbout.setWhatsThis(QCoreApplication.translate("Patrac", "About Patrac"))
-
-        self.actionDock.triggered.connect(self.showHideDockWidget)
-        self.actionAbout.triggered.connect(self.about)
-
-        #self.iface.addPluginToolBarIcon(self.actionDock)
+        self.actionDock.triggered.connect(self.showWidget)
         self.iface.addPluginToMenu(QCoreApplication.translate("Patrac", "Patrac"), self.actionDock)
-        self.iface.addPluginToMenu(QCoreApplication.translate("Patrac", "Patrac"), self.actionAbout)
 
         self.dockWidget = patracdockwidget.PatracDockWidget(self)
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.dockWidget)
-        self.dockWidget.visibilityChanged.connect(self.__dockVisibilityChanged)
 
         self.iface.currentLayerChanged.connect(self.layerChanged)
         self.layerChanged()
+
+        self.createToolbar()
+        self.hideToolbars()
+
+    def hideToolbars(self):
+        self.iface.advancedDigitizeToolBar().setVisible(False)
+        self.iface.attributesToolBar().setVisible(False)
+        self.iface.databaseToolBar().setVisible(False)
+        self.iface.dataSourceManagerToolBar().setVisible(False)
+        self.iface.digitizeToolBar().setVisible(False)
+        self.iface.fileToolBar().setVisible(False)
+        self.iface.helpToolBar().setVisible(False)
+        self.iface.layerToolBar().setVisible(False)
+        self.iface.mapNavToolToolBar().setVisible(False)
+        self.iface.pluginToolBar().setVisible(False)
+        self.iface.rasterToolBar().setVisible(False)
+        self.iface.vectorToolBar().setVisible(False)
+        self.iface.webToolBar().setVisible(False)
 
     def createToolbar(self):
         self.toolbar = self.iface.addToolBar("Patrac Toolbar")
@@ -203,6 +208,7 @@ class PatracPlugin(object):
         self.toolbar.addAction(self.iface.actionMoveFeature())
         self.toolbar.addAction(self.iface.actionDeleteSelected())
         self.toolbar.addAction(self.iface.actionSplitFeatures())
+        self.toolbar.addAction(self.iface.actionSaveEdits())
         self.toolbar.addAction(self.iface.actionMeasure())
         self.toolbar.addAction(self.iface.actionMeasureArea())
         self.toolbar.addAction(self.iface.actionAddRasterLayer())
@@ -219,11 +225,8 @@ class PatracPlugin(object):
         del self.dockWidget
         self.dockWidget = None
 
-    def showHideDockWidget(self):
-        if self.dockWidget.isVisible():
-            self.dockWidget.hide()
-        else:
-            self.dockWidget.show()
+    def showWidget(self):
+        self.dockWidget.show()
 
     def layerChanged(self):
         self.layer = self.iface.activeLayer()
@@ -250,13 +253,3 @@ class PatracPlugin(object):
         self.dockWidget.updateSliders(maxValue, minValue)
 
         self.dockWidget.disableOrEnableControls(True)
-
-    def about(self):
-        d = aboutdialog.AboutDialog()
-        d.exec_()
-
-    def __dockVisibilityChanged(self):
-        if self.dockWidget.isVisible():
-            self.actionDock.setChecked(True)
-        else:
-            self.actionDock.setChecked(False)
