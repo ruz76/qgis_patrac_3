@@ -216,17 +216,14 @@ class PatracPlugin(object):
 
     def unload(self):
         self.iface.currentLayerChanged.disconnect(self.layerChanged)
-
-        #self.iface.removePluginToolBarIcon(self.actionDock)
         self.iface.removePluginMenu(QCoreApplication.translate("Patrac", "Patrac"), self.actionDock)
-        self.iface.removePluginMenu(QCoreApplication.translate("Patrac", "Patrac"), self.actionAbout)
-
         self.dockWidget.close()
         del self.dockWidget
         self.dockWidget = None
 
     def showWidget(self):
         self.dockWidget.show()
+        self.hideToolbars()
 
     def layerChanged(self):
         self.layer = self.iface.activeLayer()
