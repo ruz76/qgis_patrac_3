@@ -248,15 +248,17 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             return
 
         if hsdata["ok"] == 1:
-            # print(hsdata["users"])
+            self.iface.messageBar().pushMessage(self.tr("Success"), self.tr("Connected"), level=Qgis.Info)
+            print(hsdata["users"])
             self.incidentId = hsdata["IncidentId"]
-            self.tableWidgetSystemUsersHS.setHorizontalHeaderLabels([self.tr("Name"), self.tr("Phone")])
+            self.tableWidgetSystemUsersHS.setHorizontalHeaderLabels([self.tr("Name"), self.tr("Phone"), self.tr("Distance")])
             self.tableWidgetSystemUsersHS.setColumnWidth(1, 300);
             self.tableWidgetSystemUsersHS.setRowCount(len(hsdata["users"]))
             i = 0
             for user in hsdata["users"]:
                 self.tableWidgetSystemUsersHS.setItem(i, 0, QTableWidgetItem(user["name"]))
                 self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(user["phone"]))
+                self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(str(round(float(user["distance"])))))
                 i += 1
         else:
             QMessageBox.information(self.main.iface.mainWindow(), self.tr("Error"), msg)
