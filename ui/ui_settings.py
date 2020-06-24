@@ -249,7 +249,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
         if hsdata["ok"] == 1:
             self.iface.messageBar().pushMessage(self.tr("Success"), self.tr("Connected"), level=Qgis.Info)
-            print(hsdata["users"])
+            # print(hsdata["users"])
             self.incidentId = hsdata["IncidentId"]
             self.tableWidgetSystemUsersHS.setHorizontalHeaderLabels([self.tr("Name"), self.tr("Phone"), self.tr("Distance")])
             self.tableWidgetSystemUsersHS.setColumnWidth(1, 300);
