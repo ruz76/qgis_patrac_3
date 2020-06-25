@@ -824,6 +824,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
+        with open(self.pluginPath + "/config/lastprojectpath.txt", "w") as f:
+            f.write(DATAPATH)
+
         self.pointtool.setDataPath(DATAPATH)
         self.pointtool.setSearchid(self.getSearchID())
         self.plugin.iface.mapCanvas().setMapTool(self.pointtool)

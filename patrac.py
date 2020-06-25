@@ -40,10 +40,7 @@ from qgis.core import *
 from qgis.gui import *
 
 from . import patracdockwidget
-from . import aboutdialog
 from .connect.connect import *
-
-from . import resources_rc
 
 # Debugger
 from . import debug
@@ -57,6 +54,9 @@ class PatracPlugin(object):
 
     def __init__(self, iface):
         # debug.RemoteDebugger.setup_remote_pydev_debug('localhost',10999)
+
+        #QgsApplication.setQuitOnLastWindowClosed(False)
+        #QgsApplication.lastWindowClosed.connect(self.exiting)
 
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
@@ -168,10 +168,14 @@ class PatracPlugin(object):
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.dockWidget)
 
         self.iface.currentLayerChanged.connect(self.layerChanged)
+        self.iface.initializationCompleted.connect(self.hideToolbars)
         self.layerChanged()
 
         self.createToolbar()
         self.hideToolbars()
+
+    def exiting(self):
+        print("EXITING")
 
     def hideToolbars(self):
         self.iface.advancedDigitizeToolBar().setVisible(False)
@@ -215,6 +219,15 @@ class PatracPlugin(object):
         self.toolbar.addAction(self.iface.actionAddOgrLayer())
 
     def unload(self):
+        self.pluginPath = path.dirname(__file__)
+        if path.exists(self.pluginPath + "/config/lastprojectpath.txt"):
+            with open(self.pluginPath + "/config/lastprojectpath.txt", "r") as f:
+                projectPath = f.read()
+                print(projectPath + "/search/result.xml")
+                # TODO stop QGIS from exiting
+                if not path.exists(projectPath + "/search/result.xml"):
+                    QMessageBox.warning(None, QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "You did not enter the result of the search. Use smile button, please.", None))
+
         self.iface.currentLayerChanged.disconnect(self.layerChanged)
         self.iface.removePluginMenu(QCoreApplication.translate("Patrac", "Patrac"), self.actionDock)
         self.dockWidget.close()

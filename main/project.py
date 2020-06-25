@@ -259,6 +259,9 @@ class Project(object):
         QgsMessageLog.logMessage(NEW_PROJECT_PATH + '/' + NAMESAFE + '.qgs', "Patrac")
         project.read(NEW_PROJECT_PATH + '/' + NAMESAFE + '.qgs')
 
+        with open(self.pluginPath + "/config/lastprojectpath.txt", "w") as f:
+            f.write(NEW_PROJECT_PATH)
+
         # self.do_msearch()
         self.zoomToExtent(XMIN, YMIN, XMAX, YMAX)
 
