@@ -1,9 +1,12 @@
 # Changelog 
 
-## Version 3.12.9 (2020-06-21)
+## Version 3.12.9 (2020-06-25)
 
 #### Improvements
 * Changed call handlers in two rounds
+* Added check of result
+* Removed not necessary toolbars
+* Added distance of the users
 
 #### Bug Fixes
 
