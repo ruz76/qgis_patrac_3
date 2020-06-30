@@ -26,7 +26,7 @@
 #******************************************************************************
 
 
-import os
+import os, subprocess
 from os import path
 from shutil import copy
 from glob import glob
@@ -45,6 +45,34 @@ from .connect.connect import *
 # Debugger
 from . import debug
 
+class NoClose(QObject):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+    def ok_to_close(self):
+        self.pluginPath = path.dirname(__file__)
+        if path.exists(self.pluginPath + "/config/lastprojectpath.txt"):
+            with open(self.pluginPath + "/config/lastprojectpath.txt", "r") as f:
+                projectPath = f.read()
+                print(projectPath + "/search/result.xml")
+                # TODO stop QGIS from exiting
+                if not path.exists(projectPath + "/search/result.xml"):
+                    return False
+                else:
+                    return True
+        else:
+            return True
+
+    def eventFilter(self, object, event):
+        # print("CLOSE FILTER")
+        if isinstance(event, QCloseEvent):
+            if not self.ok_to_close():
+                QMessageBox.warning(None, QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "You did not enter the result of the search. Use smile button, please.", None))
+                event.ignore()
+                return True
+
+        return super().eventFilter( object, event )
+
 class PatracPlugin(object):
 
     singleBandStyles = ["paletted",
@@ -60,6 +88,9 @@ class PatracPlugin(object):
 
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
+
+        self.no_close = NoClose()
+        self.iface.mainWindow().installEventFilter(self.no_close)
 
         self.layer = None
         self.toolBar = None
@@ -219,14 +250,11 @@ class PatracPlugin(object):
         self.toolbar.addAction(self.iface.actionAddOgrLayer())
 
     def unload(self):
-        self.pluginPath = path.dirname(__file__)
-        if path.exists(self.pluginPath + "/config/lastprojectpath.txt"):
-            with open(self.pluginPath + "/config/lastprojectpath.txt", "r") as f:
-                projectPath = f.read()
-                print(projectPath + "/search/result.xml")
-                # TODO stop QGIS from exiting
-                if not path.exists(projectPath + "/search/result.xml"):
-                    QMessageBox.warning(None, QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "You did not enter the result of the search. Use smile button, please.", None))
+        if not self.no_close.ok_to_close():
+            if sys.platform.startswith('win'):
+                subprocess.Popen(("C:/OSGeo4W64/bin/qgis.bat"))
+            else:
+                subprocess.Popen(("qgis", "--profiles-path", "/home/jencek/qgis3_profiles", "--profile", "default"))
 
         self.iface.currentLayerChanged.disconnect(self.layerChanged)
         self.iface.removePluginMenu(QCoreApplication.translate("Patrac", "Patrac"), self.actionDock)

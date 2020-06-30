@@ -25,7 +25,6 @@
 #
 #******************************************************************************
 
-
 def classFactory(iface):
     from .patrac import PatracPlugin
     return PatracPlugin(iface)
