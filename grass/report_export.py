@@ -10,6 +10,8 @@ import csv
 from grass_config import *
 from os import path
 import time
+import sqlite3
+from sqlite3 import Error
 
 if sys.argv[5][:2] == "cs":
   from report_export_cs import *
@@ -105,6 +107,13 @@ SUM_P10 = 0
 print("COUNT: " + str(COUNT))
 print("LABELS: " + str(LABELS))
 
+conn = None
+try:
+    conn = sqlite3.connect(DATAPATH + "/../../vektor/ZABAGED/line_x/stats.db")
+except Error as e:
+    # print("SELECT: ", e)
+    a = 100 # Only placeholder, TODO
+
 # Loops via all selected search sectors based on number of sectors
 for i in range(1, COUNT + 1):
     print(i, LABELS[i-1])
@@ -122,8 +131,15 @@ for i in range(1, COUNT + 1):
     # Mask working area based on are of current sector
     REPORT = ""
     #print(DATAPATH + "/../../vektor/ZABAGED/line_x/" + LABELS[i-1] + ".stats")
-    if path.exists(DATAPATH + "/../../vektor/ZABAGED/line_x/" + LABELS[i] + ".stats"):
-        REPORT = open(DATAPATH + "/../../vektor/ZABAGED/line_x/" + LABELS[i] + ".stats", 'r').read()
+    if not conn is None:
+        c = conn.cursor()
+        c.execute("SELECT def_text FROM stats WHERE id = '" + LABELS[i] + "'")
+        row = c.fetchone()
+        if row is not None:
+            REPORT = row[0]
+        c.close()
+
+    if not REPORT == "":
         print(REPORT)
     else:
         print(gscript.read_command('r.mask', vector='sektory_group_selected_modified', where="cat='" + str(i) + "'",
@@ -233,6 +249,9 @@ for i in range(1, COUNT + 1):
     f.write(u"</div>\n")
 
     f.close()
+
+if not conn is None:
+    conn.close()
 
 try:
     # Removes mask to be ready for another calculations for whole area

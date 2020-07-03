@@ -49,6 +49,7 @@ from dateutil.tz import tzutc, tzlocal
 import fnmatch
 from array import array
 import getpass
+from osgeo import ogr
 
 #If on windows
 try:
@@ -149,28 +150,18 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
         for root, dirnames, filenames in os.walk(self.path):
             for f in fnmatch.filter(filenames, '*.gpx'):
                 shutil.copyfile(os.path.join(root, f), self.DATAPATH + '/search/temp/' + str(i) + '.gpx')
-                listSize = 0
-                if i > 0:
-                    listSize = os.path.getsize(self.DATAPATH + '/search/temp/list.csv')
-                #Run transformation to get time extent of the GPX
-                #Extent is added to search/temp/list.csv
-                if sys.platform.startswith('win'):
-                    # QgsMessageLog.logMessage(str(f), "Patrac")
-                    p = subprocess.Popen((self.pluginPath + '/xslt/run_xslt_extent.bat', self.pluginPath, self.DATAPATH + '/search/temp/' + str(i) + '.gpx', self.DATAPATH + '/search/temp/list.csv'))
-                    p.wait()
-                else:
-                    # QgsMessageLog.logMessage(str(f), "Patrac")
-                    p = subprocess.Popen(('bash', self.pluginPath + '/xslt/run_xslt_extent.sh', self.pluginPath, self.DATAPATH + '/search/temp/' + str(i) + '.gpx', self.DATAPATH + '/search/temp/list.csv'))
-                    p.wait()
+                ds = ogr.Open(self.DATAPATH + '/search/temp/' + str(i) + '.gpx')
+                layer = ds.GetLayer(4)
+                QgsMessageLog.logMessage(str(layer.GetFeatureCount()), "Patrac")
+                with open(self.DATAPATH + '/search/temp/list.csv', "a") as listFile:
+                    if layer.GetFeatureCount() > 0:
+                        f = layer.GetFeature(0)
+                        listFile.write(f.GetField('time') + ";")
+                        f = layer.GetFeature(layer.GetFeatureCount() - 1)
+                        listFile.write(f.GetField('time') + "\n")
+                    else:
+                        listFile.write(";\n")
                 i=i+1
-                listSizeAfterXSLT = os.path.getsize(self.DATAPATH + '/search/temp/list.csv')
-                if listSize == listSizeAfterXSLT:
-                    #Something bad happend with XSLT
-                    #Add empty row to /search/temp/list.csv'
-                    listFile = open(self.DATAPATH + '/search/temp/list.csv', 'w+')
-                    listFile.write(";\n")
-                    listFile.close()
-
 
         #if some GPX were found
         if os.path.isfile(self.DATAPATH + '/search/temp/list.csv'):
