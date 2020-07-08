@@ -151,14 +151,17 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
             for f in fnmatch.filter(filenames, '*.gpx'):
                 shutil.copyfile(os.path.join(root, f), self.DATAPATH + '/search/temp/' + str(i) + '.gpx')
                 ds = ogr.Open(self.DATAPATH + '/search/temp/' + str(i) + '.gpx')
-                layer = ds.GetLayer(4)
-                QgsMessageLog.logMessage(str(layer.GetFeatureCount()), "Patrac")
                 with open(self.DATAPATH + '/search/temp/list.csv', "a") as listFile:
-                    if layer.GetFeatureCount() > 0:
-                        f = layer.GetFeature(0)
-                        listFile.write(f.GetField('time') + ";")
-                        f = layer.GetFeature(layer.GetFeatureCount() - 1)
-                        listFile.write(f.GetField('time') + "\n")
+                    if not ds is None:
+                        layer = ds.GetLayer(4)
+                        QgsMessageLog.logMessage(str(layer.GetFeatureCount()), "Patrac")
+                        if layer.GetFeatureCount() > 0:
+                            f = layer.GetFeature(0)
+                            listFile.write(f.GetField('time') + ";")
+                            f = layer.GetFeature(layer.GetFeatureCount() - 1)
+                            listFile.write(f.GetField('time') + "\n")
+                        else:
+                            listFile.write(";\n")
                     else:
                         listFile.write(";\n")
                 i=i+1
