@@ -250,17 +250,17 @@ class PatracPlugin(object):
         self.toolbar.addAction(self.iface.actionAddOgrLayer())
 
     def unload(self):
-        if not self.no_close.ok_to_close():
-            if sys.platform.startswith('win'):
-                try:
-                    subprocess.Popen(("C:/OSGeo4W64/bin/qgis.bat"))
-                except:
-                    print("CAN NOT FIND QGIS TO RELOAD")
-            else:
-                try:
-                    subprocess.Popen(("qgis", "--profiles-path", "/home/jencek/qgis3_profiles", "--profile", "default"))
-                except:
-                    print("CAN NOT FIND QGIS TO RELOAD")
+        # if not self.no_close.ok_to_close():
+        #     if sys.platform.startswith('win'):
+        #         try:
+        #             subprocess.Popen(("C:/OSGeo4W64/bin/qgis.bat"))
+        #         except:
+        #             print("CAN NOT FIND QGIS TO RELOAD")
+        #     else:
+        #         try:
+        #             subprocess.Popen(("qgis", "--profiles-path", "/home/jencek/qgis3_profiles", "--profile", "default"))
+        #         except:
+        #             print("CAN NOT FIND QGIS TO RELOAD")
 
         self.iface.currentLayerChanged.disconnect(self.layerChanged)
         self.iface.removePluginMenu(QCoreApplication.translate("Patrac", "Patrac"), self.actionDock)
