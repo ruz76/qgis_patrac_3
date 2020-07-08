@@ -144,7 +144,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
     def fillDataHdsCmb(self):
         if sys.platform.startswith('win'):
             for i in ascii_uppercase:
-                if os.path.exists(i + "/patracdata"):
+                if os.path.exists(i + ":/patracdata"):
                     self.fillDataHdsCmbList(i + ":")
                     break
         else:
