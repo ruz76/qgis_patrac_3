@@ -26,7 +26,7 @@
 #******************************************************************************
 
 
-import os, subprocess
+import os, subprocess, sys
 from os import path
 from shutil import copy
 from glob import glob
