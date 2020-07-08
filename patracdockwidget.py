@@ -1249,8 +1249,11 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         layer.triggerRepaint()
         self.setCursor(Qt.ArrowCursor)
 
-    def testHds(self):
-        self.Hds.testHds()
+    def testHds(self, textEdit):
+        self.Hds.testHds(textEdit)
+
+    def testHdsData(self, region, textEdit):
+        self.Hds.testHdsData(region, textEdit)
 
     def setSectorsUniqueValuesStyle(self):
         self.Styles.setSectorsStyle('unique')

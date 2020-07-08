@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>6</number>
+    <number>7</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -1100,7 +1100,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>70</y>
+       <y>290</y>
        <width>191</width>
        <height>31</height>
       </rect>
@@ -1142,13 +1142,49 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>120</y>
+       <y>70</y>
        <width>191</width>
        <height>31</height>
       </rect>
      </property>
      <property name="text">
       <string>Save style to the template</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonDataHds">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>340</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Run test for data</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBoxDataHds">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>340</y>
+       <width>191</width>
+       <height>25</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="textEditHds">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>380</y>
+       <width>871</width>
+       <height>211</height>
+      </rect>
      </property>
     </widget>
    </widget>

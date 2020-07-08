@@ -47,6 +47,7 @@ import zipfile
 from shutil import copy
 import sched, time
 from .. connect.connect import *
+from string import ascii_uppercase
 
 #If on windows
 try:
@@ -106,6 +107,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             self.fillLineEdit(self.settingsPath + "/grass/weightlimit.txt", self.lineEditWeightLimit)
 
         self.pushButtonHds.clicked.connect(self.testHds)
+        self.pushButtonDataHds.clicked.connect(self.testDataHds)
+        self.fillDataHdsCmb()
         self.pushButtonUpdateData.clicked.connect(self.updateData)
 
         # fill filtering combos
@@ -137,6 +140,30 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.pushButtonShowQrCode.clicked.connect(self.showQrCode)
 
         self.pushButtonSaveStyle.clicked.connect(self.saveStyle)
+
+    def fillDataHdsCmb(self):
+        if sys.platform.startswith('win'):
+            for i in ascii_uppercase:
+                if os.path.exists(i + "/patracdata"):
+                    self.fillDataHdsCmbList(i + ":")
+                    break
+        else:
+            if os.path.exists("/data/patracdata"):
+                self.fillDataHdsCmbList("/data")
+
+    def fillDataHdsCmbList(self, disk):
+        regions = ["jc", "jm", "ka", "kh", "lb", "ms", "ol", "pa", "pl", "st", "us", "vy", "zl"]
+        for region in regions:
+            if os.path.exists(disk + "/patracdata/kraje/" + region):
+                self.comboBoxDataHds.addItem(region)
+                self.pushButtonDataHds.setEnabled(True)
+
+    def testDataHds(self):
+        self.parent.setCursor(Qt.WaitCursor)
+        self.setCursor(Qt.WaitCursor)
+        self.main.testHdsData(self.comboBoxDataHds.currentText(), self.textEditHds)
+        self.setCursor(Qt.ArrowCursor)
+        self.parent.setCursor(Qt.ArrowCursor)
 
     def saveStyle(self):
 
@@ -334,7 +361,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
     def testHds(self):
         self.parent.setCursor(Qt.WaitCursor)
         self.setCursor(Qt.WaitCursor)
-        self.main.testHds()
+        self.main.testHds(self.textEditHds)
         self.setCursor(Qt.ArrowCursor)
         self.parent.setCursor(Qt.ArrowCursor)
 

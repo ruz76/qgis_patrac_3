@@ -36,6 +36,7 @@ from qgis.core import *
 from qgis.gui import *
 
 from shutil import copy
+import fnmatch
 
 class Hds(object):
     def __init__(self, widget):
@@ -46,6 +47,7 @@ class Hds(object):
         self.Utils = self.widget.Utils
         self.Area = self.widget.Area
         self.Sectors = self.widget.Sectors
+        self.Project = self.widget.Project
 
     def copyFilesForTest(self):
         copy(self.pluginPath + '/tests/data/sokolovce_piestany/tests/distances_costed_cum.tif',
@@ -70,7 +72,7 @@ class Hds(object):
             return False
 
     # Happy day scenario test
-    def testHds(self):
+    def testHds(self, textEdit):
 
         # prepare
         self.copyFilesForTest()
@@ -87,12 +89,10 @@ class Hds(object):
         if self.compareFiles(self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/distances_costed_cum.tif',
                              self.pluginPath + '/tests/data/sokolovce_piestany/tests/distances_costed_cum.tif',
                              datetimefile1_orig):
-            QgsMessageLog.logMessage("INFO: Area test skončil dobře (výstupní tif odpovídá očekávanému stavu)",
-                                     "Patrac")
+            textEdit.append("INFO: Area test skončil dobře (výstupní tif odpovídá očekávanému stavu)")
         else:
             self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "Area test error", None), level=Qgis.Critical)
-            QgsMessageLog.logMessage("ERROR: Area test skončil chybou (výstupní tif neodpovídá očekávanému stavu)",
-                                     "Patrac")
+            textEdit.append("ERROR: Area test skončil chybou (výstupní tif neodpovídá očekávanému stavu)")
 
         # get sectors
         datetimefile1_orig = self.Utils.creation_date(
@@ -103,12 +103,10 @@ class Hds(object):
         if self.compareFiles(self.pluginPath + '/tests/data/sokolovce_piestany/sektory/gpx/all.gpx',
                              self.pluginPath + '/tests/data/sokolovce_piestany/tests/all.gpx',
                              datetimefile1_orig):
-            QgsMessageLog.logMessage("INFO: Sectors test skončil dobře (výstupní SHP odpovídá očekávanému stavu)",
-                                     "Patrac")
+            textEdit.append("INFO: Sectors test skončil dobře (výstupní SHP odpovídá očekávanému stavu)")
         else:
             self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "Sectors test error", None), level=Qgis.Critical)
-            QgsMessageLog.logMessage("ERROR: Sectors test skončil chybou (výstupní SHP neodpovídá očekávanému stavu)",
-                                     "Patrac")
+            textEdit.append("ERROR: Sectors test skončil chybou (výstupní SHP neodpovídá očekávanému stavu)")
 
         # report export
         datetimefile1_orig = self.Utils.creation_date(
@@ -118,10 +116,56 @@ class Hds(object):
         if self.compareFiles(self.pluginPath + '/tests/data/sokolovce_piestany/pracovni/report.html.4',
                              self.pluginPath + '/tests/data/sokolovce_piestany/tests/report.html.4',
                              datetimefile1_orig):
-            QgsMessageLog.logMessage(
-                "INFO: Report_Export test skončil dobře (výstupní HTML odpovídá očekávanému stavu)", "Patrac")
+            textEdit.append("INFO: Report_Export test skončil dobře (výstupní HTML odpovídá očekávanému stavu)")
         else:
             self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "Report test error", None), level=Qgis.Critical)
-            QgsMessageLog.logMessage(
-                "ERROR: Report_Export test skončil chybou (výstupní HTML neodpovídá očekávanému stavu)", "Patrac")
+            textEdit.append("ERROR: Report_Export test skončil chybou (výstupní HTML neodpovídá očekávanému stavu)")
 
+    def runProcess(self, id, x, y, count, textEdit):
+        self.Project.createProject(id, "TEST")
+        prjfi = QFileInfo(QgsProject.instance().fileName())
+        DATAPATH = prjfi.absolutePath()
+        layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if lyr.source() == DATAPATH + "/pracovni/mista.shp":
+                layer = lyr
+                break
+        if layer is None:
+            textEdit.append(QApplication.translate("Patrac", "DATA HDS EXITS WITH ERROR. MISSING LAYER MISTA.", None))
+        else:
+            try:
+                fet = QgsFeature()
+                fet.setGeometry(QgsGeometry.fromPointXY(QgsPointXY(float(x), float(y))))
+                provider = layer.dataProvider()
+                provider.addFeatures([fet])
+                layer.commitChanges()
+                self.Area.getArea()
+                self.widget.sliderEnd.setValue(30)
+                self.Sectors.getSectors(0,30)
+                self.Sectors.reportExportSectors(False, True)
+                realCount = 0
+                for root, dirnames, filenames in os.walk(DATAPATH + "/sektory/gpx"):
+                    for f in fnmatch.filter(filenames, '*.gpx'):
+                        realCount += 1
+                if count != realCount:
+                    textEdit.append("DATA HDS EXITS WITH ERROR. EXPECTED NUMBER OF SECTORS IS: "
+                                    + str(count) + " GOT " + str(realCount) + " SECTORS.")
+            except:
+                textEdit.append(QApplication.translate("Patrac", "DATA HDS EXITS WITH ERROR", None))
+
+    def testHdsData(self, region, textEdit):
+        textEdit.append(QApplication.translate("Patrac", "DATA HDS TEST STARTED", None))
+
+        if os.path.exists(self.pluginPath + "/tests/data/kraje/" + str(region) + ".txt"):
+            with open(self.pluginPath + "/tests/data/kraje/" + str(region) + ".txt") as f:
+                content = f.read()
+                content_items = content.split(";")
+                id = int(content_items[0])
+                x = content_items[1]
+                y = content_items[2]
+                count = int(content_items[3])
+                self.runProcess(id, x, y, count, textEdit)
+        else:
+            textEdit.append(QApplication.translate("Patrac", "DATA HDS EXITS WITH ERROR. CONFIG FOR SELECTED REGION DOES NOT EXIST.", None))
+
+        textEdit.append(QApplication.translate("Patrac", "DATA HDS TEST FINISHED", None))
