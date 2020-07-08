@@ -132,12 +132,16 @@ for i in range(1, COUNT + 1):
     REPORT = ""
     #print(DATAPATH + "/../../vektor/ZABAGED/line_x/" + LABELS[i-1] + ".stats")
     if not conn is None:
-        c = conn.cursor()
-        c.execute("SELECT def_text FROM stats WHERE id = '" + LABELS[i] + "'")
-        row = c.fetchone()
-        if row is not None:
-            REPORT = row[0]
-        c.close()
+        try:
+            c = conn.cursor()
+            c.execute("SELECT def_text FROM stats WHERE id = '" + LABELS[i] + "'")
+            row = c.fetchone()
+            if row is not None:
+                REPORT = row[0]
+            c.close()
+        except:
+            if c is not None:
+                c.close()
 
     if not REPORT == "":
         print(REPORT)
