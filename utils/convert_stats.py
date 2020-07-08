@@ -38,21 +38,24 @@ def insert_data(conn, path):
                     id = str(f).split(".")[0]
                     content = file.read()
                     request = (id, content)
-                    print(id + ": " + content)
+                    # print(id + ": " + content)
                     c.execute('INSERT INTO stats(id, def_text) VALUES(?,?)', request)
         conn.commit()
     except Error as e:
         print(e)
 
-database = r"D:\patracdata\stats.db"
-conn = create_connection(database)
-sql_create_projects_table = "CREATE TABLE stats (id VARCHAR(5), def_text TEXT)"
+def convert():
+    database = "/tmp/stats/stats.db"
+    conn = create_connection(database)
+    sql_create_projects_table = "CREATE TABLE stats (id VARCHAR(5), def_text TEXT)"
 
-# create tables
-if conn is not None:
-    # create stats table
-    # create_table(conn, sql_create_projects_table)
-    insert_data(conn, r"D:\patracdata\kraje\ka\vektor\ZABAGED\line_x")
-    conn.close()
-else:
-    print("Error! cannot create the database connection.")
+    # create tables
+    if conn is not None:
+        # create stats table
+        create_table(conn, sql_create_projects_table)
+        insert_data(conn, "/tmp/stats")
+        conn.close()
+    else:
+        print("Error! cannot create the database connection.")
+
+convert()
