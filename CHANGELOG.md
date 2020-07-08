@@ -1,5 +1,16 @@
 # Changelog 
 
+## Version 3.12.10 (2020-07-08)
+
+#### Improvements
+* Changed GPX check, now it is faster
+* Do not allow to close QGIS until the result is inserted
+* Stats for sectors are now in sqlite database. Shoud be faster on Windows
+
+#### Bug Fixes
+
+* Fixed bad GPX input
+
 ## Version 3.12.9 (2020-06-25)
 
 #### Improvements
