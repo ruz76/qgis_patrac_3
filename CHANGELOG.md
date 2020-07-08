@@ -6,6 +6,7 @@
 * Changed GPX check, now it is faster
 * Do not allow to close QGIS until the result is inserted
 * Stats for sectors are now in sqlite database. Shoud be faster on Windows
+* Added tests for Data
 
 #### Bug Fixes
 
