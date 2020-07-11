@@ -1,5 +1,11 @@
 # Changelog 
 
+## Version 3.12.11 (2020-07-12)
+
+#### Improvements
+* Added config files for data tests
+* Added button for fixing datastore errors
+
 ## Version 3.12.10 (2020-07-08)
 
 #### Improvements
