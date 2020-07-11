@@ -149,8 +149,8 @@ class Hds(object):
                     for f in fnmatch.filter(filenames, '*.gpx'):
                         realCount += 1
                 if count != realCount:
-                    textEdit.append("DATA HDS EXITS WITH ERROR. EXPECTED NUMBER OF SECTORS IS: "
-                                    + str(count) + " GOT " + str(realCount) + " SECTORS.")
+                    textEdit.append("DATA HDS EXITS WITH ERROR. EXPECTED NUMBER OF GPX FILES IS "
+                                    + str(count) + " GOT " + str(realCount) + " GPX FILES.")
             except:
                 textEdit.append(QApplication.translate("Patrac", "DATA HDS EXITS WITH ERROR", None))
 
