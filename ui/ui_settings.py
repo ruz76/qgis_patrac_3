@@ -106,10 +106,12 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         else:
             self.fillLineEdit(self.settingsPath + "/grass/weightlimit.txt", self.lineEditWeightLimit)
 
+        self.drive = "D"
         self.pushButtonHds.clicked.connect(self.testHds)
         self.pushButtonDataHds.clicked.connect(self.testDataHds)
         self.fillDataHdsCmb()
         self.pushButtonUpdateData.clicked.connect(self.updateData)
+        self.pushButtonFixData.clicked.connect(self.fixData)
 
         # fill filtering combos
         self.fillCmbArea()
@@ -141,11 +143,26 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
         self.pushButtonSaveStyle.clicked.connect(self.saveStyle)
 
+    def fixData(self):
+        self.parent.setCursor(Qt.WaitCursor)
+        self.setCursor(Qt.WaitCursor)
+
+        if sys.platform.startswith('win'):
+            p = subprocess.Popen((self.pluginPath + "/grass/run_fix_datastore.bat", self.drive + ":/patracdata/kraje/" + self.comboBoxDataFix.currentText()), self.pluginPath)
+            p.wait()
+            QMessageBox.information(None, self.tr("Fixed"), self.tr("The datastore has been fixed"))
+        else:
+            QMessageBox.information(None, self.tr("Not available"), self.tr("The function is not implemented"))
+
+        self.setCursor(Qt.ArrowCursor)
+        self.parent.setCursor(Qt.ArrowCursor)
+
     def fillDataHdsCmb(self):
         if sys.platform.startswith('win'):
             for i in ascii_uppercase:
                 if os.path.exists(i + ":/patracdata"):
                     self.fillDataHdsCmbList(i + ":")
+                    self.drive = i
                     break
         else:
             if os.path.exists("/data/patracdata"):
@@ -156,7 +173,9 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         for region in regions:
             if os.path.exists(disk + "/patracdata/kraje/" + region):
                 self.comboBoxDataHds.addItem(region)
+                self.comboBoxDataFix.addItem(region)
                 self.pushButtonDataHds.setEnabled(True)
+                self.pushButtonFixData.setEnabled(True)
 
     def testDataHds(self):
         self.parent.setCursor(Qt.WaitCursor)
