@@ -131,6 +131,7 @@ class PatracPlugin(object):
             os.mkdir(profilePath + "qgis_patrac_settings/styles")
             os.mkdir(profilePath + "qgis_patrac_settings/grass")
             copy(pluginPath + "/config/systemid.txt", profilePath + "qgis_patrac_settings/config/")
+            copy(pluginPath + "/config/config.json", profilePath + "qgis_patrac_settings/config/")
             copy(pluginPath + "/config/paths.txt", profilePath + "qgis_patrac_settings/config/")
             copy(pluginPath + "/grass/maxtime.txt", profilePath + "qgis_patrac_settings/grass/")
             copy(pluginPath + "/grass/units.txt", profilePath + "qgis_patrac_settings/grass/")
@@ -146,6 +147,8 @@ class PatracPlugin(object):
                 copy(pluginPath + "/grass/buffer.csv", profilePath + "qgis_patrac_settings/grass/")
             if not os.path.isfile(profilePath + "qgis_patrac_settings/grass/units_times.csv"):
                 copy(pluginPath + "/grass/units_times.csv", profilePath + "qgis_patrac_settings/grass/")
+            if not os.path.isfile(profilePath + "qgis_patrac_settings/config/config.json"):
+                copy(pluginPath + "/config/config.json", profilePath + "qgis_patrac_settings/config/")
 
     def copyDocDir(self, DATAPATH, pluginPath, name):
         if not os.path.isdir(DATAPATH + "doc/" + name):
