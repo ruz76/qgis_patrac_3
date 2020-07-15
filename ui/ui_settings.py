@@ -74,7 +74,9 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.settingsPath = pluginPath + "/../../../qgis_patrac_settings"
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
-        self.systemid = open(self.settingsPath + "/config/systemid.txt", 'r').read().rstrip("\n")
+        self.config = None
+        self.readConfig()
+        self.systemid = self.config["systemid"]
         self.unitsLabels = [self.tr("Handler"), self.tr("Searcher"), self.tr("Rider"), self.tr("Car"), self.tr("Drone"), self.tr("Diver"), self.tr("Other")]
 
         self.main = parent
@@ -130,10 +132,12 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.buttonBox.accepted.connect(self.accept)
 
         # Psovodi HS
+        self.hsCallType = 0
         self.pushButtonCheckAvailability.clicked.connect(self.checkIncidentHandlers)
         self.pushButtonCreateIncident.clicked.connect(self.callHandlers)
         self.pushButtonIncidentEdit.clicked.connect(self.incidentEdit)
         self.incidentId = None
+        self.fillHSConfig()
 
         # set up empty sheduler
         self.pushButtonGetSystemUsersShedule.clicked.connect(self.refreshSystemUsersSetSheduler)
@@ -156,6 +160,15 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
         self.setCursor(Qt.ArrowCursor)
         self.parent.setCursor(Qt.ArrowCursor)
+
+    def readConfig(self):
+        with open(self.settingsPath + "/config/config.json") as json_file:
+            self.config = json.load(json_file)
+
+    def fillHSConfig(self):
+        self.lineEditAccessKey.setText(self.config["hsapikey"])
+        self.lineEditUsername.setText(self.config["hsuser"])
+        self.lineEditPassword.setText(self.config["hspassword"])
 
     def fillDataHdsCmb(self):
         if sys.platform.startswith('win'):
@@ -221,9 +234,11 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         return xyWGS
 
     def checkIncidentHandlers(self):
+        self.hsCallType = 0
         self.createIncident("https://www.horskasluzba.cz/cz/app-patrac-new-incident-test")
 
     def callHandlers(self):
+        self.hsCallType = 1
         self.createIncident("https://www.horskasluzba.cz/cz/app-patrac-new-incident")
 
     def createIncident(self, urlInput):
@@ -287,6 +302,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
     def fillSystemUsersHS(self, data):
         msg = self.tr("Can not read data")
         hsdata = None
+        hsusersids = ""
         try:
             hsdata = json.loads(data)
         except:
@@ -305,9 +321,21 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                 self.tableWidgetSystemUsersHS.setItem(i, 0, QTableWidgetItem(user["name"]))
                 self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(user["phone"]))
                 self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(str(round(float(user["distance"])))))
+                hsusersids += "hs" + user["id"] + ";"
                 i += 1
+            if self.hsCallType == 1 or self.config["debug_level"] > 0:
+                self.setSystemUsersHSStatus(hsusersids, "onduty")
         else:
             QMessageBox.information(self.main.iface.mainWindow(), self.tr("Error"), msg)
+
+    def setSystemUsersHSStatus(self, hsusersids, status):
+        # print(hsusersids)
+        # Connects to the server to call the selected users on duty
+        if hasattr(self, 'searchID') and self.searchID != "":
+            self.connect = Connect()
+            self.connect.setUrl(self.serverUrl + 'users.php?operation=changestatushs&id=' + self.systemid + '&status_to=' + status + '&ids=' + hsusersids + "hs0" + "&searchid=" + self.searchID)
+            self.connect.statusChanged.connect(self.onStatusChanged)
+            self.connect.start()
 
     def incidentEdit(self):
         if self.incidentId is None:

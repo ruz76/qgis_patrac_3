@@ -2,5 +2,9 @@
   "systemid": "pcr1234",
   "hsapikey": "",
   "hsuser": "",
-  "hspassword": ""
+  "hspassword": "",
+  "places": "/ui/obce_okr_kr_utf8_20180131.csv",
+  "serverUrl": "http://gisak.vsb.cz/patrac/",
+  "hsCreateIncidentUrl": "https://www.horskasluzba.cz/cz/app-patrac-new-incident",
+  "debug_level": 0
 }

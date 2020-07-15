@@ -1,5 +1,17 @@
 # Changelog 
 
+## Version 3.12.12 (2020-07-19)
+
+#### Improvements
+* Extended fix datastore function to download stats files
+* Extended create incident to set hs users to onduty status 
+* Added config file
+
+#### Bug Fixes
+* line 893, in showQrCode: AttributeError: 'Ui_Settings' object has no attribute 'searchID' 
+* line 844, in accept: no file
+* other parts where is missing searchID
+
 ## Version 3.12.11 (2020-07-12)
 
 #### Improvements
