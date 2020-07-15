@@ -462,10 +462,12 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             return ["KA", "US", "PL"]
 
     def callOnDuty(self):
-        self.setStatus("callonduty", self.searchID)
+        if hasattr(self, 'searchID') and self.searchID != "":
+            self.setStatus("callonduty", self.searchID)
 
     def callToJoin(self):
-        self.setStatus("calltocome", self.searchID)
+        if hasattr(self, 'searchID') and self.searchID != "":
+            self.setStatus("calltocome", self.searchID)
 
     def putToSleep(self):
         self.setStatus("waiting", "")
@@ -536,7 +538,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.connect.start()
 
     def onStatusChanged(self, response):
-        print(response.status)
+        # print(response.status)
         if response.status == 200:
             self.refreshSystemUsers()
             QgsMessageLog.logMessage(str(response.data.read()), "Patrac")
@@ -778,6 +780,11 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
     def accept(self):
         """Writes settings to the appropriate files"""
+
+        if not hasattr(self, 'searchID'):
+            # Wrong project
+            return
+
         settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
 
         # Distances are fixed, but the user can change user distances, so only the one table is written
@@ -890,7 +897,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         return strOrUnicode
 
     def showQrCode(self):
-        url = "https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=" + self.searchID
-        webbrowser.get().open(url)
-        #webbrowser.open(url)
+        if hasattr(self, 'searchID') and self.searchID != "":
+            url = "https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=" + self.searchID
+            webbrowser.get().open(url)
+            #webbrowser.open(url)
 
