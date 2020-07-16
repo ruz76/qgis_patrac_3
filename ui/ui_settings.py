@@ -48,6 +48,7 @@ from shutil import copy
 import sched, time
 from .. connect.connect import *
 from string import ascii_uppercase
+import urllib3
 
 #If on windows
 try:
@@ -147,15 +148,40 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
         self.pushButtonSaveStyle.clicked.connect(self.saveStyle)
 
+    def downloadStats(self):
+        # localPath = "/tmp/ka/stats.db"
+        localPath = self.drive + ":/patracdata/kraje/" + self.comboBoxDataFix.currentText() + "/vektor/ZABAGED/line_x/stats.db"
+        if not os.path.exists(localPath):
+            try:
+                url = self.serverUrl + "/qgis3/data/stats/" + self.comboBoxDataFix.currentText() + "/stats.db"
+                http = urllib3.PoolManager()
+                response = http.request('GET', url, preload_content=False)
+                content_length = response.headers['Content-Length']
+                total_size = int(content_length)
+                downloaded = 0
+                CHUNK = 256 * 10240
+                with open(localPath, 'wb') as fp:
+                    while True:
+                        chunk = response.read(CHUNK)
+                        downloaded += len(chunk)
+                        if not chunk:
+                            break
+                        fp.write(chunk)
+                response.release_conn()
+            except:
+                QMessageBox.information(None, self.tr("ERROR"), self.tr("Can not connect to the server"))
+
     def fixData(self):
         self.parent.setCursor(Qt.WaitCursor)
         self.setCursor(Qt.WaitCursor)
 
         if sys.platform.startswith('win'):
+            self.downloadStats()
             p = subprocess.Popen((self.pluginPath + "/grass/run_fix_datastore.bat", self.drive + ":/patracdata/kraje/" + self.comboBoxDataFix.currentText()), self.pluginPath)
             p.wait()
             QMessageBox.information(None, self.tr("Fixed"), self.tr("The datastore has been fixed"))
         else:
+            # self.downloadStats()
             QMessageBox.information(None, self.tr("Not available"), self.tr("The function is not implemented"))
 
         self.setCursor(Qt.ArrowCursor)
