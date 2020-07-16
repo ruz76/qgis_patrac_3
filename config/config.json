@@ -6,5 +6,6 @@
   "places": "/ui/obce_okr_kr_utf8_20180131.csv",
   "serverUrl": "http://gisak.vsb.cz/patrac/",
   "hsCreateIncidentUrl": "https://www.horskasluzba.cz/cz/app-patrac-new-incident",
+  "hsCreateIncidentTestUrl": "https://www.horskasluzba.cz/cz/app-patrac-new-incident-test",
   "debug_level": 0
 }
