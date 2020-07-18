@@ -177,7 +177,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
         if sys.platform.startswith('win'):
             self.downloadStats()
-            p = subprocess.Popen((self.pluginPath + "/grass/run_fix_datastore.bat", self.drive + ":/patracdata/kraje/" + self.comboBoxDataFix.currentText()), self.pluginPath)
+            p = subprocess.Popen((self.pluginPath + "/grass/run_fix_datastore.bat", self.drive + ":/patracdata/kraje/" + self.comboBoxDataFix.currentText(), self.pluginPath))
             p.wait()
             QMessageBox.information(None, self.tr("Fixed"), self.tr("The datastore has been fixed"))
         else:
