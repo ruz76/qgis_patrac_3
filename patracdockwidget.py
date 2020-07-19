@@ -353,12 +353,13 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 layer = lyr
                 break
 
-        layer.commitChanges()
-        self.iface.actionToggleEditing().trigger()
+        if not layer is None:
+            layer.commitChanges()
+            self.iface.actionToggleEditing().trigger()
 
-        # move to next tab (tab 3)
-        self.tabGuideSteps.setCurrentIndex(2)
-        self.currentStep = 3
+            # move to next tab (tab 3)
+            self.tabGuideSteps.setCurrentIndex(2)
+            self.currentStep = 3
 
     def runGuideStep3Next(self):
         if not self.checkStep(4):
