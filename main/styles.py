@@ -57,9 +57,10 @@ class Styles(object):
             if DATAPATH + "/pracovni/sektory_group.shp" in lyr.source():
                 layer = lyr
                 break
-        settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
-        layer.loadNamedStyle(settingsPath + '/styles/sectors_' + name + '.qml')
-        f = io.open(settingsPath + '/styles/sektory_group.txt', 'w', encoding='utf-8')
-        f.write(name)
-        f.close()
-        layer.triggerRepaint()
+        if not layer is None:
+            settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+            layer.loadNamedStyle(settingsPath + '/styles/sectors_' + name + '.qml')
+            f = io.open(settingsPath + '/styles/sektory_group.txt', 'w', encoding='utf-8')
+            f.write(name)
+            f.close()
+            layer.triggerRepaint()
