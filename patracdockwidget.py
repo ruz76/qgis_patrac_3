@@ -391,7 +391,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
-        self.guideMaxTime.setText(open(DATAPATH + "/config/maxtime.txt", 'r').read())
+        if os.path.exists(DATAPATH + "/config/maxtime.txt"):
+            self.guideMaxTime.setText(open(DATAPATH + "/config/maxtime.txt", 'r').read())
 
     def runGuideStep5Next(self):
         if not self.checkStep(6):
