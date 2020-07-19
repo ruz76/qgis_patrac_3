@@ -1,8 +1,8 @@
 QGis Patrac 3
 ------
-Patrac is a plugin for the geographic information system application (qgis). 
-It is used to determinenethe probability of finding a missing person in various
-locations near the place of his or hers last sighting. 
+Patrac is a plugin for the geographic information system application (QGIS). 
+It is used to determinenate probability of finding a missing person in various
+locations near the place of his or her last sighting. 
 It determines sectors for the search and enables map printing and GPX export. 
 
 Based on rastertransparency plugin.
@@ -34,7 +34,12 @@ Otherwise, the docker configuration is as follows:
 TODO
 ```
 #### Windows 10 installation:
-TODO
+You need data instalation drive. If you do not have any, contact support, please. 
+[See install manual](http://sarops.info/patrac/qgis3/install/)
+
+#### User manual
+The manual is part of the repository. It should be same as 
+[User manual](http://sarops.info/patrac/qgis3/user/)
 
 
 #### Remote Debug
