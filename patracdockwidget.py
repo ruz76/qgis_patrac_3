@@ -561,13 +561,15 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
 
-        f = io.open(DATAPATH + '/config/maxtime.txt', 'w', encoding='utf-8')
-        f.write(self.guideMaxTime.text())
-        f.close()
+        if os.path.exists(DATAPATH + '/config'):
+            f = io.open(DATAPATH + '/config/maxtime.txt', 'w', encoding='utf-8')
+            f.write(self.guideMaxTime.text())
+            f.close()
 
-        f = io.open(self.pluginPath + "/../../../qgis_patrac_settings/grass/" + 'maxtime.txt', 'w', encoding='utf-8')
-        f.write(self.guideMaxTime.text())
-        f.close()
+        if os.path.exists(self.pluginPath + "/../../../qgis_patrac_settings/grass"):
+            f = io.open(self.pluginPath + "/../../../qgis_patrac_settings/grass/" + 'maxtime.txt', 'w', encoding='utf-8')
+            f.write(self.guideMaxTime.text())
+            f.close()
 
     def setCompleter(self, textBox):
         """Sets the autocompleter for municipalitities."""
