@@ -261,8 +261,8 @@ class Sectors(object):
 
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
-            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR",
-                                    "Wrong project.", None))
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None),
+                                    QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         self.widget.setCursor(Qt.WaitCursor)
