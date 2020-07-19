@@ -261,6 +261,9 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
             #print self.DATAPATH.decode('utf8') + u'/search/gpx/' + SECTOR.decode('utf8') + u'/' + os.path.basename(f.decode('utf8'))
             #shutil.move(f.decode('utf8'), self.DATAPATH.decode('utf8') + u'/search/gpx/' + SECTOR.decode('utf8') + u'/' + os.path.basename(f.decode('utf8')))
 
+        if not hasattr(self, 'listViewModel'):
+            return
+
         i = 0
         while self.listViewModel.item(i):
             if self.listViewModel.item(i).checkState() == Qt.Checked:
