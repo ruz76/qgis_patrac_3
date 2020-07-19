@@ -53,7 +53,7 @@ class Utils(object):
                 layerExists = True
                 break
         if not layerExists:
-            QgsMessageLog.logMessage("Check layer: " + name + ": " + lyr.source(), "Patrac")
+            QgsMessageLog.logMessage("Check layer: " + name, "Patrac")
         return layerExists
 
     def removeLayer(self, path):
