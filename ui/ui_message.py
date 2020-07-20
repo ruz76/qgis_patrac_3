@@ -56,6 +56,8 @@ class Ui_Message(QtWidgets.QDialog, FORM_CLASS):
     def __init__(self, pluginPath, DATAPATH, parent=None):
         """Constructor."""
         super(Ui_Message, self).__init__(parent)
+        self.main = parent
+        self.iface = self.main.iface
         self.setupUi(self)
         self.pluginPath = pluginPath
         self.DATAPATH = DATAPATH

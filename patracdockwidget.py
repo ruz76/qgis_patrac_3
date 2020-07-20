@@ -801,7 +801,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
         self.setCursor(Qt.WaitCursor)
-        self.messagedlg = Ui_Message(self.pluginPath, DATAPATH)
+        self.messagedlg = Ui_Message(self.pluginPath, DATAPATH, self)
         self.messagedlg.show()
         self.setCursor(Qt.ArrowCursor)
 
