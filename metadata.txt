@@ -2,7 +2,7 @@
 name=Patrac
 description=Support for search for missing person
 category=Decision support
-version=3.12.12
+version=3.12.13
 qgisMinimumVersion=3.4
 
 author=Jan Růžička

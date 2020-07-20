@@ -1,5 +1,13 @@
 # Changelog 
 
+## Version 3.12.13 (2020-07-23)
+
+#### Improvements
+
+
+#### Bug Fixes
+* 13 - 21
+
 ## Version 3.12.12 (2020-07-19)
 
 #### Improvements
