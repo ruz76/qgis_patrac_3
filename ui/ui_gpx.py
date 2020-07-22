@@ -43,6 +43,7 @@ from qgis.gui import *
 
 from random import randint
 from datetime import datetime
+from datetime import timedelta
 from dateutil import tz
 from dateutil import parser
 from dateutil.tz import tzutc, tzlocal
@@ -68,18 +69,16 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
         self.pluginPath = pluginPath
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
-        #self.path = '/media/gpx'
         self.path = '/tmp/GARMIN'
         self.DATAPATH = DATAPATH
-        self.buttonBoxTime.accepted.connect(self.acceptTime)
         self.buttonBoxAll.accepted.connect(self.acceptAll)
-        #Fills the table with names and times from sectors.txt
-        self.fillTableWidgetSectors("/search/sectors.txt", self.tableWidgetSectors)
+        self.buttonBoxLast.accepted.connect(self.acceptLast)
         self.fillListViewTracks()
         today = datetime.today()
         #Set name for output file when groupped GPX together
         #name is based on day and time
-        self.lineEditName.setText(today.strftime('den%d_cas%H_%M'))
+        self.lineEditNameAll.setText(today.strftime('den%d_cas%H_%M'))
+        self.lineEditNameLast.setText(today.strftime('den%d_cas%H_%M'))
 
     def fillTableWidgetSectors(self, fileName, tableWidget):
         """Fills table with search sectors
@@ -156,25 +155,32 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
                         layer = ds.GetLayer(4)
                         QgsMessageLog.logMessage(str(layer.GetFeatureCount()), "Patrac")
                         if layer.GetFeatureCount() > 0:
-                            f = layer.GetFeature(0)
-                            listFile.write(f.GetField('time') + ";")
-                            f = layer.GetFeature(layer.GetFeatureCount() - 1)
-                            listFile.write(f.GetField('time') + "\n")
+                            feature = layer.GetFeature(0)
+                            listFile.write(feature.GetField('time') + ";")
+                            feature = layer.GetFeature(layer.GetFeatureCount() - 1)
+                            listFile.write(feature.GetField('time') + ";")
+                            listFile.write(f + "\n")
                         else:
                             listFile.write(";\n")
+                        ds.Destroy()
                     else:
                         listFile.write(";\n")
                 i=i+1
 
+        self.fillGpxTracksList()
+
+
+    def fillGpxTracksList(self):
         #if some GPX were found
         if os.path.isfile(self.DATAPATH + '/search/temp/list.csv'):
-            self.listViewModel = QStandardItemModel()
+            self.listViewModelAll = QStandardItemModel()
+            self.listViewModelLast = QStandardItemModel()
             from_zone = tz.tzutc()
             to_zone = tz.tzlocal()
             #Loop via GPX tracks
             with open(self.DATAPATH + '/search/temp/list.csv') as fp:
                 for cnt, line in enumerate(fp):
-                    track = 'Track ' + str(cnt) + ' '
+                    track = 'Track ' + str(cnt) + ': '
                     items = line.split(';')
                     start = ''
                     end = ''
@@ -195,18 +201,24 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
                         #Convert to local time zone from UTC
                         start_local = self.iso_time_to_local(start)
                         end_local = self.iso_time_to_local(end)
-                        track += '(' + start_local + ' <-> ' + end_local + ')'
+                        end_date = datetime.strptime(end_local, "%Y-%m-%d %H:%M")
+                        track += '(' + start_local + ' <-> ' + end_local + ') (' + items[2].rstrip("\n") + ')'
                         item = QStandardItem(track)
-                        #check = Qt.Checked if randint(0, 1) == 1 else Qt.Unchecked
-                        #item.setCheckState(check)
                         item.setCheckable(True)
-                        self.listViewModel.appendRow(item)
+                        self.listViewModelAll.appendRow(item)
+                        past_date = datetime.now()-timedelta(hours=24)
+                        if end_date > past_date:
+                            item_last = QStandardItem(track)
+                            item_last.setCheckable(True)
+                            self.listViewModelLast.appendRow(item_last)
                     else:
+                        # We do not show everything
                         item = QStandardItem(self.tr("Another Type of GPX"))
                         item.setCheckable(False)
-                        self.listViewModel.appendRow(item)
-                        #print("Line {}: {}".format(cnt, line))
-            self.listViewTracks.setModel(self.listViewModel)
+                        self.listViewModelAll.appendRow(item)
+
+            self.listViewTracksAll.setModel(self.listViewModelAll)
+            self.listViewTracksLast.setModel(self.listViewModelLast)
         else:
             QgsMessageLog.logMessage(self.tr("No records found") + ":", "Patrac")
 
@@ -217,114 +229,36 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
         local_str = local.strftime("%Y-%m-%d %H:%M")
         return local_str
 
-    def addToMap(self, input, SECTOR):
-        """Converts track to SHP and adds it to the map
-           Uses XSLT and GRASS to do it.
-           TODO - do it faster to remove GRASS from process
-        """
-        if sys.platform.startswith('win'):
-            p = subprocess.Popen((self.pluginPath + "/grass/run_gpx_no_time.bat", self.DATAPATH, self.pluginPath, input, SECTOR))
-            p.wait()
-        else:
-            p = subprocess.Popen(('bash', self.pluginPath + "/grass/run_gpx_no_time.sh", self.DATAPATH, self.pluginPath, input, SECTOR))
-            p.wait()
+    def processTracks(self, lineEditCurrent, listViewModelCurrent):
+        SECTOR = lineEditCurrent.text()
+        if not os.path.exists(self.DATAPATH + '/search/gpx/' + SECTOR):
+            os.makedirs(self.DATAPATH + '/search/gpx/' + SECTOR)
 
-        qml = open(self.DATAPATH + '/search/shp/style.qml', 'r').read()
-        f = open(self.DATAPATH + '/search/shp/' + SECTOR + '.qml', 'w')
-        #qml = qml.replace("k=\"line_width\" v=\"0.26\"", "k=\"line_width\" v=\"1.2\"")
-        f.write(qml)
-        f.close()
+        i = 0
+        while listViewModelCurrent.item(i):
+            if listViewModelCurrent.item(i).checkState() == Qt.Checked:
+                track_id = listViewModelCurrent.item(i).text().split(":")[0][6:]
+                self.loadTrack(track_id, SECTOR)
+            i += 1
 
-        vector = QgsVectorLayer(self.DATAPATH + '/search/shp/' + SECTOR + '.shp', SECTOR, "ogr")
+    def loadTrack(self, track_id, dir_name):
+        shutil.copyfile(self.DATAPATH + '/search/temp/' + track_id + '.gpx', self.DATAPATH + '/search/gpx/' + dir_name + '/' + track_id + '.gpx')
+        vector = QgsVectorLayer(self.DATAPATH + '/search/gpx/' + dir_name + '/' + track_id + '.gpx' + '|layername=tracks', dir_name + '_track_' + track_id, 'ogr')
         if not vector.isValid():
-            QgsMessageLog.logMessage("Layer " + self.DATAPATH + '/search/shp/' + SECTOR + '.shp' + " failed to load!", "Patrac")
+            QgsMessageLog.logMessage("Layer " + self.DATAPATH + '/search/gpx/' + dir_name + '/' + track_id + '.gpx' + '|layername=tracks' + " failed to load!", "Patrac")
         else:
             if vector.featureCount() > 0:
+                vector.loadNamedStyle(self.DATAPATH + '/search/shp/style.qml')
                 QgsProject.instance().addMapLayer(vector)
             else:
                 QMessageBox.information(None, self.tr("INFO"), self.tr("There are not any tracks in the GPX."))
 
     def acceptAll(self):
-        """Creates groupped version of GPX tracks"""
-        if os.path.isfile(self.DATAPATH + '/search/temp/grouped.csv'):
-            os.remove(self.DATAPATH + '/search/temp/grouped.csv')
-
-        grouped = open(self.DATAPATH + '/search/temp/grouped.csv', 'w')
-
-        SECTOR = self.lineEditName.text()
-        if not os.path.exists(self.DATAPATH + '/search/gpx/' + SECTOR):
-            os.makedirs(self.DATAPATH + '/search/gpx/' + SECTOR)
-
-        #TODO fix move of the files with unicode names
-        #for f in glob(self.DATAPATH + '/search/gpx/*.gpx'):
-            #QgsMessageLog.logMessage(f.decode('utf8'), "Patrac")
-            #print self.DATAPATH.decode('utf8') + u'/search/gpx/' + SECTOR.decode('utf8') + u'/' + os.path.basename(f.decode('utf8'))
-            #shutil.move(f.decode('utf8'), self.DATAPATH.decode('utf8') + u'/search/gpx/' + SECTOR.decode('utf8') + u'/' + os.path.basename(f.decode('utf8')))
-
-        if not hasattr(self, 'listViewModel'):
+        if not hasattr(self, 'listViewModelAll'):
             return
+        self.processTracks(self.lineEditNameAll, self.listViewModelAll)
 
-        i = 0
-        while self.listViewModel.item(i):
-            if self.listViewModel.item(i).checkState() == Qt.Checked:
-                QgsMessageLog.logMessage("ID: " + str(i), "Patrac")
-                if sys.platform.startswith('win'):
-                    p = subprocess.Popen((self.pluginPath + "/xslt/run_xslt_no_time.bat", self.pluginPath, self.DATAPATH + '/search/temp/' + str(i) + '.gpx', self.DATAPATH + '/search/temp/' + str(i) + '.csv'))
-                    p.wait()
-                else:
-                    p = subprocess.Popen(('bash', self.pluginPath + "/xslt/run_xslt_no_time.sh", self.pluginPath, self.DATAPATH + '/search/temp/' + str(i) + '.gpx', self.DATAPATH + '/search/temp/' + str(i) + '.csv'))
-                    p.wait()
-                SECTOR_content = open(self.DATAPATH + '/search/temp/' + str(i) + '.csv', 'r').read()
-                grouped.write(SECTOR_content)
-            i += 1
-        grouped.close()
-
-        if self.checkBoxGroup.isChecked() == True:
-            QgsMessageLog.logMessage("GPX Check", "Patrac")
-            self.addToMap(self.DATAPATH + '/search/temp/grouped.csv', SECTOR)
-        else:
-            i = 0
-            while self.listViewModel.item(i):
-                if self.listViewModel.item(i).checkState() == Qt.Checked:
-                    self.addToMap(self.DATAPATH + '/search/temp/' + str(i) + '.csv', SECTOR + '_' + str(i))
-                i += 1
-            QgsMessageLog.logMessage("GPX NoCheck", "Patrac")
-        #QgsMessageLog.logMessage("Accept", "All")
-
-    def acceptTime(self):
-        """Cuts records accroding to the times specified in tableWidgetSectors"""
-        #QgsMessageLog.logMessage("Accept", "A")
-        SECTOR = 'K1'
-        DATEFROM = '2017-06-07T15:10:00Z'
-        DATETO = '2017-06-07T15:12:00'
-        for s in range(0, self.tableWidgetSectors.rowCount()):
-            if self.tableWidgetSectors.item(s,0).isSelected():
-            ##QgsMessageLog.logMessage(str(s), "Selection")
-            ##QgsMessageLog.logMessage(str(self.tableWidgetSectors.item(s, 0).text()), "A")
-                SECTOR = self.tableWidgetSectors.item(s, 0).text()
-                DATEFROM = self.tableWidgetSectors.item(s, 1).text()
-                DATETO = self.tableWidgetSectors.item(s, 2).text()
-                
-        value = self.tableWidgetSectors.item(0, 0).text()
-        
-        if sys.platform.startswith('win'):
-            p = subprocess.Popen((self.pluginPath + "/grass/run_gpx.bat", self.DATAPATH, self.pluginPath, SECTOR, DATEFROM, DATETO, self.path))
-            p.wait()
-        else:
-            p = subprocess.Popen(('bash', self.pluginPath + "/grass/run_gpx.sh", self.DATAPATH, self.pluginPath, SECTOR, DATEFROM, DATETO, self.path))
-            p.wait()
-
-        qml = open(self.DATAPATH + '/search/shp/style.qml', 'r').read()
-        f = open(self.DATAPATH + '/search/shp/' + SECTOR + '.qml', 'w')
-        #qml = qml.replace("k=\"line_width\" v=\"0.26\"", "k=\"line_width\" v=\"1.2\"")
-        f.write(qml)
-        f.close()
-
-        vector = QgsVectorLayer(self.DATAPATH + '/search/shp/' + SECTOR + '.shp', SECTOR, "ogr")
-        if not vector.isValid():
-            QgsMessageLog.logMessage("Layer " + self.DATAPATH + '/search/shp/' + SECTOR + '.shp' + " failed to load!", "Patrac")
-        else:
-            if vector.featureCount() > 0:
-                QgsProject.instance().addMapLayer(vector)
-            else:
-                QMessageBox.information(None, self.tr("INFO"), self.tr("No data fro selected time range."))
+    def acceptLast(self):
+        if not hasattr(self, 'listViewModelLast'):
+            return
+        self.processTracks(self.lineEditNameLast, self.listViewModelLast)

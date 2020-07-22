@@ -25,11 +25,65 @@
    <property name="currentIndex">
     <number>0</number>
    </property>
+   <widget class="QWidget" name="tabLast">
+    <attribute name="title">
+     <string>Last</string>
+    </attribute>
+    <widget class="QLabel" name="labelNameAll_2">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>380</y>
+       <width>141</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>GPS identifier</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditNameLast">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>370</y>
+       <width>211</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QDialogButtonBox" name="buttonBoxLast">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>410</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+    <widget class="QListView" name="listViewTracksLast">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>841</width>
+       <height>311</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
    <widget class="QWidget" name="tabAll">
     <attribute name="title">
      <string>From all</string>
     </attribute>
-    <widget class="QListView" name="listViewTracks">
+    <widget class="QListView" name="listViewTracksAll">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -55,7 +109,7 @@
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
-    <widget class="QLabel" name="labelName">
+    <widget class="QLabel" name="labelNameAll">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -68,7 +122,7 @@
       <string>GPS identifier</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEditName">
+    <widget class="QLineEdit" name="lineEditNameAll">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -79,6 +133,9 @@
      </property>
     </widget>
     <widget class="QCheckBox" name="checkBoxGroup">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>410</x>
@@ -91,53 +148,7 @@
       <string>Group records</string>
      </property>
      <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tabTime">
-    <attribute name="title">
-     <string>Based on report from search</string>
-    </attribute>
-    <widget class="QTableWidget" name="tableWidgetSectors">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>851</width>
-       <height>371</height>
-      </rect>
-     </property>
-     <property name="rowCount">
-      <number>0</number>
-     </property>
-     <property name="columnCount">
-      <number>3</number>
-     </property>
-     <attribute name="horizontalHeaderDefaultSectionSize">
-      <number>75</number>
-     </attribute>
-     <column/>
-     <column/>
-     <column/>
-    </widget>
-    <widget class="QDialogButtonBox" name="buttonBoxTime">
-     <property name="geometry">
-      <rect>
-       <x>510</x>
-       <y>410</y>
-       <width>341</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <bool>false</bool>
      </property>
     </widget>
    </widget>

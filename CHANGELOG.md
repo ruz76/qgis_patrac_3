@@ -3,10 +3,20 @@
 ## Version 3.12.13 (2020-07-23)
 
 #### Improvements
-
+* The list of tracks shows original name in brackets
+* The list of tracks shows only 1 days old tracks (user has to ask for all tracks)
 
 #### Bug Fixes
-* 13 - 21
+* 13 Load GPX on empty project
+* 14 Set style on empty project
+* 15 Step 2 on empty project
+* 16 Read maxtime on empty project
+* 17 Write maxtime on empty project
+* 18 Recalculate sectors on empty project
+* 19 Wrong statistic values
+* 20 Empty GPX list - confirm
+* 21 Ui_Message object has no attribute 'iface'
+* 22 Can not read GPX with extensions
 
 ## Version 3.12.12 (2020-07-19)
 
