@@ -1319,7 +1319,7 @@
         <translation>Desorientation</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="133"/>
+        <location filename="../ui/ui_result.py" line="134"/>
         <source>Other</source>
         <translation>Other</translation>
     </message>
@@ -1344,7 +1344,7 @@
         <translation>Very bad</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="124"/>
+        <location filename="../ui/ui_result.py" line="125"/>
         <source>No health problems</source>
         <translation>No health problems</translation>
     </message>
@@ -1384,182 +1384,182 @@
         <translation>Meadow</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="107"/>
+        <location filename="../ui/ui_result.py" line="108"/>
         <source>Field with plants</source>
         <translation>Field with plants</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="108"/>
+        <location filename="../ui/ui_result.py" line="109"/>
         <source>Field without plants</source>
         <translation>Field without plants</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="109"/>
+        <location filename="../ui/ui_result.py" line="110"/>
         <source>Water body</source>
         <translation>Water body</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="110"/>
+        <location filename="../ui/ui_result.py" line="111"/>
         <source>Water creek</source>
         <translation>Water creek</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="111"/>
+        <location filename="../ui/ui_result.py" line="112"/>
         <source>Intravilan</source>
         <translation>Intravilan</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="114"/>
+        <location filename="../ui/ui_result.py" line="115"/>
         <source>Next to building</source>
         <translation>Next to building</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="115"/>
+        <location filename="../ui/ui_result.py" line="116"/>
         <source>Inside building</source>
         <translation>Inside building</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="116"/>
+        <location filename="../ui/ui_result.py" line="117"/>
         <source>Next to path</source>
         <translation>Next to path</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="117"/>
+        <location filename="../ui/ui_result.py" line="118"/>
         <source>On interface of different landtypes</source>
         <translation>On interface of different landtypes</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="118"/>
+        <location filename="../ui/ui_result.py" line="119"/>
         <source>Bush</source>
         <translation>Bush</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="119"/>
+        <location filename="../ui/ui_result.py" line="120"/>
         <source>Mine</source>
         <translation>Mine</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="120"/>
+        <location filename="../ui/ui_result.py" line="121"/>
         <source>Rocks</source>
         <translation>Rocks</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="121"/>
+        <location filename="../ui/ui_result.py" line="122"/>
         <source>On road</source>
         <translation>On road</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="125"/>
+        <location filename="../ui/ui_result.py" line="126"/>
         <source>Unconsciousness</source>
         <translation>Unconsciousness</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="126"/>
+        <location filename="../ui/ui_result.py" line="127"/>
         <source>Bleeding</source>
         <translation>Bleeding</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="127"/>
+        <location filename="../ui/ui_result.py" line="128"/>
         <source>Dead</source>
         <translation>Dead</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="128"/>
+        <location filename="../ui/ui_result.py" line="129"/>
         <source>Poison</source>
         <translation>Poison</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="129"/>
+        <location filename="../ui/ui_result.py" line="130"/>
         <source>Concussion</source>
         <translation>Concussion</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="130"/>
+        <location filename="../ui/ui_result.py" line="131"/>
         <source>Hypothermia</source>
         <translation>Hypothermia</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="131"/>
+        <location filename="../ui/ui_result.py" line="132"/>
         <source>Physical exhaustion</source>
         <translation>Physical exhaustion</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="132"/>
+        <location filename="../ui/ui_result.py" line="133"/>
         <source>Fractures</source>
         <translation>Fractures</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="161"/>
+        <location filename="../ui/ui_result.py" line="162"/>
         <source>Result</source>
         <translation>Result</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="162"/>
+        <location filename="../ui/ui_result.py" line="163"/>
         <source>Position from map (S-JTSK)</source>
         <translation>Position from map (S-JTSK)</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="163"/>
+        <location filename="../ui/ui_result.py" line="164"/>
         <source>Missing from</source>
         <translation>Missing from</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="164"/>
+        <location filename="../ui/ui_result.py" line="165"/>
         <source>Reported after missing (h)</source>
         <translation>Reported after missing (h)</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="165"/>
+        <location filename="../ui/ui_result.py" line="166"/>
         <source>Sex</source>
         <translation>Sex</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="166"/>
+        <location filename="../ui/ui_result.py" line="167"/>
         <source>Age</source>
         <translation>Age</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="167"/>
+        <location filename="../ui/ui_result.py" line="168"/>
         <source>Known terrain</source>
         <translation>Known terrain</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="168"/>
+        <location filename="../ui/ui_result.py" line="169"/>
         <source>Purpose</source>
         <translation>Purpose</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="169"/>
+        <location filename="../ui/ui_result.py" line="170"/>
         <source>Condition</source>
         <translation>Physical condition</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="170"/>
+        <location filename="../ui/ui_result.py" line="171"/>
         <source>Known health state</source>
         <translation>Known health state</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="171"/>
+        <location filename="../ui/ui_result.py" line="172"/>
         <source>Hours from report</source>
         <translation>Hours from report</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="172"/>
+        <location filename="../ui/ui_result.py" line="173"/>
         <source>Place</source>
         <translation>Place</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="173"/>
+        <location filename="../ui/ui_result.py" line="174"/>
         <source>Detail information about place</source>
         <translation>Detail information about place</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="174"/>
+        <location filename="../ui/ui_result.py" line="175"/>
         <source>Current health state</source>
         <translation>Current health state</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="175"/>
+        <location filename="../ui/ui_result.py" line="176"/>
         <source>Note</source>
         <translation>Note</translation>
     </message>
@@ -1569,29 +1569,34 @@
         <translation type="obsolete">INFO</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="262"/>
+        <location filename="../ui/ui_result.py" line="263"/>
         <source>Can not connect to the server.</source>
         <translation>Can not connect to the server.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="266"/>
+        <location filename="../ui/ui_result.py" line="267"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="266"/>
+        <location filename="../ui/ui_result.py" line="267"/>
         <source>Can not upload result to the server.</source>
         <translation>Can not upload result to the server.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="270"/>
+        <location filename="../ui/ui_result.py" line="271"/>
         <source>Success</source>
         <translation>Success</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="270"/>
+        <location filename="../ui/ui_result.py" line="271"/>
         <source>Result uploaded to the server.</source>
         <translation>Result uploaded to the server.</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_result.py" line="107"/>
+        <source>Forest</source>
+        <translation>Forest</translation>
     </message>
 </context>
 <context>

@@ -102,6 +102,7 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         self.comboBoxPlace.addItem(self.tr("Vineyard / Hop garden"))
         self.comboBoxPlace.addItem(self.tr("Garden"))
         self.comboBoxPlace.addItem(self.tr("Meadow"))
+        self.comboBoxPlace.addItem(self.tr("Forest"))
         self.comboBoxPlace.addItem(self.tr("Field with plants"))
         self.comboBoxPlace.addItem(self.tr("Field without plants"))
         self.comboBoxPlace.addItem(self.tr("Water body"))
