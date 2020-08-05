@@ -49,7 +49,7 @@ class Styles(object):
         self.Area = self.widget.Area
         self.Sectors = self.widget.Sectors
 
-    def setSectorsStyle(self, name):
+    def getSectorsLayer(self):
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
         layer = None
@@ -57,10 +57,18 @@ class Styles(object):
             if DATAPATH + "/pracovni/sektory_group.shp" in lyr.source():
                 layer = lyr
                 break
+        return layer
+
+    def setSectorsStyle(self, name):
+        layer = self.getSectorsLayer()
         if not layer is None:
             settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
             layer.loadNamedStyle(settingsPath + '/styles/sectors_' + name + '.qml')
             f = io.open(settingsPath + '/styles/sektory_group.txt', 'w', encoding='utf-8')
             f.write(name)
             f.close()
-            layer.triggerRepaint()
+
+    def setSectorsLabels(self, state):
+        layer = self.getSectorsLayer()
+        layer.setLabelsEnabled(state)
+        layer.triggerRepaint()

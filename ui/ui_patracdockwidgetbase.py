@@ -279,15 +279,10 @@ class Ui_PatracDockWidget(object):
         self.sectorsSingleStyle.setText(QApplication.translate("PatracDockWidget", "Remove colors", None))
         self.verticalLayoutStyle.addWidget(self.sectorsSingleStyle)
 
-        self.sectorsLabelsOn = QPushButton(self.dockWidgetContents)
-        self.sectorsLabelsOn.setObjectName(_fromUtf8("sectorsLabelsOn"))
-        self.sectorsLabelsOn.setText(QApplication.translate("PatracDockWidget", "Labels on", None))
-        self.verticalLayoutStyle.addWidget(self.sectorsLabelsOn)
-
-        self.sectorsLabelsOff = QPushButton(self.dockWidgetContents)
-        self.sectorsLabelsOff.setObjectName(_fromUtf8("sectorsLabelsOff"))
-        self.sectorsLabelsOff.setText(QApplication.translate("PatracDockWidget", "Labels off", None))
-        self.verticalLayoutStyle.addWidget(self.sectorsLabelsOff)
+        self.chkShowLabels = QCheckBox(self.dockWidgetContents)
+        self.chkShowLabels.setText(QApplication.translate("PatracDockWidget", "Show labels", None))
+        self.chkShowLabels.setChecked(True)
+        self.verticalLayoutStyle.addWidget(self.chkShowLabels)
 
     def setUpProgress(self):
         self.sectorsProgressStateLabel = QLabel(self.dockWidgetContents)

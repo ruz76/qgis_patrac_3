@@ -151,8 +151,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.Styles = Styles(self)
         self.sectorsUniqueStyle.clicked.connect(self.setSectorsUniqueValuesStyle)
         self.sectorsSingleStyle.clicked.connect(self.setSectorsSingleValuesStyle)
-        self.sectorsLabelsOn.clicked.connect(self.setSectorsLabelsOn)
-        self.sectorsLabelsOff.clicked.connect(self.setSectorsLabelsOff)
+        self.chkShowLabels.clicked.connect(self.setSectorsShowLabels)
         self.sectorsProgressStyle.clicked.connect(self.setSectorsProgressStyle)
         self.sectorsUnitsStyle.clicked.connect(self.setSectorsUnitsStyle)
         self.sectorsUnitsRecommendedStyle.clicked.connect(self.setSectorsUnitsRecommendedStyle)
@@ -1263,21 +1262,26 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def setSectorsUniqueValuesStyle(self):
         self.Styles.setSectorsStyle('unique')
+        self.setSectorsShowLabels()
 
     def setSectorsSingleValuesStyle(self):
         self.Styles.setSectorsStyle('single')
+        self.setSectorsShowLabels()
 
-    def setSectorsLabelsOn(self):
-        self.Styles.setSectorsStyle('single')
-
-    def setSectorsLabelsOff(self):
-        self.Styles.setSectorsStyle('single_no_labels')
+    def setSectorsShowLabels(self):
+        if self.chkShowLabels.isChecked():
+            self.Styles.setSectorsLabels(True)
+        else:
+            self.Styles.setSectorsLabels(False)
 
     def setSectorsProgressStyle(self):
         self.Styles.setSectorsStyle('stav')
+        self.setSectorsShowLabels()
 
     def setSectorsUnitsStyle(self):
         self.Styles.setSectorsStyle('units')
+        self.setSectorsShowLabels()
 
     def setSectorsUnitsRecommendedStyle(self):
         self.Styles.setSectorsStyle('units_recommended')
+        self.setSectorsShowLabels()
