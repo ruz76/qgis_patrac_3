@@ -143,6 +143,7 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         self.close()
 
     def acceptNotFound(self):
+        self.saveXMLNoResult()
         self.closeSearch()
         self.zipDir()
         self.zipForServer()
@@ -173,6 +174,13 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         html.write("</body>\n")
         html.write("</html>\n")
         html.close()
+
+    def saveXMLNoResult(self):
+        # TODO maybe save at least input
+        xml = io.open(self.DATAPATH + "/search/result.xml", encoding='utf-8', mode='w')
+        xml.write('<?xml version="1.0"?>\n')
+        xml.write("<result/>\n")
+        xml.close()
 
     def saveXML(self):
         xml = io.open(self.DATAPATH + "/search/result.xml", encoding='utf-8', mode='w')
