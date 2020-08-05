@@ -4,6 +4,7 @@
 
 #### Improvements
 * The user is informed about need to click into map when entering result
+* The labels on/off now keeps the current colors symbology
 
 #### Bug Fixes
 * 24 Ukončeno bez nálezu
