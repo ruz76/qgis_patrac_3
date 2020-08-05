@@ -1,5 +1,14 @@
 # Changelog 
 
+## Version 3.12.14 (2020-08-09)
+
+#### Improvements
+* The user is informed about need to click into map when entering result
+
+#### Bug Fixes
+* 24 Ukončeno bez nálezu
+* 25 Chybí les v seznamu povrchů
+
 ## Version 3.12.13 (2020-07-23)
 
 #### Improvements
