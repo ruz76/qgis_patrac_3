@@ -519,12 +519,12 @@
         <translation>Pro daný kraj nemám k dispozici data. Nemám data nemohu pokračovat.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1216"/>
+        <location filename="../patracdockwidget.py" line="1218"/>
         <source>Can not connect to the server.</source>
         <translation>Nemohu se spojit se serverem.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1223"/>
+        <location filename="../patracdockwidget.py" line="1225"/>
         <source>Wrong project.</source>
         <translation>Chybný projekt. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.</translation>
     </message>
@@ -554,7 +554,7 @@
         <translation type="obsolete">J-V</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1216"/>
+        <location filename="../patracdockwidget.py" line="1218"/>
         <source>Error</source>
         <translation>CHYBA</translation>
     </message>
@@ -634,22 +634,22 @@
         <translation type="obsolete">Nedostupné</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1121"/>
+        <location filename="../patracdockwidget.py" line="1123"/>
         <source>Tracks are empty.</source>
         <translation>Stopy jsou prázdné.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1209"/>
+        <location filename="../patracdockwidget.py" line="1211"/>
         <source>Problem to read data from: </source>
         <translation>Problém s načtením dat z databáze</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1190"/>
+        <location filename="../patracdockwidget.py" line="1192"/>
         <source>Positions are empty.</source>
         <translation>Pozice jsou prázdné.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1223"/>
+        <location filename="../patracdockwidget.py" line="1225"/>
         <source>CHYBA:</source>
         <translation>CHYBA:</translation>
     </message>
@@ -702,6 +702,16 @@
         <location filename="../main/hds.py" line="172"/>
         <source>DATA HDS TEST FINISHED</source>
         <translation>DATA TEST DOKONČEN</translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="841"/>
+        <source>Info</source>
+        <translation>Info</translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="841"/>
+        <source>Click into the map at the place of finding. If you finishing without finding, click anywhere into map.</source>
+        <translation>Klikněte do mapy na místo nálzeu. Pokud ukončujete bez nálezu, klikněte na libovolné místo v mapě.</translation>
     </message>
 </context>
 <context>
@@ -1507,77 +1517,77 @@
         <translation>Zlomeniny</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="160"/>
+        <location filename="../ui/ui_result.py" line="161"/>
         <source>Result</source>
         <translation>Nález</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="161"/>
+        <location filename="../ui/ui_result.py" line="162"/>
         <source>Position from map (S-JTSK)</source>
         <translation>Pozice z mapy (S-JTSK)</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="162"/>
+        <location filename="../ui/ui_result.py" line="163"/>
         <source>Missing from</source>
         <translation>Pohřešována od</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="163"/>
+        <location filename="../ui/ui_result.py" line="164"/>
         <source>Reported after missing (h)</source>
         <translation>Oznámení od pohřešování (h)</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="164"/>
+        <location filename="../ui/ui_result.py" line="165"/>
         <source>Sex</source>
         <translation>Pohlaví</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="165"/>
+        <location filename="../ui/ui_result.py" line="166"/>
         <source>Age</source>
         <translation>Věk</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="166"/>
+        <location filename="../ui/ui_result.py" line="167"/>
         <source>Known terrain</source>
         <translation>Znalost terénu</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="167"/>
+        <location filename="../ui/ui_result.py" line="168"/>
         <source>Purpose</source>
         <translation>Příčina</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="168"/>
+        <location filename="../ui/ui_result.py" line="169"/>
         <source>Condition</source>
         <translation>Fyzická kondice</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="169"/>
+        <location filename="../ui/ui_result.py" line="170"/>
         <source>Known health state</source>
         <translation>Známý zdravotní stav</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="170"/>
+        <location filename="../ui/ui_result.py" line="171"/>
         <source>Hours from report</source>
         <translation>Hodin od oznámení</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="171"/>
+        <location filename="../ui/ui_result.py" line="172"/>
         <source>Place</source>
         <translation>Místo</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="172"/>
+        <location filename="../ui/ui_result.py" line="173"/>
         <source>Detail information about place</source>
         <translation>Upřesnění místa</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="173"/>
+        <location filename="../ui/ui_result.py" line="174"/>
         <source>Current health state</source>
         <translation>Aktuální zdravotní stav</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="174"/>
+        <location filename="../ui/ui_result.py" line="175"/>
         <source>Note</source>
         <translation>Poznámka</translation>
     </message>
@@ -1587,27 +1597,27 @@
         <translation type="obsolete">INFO</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="254"/>
+        <location filename="../ui/ui_result.py" line="262"/>
         <source>Can not connect to the server.</source>
         <translation>Nepodařilo se spojit se serverem.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="258"/>
+        <location filename="../ui/ui_result.py" line="266"/>
         <source>Error</source>
         <translation>CHYBA</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="258"/>
+        <location filename="../ui/ui_result.py" line="266"/>
         <source>Can not upload result to the server.</source>
         <translation>Nemohu nahrát výsledek na server.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="262"/>
+        <location filename="../ui/ui_result.py" line="270"/>
         <source>Success</source>
         <translation>Úspěch</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="262"/>
+        <location filename="../ui/ui_result.py" line="270"/>
         <source>Result uploaded to the server.</source>
         <translation>Výsledek byl nahrán na server.</translation>
     </message>

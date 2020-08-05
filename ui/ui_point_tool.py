@@ -40,6 +40,7 @@ class PointMapTool(QgsMapTool):
           self.point = xform.transform(self.point)
 
       self.addToCanvas(self.point)
+      self.widget.iface.messageBar().clearWidgets()
 
   def addToCanvas(self, point):
       layer = QgsVectorLayer("Point", "result", "memory")

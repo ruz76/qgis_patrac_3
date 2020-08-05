@@ -835,6 +835,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.pointtool.setSearchid(self.getSearchID())
         self.plugin.iface.mapCanvas().setMapTool(self.pointtool)
 
+        self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Info", None), QApplication.translate("Patrac", "Click into the map at the place of finding. If you finishing without finding, click anywhere into map.", None), level=Qgis.Warning, duration=-1)
+
     def setSectorsProgress(self):
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
