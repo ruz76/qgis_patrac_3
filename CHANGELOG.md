@@ -1,10 +1,11 @@
 # Changelog 
 
-## Version 3.12.14 (2020-08-09)
+## Version 3.12.14 (2020-08-06)
 
 #### Improvements
 * The user is informed about need to click into map when entering result
 * The labels on/off now keeps the current colors symbology
+* The landuse style has now human readable labels
 
 #### Bug Fixes
 * 24 Ukončeno bez nálezu
