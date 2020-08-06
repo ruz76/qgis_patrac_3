@@ -164,8 +164,8 @@ section {
 		font-size: 2em;
 		-webkit-transition:all .3s;
 		-moz-transition:all .3s;
-		transition:all .3s
-        padding: 0px;
+		transition:all .3s;
+    padding: 0px;
 	}
 	.navbar-default .navbar-nav>.active>a {
 		border-radius: 3px
@@ -665,6 +665,14 @@ font-size: 11px;
 #back-top i {
     margin-top: 15px;
     font-size: 28px;
+}
+
+td.button {
+  width: 33px;
+  text-align: center;
+  padding: 0px;
+  margin: 0px;
+  font-family: Sans-serif;
 }
 
 @media only screen

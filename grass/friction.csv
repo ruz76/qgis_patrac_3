@@ -3,15 +3,15 @@
 3;8;HRBITO;Hřbitov.;
 4;14;KOLEJI;Kolejiště;
 5;null;LETISTE;Letiště;
-6;5;LPKOSO;Lesní půda, kosodřeviny.;V zatím dodaných datech se nevyskytuje.
+6;5;LPKOSO;Lesní půda, kosodřeviny.;
 7;18;LPKROV;Lesní půda, křoviny.;
 8;14;LPSTROM;Lesní půda, stromy.;
-9;5;OBLEDR;Neurčeno;V zatím dodaných datech se nevyskytuje.
+9;5;OBLEDR;Neurčeno;
 10;5;ODPOCI;Odpočívadala;
 11;14;ORNAPU;Orná půda;
 12;5;OSPLSI;Ostatní plochy u silnic;
 13;14;POTELO;Lom;
-14;5;PRSTPR;Neurčeno;V zatím dodaných datech se nevyskytuje.
+14;5;PRSTPR;Budovy;Elektro
 15;18;SADZAH;Sad, zahrada;
 16;18;SKLADK;Skládka;
 17;6;TRTRPO;Travnatý povrch;
@@ -25,13 +25,13 @@
 105;14;HALODV;Halda, odval;
 106;null;KUSLFO;Skleníky, zemědělské budovy;
 107;18;RASELI;Rašeliniště;
-108;5;ROZTRA;Neurčeno;V zatím dodaných datech se nevyskytuje.
-109;null;ROZZRI;Budovy;Blíže neurčeno
+108;5;ROZTRA;Trafostanice;
+109;null;ROZZRI;Budovy;
 110;18;SESPUD;Sesuv půdy;
 111;null;SILO;Silo;
 112;null;SKAUTV;Lesní školka;
 113;null;USNAOD;Usazovací nádrž;
-114;null;VANAZA;Budovy;Blíže neurčeno
+114;null;VANAZA;Budovy;
 115;14;VINICE;Vinice;
 214;8;LESPRU;Lesní průsek;
 215;6;LINVEG;Alej;
