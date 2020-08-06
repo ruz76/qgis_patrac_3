@@ -149,6 +149,7 @@ class PatracPlugin(object):
                 copy(pluginPath + "/grass/units_times.csv", profilePath + "qgis_patrac_settings/grass/")
             if not os.path.isfile(profilePath + "qgis_patrac_settings/config/config.json"):
                 copy(pluginPath + "/config/config.json", profilePath + "qgis_patrac_settings/config/")
+            copy(pluginPath + "/styles/sectors_unique.qml", profilePath + "qgis_patrac_settings/styles/")
 
     def copyDocDir(self, DATAPATH, pluginPath, name):
         if not os.path.isdir(DATAPATH + "doc/" + name):
