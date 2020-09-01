@@ -1,6 +1,15 @@
 # Changelog 
 
-## Version 3.12.14 (2020-08-06)
+## Version 3.12.15 (2020-09-02)
+
+#### Improvements
+* Fix the datastore - water bodies
+
+#### Bug Fixes
+* 28 GPX without time
+* 29 Export just selected sectors
+
+## Version 3.12.14 (2020-08-10)
 
 #### Improvements
 * The user is informed about need to click into map when entering result
