@@ -636,12 +636,12 @@
         <translation>Types of terrain</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="198"/>
+        <location filename="../patrac.py" line="199"/>
         <source>Show/hide Patrac dockwidget</source>
         <translation>Show/hide Patrac dockwidget</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="270"/>
+        <location filename="../patrac.py" line="271"/>
         <source>Patrac</source>
         <translation>Searcher</translation>
     </message>
@@ -1203,22 +1203,22 @@
         <translation>Not found any disk. Will not search for data.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="218"/>
+        <location filename="../ui/ui_gpx.py" line="229"/>
         <source>Another Type of GPX</source>
         <translation>Another Type of GPX</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="225"/>
+        <location filename="../ui/ui_gpx.py" line="236"/>
         <source>No records found</source>
         <translation>No records found</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="256"/>
+        <location filename="../ui/ui_gpx.py" line="270"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="256"/>
+        <location filename="../ui/ui_gpx.py" line="270"/>
         <source>There are not any tracks in the GPX.</source>
         <translation>There are not any tracks in the GPX.</translation>
     </message>
@@ -1226,6 +1226,16 @@
         <location filename="../ui/ui_gpx.py" line="329"/>
         <source>No data fro selected time range.</source>
         <translation type="obsolete">No data fro selected time range.</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_gpx.py" line="223"/>
+        <source>No Time Information</source>
+        <translation>No Time Information</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_gpx.py" line="246"/>
+        <source>TNK</source>
+        <translation>TNK</translation>
     </message>
 </context>
 <context>

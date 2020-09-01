@@ -664,12 +664,12 @@
         <translation>Typy povrchu</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="198"/>
+        <location filename="../patrac.py" line="199"/>
         <source>Show/hide Patrac dockwidget</source>
         <translation>Ukázat/skrýt panel</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="270"/>
+        <location filename="../patrac.py" line="271"/>
         <source>Patrac</source>
         <translation>Patrac</translation>
     </message>
@@ -1231,22 +1231,22 @@
         <translation>Nebyl vybrán žádný disk. Nebudu hledat data.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="218"/>
+        <location filename="../ui/ui_gpx.py" line="229"/>
         <source>Another Type of GPX</source>
         <translation>Jiný typ GPX</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="225"/>
+        <location filename="../ui/ui_gpx.py" line="236"/>
         <source>No records found</source>
         <translation>Nebyl nalezen žádný záznam</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="256"/>
+        <location filename="../ui/ui_gpx.py" line="270"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="256"/>
+        <location filename="../ui/ui_gpx.py" line="270"/>
         <source>There are not any tracks in the GPX.</source>
         <translation>Soubory GPX neobsahují žádné stopy.</translation>
     </message>
@@ -1254,6 +1254,16 @@
         <location filename="../ui/ui_gpx.py" line="329"/>
         <source>No data fro selected time range.</source>
         <translation type="obsolete">V daném období nejsou žádná data.</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_gpx.py" line="223"/>
+        <source>No Time Information</source>
+        <translation>Bez informace o času</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_gpx.py" line="246"/>
+        <source>TNK</source>
+        <translation>TNK</translation>
     </message>
 </context>
 <context>

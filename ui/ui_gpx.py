@@ -156,9 +156,15 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
                         QgsMessageLog.logMessage(str(layer.GetFeatureCount()), "Patrac")
                         if layer.GetFeatureCount() > 0:
                             feature = layer.GetFeature(0)
-                            listFile.write(feature.GetField('time') + ";")
+                            if feature.GetField('time') is not None:
+                                listFile.write(feature.GetField('time') + ";")
+                            else:
+                                listFile.write("TNK" + ";")
                             feature = layer.GetFeature(layer.GetFeatureCount() - 1)
-                            listFile.write(feature.GetField('time') + ";")
+                            if feature.GetField('time') is not None:
+                                listFile.write(feature.GetField('time') + ";")
+                            else:
+                                listFile.write("TNK" + ";")
                             listFile.write(f + "\n")
                         else:
                             listFile.write(";\n")
@@ -211,6 +217,11 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
                             item_last = QStandardItem(track)
                             item_last.setCheckable(True)
                             self.listViewModelLast.appendRow(item_last)
+                    elif start == 'TNK' or end == "TNK":
+                        track += self.tr("No Time Information") + '(' + items[2].rstrip("\n") + ')'
+                        item = QStandardItem(track)
+                        item.setCheckable(True)
+                        self.listViewModelAll.appendRow(item)
                     else:
                         # We do not show everything
                         item = QStandardItem(self.tr("Another Type of GPX"))
@@ -224,10 +235,13 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
 
     def iso_time_to_local(self, iso):
         """COnverts UTC to local time zone"""
-        when = parser.parse(iso)
-        local = when.astimezone(tzlocal())
-        local_str = local.strftime("%Y-%m-%d %H:%M")
-        return local_str
+        try:
+            when = parser.parse(iso)
+            local = when.astimezone(tzlocal())
+            local_str = local.strftime("%Y-%m-%d %H:%M")
+            return local_str
+        except:
+            return self.tr("TNK")
 
     def processTracks(self, lineEditCurrent, listViewModelCurrent):
         SECTOR = lineEditCurrent.text()
