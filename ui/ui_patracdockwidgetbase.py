@@ -318,6 +318,11 @@ class Ui_PatracDockWidget(object):
         self.sectorsProgressStateFinished.setText(QApplication.translate("PatracDockWidget", "Search finished", None))
         self.verticalLayoutProgress.addWidget(self.sectorsProgressStateFinished)
 
+        self.sectorsProgressStateRisk = QRadioButton(self.dockWidgetContents)
+        self.sectorsProgressStateRisk.setObjectName(_fromUtf8("sectorsProgressStateFinished"))
+        self.sectorsProgressStateRisk.setText(QApplication.translate("PatracDockWidget", "Risk sector", None))
+        self.verticalLayoutProgress.addWidget(self.sectorsProgressStateRisk)
+
         self.horizontalSectorsAnalyzeTrackSeparator = QHBoxLayout()
         self.verticalLayoutProgress.addLayout(self.horizontalSectorsAnalyzeTrackSeparator)
 

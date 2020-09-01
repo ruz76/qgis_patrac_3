@@ -161,6 +161,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.sectorsProgressStateStarted.clicked.connect(self.setSectorsProgress)
         self.sectorsProgressType.activated.connect(self.setSectorsProgress)
         self.sectorsProgressStateFinished.clicked.connect(self.setSectorsProgress)
+        self.sectorsProgressStateRisk.clicked.connect(self.setSectorsProgress)
         self.sectorsProgressAnalyzeTrack.clicked.connect(self.setSectorsProgress)
         self.sectorsProgressAnalyzeType.currentIndexChanged.connect(self.sectorsProgressAnalyzeTypeChanged)
         self.sectorsProgressAnalyzeValue.textChanged.connect(self.sectorsProgressAnalyzeValueChanged)
@@ -861,7 +862,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         numberOfSearchers = 10
         if self.sectorsProgressStateNotStarted.isChecked() == True:
             attribute = 3
-            type = 0
+            type = None
         if self.sectorsProgressStateStarted.isChecked() == True:
             attribute = 3
             type = 1
@@ -869,6 +870,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if self.sectorsProgressStateFinished.isChecked() == True:
             attribute = 3
             type = 2
+        if self.sectorsProgressStateRisk.isChecked() == True:
+            attribute = 3
+            type = 0
         if self.sectorsProgressAnalyzeTrack.isChecked() == True:
             attribute = -1
             type = 0
