@@ -482,6 +482,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.setCursor(Qt.ArrowCursor)
 
     def copyGpx(self):
+        self.Sectors.exportSectors()
         drives = None
         if sys.platform.startswith('win'):
             drives = win32api.GetLogicalDriveStrings()
