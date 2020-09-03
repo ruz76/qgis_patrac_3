@@ -94,6 +94,8 @@ class PatracPlugin(object):
 
         self.layer = None
         self.toolBar = None
+        self.toolbar = self.iface.addToolBar("Patrac Toolbar")
+        self.toolbar.setObjectName("Patrac Toolbar")
 
         # self.qgsVersion = str(QGis.QGIS_VERSION_INT)
 
@@ -229,8 +231,6 @@ class PatracPlugin(object):
         self.iface.webToolBar().setVisible(False)
 
     def createToolbar(self):
-        self.toolbar = self.iface.addToolBar("Patrac Toolbar")
-        self.toolbar.setObjectName("Patrac Toolbar")
         self.toolbar.addAction(self.actionDock)
         self.toolbar.addAction(self.iface.actionOpenProject())
         self.toolbar.addAction(self.iface.actionSaveProject())
@@ -250,10 +250,19 @@ class PatracPlugin(object):
         self.toolbar.addAction(self.iface.actionDeleteSelected())
         self.toolbar.addAction(self.iface.actionSplitFeatures())
         self.toolbar.addAction(self.iface.actionSaveEdits())
+        self.addRecalculateButton()
         self.toolbar.addAction(self.iface.actionMeasure())
         self.toolbar.addAction(self.iface.actionMeasureArea())
         self.toolbar.addAction(self.iface.actionAddRasterLayer())
         self.toolbar.addAction(self.iface.actionAddOgrLayer())
+
+    def addRecalculateButton(self):
+        pluginPath = path.dirname(__file__)
+        self.recalculateSectorsAction = QAction(QIcon(pluginPath + "/icons/number_sectors.png"), "Patrac", self.iface.mainWindow())
+        self.recalculateSectorsAction.setStatusTip(QCoreApplication.translate("Patrac", "Recalculate sectors"))
+        self.recalculateSectorsAction.setWhatsThis(QCoreApplication.translate("Patrac", "Recalculate sectors"))
+        self.recalculateSectorsAction.triggered.connect(self.dockWidget.recalculateSectorsExpert)
+        self.toolbar.addAction(self.recalculateSectorsAction)
 
     def createShowWidgetAction(self):
         icon = QIcon(icon_path)

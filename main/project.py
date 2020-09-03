@@ -265,7 +265,7 @@ class Project(object):
         # self.do_msearch()
         self.zoomToExtent(XMIN, YMIN, XMAX, YMAX)
 
-        self.widget.Sectors.recalculateSectors(True)
+        self.widget.Sectors.recalculateSectors(True, False)
         self.createNewSearch(name, desc, region)
         self.widget.settingsdlg.updateSettings()
         self.saveRegion(region, NEW_PROJECT_PATH)

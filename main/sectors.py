@@ -27,6 +27,7 @@
 # ******************************************************************************
 
 import csv, io, math, subprocess, os, sys, uuid, webbrowser
+import collections
 
 from qgis.core import *
 from qgis.gui import *
@@ -256,7 +257,27 @@ class Sectors(object):
 
         self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sektory_group_to_append.shp")
 
-    def recalculateSectors(self, setLabels):
+    def getDuplicities(self, features):
+        all = []
+        for feature in features:
+            all.append(feature['id'])
+        duplicities = [item for item, count in collections.Counter(all).items() if count > 1]
+        duplicities_dict = {}
+        for d in duplicities:
+            duplicities_dict.update({d:'A'})
+
+        print(duplicities_dict)
+
+        return duplicities_dict
+
+    def increaseIdSize(self, layer):
+        fields = layer.fields()
+        for field in fields:
+            if field.name() == 'id':
+                field.setLength(10)
+                print("IDDD")
+
+    def recalculateSectors(self, setLabels, setIds):
         """Recalculate areas of sectors and identifiers"""
 
         # Check if the project has sektory_group_selected.shp
@@ -281,18 +302,42 @@ class Sectors(object):
 
         provider = layer.dataProvider()
         features = provider.getFeatures()
+        layer.commitChanges()
+        duplicities = {}
+        if setIds:
+            duplicities = self.getDuplicities(features)
+
         sectorid = 0
         f = None
         if setLabels:
             f = open(DATAPATH + '/pracovni/listOfIds.txt', 'w')
+
         layer.startEditing()
+        self.increaseIdSize(layer)
+        layer.commitChanges()
+        layer.triggerRepaint()
+
+        layer.startEditing()
+        features = provider.getFeatures()
         for feature in features:
             sectorid = sectorid + 1
             # Label is set to A and sequential number
             # Labels must be stable for whole search area, so only at the beginning are sectors labeled
             if setLabels:
             	#feature['label'] = 'A' + str(sectorid)
-            	feature['label'] = str(feature['id'])
+                feature['label'] = str(feature['id'])
+
+            # print("SET IDS" + str(setIds))
+            if setIds:
+                if feature['id'] in duplicities:
+                    current_duplicity = feature['id']
+                    feature['id'] = str(feature['id']) + "_" + str(duplicities[feature['id']])
+                    feature['label'] = str(feature['id'])
+                    order = duplicities[current_duplicity]
+                    order = chr(ord(str(order)) + 1)
+                    duplicities.update({current_duplicity:order})
+                    print(feature['id'])
+
             # Area in hectares
             feature['area_ha'] = round(feature.geometry().area() / 10000)
             #print(str(feature['id']))
@@ -334,7 +379,7 @@ class Sectors(object):
                                                                  QApplication.translate("Patrac", "Wrong project.", None))
             return
 
-        sectorid = self.recalculateSectors(False)
+        sectorid = self.recalculateSectors(False, False)
         self.widget.setCursor(Qt.WaitCursor)
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
@@ -431,7 +476,7 @@ class Sectors(object):
                                                                  QApplication.translate("Patrac", "Wrong project.", None))
             return
 
-        sectorid = self.recalculateSectors(False)
+        sectorid = self.recalculateSectors(False, False)
 
         self.widget.setCursor(Qt.WaitCursor)
         # exports curent layer to selected layer for GRASS GIS import

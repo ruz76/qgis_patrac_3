@@ -172,6 +172,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.tabWidget.currentChanged.connect(self.onTabChanged)
         # self.setMouseHandler()
 
+    def sayHello(self):
+        print("HELLO")
+
     def setMouseHandler(self):
         self.emitPoint = QgsMapToolEmitPoint(self.canvas)
         QObject.connect(self.emitPoint, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.clickedOnMap)
@@ -786,7 +789,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.Sectors.getSectors(0, self.guideSpinEnd.value())
 
     def recalculateSectorsExpert(self):
-        self.Sectors.recalculateSectors(False)
+        self.Sectors.recalculateSectors(False, True)
 
     def extendRegion(self):
         # msg = QApplication.translate("Patrac", "The function is not available. Please create new project.", None)
