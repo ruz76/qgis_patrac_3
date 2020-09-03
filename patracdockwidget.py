@@ -170,6 +170,14 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.sectorsProgressAnalyzeNumberOfPersons.setText("10")
 
         self.tabWidget.currentChanged.connect(self.onTabChanged)
+        # self.setMouseHandler()
+
+    def setMouseHandler(self):
+        self.emitPoint = QgsMapToolEmitPoint(self.canvas)
+        QObject.connect(self.emitPoint, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.clickedOnMap)
+
+    def clickedOnMap(self):
+        print("JOOO")
 
     def onTabChanged(self, index):
         # If the tab is activated we activate the tool

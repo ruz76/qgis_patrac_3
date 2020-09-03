@@ -192,8 +192,9 @@ class PatracPlugin(object):
         #     return None
 
         self.dockWidget = None
+        pluginPath = path.dirname(__file__)
 
-        self.actionDock = QAction(QIcon(":/icons/patrac.png"), "Patrac", self.iface.mainWindow())
+        self.actionDock = QAction(QIcon(pluginPath + "/icons/patrac.png"), "Patrac", self.iface.mainWindow())
         self.actionDock.setStatusTip(QCoreApplication.translate("Patrac", "Show/hide Patrac dockwidget"))
         self.actionDock.setWhatsThis(QCoreApplication.translate("Patrac", "Show/hide Patrac dockwidget"))
         self.actionDock.triggered.connect(self.showWidget)
@@ -230,6 +231,7 @@ class PatracPlugin(object):
     def createToolbar(self):
         self.toolbar = self.iface.addToolBar("Patrac Toolbar")
         self.toolbar.setObjectName("Patrac Toolbar")
+        self.toolbar.addAction(self.actionDock)
         self.toolbar.addAction(self.iface.actionOpenProject())
         self.toolbar.addAction(self.iface.actionSaveProject())
         self.toolbar.addAction(self.iface.actionShowLayoutManager())
@@ -252,6 +254,12 @@ class PatracPlugin(object):
         self.toolbar.addAction(self.iface.actionMeasureArea())
         self.toolbar.addAction(self.iface.actionAddRasterLayer())
         self.toolbar.addAction(self.iface.actionAddOgrLayer())
+
+    def createShowWidgetAction(self):
+        icon = QIcon(icon_path)
+        action = QAction(icon, text, parent)
+        action.triggered.connect(callback)
+        action.setEnabled(enabled_flag)
 
     def unload(self):
         # if not self.no_close.ok_to_close():
