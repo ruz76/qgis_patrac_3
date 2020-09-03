@@ -4,10 +4,14 @@
 
 #### Improvements
 * Fix the datastore - water bodies
+* Added risk sector. Remove state of the sector search.
+* 29 Export just selected sectors
+* 30 Added panel show into toolbar
+* 32 Splitted sectors are renamed by Recalculate sectors button
 
 #### Bug Fixes
 * 28 GPX without time
-* 29 Export just selected sectors
+
 
 ## Version 3.12.14 (2020-08-10)
 
