@@ -1,5 +1,10 @@
 # Changelog 
 
+## Version 3.12.15 (2020-09-07)
+
+#### Bug Fixes
+* 34 Duplicity get positions and get tracks
+
 ## Version 3.12.15 (2020-09-02)
 
 #### Improvements
@@ -11,7 +16,6 @@
 
 #### Bug Fixes
 * 28 GPX without time
-
 
 ## Version 3.12.14 (2020-08-10)
 
