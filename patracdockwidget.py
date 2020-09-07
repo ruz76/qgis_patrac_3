@@ -1137,6 +1137,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             # Deletes all features in layer patraci.shp
             layer.startEditing()
             layer.deleteFeatures(listOfIds)
+            layer.commitChanges()
             # Loops the lines
             for line in lines:
                 if line != "":  # add other needed checks to skip titles
@@ -1193,7 +1194,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             sectorid = 0
             listOfIds = [feat.id() for feat in layer.getFeatures()]
             # Deletes all features in layer patraci.shp
+            layer.startEditing()
             layer.deleteFeatures(listOfIds)
+            layer.commitChanges()
             # Reads locations from response
             locations = response.data.read().decode("utf-8")
             # locations = locations.decode("utf-8")
