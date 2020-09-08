@@ -102,13 +102,13 @@ if os.path.isfile(DATAINPUTPATH+'/vektor/OSM/line_x/merged_polygons_groupped.shp
 
 
 #Adds progress columns
-print(gscript.read_command('v.db.addcolumn', map='sectors_group_to_append', layer='1', columns='stav INTEGER'))
-print(gscript.read_command('v.db.addcolumn', map='sectors_group_to_append', layer='1', columns='prostredky VARCHAR(254)'))
+print(gscript.read_command('v.db.addcolumn', map='sectors_group_to_append', layer='1', columns='stav INTEGER', overwrite=True))
+print(gscript.read_command('v.db.addcolumn', map='sectors_group_to_append', layer='1', columns='prostredky VARCHAR(254)', overwrite=True))
 
 #Computes areas
-print(gscript.read_command('v.db.addcolumn', map='sectors_group_to_append', layer='1', columns='area_ha DOUBLE PRECISION'))
-print(gscript.read_command('v.to.db', map='sectors_group_to_append', layer='1', option='area', units='hectares', columns='area_ha'))
+print(gscript.read_command('v.db.addcolumn', map='sectors_group_to_append', layer='1', columns='area_ha DOUBLE PRECISION', overwrite=True))
+print(gscript.read_command('v.to.db', map='sectors_group_to_append', layer='1', option='area', units='hectares', columns='area_ha', overwrite=True))
 #Adds label column
-print(gscript.read_command('v.db.addcolumn', map='sectors_group_to_append', layer='1', columns='label VARCHAR(50)'))
+print(gscript.read_command('v.db.addcolumn', map='sectors_group_to_append', layer='1', columns='label VARCHAR(50)', overwrite=True))
 #Exports sectors with comuted areas
 print(gscript.read_command('v.out.ogr', format='ESRI_Shapefile', input='sectors_group_to_append', output=DATAPATH +'/pracovni/sektory_group_to_append.shp', overwrite=True))
