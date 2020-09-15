@@ -711,7 +711,7 @@ def my_form_open(dialog, layer, feature):
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <defaults>
-        <default expression="" field="id" applyOnUpdate="0"/>
+        <default expression="count(&quot;id&quot;) + 1" field="id" applyOnUpdate="0"/>
         <default expression="" field="cas_od" applyOnUpdate="0"/>
         <default expression="" field="cas_do" applyOnUpdate="0"/>
         <default expression="" field="vaha" applyOnUpdate="0"/>
