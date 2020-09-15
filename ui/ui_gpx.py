@@ -107,7 +107,8 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
             drives = win32api.GetLogicalDriveStrings()
             drives = drives.split('\000')[:-1]
         else:
-            drives = self.Utils.getDrivesList()
+            letters = "CDEFGHIJKLMNOPQRSTUVWXYZ"
+            drives = [letters[i] + ":/" for i in range(len(letters))]
         item, ok = QInputDialog.getItem(self, self.tr("select input dialog"),
                                         self.tr("list of drives"), drives, 0, False)
         if ok and item:
