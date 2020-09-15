@@ -5,6 +5,8 @@ import requests, json
 import sqlite3
 from sqlite3 import Error
 import ast
+from qgis.core import *
+from qgis.gui import *
 
 class Response():
     status = 200
@@ -30,6 +32,23 @@ class Database():
 
         except Error as e:
             print("INSERT: ", e)
+
+class SaveProject(QThread):
+    def __init__(self):
+        super(SaveProject, self).__init__()
+
+    def run(self):
+        while True:
+            try:
+                project = QgsProject.instance()
+                if project is not None:
+                    prjfi = QFileInfo(project.fileName())
+                    DATAPATH = prjfi.absolutePath()
+                    if DATAPATH != "" and QFileInfo(DATAPATH + "/config/region.txt").exists():
+                        project.write()
+            except:
+                a = 100 # Only placeholder, TODO
+            self.sleep(300)
 
 class CheckRequests(QThread):
     path = ""

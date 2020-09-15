@@ -124,6 +124,9 @@ class PatracPlugin(object):
         self.checkRequests = CheckRequests(userPluginPath + "/settings.db")
         self.checkRequests.start()
 
+        self.saveProject = SaveProject()
+        self.saveProject.start()
+
     def checkSettings(self):
         pluginPath = path.dirname(__file__)
         profilePath = pluginPath + "/../../../"
