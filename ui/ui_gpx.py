@@ -226,7 +226,7 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
                             item_last.setCheckable(True)
                             self.listViewModelLast.appendRow(item_last)
                     elif start == 'TNK' or end == "TNK":
-                        track += self.tr("No Time Information") + '(' + items[2].rstrip("\n") + ')'
+                        track += self.tr("No Time Information") + ' (' + items[2].rstrip("\n") + ')'
                         item = QStandardItem(track)
                         item.setCheckable(True)
                         self.listViewModelAll.appendRow(item)
@@ -260,7 +260,11 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
         while listViewModelCurrent.item(i):
             if listViewModelCurrent.item(i).checkState() == Qt.Checked:
                 track_id = listViewModelCurrent.item(i).text().split(":")[0][6:]
-                self.loadTrack(track_id, SECTOR)
+                result = self.loadTrack(track_id, SECTOR)
+                if result:
+                    listViewModelCurrent.item(i).setText(listViewModelCurrent.item(i).text() + " -> " +  self.tr("Track loaded"))
+                else:
+                    listViewModelCurrent.item(i).setText(listViewModelCurrent.item(i).text() + " -> !!!" + self.tr("Problem with loading track") + "!!!")
             i += 1
 
     def loadTrack(self, track_id, dir_name):
@@ -268,12 +272,15 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
         vector = QgsVectorLayer(self.DATAPATH + '/search/gpx/' + dir_name + '/' + track_id + '.gpx' + '|layername=tracks', dir_name + '_track_' + track_id, 'ogr')
         if not vector.isValid():
             QgsMessageLog.logMessage("Layer " + self.DATAPATH + '/search/gpx/' + dir_name + '/' + track_id + '.gpx' + '|layername=tracks' + " failed to load!", "Patrac")
+            return False
         else:
             if vector.featureCount() > 0:
                 vector.loadNamedStyle(self.DATAPATH + '/search/shp/style.qml')
                 QgsProject.instance().addMapLayer(vector)
+                return True
             else:
                 QMessageBox.information(None, self.tr("INFO"), self.tr("There are not any tracks in the GPX."))
+                return False
 
     def acceptAll(self):
         if not hasattr(self, 'listViewModelAll'):
