@@ -172,14 +172,14 @@ class PatracPlugin(object):
 
     def getPatracDataPath(self):
         DATAPATH = ''
-        if os.path.isfile('C:/patracdata/cr/projekty/simple/simple.qgs'):
-            DATAPATH = 'C:/patracdata/'
-        if os.path.isfile('D:/patracdata/cr/projekty/simple/simple.qgs'):
-            DATAPATH = 'D:/patracdata/'
-        if os.path.isfile('E:/patracdata/cr/projekty/simple/simple.qgs'):
-            DATAPATH = 'E:/patracdata/'
+        letters = "CDEFGHIJKLMNOPQRSTUVWXYZ"
+        drives = [letters[i] + ":/" for i in range(len(letters))]
+        for drive in drives:
+            if os.path.isfile(drive + 'patracdata/cr/projekty/simple/simple.qgs'):
+                DATAPATH = drive + 'patracdata/cr/projekty/simple/'
+                break
         if os.path.isfile('/data/patracdata/cr/projekty/simple/simple.qgs'):
-            DATAPATH = '/data/patracdata/'
+            DATAPATH = '/data/patracdata/cr/projekty/simple/'
 
         return DATAPATH
 

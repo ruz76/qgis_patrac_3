@@ -62,7 +62,6 @@ class Project(object):
         self.settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
         self.systemid = open(self.settingsPath + "/config/systemid.txt", 'r').read().rstrip("\n")
 
-
     def copyTemplate(self, NEW_PROJECT_PATH, TEMPLATES_PATH, NAMESAFE):
         if not os.path.isdir(NEW_PROJECT_PATH):
             os.mkdir(NEW_PROJECT_PATH)
@@ -139,12 +138,12 @@ class Project(object):
 
     def getSimpleProjectDataPath(self):
         DATAPATH = ''
-        if os.path.isfile('C:/patracdata/cr/projekty/simple/simple.qgs'):
-            DATAPATH = 'C:/patracdata/cr/projekty/simple/'
-        if os.path.isfile('D:/patracdata/cr/projekty/simple/simple.qgs'):
-            DATAPATH = 'D:/patracdata/cr/projekty/simple/'
-        if os.path.isfile('E:/patracdata/cr/projekty/simple/simple.qgs'):
-            DATAPATH = 'E:/patracdata/cr/projekty/simple/'
+        letters = "CDEFGHIJKLMNOPQRSTUVWXYZ"
+        drives = [letters[i] + ":/" for i in range(len(letters))]
+        for drive in drives:
+            if os.path.isfile(drive + 'patracdata/cr/projekty/simple/simple.qgs'):
+                DATAPATH = drive + 'patracdata/cr/projekty/simple/'
+                break
         if os.path.isfile('/data/patracdata/cr/projekty/simple/simple.qgs'):
             DATAPATH = '/data/patracdata/cr/projekty/simple/'
 
