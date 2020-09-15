@@ -1,7 +1,16 @@
 # Changelog 
 
-## Version 3.12.15 (2020-09-07)
+## Version 3.12.17 (2020-09-15)
+#### Improvements
+* 31 Automatic id for places
+* 37 Information about loaded track
+* 36 Save project each 5 minutes
 
+#### Bug Fixes
+* 40 Import ends with error when user does not have sufficient rights on Windows
+* 41 Missing win32api when user does not have sufficient rights on Windows
+
+## Version 3.12.16 (2020-09-07)
 #### Bug Fixes
 * 34 Duplicity get positions and get tracks
 
