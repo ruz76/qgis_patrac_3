@@ -426,7 +426,7 @@
         <translation>Wrong project</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="527"/>
+        <location filename="../patracdockwidget.py" line="549"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
@@ -461,47 +461,47 @@
         <translation>Report test error</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="158"/>
+        <location filename="../main/project.py" line="157"/>
         <source>Out of Czech Republic. Can not continue.</source>
         <translation>Out of Czech Republic. Can not continue.</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="165"/>
+        <location filename="../main/project.py" line="164"/>
         <source>CRITICAL ERROR</source>
         <translation>CRITICAL ERROR</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="165"/>
+        <location filename="../main/project.py" line="164"/>
         <source>No data. Can not continue.</source>
         <translation>No data. Can not continue.</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="181"/>
+        <location filename="../main/project.py" line="180"/>
         <source>Region</source>
         <translation>Region</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="181"/>
+        <location filename="../main/project.py" line="180"/>
         <source>The area is large. Computing will be slow. Do you want to continue?</source>
         <translation>The area is large. Computing will be slow. Do you want to continue?</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="204"/>
+        <location filename="../main/project.py" line="203"/>
         <source>Do not have data for seleted region. Can not continue.</source>
         <translation>Do not have data for seleted region. Can not continue.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1217"/>
+        <location filename="../patracdockwidget.py" line="1245"/>
         <source>Can not connect to the server.</source>
         <translation>Can not connect to the server.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1224"/>
+        <location filename="../patracdockwidget.py" line="1252"/>
         <source>Wrong project.</source>
         <translation>Wrong project.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="498"/>
+        <location filename="../main/sectors.py" line="543"/>
         <source>GPX and PDF for search</source>
         <translation>GPX and PDF for search</translation>
     </message>
@@ -526,72 +526,72 @@
         <translation type="obsolete">S-E</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1217"/>
+        <location filename="../patracdockwidget.py" line="1245"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="230"/>
+        <location filename="../patracdockwidget.py" line="248"/>
         <source>Can not find web browser to open help</source>
         <translation>Can not find web browser to open help</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="294"/>
+        <location filename="../patracdockwidget.py" line="312"/>
         <source>Wrong municipality</source>
         <translation>Wrong municipality</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="294"/>
+        <location filename="../patracdockwidget.py" line="312"/>
         <source>The municipality has not been found</source>
         <translation>The municipality has not been found</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="336"/>
+        <location filename="../patracdockwidget.py" line="354"/>
         <source>Step</source>
         <translation>Step</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="336"/>
+        <location filename="../patracdockwidget.py" line="354"/>
         <source>You skipped the step. Do you want to continue?</source>
         <translation>You skipped the step. Do you want to continue?</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="452"/>
+        <location filename="../patracdockwidget.py" line="470"/>
         <source>No probability layer. Can not continue.</source>
         <translation>No probability layer. Can not continue.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="483"/>
+        <location filename="../patracdockwidget.py" line="501"/>
         <source>Can not find web browser to open report</source>
         <translation>Can not find web browser to open report</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="509"/>
+        <location filename="../patracdockwidget.py" line="531"/>
         <source>Did not find GPS. You have to copy GPX manually from the report.</source>
         <translation>Did not find GPS. You have to copy GPX manually from the report.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="513"/>
+        <location filename="../patracdockwidget.py" line="535"/>
         <source>select input dialog</source>
         <translation>Select</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="513"/>
+        <location filename="../patracdockwidget.py" line="535"/>
         <source>list of drives</source>
         <translation>List of drives</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="527"/>
+        <location filename="../patracdockwidget.py" line="549"/>
         <source>The sectors has been copied into the device: </source>
         <translation>The sectors has been copied into the device: </translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="529"/>
+        <location filename="../patracdockwidget.py" line="551"/>
         <source>Can not copy. You have copy it manually from the path: </source>
         <translation>Can not copy. You have copy it manually from the path: </translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="665"/>
+        <location filename="../patracdockwidget.py" line="687"/>
         <source>No probability layer. Please try step 3 again.</source>
         <translation>No probability layer. Please try step 3 again.</translation>
     </message>
@@ -606,42 +606,42 @@
         <translation type="obsolete">Not available</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1122"/>
+        <location filename="../patracdockwidget.py" line="1147"/>
         <source>Tracks are empty.</source>
         <translation>Tracks are empty.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1210"/>
+        <location filename="../patracdockwidget.py" line="1238"/>
         <source>Problem to read data from: </source>
         <translation>Problem to read data from: </translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1191"/>
+        <location filename="../patracdockwidget.py" line="1219"/>
         <source>Positions are empty.</source>
         <translation>Positions are empty.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1224"/>
+        <location filename="../patracdockwidget.py" line="1252"/>
         <source>CHYBA:</source>
         <translation>ERROR:</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="528"/>
+        <location filename="../main/sectors.py" line="573"/>
         <source>SECTOR</source>
         <translation>SECTOR</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="528"/>
+        <location filename="../main/sectors.py" line="573"/>
         <source>Types of terrain</source>
         <translation>Types of terrain</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="199"/>
+        <location filename="../patrac.py" line="205"/>
         <source>Show/hide Patrac dockwidget</source>
         <translation>Show/hide Patrac dockwidget</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="271"/>
+        <location filename="../patrac.py" line="291"/>
         <source>Patrac</source>
         <translation>Searcher</translation>
     </message>
@@ -676,14 +676,19 @@
         <translation>DATA TEST FINISHED</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="840"/>
+        <location filename="../patracdockwidget.py" line="862"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="840"/>
+        <location filename="../patracdockwidget.py" line="862"/>
         <source>Click into the map at the place of finding. If you finishing without finding, click anywhere into map.</source>
         <translation>Click into the map at the place of finding. If you finishing without finding, click anywhere into map.</translation>
+    </message>
+    <message>
+        <location filename="../patrac.py" line="267"/>
+        <source>Recalculate sectors</source>
+        <translation>Recalculate sectors</translation>
     </message>
 </context>
 <context>
@@ -734,7 +739,7 @@
         <translation>Create report</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="432"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="437"/>
         <source>Child 1-3</source>
         <translation>Child 1-3</translation>
     </message>
@@ -744,42 +749,42 @@
         <translation>Child 4-6</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="434"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="439"/>
         <source>Child 7-12</source>
         <translation>Child 7-12</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="435"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="440"/>
         <source>Child 13-15</source>
         <translation>Child 13-15</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="436"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="441"/>
         <source>Despondent</source>
         <translation>Despondent</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="437"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="442"/>
         <source>Psychical ilness</source>
         <translation>Psychical ilness</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="438"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="443"/>
         <source>Retarded</source>
         <translation>Retarded</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="439"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="444"/>
         <source>Alzheimer</source>
         <translation>Alzheimer</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="440"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="445"/>
         <source>Turist</source>
         <translation>Turist</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="441"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="446"/>
         <source>Demention</source>
         <translation>Demention</translation>
     </message>
@@ -874,12 +879,12 @@
         <translation>Search started</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="536"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="541"/>
         <source>Handler</source>
         <translation>Handler</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="546"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="551"/>
         <source>Person</source>
         <translation>Person</translation>
     </message>
@@ -899,117 +904,117 @@
         <translation>Search finished</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="326"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="331"/>
         <source>Analyze the search</source>
         <translation>Analyze the search</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="339"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="344"/>
         <source>Buffer in m</source>
         <translation>Buffer in m</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="352"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="357"/>
         <source>Number of persons</source>
         <translation>Number of persons</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="389"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="394"/>
         <source>Enter name and description</source>
         <translation>Enter name and description</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="395"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="400"/>
         <source>Enter name</source>
         <translation>Enter name</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="400"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="405"/>
         <source>Brief description</source>
         <translation>Brief description</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="492"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="497"/>
         <source>Next</source>
         <translation>Next</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="413"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="418"/>
         <source>Click into the map for report of the last seen.</source>
         <translation>Click into the map for report of the last seen.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="427"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="432"/>
         <source>Select type of the person</source>
         <translation>Select type of the person</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="433"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="438"/>
         <source>Child 3-6</source>
         <translation>Child 3-6</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="454"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="459"/>
         <source>The search area is set to 70%</source>
         <translation>The search area is set to 70%</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="473"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="478"/>
         <source>Number of units</source>
         <translation>Number of units</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="479"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="484"/>
         <source>Or maximum time for search</source>
         <translation>Or maximum time for search</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="483"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="488"/>
         <source>Maximum time for search</source>
         <translation>Maximum time for search</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="501"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="506"/>
         <source>Almost finished. You may generate PDF and then show the report.</source>
         <translation>Almost finished. You may generate PDF and then show the report.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="505"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="510"/>
         <source>Generate PDF</source>
         <translation>Generate PDF</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="512"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="517"/>
         <source>Show report</source>
         <translation>Show report</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="517"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="522"/>
         <source>Save sectors to GPS</source>
         <translation>Save sectors to GPS</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="556"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="561"/>
         <source>Diver</source>
         <translation>Diver</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="566"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="571"/>
         <source>Searcher</source>
         <translation>Searcher</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="568"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="573"/>
         <source>Determine area</source>
         <translation>Determine area</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="570"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="575"/>
         <source>Values min/max</source>
         <translation>Values min/max</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="572"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="577"/>
         <source>Values max/min</source>
         <translation>Values max/min</translation>
     </message>
@@ -1017,6 +1022,11 @@
         <location filename="../ui/ui_patracdockwidgetbase.py" line="283"/>
         <source>Show labels</source>
         <translation>Show labels for sectors</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="323"/>
+        <source>Risk sector</source>
+        <translation>Risk sector</translation>
     </message>
 </context>
 <context>
@@ -1168,57 +1178,57 @@
 <context>
     <name>Ui_Gpx</name>
     <message>
-        <location filename="../ui/ui_gpx.py" line="87"/>
+        <location filename="../ui/ui_gpx.py" line="92"/>
         <source>From</source>
         <translation>From</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="87"/>
+        <location filename="../ui/ui_gpx.py" line="92"/>
         <source>To</source>
         <translation>To</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="119"/>
+        <location filename="../ui/ui_gpx.py" line="127"/>
         <source>select input dialog</source>
         <translation>Select</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="119"/>
+        <location filename="../ui/ui_gpx.py" line="127"/>
         <source>list of drives</source>
         <translation>List of drives</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="115"/>
+        <location filename="../ui/ui_gpx.py" line="123"/>
         <source>Not found </source>
         <translation>Not found </translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="115"/>
+        <location filename="../ui/ui_gpx.py" line="123"/>
         <source>Necessary for test.</source>
         <translation>Necessary for test.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="144"/>
+        <location filename="../ui/ui_gpx.py" line="152"/>
         <source>Not found any disk. Will not search for data.</source>
         <translation>Not found any disk. Will not search for data.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="229"/>
+        <location filename="../ui/ui_gpx.py" line="237"/>
         <source>Another Type of GPX</source>
         <translation>Another Type of GPX</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="236"/>
+        <location filename="../ui/ui_gpx.py" line="244"/>
         <source>No records found</source>
         <translation>No records found</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="270"/>
+        <location filename="../ui/ui_gpx.py" line="284"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="270"/>
+        <location filename="../ui/ui_gpx.py" line="284"/>
         <source>There are not any tracks in the GPX.</source>
         <translation>There are not any tracks in the GPX.</translation>
     </message>
@@ -1228,14 +1238,24 @@
         <translation type="obsolete">No data fro selected time range.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="223"/>
+        <location filename="../ui/ui_gpx.py" line="231"/>
         <source>No Time Information</source>
         <translation>No Time Information</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="246"/>
+        <location filename="../ui/ui_gpx.py" line="254"/>
         <source>TNK</source>
         <translation>TNK</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_gpx.py" line="267"/>
+        <source>Track loaded</source>
+        <translation>Track loaded</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_gpx.py" line="269"/>
+        <source>Problem with loading track</source>
+        <translation>Problem with loading track</translation>
     </message>
 </context>
 <context>
@@ -1617,92 +1637,92 @@
 <context>
     <name>Ui_Settings</name>
     <message>
-        <location filename="../ui/ui_settings.py" line="91"/>
+        <location filename="../ui/ui_settings.py" line="78"/>
         <source>User specific</source>
         <translation>User defined</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="81"/>
+        <location filename="../ui/ui_settings.py" line="68"/>
         <source>Handler</source>
         <translation>Handler</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="81"/>
+        <location filename="../ui/ui_settings.py" line="68"/>
         <source>Searcher</source>
         <translation>Searcher</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="81"/>
+        <location filename="../ui/ui_settings.py" line="68"/>
         <source>Rider</source>
         <translation>RIder</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="81"/>
+        <location filename="../ui/ui_settings.py" line="68"/>
         <source>Car</source>
         <translation>Car</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="81"/>
+        <location filename="../ui/ui_settings.py" line="68"/>
         <source>Drone</source>
         <translation>Drone</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="81"/>
+        <location filename="../ui/ui_settings.py" line="68"/>
         <source>Diver</source>
         <translation>Diver</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="81"/>
+        <location filename="../ui/ui_settings.py" line="68"/>
         <source>Other</source>
         <translation>Other</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="86"/>
+        <location filename="../ui/ui_settings.py" line="73"/>
         <source>LSOM</source>
         <translation>LSOM</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="87"/>
+        <location filename="../ui/ui_settings.py" line="74"/>
         <source>Hill</source>
         <translation>Hill</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="88"/>
+        <location filename="../ui/ui_settings.py" line="75"/>
         <source>UK</source>
         <translation>UK</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="90"/>
+        <location filename="../ui/ui_settings.py" line="77"/>
         <source>Pastorkova</source>
         <translation>Pastorkova</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="444"/>
+        <location filename="../ui/ui_settings.py" line="431"/>
         <source>Not available</source>
         <translation>Not available</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="243"/>
+        <location filename="../ui/ui_settings.py" line="230"/>
         <source>The function is not implemented</source>
         <translation>The function is not implemented</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="375"/>
+        <location filename="../ui/ui_settings.py" line="362"/>
         <source>Wrong input</source>
         <translation>Wrong input</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="272"/>
+        <location filename="../ui/ui_settings.py" line="259"/>
         <source>Enter Title</source>
         <translation>Enter Title</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="275"/>
+        <location filename="../ui/ui_settings.py" line="262"/>
         <source>Enter description</source>
         <translation>Enter description</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="278"/>
+        <location filename="../ui/ui_settings.py" line="265"/>
         <source>Enter API Key</source>
         <translation>Enter API Key</translation>
     </message>
@@ -1712,342 +1732,342 @@
         <translation type="obsolete">Enter server URL</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="281"/>
+        <location filename="../ui/ui_settings.py" line="268"/>
         <source>Enter phone</source>
         <translation>Enter phone</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="288"/>
+        <location filename="../ui/ui_settings.py" line="275"/>
         <source>Enter distance in km</source>
         <translation>Enter distance in km</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="294"/>
+        <location filename="../ui/ui_settings.py" line="281"/>
         <source>Enter longitute in format 18.14556</source>
         <translation>Enter longitute in format 18.14556</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="300"/>
+        <location filename="../ui/ui_settings.py" line="287"/>
         <source>Enter latitude in format 48.54556</source>
         <translation>Enter latitude in format 48.54556</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="619"/>
+        <location filename="../ui/ui_settings.py" line="606"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="324"/>
+        <location filename="../ui/ui_settings.py" line="311"/>
         <source>Can not create incident</source>
         <translation>Can not create incident</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="619"/>
+        <location filename="../ui/ui_settings.py" line="606"/>
         <source>Can not connect to the server.</source>
         <translation>Can not connect to the server.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="329"/>
+        <location filename="../ui/ui_settings.py" line="316"/>
         <source>Can not read data</source>
         <translation>Can not read data</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="631"/>
+        <location filename="../ui/ui_settings.py" line="618"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="343"/>
+        <location filename="../ui/ui_settings.py" line="330"/>
         <source>Phone</source>
         <translation>Phone</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="372"/>
+        <location filename="../ui/ui_settings.py" line="359"/>
         <source>Enter user</source>
         <translation>Enter user</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="375"/>
+        <location filename="../ui/ui_settings.py" line="362"/>
         <source>Enter password</source>
         <translation>Enter password</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="388"/>
+        <location filename="../ui/ui_settings.py" line="375"/>
         <source>Can not get access</source>
         <translation>Can not get access</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="484"/>
+        <location filename="../ui/ui_settings.py" line="471"/>
         <source>Wrong project.</source>
         <translation>Wrong project.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="485"/>
+        <location filename="../ui/ui_settings.py" line="472"/>
         <source>Wrong project</source>
         <translation>Wrong project</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="433"/>
+        <location filename="../ui/ui_settings.py" line="420"/>
         <source>Path to the project</source>
         <translation>Path to project</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="443"/>
+        <location filename="../ui/ui_settings.py" line="430"/>
         <source>Function is not supported</source>
         <translation>The function is not implemented</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="471"/>
+        <location filename="../ui/ui_settings.py" line="458"/>
         <source>Can not find web browser to open help</source>
         <translation>Can not find web browser to open help</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="590"/>
+        <location filename="../ui/ui_settings.py" line="577"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="587"/>
+        <location filename="../ui/ui_settings.py" line="574"/>
         <source>Some of the selected handlersare in sleeping or released state. You have to wait for their wakeup.</source>
         <translation>Some of the selected handlersare in sleeping or released state. You have to wait for their wakeup.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="590"/>
+        <location filename="../ui/ui_settings.py" line="577"/>
         <source>You did not select handler that can be called.</source>
         <translation>You did not select handler that can be called.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="631"/>
+        <location filename="../ui/ui_settings.py" line="618"/>
         <source>Sysid</source>
         <translation>Sysid</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="631"/>
+        <location filename="../ui/ui_settings.py" line="618"/>
         <source>Status</source>
         <translation>Status</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="631"/>
+        <location filename="../ui/ui_settings.py" line="618"/>
         <source>Search id</source>
         <translation>Search id</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="792"/>
+        <location filename="../ui/ui_settings.py" line="779"/>
         <source>Region</source>
         <translation>Region</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="631"/>
+        <location filename="../ui/ui_settings.py" line="618"/>
         <source>Arrive until</source>
         <translation>Arrive until</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="709"/>
+        <location filename="../ui/ui_settings.py" line="696"/>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="709"/>
+        <location filename="../ui/ui_settings.py" line="696"/>
         <source>Time per 10m</source>
         <translation>Time per 10m</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="709"/>
+        <location filename="../ui/ui_settings.py" line="696"/>
         <source>KOD</source>
         <translation>KOD</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="709"/>
+        <location filename="../ui/ui_settings.py" line="696"/>
         <source>Description</source>
         <translation>Description</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="726"/>
+        <location filename="../ui/ui_settings.py" line="713"/>
         <source>Note</source>
         <translation>Note</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="726"/>
+        <location filename="../ui/ui_settings.py" line="713"/>
         <source>Count</source>
         <translation>Count</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="744"/>
+        <location filename="../ui/ui_settings.py" line="731"/>
         <source>empty easy no cover</source>
         <translation>empty easy no cover</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="744"/>
+        <location filename="../ui/ui_settings.py" line="731"/>
         <source>empty easy with cover</source>
         <translation>empty easy with cover</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="744"/>
+        <location filename="../ui/ui_settings.py" line="731"/>
         <source>empty difficult</source>
         <translation>empty difficult</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="744"/>
+        <location filename="../ui/ui_settings.py" line="731"/>
         <source>cover easy to pass</source>
         <translation>cover easy to pass</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="744"/>
+        <location filename="../ui/ui_settings.py" line="731"/>
         <source>cover difficult to pass</source>
         <translation>cover difficult to pass</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="744"/>
+        <location filename="../ui/ui_settings.py" line="731"/>
         <source>intravilan</source>
         <translation>Intravilan</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="744"/>
+        <location filename="../ui/ui_settings.py" line="731"/>
         <source>parks and playgrounds with people</source>
         <translation>parks and playgrounds with people</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="744"/>
+        <location filename="../ui/ui_settings.py" line="731"/>
         <source>parks and playgrounds without people</source>
         <translation>parks and playgrounds without people</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="744"/>
+        <location filename="../ui/ui_settings.py" line="731"/>
         <source>water body</source>
         <translation>water body</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="744"/>
+        <location filename="../ui/ui_settings.py" line="731"/>
         <source>other</source>
         <translation>other</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="772"/>
+        <location filename="../ui/ui_settings.py" line="759"/>
         <source>Child 1-3</source>
         <translation>Child 1-3</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="772"/>
+        <location filename="../ui/ui_settings.py" line="759"/>
         <source>Child 4-6</source>
         <translation>Child 4-6</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="772"/>
+        <location filename="../ui/ui_settings.py" line="759"/>
         <source>Child 7-12</source>
         <translation>Child 7-12</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="772"/>
+        <location filename="../ui/ui_settings.py" line="759"/>
         <source>Child 13-15</source>
         <translation>Child 13-15</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="772"/>
+        <location filename="../ui/ui_settings.py" line="759"/>
         <source>Despondent</source>
         <translation>Despondent</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="772"/>
+        <location filename="../ui/ui_settings.py" line="759"/>
         <source>Psychical illness</source>
         <translation>Psychical ilness</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="772"/>
+        <location filename="../ui/ui_settings.py" line="759"/>
         <source>Retarded</source>
         <translation>Retarded</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="772"/>
+        <location filename="../ui/ui_settings.py" line="759"/>
         <source>Alzheimer</source>
         <translation>Alzheimer</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="772"/>
+        <location filename="../ui/ui_settings.py" line="759"/>
         <source>Turist</source>
         <translation>Turist</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="772"/>
+        <location filename="../ui/ui_settings.py" line="759"/>
         <source>Demention</source>
         <translation>Demention</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="805"/>
+        <location filename="../ui/ui_settings.py" line="792"/>
         <source>All</source>
         <translation>All</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="793"/>
+        <location filename="../ui/ui_settings.py" line="780"/>
         <source>Region and surrounding</source>
         <translation>Region and surrounding</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="828"/>
+        <location filename="../ui/ui_settings.py" line="815"/>
         <source>waiting</source>
         <translation>waiting</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="830"/>
+        <location filename="../ui/ui_settings.py" line="817"/>
         <source>call on duty</source>
         <translation>call on duty</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="832"/>
+        <location filename="../ui/ui_settings.py" line="819"/>
         <source>ready to go</source>
         <translation>ready to go</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="834"/>
+        <location filename="../ui/ui_settings.py" line="821"/>
         <source>can not arrive</source>
         <translation>can not arrive</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="836"/>
+        <location filename="../ui/ui_settings.py" line="823"/>
         <source>call to come</source>
         <translation>call to come</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="838"/>
+        <location filename="../ui/ui_settings.py" line="825"/>
         <source>on duty</source>
         <translation>on duty</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="369"/>
+        <location filename="../ui/ui_settings.py" line="356"/>
         <source>You have to create incident first</source>
         <translation>You have to create incident first</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="340"/>
+        <location filename="../ui/ui_settings.py" line="327"/>
         <source>Success</source>
         <translation>Success</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="340"/>
+        <location filename="../ui/ui_settings.py" line="327"/>
         <source>Connected</source>
         <translation>Connected</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="343"/>
+        <location filename="../ui/ui_settings.py" line="330"/>
         <source>Distance</source>
         <translation>Distance</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="182"/>
+        <location filename="../ui/ui_settings.py" line="169"/>
         <source>Fixed</source>
         <translation>Fixed</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="182"/>
+        <location filename="../ui/ui_settings.py" line="169"/>
         <source>The datastore has been fixed</source>
         <translation>The datastore has been fixed</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="172"/>
+        <location filename="../ui/ui_settings.py" line="159"/>
         <source>ERROR</source>
         <translation>ERROR</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="172"/>
+        <location filename="../ui/ui_settings.py" line="159"/>
         <source>Can not connect to the server</source>
         <translation>Can not connect to the server</translation>
     </message>
