@@ -52,11 +52,16 @@ from array import array
 import getpass
 from osgeo import ogr
 
+win32api_exists = False
 #If on windows
 try:
     import win32api
+    win32api_exists = True
 except:
-    QgsMessageLog.logMessage("Linux - no win api", "Patrac")
+    if sys.platform.startswith('win'):
+        QgsMessageLog.logMessage("Windows with no win api", "Patrac")
+    else:
+        QgsMessageLog.logMessage("Linux - no win api", "Patrac")
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'gpx.ui'))
@@ -98,8 +103,11 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
 
     def getDrive(self):
         """Shows list of Windows drives"""
-        drives = win32api.GetLogicalDriveStrings()
-        drives = drives.split('\000')[:-1]
+        if win32api_exists:
+            drives = win32api.GetLogicalDriveStrings()
+            drives = drives.split('\000')[:-1]
+        else:
+            drives = self.Utils.getDrivesList()
         item, ok = QInputDialog.getItem(self, self.tr("select input dialog"),
                                         self.tr("list of drives"), drives, 0, False)
         if ok and item:

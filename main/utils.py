@@ -164,3 +164,8 @@ class Utils(object):
         transform = ET.XSLT(xslt)
         newdom = transform(dom, start = ET.XSLT.strparam(start), end = ET.XSLT.strparam(end))
         # print(ET.tostring(newdom, pretty_print=True))
+
+    def getDrivesList(self):
+        letters = "CDEFGHIJKLMNOPQRSTUVWXYZ"
+        return [letters[i] + ":/" for i in range(len(letters))]
+

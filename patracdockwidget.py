@@ -62,11 +62,17 @@ import csv, io, webbrowser, filecmp, uuid, random, getpass
 
 from .connect.connect import *
 
+win32api_exists = False
+
 # If on windows
 try:
     import win32api
+    win32api_exists = True
 except:
-    QgsMessageLog.logMessage("Linux - no win api", "Patrac")
+    if sys.platform.startswith('win'):
+        QgsMessageLog.logMessage("Windows with no win api", "Patrac")
+    else:
+        QgsMessageLog.logMessage("Linux - no win api", "Patrac")
 
 
 class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
@@ -497,8 +503,11 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.Sectors.exportSectors()
         drives = None
         if sys.platform.startswith('win'):
-            drives = win32api.GetLogicalDriveStrings()
-            drives = drives.split('\000')[:-1]
+            if win32api_exists:
+                drives = win32api.GetLogicalDriveStrings()
+                drives = drives.split('\000')[:-1]
+            else:
+                drives = self.Utils.getDrivesList()
         else:
             username = getpass.getuser()
             drives = []

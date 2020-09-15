@@ -40,23 +40,10 @@ from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import *
 import webbrowser
 import urllib.request, urllib.error, urllib.parse
-import socket
 import requests, json
-import tempfile
-import zipfile
-from shutil import copy
-import sched, time
 from .. connect.connect import *
 from string import ascii_uppercase
 import urllib3
-
-#If on windows
-try:
-    import win32api
-except:
-    QgsMessageLog.logMessage("Linux - no win api", "Patrac")
-
-
 # import qrcode
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
