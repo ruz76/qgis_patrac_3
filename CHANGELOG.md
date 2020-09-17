@@ -1,5 +1,9 @@
 # Changelog 
 
+## Version 3.12.18 (2020-09-15)
+#### Bug Fixes
+* Temporarily removed basic test
+
 ## Version 3.12.17 (2020-09-15)
 #### Improvements
 * 31 Automatic id for places

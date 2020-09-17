@@ -138,8 +138,10 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
     def downloadStats(self):
         # localPath = "/tmp/ka/stats.db"
         localPath = self.drive + ":/patracdata/kraje/" + self.comboBoxDataFix.currentText() + "/vektor/ZABAGED/line_x/stats.db"
-        if not os.path.exists(localPath):
+        if not os.path.exists(localPath) or (os.path.exists(localPath) and os.path.getsize(localPath) < 1000):
             try:
+                if os.path.exists(localPath):
+                    os.remove(localPath)
                 url = self.serverUrl + "/qgis3/data/stats/" + self.comboBoxDataFix.currentText() + "/stats.db"
                 http = urllib3.PoolManager()
                 response = http.request('GET', url, preload_content=False)
@@ -419,11 +421,14 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.labelPath.setText(self.tr("Path to the project") + ": " + prjfi.absolutePath())
 
     def testHds(self):
-        self.parent.setCursor(Qt.WaitCursor)
-        self.setCursor(Qt.WaitCursor)
-        self.main.testHds(self.textEditHds)
-        self.setCursor(Qt.ArrowCursor)
-        self.parent.setCursor(Qt.ArrowCursor)
+        msg = self.tr("Function is temporarily unavailable. Use data test, please.")
+        QMessageBox.information(self.main.iface.mainWindow(), self.tr("Not available"), msg)
+        return
+        # self.parent.setCursor(Qt.WaitCursor)
+        # self.setCursor(Qt.WaitCursor)
+        # self.main.testHds(self.textEditHds)
+        # self.setCursor(Qt.ArrowCursor)
+        # self.parent.setCursor(Qt.ArrowCursor)
 
     def updateData(self):
         msg = self.tr("Function is not supported")
