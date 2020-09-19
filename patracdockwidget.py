@@ -663,7 +663,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def updatePatrac(self):
         """Changes the transfṕarency of raster"""
-        print("updatePatrac")
+        # print("updatePatrac")
         transparencyList = []
         if self.sliderStart.value() != 0:
             transparencyList.extend(self.generateTransparencyList(0, self.sliderStart.value()))
@@ -1132,6 +1132,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             features = provider.getFeatures()
             sectorid = 0
             locations = response.data.read().decode("utf-8")
+            # print(locations)
             if "Error" in locations:
                 self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
                 # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
@@ -1169,7 +1170,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                                 QgsMessageLog.logMessage(QApplication.translate("Patrac", "Problem to read data from" + ": ", None) + line, "Patrac")
                                 pass
                         position = position + 1
-                    self.addFeaturePolyLineFromPoints(points, cols, provider)
+                    if len(points) > 1:
+                        # print(points)
+                        self.addFeaturePolyLineFromPoints(points, cols, provider)
             layer.commitChanges()
             layer.triggerRepaint()
         else:
@@ -1221,7 +1224,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 if line != "" and i > 0:  # add other needed checks to skip titles
                     # Splits based on semicolon
                     # TODO - add time
-                    print(line)
+                    # print(line)
                     cols = line.split(";")
                     fet = QgsFeature()
                     # Geometry is on last place
