@@ -87,13 +87,12 @@ print(gscript.read_command('g.region', e=XMAX, w=XMIN, n=YMAX, s=YMIN))
 #Exports landuse
 #r.out.ascii input=landuse output=landuse.ascii
 #Bin would be better (size is smaller, export is faster), but there are some problems with import
-print(gscript.read_command('r.out.ascii', input='landuse', output=DATAOUTPUTPATH+'/grassdata/landuse.ascii', overwrite=True))
+print(gscript.read_command('r.out.bin', flags="h", input='landuse', output=DATAOUTPUTPATH+'/grassdata/landuse.bin', overwrite=True))
 #Exports friction_slope
 #r.out.ascii input=friction_slope output=friction_slope.ascii
 #Bin would be better (size is smaller, export is faster), but there are some problems with import
-print(gscript.read_command('r.out.ascii', input='friction_slope', output=DATAOUTPUTPATH+'/grassdata/friction_slope.ascii', overwrite=True))
+print(gscript.read_command('r.out.bin', flags="h", null=-99, input='friction_slope', output=DATAOUTPUTPATH+'/grassdata/friction_slope.bin', overwrite=True))
 #Exports friction only, without slope, we will use r.walk instead r.cost
-print(gscript.read_command('r.out.ascii', input='friction', output=DATAOUTPUTPATH+'/grassdata/friction.ascii', overwrite=True))
+print(gscript.read_command('r.out.bin', flags="h", null=100, input='friction', output=DATAOUTPUTPATH+'/grassdata/friction.bin', overwrite=True))
 #Exports dem, r.walk needs dem to calculate slope in realtime
-print(gscript.read_command('r.out.ascii', input='dem', output=DATAOUTPUTPATH+'/grassdata/dem.ascii', overwrite=True))
-
+print(gscript.read_command('r.out.bin', flags="h", input='dem', output=DATAOUTPUTPATH+'/grassdata/dem.bin', overwrite=True))
