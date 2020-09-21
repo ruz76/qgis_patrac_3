@@ -77,21 +77,15 @@ DATAINPUTPATH=str(sys.argv[7])
 print(gscript.read_command('g.region', e=XMAX, w=XMIN, n=YMAX, s=YMIN, res='5'))
 
 #Imports landuse
-#Bin would be better (size is smaller, export is faster), but there are some problems with import
 print(gscript.read_command('r.in.bin', flags="h", bytes=2, output='landuse', input=DATAPATH+'/grassdata/landuse.bin', overwrite=True))
 # Delete the file
 os.remove(DATAPATH+'/grassdata/landuse.bin')
 
 #Imports friction_slope
-#Bin would be better (size is smaller, export is faster), but there are some problems with import
 print(gscript.read_command('r.in.bin', flags="hf", anull=-99, output='friction_slope', input=DATAPATH+'/grassdata/friction_slope.bin', overwrite=True))
 # Delete the file
 os.remove(DATAPATH+'/grassdata/friction_slope.bin')
 
-#Problem with null data - set to 10000
-# print gscript.read_command('r.null', map='friction_slope', null='10000')
-#Imports sectors and select them according to Extent
-#Bin would be better (size is smaller, export is faster), but there are some problems with import
 #Imports friction
 print(gscript.read_command('r.in.bin', flags="h", bytes=2, anull=100, output='friction', input=DATAPATH+'/grassdata/friction.bin', overwrite=True))
 # Delete the file

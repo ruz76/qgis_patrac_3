@@ -75,20 +75,26 @@ DATAINPUTPATH=str(sys.argv[7])
 #Sets the region for export
 #g.region e=-641060.857143 w=-658275.142857 n=-1036549.0 s=-1046549.0
 print(gscript.read_command('g.region', e=XMAX, w=XMIN, n=YMAX, s=YMIN, res='5'))
+
 #Imports landuse
-#Bin would be better (size is smaller, export is faster), but there are some problems with import
-print(gscript.read_command('r.in.ascii', output='landuse', input=DATAPATH+'/grassdata/landuse.ascii', overwrite=True))
+print(gscript.read_command('r.in.bin', flags="h", bytes=2, output='landuse', input=DATAPATH+'/grassdata/landuse.bin', overwrite=True))
+# Delete the file
+os.remove(DATAPATH+'/grassdata/landuse.bin')
+
 #Imports friction_slope
-#Bin would be better (size is smaller, export is faster), but there are some problems with import
-print(gscript.read_command('r.in.ascii', output='friction_slope', input=DATAPATH+'/grassdata/friction_slope.ascii', overwrite=True))
-#Problem with null data - set to 10000
-# print gscript.read_command('r.null', map='friction_slope', null='10000')
-#Imports sectors and select them according to Extent
-#Bin would be better (size is smaller, export is faster), but there are some problems with import
+print(gscript.read_command('r.in.bin', flags="hf", anull=-99, output='friction_slope', input=DATAPATH+'/grassdata/friction_slope.bin', overwrite=True))
+# Delete the file
+os.remove(DATAPATH+'/grassdata/friction_slope.bin')
+
 #Imports friction
-print(gscript.read_command('r.in.ascii', output='friction', input=DATAPATH+'/grassdata/friction.ascii', overwrite=True))
+print(gscript.read_command('r.in.bin', flags="h", bytes=2, anull=100, output='friction', input=DATAPATH+'/grassdata/friction.bin', overwrite=True))
+# Delete the file
+os.remove(DATAPATH+'/grassdata/friction.bin')
+
 #Imports dem
-print(gscript.read_command('r.in.ascii', output='dem', input=DATAPATH+'/grassdata/dem.ascii', overwrite=True))
+print(gscript.read_command('r.in.bin', flags="hf", output='dem', input=DATAPATH+'/grassdata/dem.bin', overwrite=True))
+# Delete the file
+os.remove(DATAPATH+'/grassdata/dem.bin')
 
 #If the data are from ZABAGED
 if os.path.isfile(DATAINPUTPATH+'/vektor/ZABAGED/line_x/merged_polygons_groupped.shp'):
