@@ -4285,7 +4285,7 @@
 -876907;-1057407;561223;Studánka;3410;Tachov;PL
 -773108;-1204028;545848;Vyšší Brod;3302;Český Krumlov;JC
 -711115;-1162440;546101;Číměř;3303;Jindřichův Hradec;JC
--743100;-1043300;554782;Praha;3100;Hlavní město Praha;HP
+-743100;-1043300;554782;Praha;3100;Hlavní město Praha;ST
 -637333;-1087024;554847;Mrákotín;3603;Chrudim;PA
 -873106;-1039816;554880;Tři Sekery;3402;Cheb;KA
 -631401;-1090090;554952;Otradov;3603;Chrudim;PA
@@ -6256,3 +6256,60 @@
 -636680;-1150250;591505;Pyšel;3710;Třebíč;VY
 -724843;-1134494;552143;Budislav;3308;Tábor;JC
 -658234;-1143900;590487;Číchov;3710;Třebíč;VY
+-748978;-1041016;0;Praha 6;0;Praha;ST
+-740406;-1039229;0;Praha 8;0;Praha;ST
+-731053;-1044445;0;Praha-Dolní Počernice;0;Praha;ST
+-731014;-1047211;0;Praha-Dubeč;0;Praha;ST
+-728295;-1042359;0;Praha 20;0;Praha;ST
+-729279;-1053543;0;Praha-Kolovraty;0;Praha;ST
+-733748;-1051681;0;Praha-Křeslice;0;Praha;ST
+-730705;-1050376;0;Praha 22;0;Praha;ST
+-749502;-1056325;0;Praha-Lipence;0;Praha;ST
+-737532;-1049908;0;Praha 11;0;Praha;ST
+-739575;-1051835;0;Praha-Kunratice;0;Praha;ST
+-740953;-1053327;0;Praha-Libuš;0;Praha;ST
+-743709;-1053556;0;Praha 12;0;Praha;ST
+-751143;-1043817;0;Praha 17;0;Praha;ST
+-745276;-1037096;0;Praha-Suchdol;0;Praha;ST
+-737508;-1036865;0;Praha-Ďáblice;0;Praha;ST
+-734196;-1036272;0;Praha-Čakovice;0;Praha;ST
+-735200;-1048162;0;Praha 15;0;Praha;ST
+-743360;-1043037;0;Praha 1;0;Praha;ST
+-742385;-1044744;0;Praha 2;0;Praha;ST
+-739390;-1043597;0;Praha 3;0;Praha;ST
+-742143;-1048448;0;Praha 4;0;Praha;ST
+-746502;-1046045;0;Praha 5;0;Praha;ST
+-741741;-1041254;0;Praha 7;0;Praha;ST
+-736416;-1041514;0;Praha 9;0;Praha;ST
+-737906;-1045706;0;Praha 10;0;Praha;ST
+-729012;-1045587;0;Praha-Běchovice;0;Praha;ST
+-731030;-1052945;0;Praha-Benice;0;Praha;ST
+-737262;-1035015;0;Praha-Březiněves;0;Praha;ST
+-725474;-1044630;0;Praha-Klánovice;0;Praha;ST
+-727850;-1047639;0;Praha-Koloděje;0;Praha;ST
+-727775;-1050722;0;Praha-Královice;0;Praha;ST
+-727427;-1052960;0;Praha-Nedvězí;0;Praha;ST
+-730972;-1040323;0;Praha-Satalice;0;Praha;ST
+-725093;-1046389;0;Praha 21;0;Praha;ST
+-731114;-1038381;0;Praha-Vinoř;0;Praha;ST
+-748845;-1051829;0;Praha-Lochkov;0;Praha;ST
+-750727;-1038446;0;Praha-Přední Kopanina;0;Praha;ST
+-749172;-1053132;0;Praha 16;0;Praha;ST
+-751535;-1049253;0;Praha-Řeporyje;0;Praha;ST
+-749055;-1049885;0;Praha-Slivenec;0;Praha;ST
+-750883;-1046418;0;Praha 13;0;Praha;ST
+-737511;-1052771;0;Praha-Šeberov;0;Praha;ST
+-735509;-1051773;0;Praha-Újezd;0;Praha;ST
+-746959;-1055246;0;Praha-Zbraslav;0;Praha;ST
+-753398;-1044426;0;Praha-Zličín;0;Praha;ST
+-746639;-1050826;0;Praha-Velká Chuchle;0;Praha;ST
+-745893;-1038539;0;Praha-Lysolaje;0;Praha;ST
+-749259;-1039465;0;Praha-Nebušice;0;Praha;ST
+-739972;-1036499;0;Praha-Dolní Chabry;0;Praha;ST
+-742745;-1039435;0;Praha-Troja;0;Praha;ST
+-733356;-1039523;0;Praha 19;0;Praha;ST
+-733115;-1042723;0;Praha 14;0;Praha;ST
+-733271;-1047568;0;Praha-Dolní Měcholupy;0;Praha;ST
+-733908;-1050184;0;Praha-Petrovice;0;Praha;ST
+-733948;-1045758;0;Praha-Štěrboholy;0;Praha;ST
+-735427;-1038561;0;Praha 18;0;Praha;ST
