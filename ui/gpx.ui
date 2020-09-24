@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tabLast">
     <attribute name="title">
@@ -76,6 +76,9 @@
        <width>841</width>
        <height>311</height>
       </rect>
+     </property>
+     <property name="modelColumn">
+      <number>0</number>
      </property>
     </widget>
    </widget>

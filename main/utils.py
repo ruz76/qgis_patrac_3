@@ -158,13 +158,6 @@ class Utils(object):
                 # so we'll settle for when its content was last modified.
                 return stat.st_mtime
 
-    def transform_xslt_time(self, pluginpath, xml_filename, output, start, end):
-        dom = ET.parse(xml_filename)
-        xslt = ET.parse(os.path.join(pluginpath, '/xslt/gpx.xsl'))
-        transform = ET.XSLT(xslt)
-        newdom = transform(dom, start = ET.XSLT.strparam(start), end = ET.XSLT.strparam(end))
-        # print(ET.tostring(newdom, pretty_print=True))
-
     def getDrivesList(self):
         letters = "CDEFGHIJKLMNOPQRSTUVWXYZ"
         return [letters[i] + ":/" for i in range(len(letters))]
