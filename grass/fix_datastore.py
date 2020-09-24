@@ -71,4 +71,8 @@ PLUGIN_PATH=str(sys.argv[2])
 #g.region e=-641060.857143 w=-658275.142857 n=-1036549.0 s=-1046549.0
 #print(gscript.read_command('g.rename', raster='dmr,dem'))
 print(gscript.read_command('r.null', map='dem', null='500'))
-print(gscript.read_command('r.mapcalc', expression='friction = if(isnull(VODPLO),friction,null())', overwrite=True))
+
+# Has to be tested before release
+# print(gscript.read_command('r.mapcalc', expression='friction = if(isnull(VODPLO),friction,null())', overwrite=True))
+
+
