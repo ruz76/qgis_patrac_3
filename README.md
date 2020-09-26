@@ -15,7 +15,9 @@ The [install data](http://gisak.vsb.cz/patrac/qgis/install.zip) archive contains
 
 #### Requirements
 - [ubuntu:19.04 disco](https://hub.docker.com/_/ubuntu)
+change to 20.04
 - [qgis (3.4.6+dfsg-1build1)](https://packages.ubuntu.com/disco/qgis)
+chang to qgis (3.10.4+dfsg-1ubuntu2) https://packages.ubuntu.com/focal/qgis
 - [grass (7.6.0-1)](https://packages.ubuntu.com/disco/grass)
 - [grass-dev (7.0.3-1build1)](https://packages.ubuntu.com/disco/grass-dev)
 - openjdk-8-jre (8u222-b10-1ubuntu1~19.04.1)
