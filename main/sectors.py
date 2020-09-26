@@ -36,6 +36,8 @@ from qgis.PyQt.QtWidgets import *
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import *
 
+import processing
+
 class Sectors(object):
     def __init__(self, widget):
         self.widget = widget
@@ -456,6 +458,108 @@ class Sectors(object):
 
         self.widget.setCursor(Qt.ArrowCursor)
         return
+
+    def transformTrack(self, layer):
+        params = {
+            'INPUT' : layer,
+            'TARGET_CRS': 'EPSG:5514',
+            'OUTPUT': 'memory:transformed'
+        }
+        res = processing.run('qgis:reprojectlayer', params)
+        return res['OUTPUT']
+
+    def transformLine(self, line, source_crs):
+        crs_src = QgsCoordinateReferenceSystem(source_crs)
+        crs_dest = QgsCoordinateReferenceSystem(5514)
+        xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
+        return xform.transform(line)
+
+    def getSectorsLayer(self):
+        layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if self.Utils.getDataPath() + "/pracovni/sektory_group.shp" in lyr.source():
+                layer = lyr
+                break
+        if layer is None:
+            return None
+        return layer
+
+    def checkBeforeSplit(self, selected_sectors, selectedLayers):
+        if selected_sectors is None or len(selected_sectors) < 1:
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "You have to select at least one sector to split.", None))
+            return
+        if len(selectedLayers) < 1:
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "You have to select line layer.", None))
+            return
+        if len(selectedLayers) > 1:
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "You have to select line layer.", None))
+            return
+        if selectedLayers[0].type() != 0 or selectedLayers[0].geometryType() != 1:
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "Selected layer is not line layer.", None))
+            return
+        return "OK"
+
+    def setAttributesAfterSplit(self, feature_source, feature_target, id):
+        feature_target['id'] = id
+        feature_target['label'] = id
+        feature_target['area_ha'] = round(feature_target.geometry().area() / 10000)
+        feature_target['cat'] = feature_source['cat']
+        feature_target['typ'] = feature_source['typ']
+        feature_target['stav'] = feature_source['stav']
+        feature_target['prostredky'] = feature_source['prostredky']
+
+    def getExtendedLineGeometry(self, line):
+        line_geometry = line.geometry()
+        line_geometry.convertToSingleType()
+        polylineXY = line_geometry.asPolyline()
+        polyline = []
+        for ptXY in polylineXY:
+            pt = QgsPoint(ptXY)
+            polyline.append(pt)
+        ls = QgsLineString(polyline)
+        ls.extend(1000, 1000)
+        polylineXY = []
+        for pt in ls:
+            ptXY = QgsPointXY(pt)
+            polylineXY.append(ptXY)
+        return polylineXY
+
+    def splitByLine(self):
+        sectors_layer = self.getSectorsLayer()
+        selected_sectors = sectors_layer.selectedFeatures()
+        selectedLayers = self.iface.layerTreeView().selectedLayers()
+        if self.checkBeforeSplit(selected_sectors, selectedLayers) is None:
+            return
+        layer_line = selectedLayers[0]
+        features = layer_line.selectedFeatures()
+        if len(features) != 1:
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "You have to select just one line.", None))
+            return
+        selectid = [features[0].id()]
+        if selectedLayers[0].crs().authid() != "EPSG:5514":
+            layer_line = self.transformTrack(layer_line)
+            layer_line.select(selectid)
+        features = layer_line.selectedFeatures()
+        provider_sectors_layer = sectors_layer.dataProvider()
+        sectors_layer.startEditing()
+        for sector in selected_sectors:
+            sector_geometry = sector.geometry()
+            for line in features:
+                ls = self.getExtendedLineGeometry(line)
+                output = sector_geometry.splitGeometry(ls, False)
+                if len(output[1]) > 0:
+                    sector.setGeometry(sector_geometry)
+                    id = sector['id']
+                    self.setAttributesAfterSplit(sector, sector, id + '_A')
+                    sectors_layer.updateFeature(sector)
+                    feature = QgsFeature(sector)
+                    feature.setGeometry(output[1][0])
+                    self.setAttributesAfterSplit(sector, feature, id + '_B')
+                    provider_sectors_layer.addFeatures([feature])
+                else:
+                    QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "Can not split.", None))
+        sectors_layer.commitChanges()
+        sectors_layer.triggerRepaint()
 
     def rewriteSelectedSectors(self):
         layer = None

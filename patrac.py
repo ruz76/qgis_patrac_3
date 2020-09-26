@@ -252,6 +252,7 @@ class PatracPlugin(object):
         self.toolbar.addAction(self.iface.actionMoveFeature())
         self.toolbar.addAction(self.iface.actionDeleteSelected())
         self.toolbar.addAction(self.iface.actionSplitFeatures())
+        self.addSplitByLineButton()
         self.toolbar.addAction(self.iface.actionSaveEdits())
         self.addRecalculateButton()
         self.toolbar.addAction(self.iface.actionMeasure())
@@ -266,6 +267,14 @@ class PatracPlugin(object):
         self.recalculateSectorsAction.setWhatsThis(QCoreApplication.translate("Patrac", "Recalculate sectors"))
         self.recalculateSectorsAction.triggered.connect(self.dockWidget.recalculateSectorsExpert)
         self.toolbar.addAction(self.recalculateSectorsAction)
+
+    def addSplitByLineButton(self):
+        pluginPath = path.dirname(__file__)
+        self.splitByLineAction = QAction(QIcon(pluginPath + "/icons/split_by_line.png"), "Patrac", self.iface.mainWindow())
+        self.splitByLineAction.setStatusTip(QCoreApplication.translate("Patrac", "Split by line"))
+        self.splitByLineAction.setWhatsThis(QCoreApplication.translate("Patrac", "Split by line"))
+        self.splitByLineAction.triggered.connect(self.dockWidget.splitByLine)
+        self.toolbar.addAction(self.splitByLineAction)
 
     def createShowWidgetAction(self):
         icon = QIcon(icon_path)
