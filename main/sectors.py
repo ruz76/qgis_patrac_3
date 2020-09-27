@@ -579,7 +579,7 @@ class Sectors(object):
             "name": "region",
             "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::5514" } },
             "features": [
-                { "type": "Feature", "properties": { "name": "null" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -769881.0, -1052748.0 ], [ -757881.0, -1052748.0 ], [ -757881.0, -1042748.0 ], [ -769881.0, -1042748.0 ], [ -769881.0, -1052748.0 ] ] ] } }
+                { "type": "Feature", "properties": { "name": "null" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ int(extentItems[0]), int(extentItems[1]) ], [ int(extentItems[2]), int(extentItems[1]) ], [ int(extentItems[2]), int(extentItems[3]) ], [ int(extentItems[0]), int(extentItems[3]) ], [ int(extentItems[0]), int(extentItems[1]) ] ] ] } }
             ]
         }
         with open(DATA_PATH + "/pracovni/cregion.geojson", "w+") as f:
