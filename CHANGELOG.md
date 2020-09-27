@@ -1,5 +1,15 @@
 # Changelog 
 
+## Version 3.12.20 (2020-09-28)
+#### Improvements
+* Split by line
+* PDF details on exactly 1:10000 scale
+* Documentation - Atlas creation
+
+## Version 3.12.19 (2020-09-21)
+#### Improvements
+* Speed up project creation - changed from ascii to binary import/export
+
 ## Version 3.12.18 (2020-09-15)
 #### Bug Fixes
 * Temporarily removed basic test

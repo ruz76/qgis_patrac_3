@@ -269,16 +269,13 @@ class Sectors(object):
         for d in duplicities:
             duplicities_dict.update({d:'A'})
 
-        print(duplicities_dict)
-
         return duplicities_dict
 
     def increaseIdSize(self, layer):
         fields = layer.fields()
         for field in fields:
             if field.name() == 'id':
-                field.setLength(10)
-                print("IDDD")
+                field.setLength(25)
 
     def recalculateSectors(self, setLabels, setIds):
         """Recalculate areas of sectors and identifiers"""
@@ -533,6 +530,7 @@ class Sectors(object):
         return polylineXY
 
     def splitByLine(self):
+        self.widget.setCursor(Qt.WaitCursor)
         sectors_layer = self.getSectorsLayer()
         selected_sectors = sectors_layer.selectedFeatures()
         selectedLayers = self.iface.layerTreeView().selectedLayers()
@@ -571,6 +569,7 @@ class Sectors(object):
                     QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "Can not split.", None))
         sectors_layer.commitChanges()
         sectors_layer.triggerRepaint()
+        self.widget.setCursor(Qt.ArrowCursor)
 
     def createCregion(self, extentItems):
         DATA_PATH = self.Utils.getDataPath()
@@ -592,6 +591,7 @@ class Sectors(object):
         self.Utils.addVectorLayerWithStyle(DATA_PATH + "/pracovni/" + name + ".shp", label, name)
 
     def addVectorsForSplitByLine(self):
+        self.widget.setCursor(Qt.WaitCursor)
         DATA_PATH = self.Utils.getDataPath()
         KRAJ_DATA_PATH = DATA_PATH + "/../../"
         initialExtent = open(self.Utils.getDataPath() + '/config/extent.txt', 'r').read()
@@ -615,6 +615,7 @@ class Sectors(object):
         self.addVectorLayerForSplitByLine("vodtok", "Vodní toky")
         self.addVectorLayerForSplitByLine("cesta", "Cesty")
         self.addVectorLayerForSplitByLine("lespru", "Průseky")
+        self.widget.setCursor(Qt.ArrowCursor)
 
     def rewriteSelectedSectors(self):
         layer = None
