@@ -509,7 +509,14 @@ class Sectors(object):
         feature_target['stav'] = feature_source['stav']
         feature_target['prostredky'] = feature_source['prostredky']
 
-    def getExtendedLineGeometry(self, line):
+    def getDistanceToExtend(self, pointxy, sector_geometry):
+        point_geometry = QgsGeometry.fromPointXY(pointxy)
+        if point_geometry.within(sector_geometry):
+            return 1000
+        else:
+            return 0
+
+    def getExtendedLineGeometry(self, line, sector_geometry):
         line_geometry = line.geometry()
         line_geometry.convertToSingleType()
         polylineXY = line_geometry.asPolyline()
@@ -518,7 +525,7 @@ class Sectors(object):
             pt = QgsPoint(ptXY)
             polyline.append(pt)
         ls = QgsLineString(polyline)
-        ls.extend(1000, 1000)
+        ls.extend(self.getDistanceToExtend(polylineXY[0], sector_geometry), self.getDistanceToExtend(polylineXY[len(polylineXY) - 1], sector_geometry))
         polylineXY = []
         for pt in ls:
             ptXY = QgsPointXY(pt)
@@ -546,17 +553,20 @@ class Sectors(object):
         for sector in selected_sectors:
             sector_geometry = sector.geometry()
             for line in features:
-                ls = self.getExtendedLineGeometry(line)
+                ls = self.getExtendedLineGeometry(line, sector_geometry)
                 output = sector_geometry.splitGeometry(ls, False)
                 if len(output[1]) > 0:
                     sector.setGeometry(sector_geometry)
                     id = sector['id']
                     self.setAttributesAfterSplit(sector, sector, id + '_A')
                     sectors_layer.updateFeature(sector)
-                    feature = QgsFeature(sector)
-                    feature.setGeometry(output[1][0])
-                    self.setAttributesAfterSplit(sector, feature, id + '_B')
-                    provider_sectors_layer.addFeatures([feature])
+                    cur_sub_id = 'B'
+                    for o in output[1]:
+                        feature = QgsFeature(sector)
+                        feature.setGeometry(o)
+                        self.setAttributesAfterSplit(sector, feature, id + '_' + cur_sub_id)
+                        provider_sectors_layer.addFeatures([feature])
+                        cur_sub_id = chr(ord(cur_sub_id) + 1)
                 else:
                     QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "Can not split.", None))
         sectors_layer.commitChanges()
