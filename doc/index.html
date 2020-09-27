@@ -113,6 +113,8 @@
             <td class="button">22</td>
             <td class="button">23</td>
             <td class="button">24</td>
+            <td class="button">25</td>
+            <td class="button">26</td>
           </tr>
         </table>
         <p><img src="images/toolbar.png"/></p>
@@ -141,6 +143,8 @@
           <li>Měření ploch.</li>
           <li>Přidání další rastrové vrstvy (např. letecký snímek).</li>
           <li>Přidání další vektorové vrstvy (např. KML soubor).</li>
+          <li>Přidání vektorových vrstev pro dělení sektorů.</li>
+          <li>Rozdělení sektoru pomocí existující linie.</li>
         </ol>
 
         <p>Pokud vidíte další nástroje, znamená to, že máte zapnuty další nástrojové lišty.
@@ -166,9 +170,10 @@
         <p>Průvodce umožní zahájit pátrání, od zadání vstupů až po tisk mapy.</p>
         <h2>Zadání obce</h2>
         <p><img src="images/guide1.png"/></p>
-        <p>Z našeptávače se vybere obec, kde bude pátrání probíhat. Našeptávač obashuje aktuálně pouze obce z roku 2018, neobsahuje místní části. Po dohodě není žádný problém doplnit další prvky. Případně můžete prvky doplnit sami, zvládne to i mírně pokročilý uživatel.</p>
+        <p>Z našeptávače se vybere obec, kde bude pátrání probíhat. Našeptávač obashuje aktuálně pouze obce z roku 2018, neobsahuje místní části. Po dohodě není žádný problém doplnit další prvky.
+          Případně můžete prvky doplnit sami, zvládne to i mírně pokročilý uživatel.</p>
         <p>Generování projektu trvá poměrně dlouho, může se jednat o minutu nebo i dvě minuty. Výhodou jsou pak rychlejší výpočty v další fázi.
-        Aktuálně trvá neúměrně dlouho pro Středočeský kraj (kolem 5 minut), pravděpodobně bychom tedy rozdělili kraj na západ a východ, případně sever, východ, jih a západ.</p>
+          Aktuálně trvá neúměrně dlouho pro Středočeský kraj (kolem 5 minut), pravděpodobně bychom tedy rozdělili kraj na západ a východ, případně sever, východ, jih a západ.</p>
         <h2>Zadání míst posledního spatření</h2>
         <p><img src="images/guide2.png"/></p>
         <p>Kliknutím do mapy se zadávají místa posledního spatření.</p>
@@ -193,7 +198,8 @@
           spustit zobrazením reportu.</p>
         <p><img src="images/sectors_export_report_output.png"/></p>
         <h2>Ukončení pátrání</h2>
-        <p>V případě nálezu osoby je velmi užitečné pro další pátrání evidovat informace o nálezu. K tomuto slouží tlačítko Zadat výsledek <img src="images/smile.png" alt="Zada výsledek"/>. Po kliknutí na tlačítko je očekáváno od uživatele kliknutí
+        <p>V případě nálezu osoby je velmi užitečné pro další pátrání evidovat informace o nálezu. K tomuto slouží tlačítko Zadat výsledek <img src="images/smile.png" alt="Zada výsledek"/>. Po
+          kliknutí na tlačítko je očekáváno od uživatele kliknutí
           do mapy do místa nálezu. Po kliknutí do mapy se zobrazí okno pro zadání informací o nálezu. Pokud osoba nebyla nalezena, je přesto nutné kliknout někam do mapy a na okně zadat "Ukončeno bez
           nálezu".</p>
         <p><img src="images/found.png"/></p>
@@ -277,7 +283,8 @@
           <li>Načtení pozic pátračů - je nutno, aby byli vybaveni zařízením, které odesílá pozici - např. GINA tracker.</li>
           <li>Načtení stop pátračů - je nutno, aby byli vybaveni zařízením, které odesílá pozici - např. GINA tracker.</li>
           <li>Odesílání a čtení zpráv. Aktuálně funguje pouze ve spojení s prototypem Pátrač Monitor, který se již dále nebude vyvíjet.
-            V budoucnosti plánujeme komunikaci s HS messengerem, případně pokud to bude organizačně možné (technic jistě je) tak s MBP.</li>
+            V budoucnosti plánujeme komunikaci s HS messengerem, případně pokud to bude organizačně možné (technic jistě je) tak s MBP.
+          </li>
         </ul>
         <h2>Stanovení míst</h2>
         <p>Prvním krokem je stanovení míst posledního spatření.</p>
@@ -466,6 +473,40 @@
           <li>Pomocí nástroje <img src="images/edit.png"/> ukončíme editaci. Na výzvu k uložení dáme Ano (OK, Budiž).</li>
           <li>Pomocí nástroje <img src="images/recalculate.png"/> v toolbaru Pátrač nebo panelu Pátrač provedeme přečíslování sektorů.</li>
         </ul>
+
+        <h3>Rozdělování pomocí existujících linií</h3>
+        <p>Ve verzi 3.12.20 přibyla funkce navržená na školení v Praze (24.9.2020) a to dělení pomocí existující linie.
+          Pro dělení je možné vuižít např. stopu. Pokud např. předtím prošel někdo dělící linii s GPS přijímačem.</p>
+        <p>Dále je možno využít existujících vrstev vodních toků, cest a průseků.</p>
+        <ul>
+          <li>Pomocí nástroje <img src="images/add_vectors_for_split_by_line.png"/> přidáme vrstvy do mapy.
+            Může se stát, že se některá z vrstev nenačte, pak musíme pracovat jen s těmi co se načetly.
+          </li>
+          <li>Pomocí nástroje <img src="images/select.png"/> vybereme nejdříve sektor.
+            Následně se přepneme na vrstvu (vodní tok, cesta, průsek), ze které vybereme jeden prvek.
+          </li>
+          <li>Pomocí nástroje <img src="images/split_by_line.png"/> rozdělíme sektor.
+            Vybraná linie se prodlouží a tím protne sektor a rozdělí jej.
+          </li>
+        </ul>
+        <p>Funkce je zatím hodmě experimentální, ale často funguje dobře.</p>
+
+        <h3>Export PDF pro jednotlivé sektory</h3>
+        <p>Pomocí nástroje <img src="images/print.png"/> otevřeme správce tisku.</p>
+        <p>Uděláme kopii rozvržení Basic <img src="images/print_copy.png"/>.</p>
+        <p>V položkách vybereme Mapa 1. A v menu Atlas zvolíme Nastavení atlasu.
+        </p>
+        <p><img src="images/print_set_atlas1.png"/></p>
+        <p>V nastavení zvolíme vrstvu pokrytí sektory.
+        </p>
+        <p>Volitelně můžeme zvolit název strany a řazení.
+        <p><img src="images/print_set_atlas2.png"/></p>
+        <p>Na kartě Vlastnosti položky volíme Ovládáno Atlas
+        </p>
+        <p><img src="images/print_set_atlas3.png"/></p>
+        <p>Přes nabídku Atlas volíme Exportovat do PDF. Vznikne PDF s tolika stranami, kolik máme sektorů.
+        </p>
+        <p><img src="images/print_set_atlas4.png"/></p>
       </div>
     </div>
   </div>
