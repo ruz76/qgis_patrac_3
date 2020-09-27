@@ -44,14 +44,10 @@ class Printing(object):
         self.exportAll(extent, path, 1.1)
 
     def exportTiles(self, extent, path):
-        widthmax = 6000
-        heightmax = 3500
+        widthmax = 2718.16
+        heightmax = 1772.72
         widthmap = extent.width()
         heightmap = extent.height()
-        if widthmap < 2 * widthmax:
-            widthmax = widthmax / 2
-        if heightmap < 2 * heightmax:
-            heightmax = heightmax / 2
         cols = int(widthmap / widthmax) + 1 # we need to handle round - may use roundup ot increase number of cols by 1
         rows = int(heightmap / heightmax) + 1 # we need to handle round - may use roundup ot increase number of cols by 1
         tilemap = ""
@@ -64,7 +60,7 @@ class Printing(object):
                                     extent.xMinimum() + (col * widthmax) + widthmax,
                                     extent.yMaximum() - (row * heightmax) - heightmax)
                 tilemap += '<td style="border: 1px solid; width: 100px; height: 50px; text-align: center"><a href="report_' + str(row) + '_' + str(col) + '.pdf">' + str(row) + '-' + str(col) + '&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></a></td>\n'
-                self.export(rect, path + "report_" + str(row) + "_" + str(col) + ".pdf", 1.2)
+                self.export(rect, path + "report_" + str(row) + "_" + str(col) + ".pdf", 1.0)
             tilemap += '</tr>\n'
         tilemap += '</table>\n'
 
