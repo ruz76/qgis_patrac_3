@@ -252,13 +252,14 @@ class PatracPlugin(object):
         self.toolbar.addAction(self.iface.actionMoveFeature())
         self.toolbar.addAction(self.iface.actionDeleteSelected())
         self.toolbar.addAction(self.iface.actionSplitFeatures())
-        self.addSplitByLineButton()
         self.toolbar.addAction(self.iface.actionSaveEdits())
         self.addRecalculateButton()
         self.toolbar.addAction(self.iface.actionMeasure())
         self.toolbar.addAction(self.iface.actionMeasureArea())
         self.toolbar.addAction(self.iface.actionAddRasterLayer())
         self.toolbar.addAction(self.iface.actionAddOgrLayer())
+        self.addVectorsForSplitByLineButton()
+        self.addSplitByLineButton()
 
     def addRecalculateButton(self):
         pluginPath = path.dirname(__file__)
@@ -275,6 +276,14 @@ class PatracPlugin(object):
         self.splitByLineAction.setWhatsThis(QCoreApplication.translate("Patrac", "Split by line"))
         self.splitByLineAction.triggered.connect(self.dockWidget.splitByLine)
         self.toolbar.addAction(self.splitByLineAction)
+
+    def addVectorsForSplitByLineButton(self):
+        pluginPath = path.dirname(__file__)
+        self.addVectorsForSplitByLineAction = QAction(QIcon(pluginPath + "/icons/add_vectors_for_split_by_line.png"), "Patrac", self.iface.mainWindow())
+        self.addVectorsForSplitByLineAction.setStatusTip(QCoreApplication.translate("Patrac", "Add vectors for Split by line"))
+        self.addVectorsForSplitByLineAction.setWhatsThis(QCoreApplication.translate("Patrac", "Add vectors for Split by line"))
+        self.addVectorsForSplitByLineAction.triggered.connect(self.dockWidget.addVectorsForSplitByLine)
+        self.toolbar.addAction(self.addVectorsForSplitByLineAction)
 
     def createShowWidgetAction(self):
         icon = QIcon(icon_path)

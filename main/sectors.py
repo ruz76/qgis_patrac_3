@@ -28,6 +28,7 @@
 
 import csv, io, math, subprocess, os, sys, uuid, webbrowser
 import collections
+import json
 
 from qgis.core import *
 from qgis.gui import *
@@ -560,6 +561,50 @@ class Sectors(object):
                     QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "Can not split.", None))
         sectors_layer.commitChanges()
         sectors_layer.triggerRepaint()
+
+    def createCregion(self, extentItems):
+        DATA_PATH = self.Utils.getDataPath()
+        data = {
+            "type": "FeatureCollection",
+            "name": "region",
+            "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::5514" } },
+            "features": [
+                { "type": "Feature", "properties": { "name": "null" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -769881.0, -1052748.0 ], [ -757881.0, -1052748.0 ], [ -757881.0, -1042748.0 ], [ -769881.0, -1042748.0 ], [ -769881.0, -1052748.0 ] ] ] } }
+            ]
+        }
+        with open(DATA_PATH + "/pracovni/cregion.geojson", "w+") as f:
+            json.dump(data, f)
+
+    def addVectorLayerForSplitByLine(self, name, label):
+        DATA_PATH = self.Utils.getDataPath()
+        if os.path.exists(DATA_PATH + "/pracovni/" + name + ".prj"):
+            os.remove(DATA_PATH + "/pracovni/" + name + ".prj")
+        self.Utils.addVectorLayerWithStyle(DATA_PATH + "/pracovni/" + name + ".shp", label, name)
+
+    def addVectorsForSplitByLine(self):
+        DATA_PATH = self.Utils.getDataPath()
+        KRAJ_DATA_PATH = DATA_PATH + "/../../"
+        initialExtent = open(self.Utils.getDataPath() + '/config/extent.txt', 'r').read()
+        initialExtentItems = initialExtent.split(" ")
+        self.createCregion(initialExtentItems)
+        XMIN = initialExtentItems[0]
+        YMIN = initialExtentItems[1]
+        XMAX = initialExtentItems[2]
+        YMAX = initialExtentItems[3]
+        # GRASS exports to SHP
+        if sys.platform.startswith('win'):
+            p = subprocess.Popen(
+                (self.pluginPath + "/grass/run_export_vectors.bat", KRAJ_DATA_PATH, self.pluginPath, XMIN, YMIN,
+                 XMAX, YMAX, DATA_PATH))
+            p.wait()
+        else:
+            p = subprocess.Popen(('bash', self.pluginPath + "/grass/run_export_vectors.sh", KRAJ_DATA_PATH, self.pluginPath, XMIN, YMIN,
+                                  XMAX, YMAX, DATA_PATH))
+            p.wait()
+
+        self.addVectorLayerForSplitByLine("vodtok", "Vodní toky")
+        self.addVectorLayerForSplitByLine("cesta", "Cesty")
+        self.addVectorLayerForSplitByLine("lespru", "Průseky")
 
     def rewriteSelectedSectors(self):
         layer = None

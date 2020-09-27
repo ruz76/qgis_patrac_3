@@ -803,6 +803,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def splitByLine(self):
         self.Sectors.splitByLine()
 
+    def addVectorsForSplitByLine(self):
+        self.Sectors.addVectorsForSplitByLine()
+
     def extendRegion(self):
         # msg = QApplication.translate("Patrac", "The function is not available. Please create new project.", None)
         # QMessageBox.information(None, QApplication.translate("Patrac", "Not available", None), msg)

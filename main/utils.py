@@ -94,6 +94,15 @@ class Utils(object):
             ##            crs = QgsCoordinateReferenceSystem("EPSG:4326")
             QgsProject.instance().addMapLayer(vector)
 
+    def addVectorLayerWithStyle(self, path, label, style):
+        """Adds raster layer to map"""
+        vector = QgsVectorLayer(path, label, "ogr")
+        if not vector.isValid():
+            QgsMessageLog.logMessage("Vrstvu " + path + " se nepodařilo načíst", "Patrac")
+        else:
+            vector.loadNamedStyle(self.pluginPath + '/styles/' + style + '.qml')
+            QgsProject.instance().addMapLayer(vector)
+
     def getProcessRadial(self):
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
