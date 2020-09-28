@@ -319,6 +319,7 @@ class Sectors(object):
 
         layer.startEditing()
         features = provider.getFeatures()
+        newIds = ""
         for feature in features:
             sectorid = sectorid + 1
             # Label is set to A and sequential number
@@ -332,6 +333,7 @@ class Sectors(object):
                 if feature['id'] in duplicities:
                     current_duplicity = feature['id']
                     feature['id'] = str(feature['id']) + "_" + str(duplicities[feature['id']])
+                    newIds += "'" + feature['id'] + "',"
                     feature['label'] = str(feature['id'])
                     order = duplicities[current_duplicity]
                     order = chr(ord(str(order)) + 1)
@@ -345,6 +347,8 @@ class Sectors(object):
                 f.write(str(feature['id']) + "\n")
             layer.updateFeature(feature)
         layer.commitChanges()
+        if layer.subsetString() != "":
+            layer.setSubsetString(layer.subsetString()[:-1] + "," + newIds[:-2] + ")")
         layer.triggerRepaint()
         if setLabels:
             f.close()
@@ -548,6 +552,7 @@ class Sectors(object):
         features = layer_line.selectedFeatures()
         provider_sectors_layer = sectors_layer.dataProvider()
         sectors_layer.startEditing()
+        newIds = ""
         for sector in selected_sectors:
             sector_geometry = sector.geometry()
             for line in features:
@@ -556,6 +561,7 @@ class Sectors(object):
                 if len(output[1]) > 0:
                     sector.setGeometry(sector_geometry)
                     id = sector['id']
+                    newIds += "'" + id + '_A' + "', "
                     self.setAttributesAfterSplit(sector, sector, id + '_A')
                     sectors_layer.updateFeature(sector)
                     cur_sub_id = 'B'
@@ -563,11 +569,14 @@ class Sectors(object):
                         feature = QgsFeature(sector)
                         feature.setGeometry(o)
                         self.setAttributesAfterSplit(sector, feature, id + '_' + cur_sub_id)
+                        newIds += "'" + id + '_' + cur_sub_id + "', "
                         provider_sectors_layer.addFeatures([feature])
                         cur_sub_id = chr(ord(cur_sub_id) + 1)
                 else:
                     QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "Can not split.", None))
         sectors_layer.commitChanges()
+        if sectors_layer.subsetString() != "":
+            sectors_layer.setSubsetString(sectors_layer.subsetString()[:-1] + "," + newIds[:-2] + ")")
         sectors_layer.triggerRepaint()
         self.widget.setCursor(Qt.ArrowCursor)
 
