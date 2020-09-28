@@ -52,6 +52,10 @@ cp $PLUGIN_PATH/styles/* qgis_patrac/styles/
 cp $PLUGIN_PATH/main/*.py qgis_patrac/main/
 
 cp $PLUGIN_PATH/ui/*.py qgis_patrac/ui/
+cp $PLUGIN_PATH/ui/*.ui qgis_patrac/ui/
+cp $PLUGIN_PATH/ui/*.csv qgis_patrac/ui/
+cp $PLUGIN_PATH/ui/*.png qgis_patrac/ui/
+cp $PLUGIN_PATH/ui/*.svg qgis_patrac/ui/
 
 cp $PLUGIN_PATH/*.py qgis_patrac/
 cp $PLUGIN_PATH/*.md qgis_patrac/
