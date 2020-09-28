@@ -347,7 +347,7 @@ class Sectors(object):
                 f.write(str(feature['id']) + "\n")
             layer.updateFeature(feature)
         layer.commitChanges()
-        if layer.subsetString() != "":
+        if layer.subsetString() != "" and newIds != "":
             layer.setSubsetString(layer.subsetString()[:-1] + "," + newIds[:-2] + ")")
         layer.triggerRepaint()
         if setLabels:
@@ -575,7 +575,7 @@ class Sectors(object):
                 else:
                     QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "Can not split.", None))
         sectors_layer.commitChanges()
-        if sectors_layer.subsetString() != "":
+        if sectors_layer.subsetString() != "" and newIds != "":
             sectors_layer.setSubsetString(sectors_layer.subsetString()[:-1] + "," + newIds[:-2] + ")")
         sectors_layer.triggerRepaint()
         self.widget.setCursor(Qt.ArrowCursor)
