@@ -115,6 +115,9 @@ print(gscript.read_command('v.db.addcolumn', map='sectors_group', layer='1', col
 print(gscript.read_command('v.to.db', map='sectors_group', layer='1', option='area', units='hectares', columns='area_ha', overwrite=True))
 #Adds label column
 print(gscript.read_command('v.db.addcolumn', map='sectors_group', layer='1', columns='label VARCHAR(50)', overwrite=True))
+print(gscript.read_command('v.db.addcolumn', map='sectors_group', layer='1', columns='poznamka VARCHAR(255)', overwrite=True))
+print(gscript.read_command('v.db.addcolumn', map='sectors_group', layer='1', columns='od_cas VARCHAR(50)', overwrite=True))
+print(gscript.read_command('v.db.addcolumn', map='sectors_group', layer='1', columns='do_cas VARCHAR(50)', overwrite=True))
 #Exports sectors with comupted areas
 print(gscript.read_command('v.out.ogr', format='ESRI_Shapefile', input='sectors_group', output=DATAPATH +'/pracovni/sektory_group_selected.shp', overwrite=True))
 print(gscript.read_command('v.out.ogr', format='ESRI_Shapefile', input='sectors_group', output=DATAPATH +'/pracovni/sektory_group.shp', overwrite=True))

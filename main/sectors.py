@@ -333,7 +333,7 @@ class Sectors(object):
                 if feature['id'] in duplicities:
                     current_duplicity = feature['id']
                     feature['id'] = str(feature['id']) + "_" + str(duplicities[feature['id']])
-                    newIds += "'" + feature['id'] + "',"
+                    newIds += "'" + feature['id'] + "', "
                     feature['label'] = str(feature['id'])
                     order = duplicities[current_duplicity]
                     order = chr(ord(str(order)) + 1)
@@ -348,7 +348,7 @@ class Sectors(object):
             layer.updateFeature(feature)
         layer.commitChanges()
         if layer.subsetString() != "" and newIds != "":
-            layer.setSubsetString(layer.subsetString()[:-1] + "," + newIds[:-2] + ")")
+            layer.setSubsetString(layer.subsetString()[:-1] + ", " + newIds[:-2] + ")")
         layer.triggerRepaint()
         if setLabels:
             f.close()

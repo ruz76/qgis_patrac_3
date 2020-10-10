@@ -10,6 +10,8 @@ from qgis.gui import *
 import processing
 import sys
 
+from .ui_sector import Ui_Sector
+
 class ProgressMapTool(QgsMapTool):
     """Map tool for click in the map"""
 
@@ -26,6 +28,7 @@ class ProgressMapTool(QgsMapTool):
         self.numberOfSearchers = 10
         self.pluginPath = ''
         self.iface = iface
+        self.dialog = Ui_Sector()
 
     def reset(self):
         self.point = None
@@ -261,6 +264,8 @@ class ProgressMapTool(QgsMapTool):
                             feature.setAttribute(self.attribute, self.type)
                             if self.type == 1:
                                 feature.setAttribute(self.attribute + 1, self.unit)
+                            self.dialog.setFeature(feature, self.type)
+                            self.dialog.exec_()
                             self.layer.updateFeature(feature)
                             self.layer.commitChanges()
                             self.layer.setSubsetString(subsetString)
