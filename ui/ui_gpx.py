@@ -101,14 +101,21 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
                 i=i+1
         #tableWidget.rowCount = 3
 
+    def checkDrives(self, drives):
+        drives_out = []
+        for drive in drives:
+            if os.path.exists(drive + "Garmin/GPX"):
+                drives_out.append(drive)
+
     def getDrive(self):
         """Shows list of Windows drives"""
         if win32api_exists:
             drives = win32api.GetLogicalDriveStrings()
             drives = drives.split('\000')[:-1]
         else:
-            letters = "CDEFGHIJKLMNOPQRSTUVWXYZ"
+            letters = "DEFGHIJKLMNOPQRSTUVWXYZ"
             drives = [letters[i] + ":/" for i in range(len(letters))]
+        drives = self.checkDrives(drives)
         item, ok = QInputDialog.getItem(self, self.tr("select input dialog"),
                                         self.tr("list of drives"), drives, 0, False)
         if ok and item:
