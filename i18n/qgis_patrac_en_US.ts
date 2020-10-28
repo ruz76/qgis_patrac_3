@@ -379,6 +379,21 @@
         <source>Last</source>
         <translation>Last 24 hours</translation>
     </message>
+    <message>
+        <location filename="../ui/sector.ui" line="14"/>
+        <source>Sector</source>
+        <translation>Sector</translation>
+    </message>
+    <message>
+        <location filename="../ui/sector.ui" line="65"/>
+        <source>When</source>
+        <translation>When</translation>
+    </message>
+    <message>
+        <location filename="../ui/sector.ui" line="78"/>
+        <source>Comment</source>
+        <translation>Comment</translation>
+    </message>
 </context>
 <context>
     <name>MessageDialog</name>
@@ -426,7 +441,7 @@
         <translation>Wrong project</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="549"/>
+        <location filename="../patracdockwidget.py" line="558"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
@@ -461,47 +476,47 @@
         <translation>Report test error</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="157"/>
+        <location filename="../main/project.py" line="158"/>
         <source>Out of Czech Republic. Can not continue.</source>
         <translation>Out of Czech Republic. Can not continue.</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="164"/>
+        <location filename="../main/project.py" line="165"/>
         <source>CRITICAL ERROR</source>
         <translation>CRITICAL ERROR</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="164"/>
+        <location filename="../main/project.py" line="165"/>
         <source>No data. Can not continue.</source>
         <translation>No data. Can not continue.</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="180"/>
+        <location filename="../main/project.py" line="181"/>
         <source>Region</source>
         <translation>Region</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="180"/>
+        <location filename="../main/project.py" line="181"/>
         <source>The area is large. Computing will be slow. Do you want to continue?</source>
         <translation>The area is large. Computing will be slow. Do you want to continue?</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="203"/>
+        <location filename="../main/project.py" line="204"/>
         <source>Do not have data for seleted region. Can not continue.</source>
         <translation>Do not have data for seleted region. Can not continue.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1254"/>
+        <location filename="../patracdockwidget.py" line="1263"/>
         <source>Can not connect to the server.</source>
         <translation>Can not connect to the server.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1261"/>
+        <location filename="../patracdockwidget.py" line="1270"/>
         <source>Wrong project.</source>
         <translation>Wrong project.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="702"/>
+        <location filename="../main/sectors.py" line="756"/>
         <source>GPX and PDF for search</source>
         <translation>GPX and PDF for search</translation>
     </message>
@@ -526,7 +541,7 @@
         <translation type="obsolete">S-E</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1254"/>
+        <location filename="../patracdockwidget.py" line="1263"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -546,52 +561,52 @@
         <translation>The municipality has not been found</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="354"/>
+        <location filename="../patracdockwidget.py" line="345"/>
         <source>Step</source>
         <translation>Step</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="354"/>
+        <location filename="../patracdockwidget.py" line="345"/>
         <source>You skipped the step. Do you want to continue?</source>
         <translation>You skipped the step. Do you want to continue?</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="470"/>
+        <location filename="../patracdockwidget.py" line="479"/>
         <source>No probability layer. Can not continue.</source>
         <translation>No probability layer. Can not continue.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="501"/>
+        <location filename="../patracdockwidget.py" line="510"/>
         <source>Can not find web browser to open report</source>
         <translation>Can not find web browser to open report</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="531"/>
+        <location filename="../patracdockwidget.py" line="540"/>
         <source>Did not find GPS. You have to copy GPX manually from the report.</source>
         <translation>Did not find GPS. You have to copy GPX manually from the report.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="535"/>
+        <location filename="../patracdockwidget.py" line="544"/>
         <source>select input dialog</source>
         <translation>Select</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="535"/>
+        <location filename="../patracdockwidget.py" line="544"/>
         <source>list of drives</source>
         <translation>List of drives</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="549"/>
+        <location filename="../patracdockwidget.py" line="558"/>
         <source>The sectors has been copied into the device: </source>
         <translation>The sectors has been copied into the device: </translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="551"/>
+        <location filename="../patracdockwidget.py" line="560"/>
         <source>Can not copy. You have copy it manually from the path: </source>
         <translation>Can not copy. You have copy it manually from the path: </translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="687"/>
+        <location filename="../patracdockwidget.py" line="696"/>
         <source>No probability layer. Please try step 3 again.</source>
         <translation>No probability layer. Please try step 3 again.</translation>
     </message>
@@ -606,42 +621,42 @@
         <translation type="obsolete">Not available</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1154"/>
+        <location filename="../patracdockwidget.py" line="1163"/>
         <source>Tracks are empty.</source>
         <translation>Tracks are empty.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1247"/>
+        <location filename="../patracdockwidget.py" line="1256"/>
         <source>Problem to read data from: </source>
         <translation>Problem to read data from: </translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1228"/>
+        <location filename="../patracdockwidget.py" line="1237"/>
         <source>Positions are empty.</source>
         <translation>Positions are empty.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1261"/>
+        <location filename="../patracdockwidget.py" line="1270"/>
         <source>CHYBA:</source>
         <translation>ERROR:</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="732"/>
+        <location filename="../main/sectors.py" line="794"/>
         <source>SECTOR</source>
         <translation>SECTOR</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="732"/>
+        <location filename="../main/sectors.py" line="794"/>
         <source>Types of terrain</source>
         <translation>Types of terrain</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="205"/>
+        <location filename="../patrac.py" line="206"/>
         <source>Show/hide Patrac dockwidget</source>
         <translation>Show/hide Patrac dockwidget</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="309"/>
+        <location filename="../patrac.py" line="310"/>
         <source>Patrac</source>
         <translation>Searcher</translation>
     </message>
@@ -676,59 +691,89 @@
         <translation>DATA TEST FINISHED</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="868"/>
+        <location filename="../patracdockwidget.py" line="877"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="868"/>
+        <location filename="../patracdockwidget.py" line="877"/>
         <source>Click into the map at the place of finding. If you finishing without finding, click anywhere into map.</source>
         <translation>Click into the map at the place of finding. If you finishing without finding, click anywhere into map.</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="269"/>
+        <location filename="../patrac.py" line="270"/>
         <source>Recalculate sectors</source>
         <translation>Recalculate sectors</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="571"/>
+        <location filename="../main/sectors.py" line="578"/>
         <source>ERROR:</source>
         <translation>ERROR:</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="490"/>
+        <location filename="../main/sectors.py" line="492"/>
         <source>You have to select at least one sector to split.</source>
         <translation>You have to select at least one sector to split.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="496"/>
+        <location filename="../main/sectors.py" line="498"/>
         <source>You have to select line layer.</source>
         <translation>You have to select line layer.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="499"/>
+        <location filename="../main/sectors.py" line="501"/>
         <source>Selected layer is not line layer.</source>
         <translation>Selected layer is not line layer.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="544"/>
+        <location filename="../main/sectors.py" line="547"/>
         <source>You have to select just one line.</source>
         <translation>You have to select just one line.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="571"/>
+        <location filename="../main/sectors.py" line="578"/>
         <source>Can not split.</source>
         <translation>Can not split.</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="277"/>
+        <location filename="../patrac.py" line="278"/>
         <source>Split by line</source>
         <translation>Split by line</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="285"/>
+        <location filename="../patrac.py" line="286"/>
         <source>Add vectors for Split by line</source>
         <translation>Add vectors for Split by line</translation>
+    </message>
+    <message>
+        <location filename="../main/sectors.py" line="662"/>
+        <source>Map lists where the sector is present</source>
+        <translation>Map lists where the sector is present</translation>
+    </message>
+    <message>
+        <location filename="../main/sectors.py" line="680"/>
+        <source>GPS file with drawn sector</source>
+        <translation>GPS file with drawn sector</translation>
+    </message>
+    <message>
+        <location filename="../main/sectors.py" line="761"/>
+        <source>Overall view</source>
+        <translation>Overall view</translation>
+    </message>
+    <message>
+        <location filename="../main/sectors.py" line="768"/>
+        <source>If you do not see links to PDF files for print, the files were not generated. Please use checkbox on last card in the guide and show report again.</source>
+        <translation>If you do not see links to PDF files for print, the files were not generated. Please use checkbox on last card in the guide and show report again.</translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="322"/>
+        <source>Missing input</source>
+        <translation>Missing input</translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="322"/>
+        <source>You have to select type of the search</source>
+        <translation>You have to select type of the search</translation>
     </message>
 </context>
 <context>
@@ -779,7 +824,7 @@
         <translation>Create report</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="437"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="429"/>
         <source>Child 1-3</source>
         <translation>Child 1-3</translation>
     </message>
@@ -789,42 +834,42 @@
         <translation>Child 4-6</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="439"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="431"/>
         <source>Child 7-12</source>
         <translation>Child 7-12</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="440"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="432"/>
         <source>Child 13-15</source>
         <translation>Child 13-15</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="441"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="433"/>
         <source>Despondent</source>
         <translation>Despondent</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="442"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="434"/>
         <source>Psychical ilness</source>
         <translation>Psychical ilness</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="443"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="435"/>
         <source>Retarded</source>
         <translation>Retarded</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="444"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="436"/>
         <source>Alzheimer</source>
         <translation>Alzheimer</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="445"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="437"/>
         <source>Turist</source>
         <translation>Turist</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="446"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="438"/>
         <source>Demention</source>
         <translation>Demention</translation>
     </message>
@@ -919,12 +964,12 @@
         <translation>Search started</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="541"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="547"/>
         <source>Handler</source>
         <translation>Handler</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="551"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="557"/>
         <source>Person</source>
         <translation>Person</translation>
     </message>
@@ -959,102 +1004,102 @@
         <translation>Number of persons</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="394"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="400"/>
         <source>Enter name and description</source>
         <translation>Enter name and description</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="400"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="406"/>
         <source>Enter name</source>
         <translation>Enter name</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="405"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="411"/>
         <source>Brief description</source>
         <translation>Brief description</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="497"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="503"/>
         <source>Next</source>
         <translation>Next</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="418"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="451"/>
         <source>Click into the map for report of the last seen.</source>
         <translation>Click into the map for report of the last seen.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="432"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="424"/>
         <source>Select type of the person</source>
         <translation>Select type of the person</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="438"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="430"/>
         <source>Child 3-6</source>
         <translation>Child 3-6</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="459"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="465"/>
         <source>The search area is set to 70%</source>
         <translation>The search area is set to 70%</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="478"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="484"/>
         <source>Number of units</source>
         <translation>Number of units</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="484"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="490"/>
         <source>Or maximum time for search</source>
         <translation>Or maximum time for search</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="488"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="494"/>
         <source>Maximum time for search</source>
         <translation>Maximum time for search</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="506"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="512"/>
         <source>Almost finished. You may generate PDF and then show the report.</source>
         <translation>Almost finished. You may generate PDF and then show the report.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="510"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="516"/>
         <source>Generate PDF</source>
         <translation>Generate PDF</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="517"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="523"/>
         <source>Show report</source>
         <translation>Show report</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="522"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="528"/>
         <source>Save sectors to GPS</source>
         <translation>Save sectors to GPS</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="561"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="567"/>
         <source>Diver</source>
         <translation>Diver</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="571"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="577"/>
         <source>Searcher</source>
         <translation>Searcher</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="573"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="579"/>
         <source>Determine area</source>
         <translation>Determine area</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="575"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="581"/>
         <source>Values min/max</source>
         <translation>Values min/max</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="577"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="583"/>
         <source>Values max/min</source>
         <translation>Values max/min</translation>
     </message>
@@ -1068,51 +1113,61 @@
         <source>Risk sector</source>
         <translation>Risk sector</translation>
     </message>
+    <message>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="393"/>
+        <source>Education and testing</source>
+        <translation>Education and testing</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="396"/>
+        <source>Real action</source>
+        <translation>Real action</translation>
+    </message>
 </context>
 <context>
     <name>ProgressMapTool</name>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="233"/>
+        <location filename="../ui/ui_progress_tool.py" line="236"/>
         <source>CHYBA:</source>
         <translation>ERROR:</translation>
     </message>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="202"/>
+        <location filename="../ui/ui_progress_tool.py" line="205"/>
         <source>You have to select track.</source>
         <translation>You have to select track.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="207"/>
+        <location filename="../ui/ui_progress_tool.py" line="210"/>
         <source>You have to enter number of persons including siders.</source>
         <translation>You have to enter number of persons including siders.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="210"/>
+        <location filename="../ui/ui_progress_tool.py" line="213"/>
         <source>You have to select two tracks.</source>
         <translation>You have to select two tracks.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="216"/>
+        <location filename="../ui/ui_progress_tool.py" line="219"/>
         <source>Selected layers are not tracks.</source>
         <translation>Selected layers are not tracks.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="221"/>
+        <location filename="../ui/ui_progress_tool.py" line="224"/>
         <source>Yout have to select just one layer.</source>
         <translation>Musíte vybrat pouze jednu vrstvu.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="227"/>
+        <location filename="../ui/ui_progress_tool.py" line="230"/>
         <source>Selected layer is not track.</source>
         <translation>Selected layer is not track.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="233"/>
+        <location filename="../ui/ui_progress_tool.py" line="236"/>
         <source>Select track does not have data to analyze. Select another track or unit.</source>
         <translation>Select track does not have data to analyze. Select another track or unit.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="275"/>
+        <location filename="../ui/ui_progress_tool.py" line="280"/>
         <source>canvasReleaseEvent crash</source>
         <translation>canvasReleaseEvent crash</translation>
     </message>
@@ -1228,47 +1283,47 @@
         <translation>To</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="128"/>
+        <location filename="../ui/ui_gpx.py" line="135"/>
         <source>select input dialog</source>
         <translation>Select</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="128"/>
+        <location filename="../ui/ui_gpx.py" line="135"/>
         <source>list of drives</source>
         <translation>List of drives</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="124"/>
+        <location filename="../ui/ui_gpx.py" line="131"/>
         <source>Not found </source>
         <translation>Not found </translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="124"/>
+        <location filename="../ui/ui_gpx.py" line="131"/>
         <source>Necessary for test.</source>
         <translation>Necessary for test.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="153"/>
+        <location filename="../ui/ui_gpx.py" line="160"/>
         <source>Not found any disk. Will not search for data.</source>
         <translation>Not found any disk. Will not search for data.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="238"/>
+        <location filename="../ui/ui_gpx.py" line="245"/>
         <source>Another Type of GPX</source>
         <translation>Another Type of GPX</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="245"/>
+        <location filename="../ui/ui_gpx.py" line="252"/>
         <source>No records found</source>
         <translation>No records found</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="285"/>
+        <location filename="../ui/ui_gpx.py" line="292"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="285"/>
+        <location filename="../ui/ui_gpx.py" line="292"/>
         <source>There are not any tracks in the GPX.</source>
         <translation>There are not any tracks in the GPX.</translation>
     </message>
@@ -1278,22 +1333,22 @@
         <translation type="obsolete">No data fro selected time range.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="232"/>
+        <location filename="../ui/ui_gpx.py" line="239"/>
         <source>No Time Information</source>
         <translation>No Time Information</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="255"/>
+        <location filename="../ui/ui_gpx.py" line="262"/>
         <source>TNK</source>
         <translation>TNK</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="268"/>
+        <location filename="../ui/ui_gpx.py" line="275"/>
         <source>Track loaded</source>
         <translation>Track loaded</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="270"/>
+        <location filename="../ui/ui_gpx.py" line="277"/>
         <source>Problem with loading track</source>
         <translation>Problem with loading track</translation>
     </message>
