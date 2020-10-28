@@ -330,22 +330,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             version = 1
         self.runCreateProjectGuide(municipalityindex, version)
 
-        # set mista to editing mode
-        self.currentTool = self.iface.mapCanvas().mapTool()
-        prjfi = QFileInfo(QgsProject.instance().fileName())
-        DATAPATH = prjfi.absolutePath()
-        layer = None
-        for lyr in list(QgsProject.instance().mapLayers().values()):
-            if lyr.source() == DATAPATH + "/pracovni/mista.shp":
-                layer = lyr
-                break
-
-        if layer is not None:
-            self.iface.setActiveLayer(layer)
-            layer.startEditing()
-
-            # set tool to add feature
-            self.iface.actionAddFeature().trigger()
         self.tabGuideSteps.setCurrentIndex(1)
         self.currentStep = 2
 
@@ -368,6 +352,34 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if not self.checkStep(3):
             return
 
+        # run area determination computation
+        self.personType = self.guideComboPerson.currentIndex() + 1
+
+        # set mista to editing mode
+        self.currentTool = self.iface.mapCanvas().mapTool()
+        prjfi = QFileInfo(QgsProject.instance().fileName())
+        DATAPATH = prjfi.absolutePath()
+        layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if lyr.source() == DATAPATH + "/pracovni/mista.shp":
+                layer = lyr
+                break
+
+        if layer is not None:
+            self.iface.setActiveLayer(layer)
+            layer.startEditing()
+
+            # set tool to add feature
+            self.iface.actionAddFeature().trigger()
+
+        # move to next tab (tab 3)
+        self.tabGuideSteps.setCurrentIndex(2)
+        self.currentStep = 3
+
+    def runGuideStep3Next(self):
+        if not self.checkStep(4):
+            return
+
         # set tool to save edits
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
@@ -381,24 +393,14 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             layer.commitChanges()
             self.iface.actionToggleEditing().trigger()
 
-            # move to next tab (tab 3)
-            self.tabGuideSteps.setCurrentIndex(2)
-            self.currentStep = 3
+            self.Area.getArea()
 
-    def runGuideStep3Next(self):
-        if not self.checkStep(4):
-            return
+            # set spin to 70%
+            self.__updateSliderEnd(70)
 
-        # run area determination computation
-        self.personType = self.guideComboPerson.currentIndex() + 1
-        self.Area.getArea()
-
-        # set spin to 70%
-        self.__updateSliderEnd(70)
-
-        # move to next tab (tab 4)
-        self.tabGuideSteps.setCurrentIndex(3)
-        self.currentStep = 4
+            # move to next tab (tab 4)
+            self.tabGuideSteps.setCurrentIndex(3)
+            self.currentStep = 4
 
     def runGuideStep4Next(self):
         if not self.checkStep(5):
