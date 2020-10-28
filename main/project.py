@@ -95,6 +95,7 @@ class Project(object):
             os.mkdir(NEW_PROJECT_PATH + "/sektory/gpx")
             os.mkdir(NEW_PROJECT_PATH + "/sektory/shp")
             os.mkdir(NEW_PROJECT_PATH + "/sektory/pdf")
+            os.mkdir(NEW_PROJECT_PATH + "/sektory/html")
             os.mkdir(NEW_PROJECT_PATH + "/sektory/styles")
             for file in glob(TEMPLATES_PATH + "/projekt/sektory/shp/*"):
                 copy(file, NEW_PROJECT_PATH + "/sektory/shp/")

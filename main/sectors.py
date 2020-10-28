@@ -636,6 +636,48 @@ class Sectors(object):
         QgsVectorFileWriter.writeAsVectorFormat(layer, self.Utils.getDataPath() + "/pracovni/sektory_group_selected.shp",
                                                 "utf-8", crs, "ESRI Shapefile")
 
+    def writeSectorHtml(self, report, feature, extent_5514):
+        srs = self.canvas.mapSettings().destinationCrs()
+        crs_src = QgsCoordinateReferenceSystem(5514)
+        crs_dest = QgsCoordinateReferenceSystem(srs)
+        xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
+        extent = xform.transform(extent_5514)
+        project = QgsProject.instance()
+        layout = project.layoutManager().layoutByName("Basic")
+        maps = [item for item in list(layout.items()) if
+                item.type() == QgsLayoutItemRegistry.LayoutMap and item.scene()]
+        composer_map = maps[0]
+        extent.scale(1.1)
+        composer_map.zoomToExtent(extent)
+        extent = composer_map.extent()
+        scale = 10
+        prjfi = QFileInfo(QgsProject.instance().fileName())
+        DATAPATH = prjfi.absolutePath()
+        with open(DATAPATH + '/sektory/html/' + feature['id'] + '.html', 'w+') as f:
+            print('*****' + feature['id'] + '*****')
+            f.write("<h1>" + QApplication.translate("Patrac", "SECTOR", None) + " " + feature['label'] + " (" + str(feature['area_ha']) + " ha)</h1>" + "\n")
+            f.write(report)
+            f.write("<h2>" + QApplication.translate("Patrac", "Map lists where the sector is present", None) + "</h2>")
+            widthmax = (271.816 * scale) / 0.64
+            heightmax = (177.272 * scale) / 0.64
+            widthmap = extent.width()
+            heightmap = extent.height()
+            cols = int(widthmap / widthmax) + 1 # we need to handle round - may use roundup ot increase number of cols by 1
+            rows = int(heightmap / heightmax) + 1 # we need to handle round - may use roundup ot increase number of cols by 1
+            for row in range(rows):
+                for col in range(cols):
+                    rect = QgsRectangle(extent.xMinimum() + (col * widthmax),
+                                        extent.yMaximum() - (row * heightmax),
+                                        extent.xMinimum() + (col * widthmax) + widthmax,
+                                        extent.yMaximum() - (row * heightmax) - heightmax)
+                    geom = feature.geometry()
+                    geom.transform(xform)
+                    if geom.intersects(rect):
+                        f.write('<a href="../' + str(scale) + '_report_' + str(row) + '_' + str(col) + '.pdf">' + str(row) + '-' + str(col) + '.pdf</a>\n')
+
+            f.write("<h2>" + QApplication.translate("Patrac", "GPS file with drawn sector", None) + "</h2>")
+            f.write('<a href="../gpx/' + feature['id'] + '.gpx">' + feature['id'] + '.gpx</a>\n')
+
     def reportExportSectors(self, openReport, exportPDF):
         """Creates report and exports sectors to SHP and GPX"""
 
@@ -710,9 +752,17 @@ class Sectors(object):
         # f.write(u"\n<p>Pro propátrání se počítá 3 hodiny jedním týmem</p>\n");
         f.write("\n<h2>" + QApplication.translate("Patrac", "GPX and PDF for search", None) + "</h2>\n");
         # f.write(u"\n<p>Pro propátrání referenční plochy (cca 30 ha) se počítá 3 hodiny jedním týmem.</p>\n");
-        f.write('<p><a href="report.pdf"><img src="styles/pdf.png" alt="PDF" width="40"></a>&nbsp;<a href="gpx/all.gpx">'
-                '<img src="styles/gpx.png" alt="GPX" width="40"></a></p>\n')
-        f.write('<!--tilemap-->')
+        # f.write('<p><a href="report.pdf"><img src="styles/pdf.png" alt="PDF" width="40"></a>&nbsp;<a href="gpx/all.gpx">'
+        #         '<img src="styles/gpx.png" alt="GPX" width="40"></a></p>\n')
+        f.write('<a href="gpx/all.gpx"><img src="styles/gpx.png" alt="GPX" width="40"></a></p>\n')
+        f.write('<p>' + QApplication.translate("Patrac", "Overall view", None) + '</p>')
+        # f.write('<p><a href="report.pdf"><img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
+        f.write('<!--tilemapall-->')
+        f.write('<p>1:25 000</p>')
+        f.write('<!--tilemap25-->')
+        f.write('<p>1:10 000</p>')
+        f.write('<!--tilemap10-->')
+        f.write('<p>' + QApplication.translate("Patrac", "If you do not see links to PDF files for print, the files were not generated. Please use checkbox on last card in the guide and show report again.", None) + '</p>')
         f.write('</div>\n')
 
         # Reads units report
@@ -744,6 +794,7 @@ class Sectors(object):
             # Reads sector report
             report = io.open(DATAPATH + '/pracovni/report.html.' + str(i), encoding='utf-8', mode='r').read()
             f.write(report)
+            self.writeSectorHtml(report, feature, layer.extent())
 
             self.Utils.copyLayer(DATAPATH, feature['label'])
             sector = QgsVectorLayer(DATAPATH + "/sektory/shp/" + feature['label'] + ".shp", feature['label'], "ogr")

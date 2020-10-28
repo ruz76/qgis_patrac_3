@@ -42,6 +42,15 @@ class Printing(object):
 
     def exportPDF(self, extent, path):
         self.exportAll(extent, path, 1.1)
+        with open(path + "report.html", 'r') as file :
+            filedata = file.read()
+
+        # Replace the target string
+        filedata = filedata.replace("<!--tilemapall-->", '<p><a href="report.pdf"><img src="styles/pdf.png" alt="PDF" width="40"></a></p>\n')
+
+        # Write the file out again
+        with open(path + "report.html", 'w') as file:
+            file.write(filedata)
 
     def exportTiles(self, extent, path, scale):
         widthmax = (271.816 * scale) / 0.64
