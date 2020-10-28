@@ -15,9 +15,9 @@
           <prop v="0,0" k="offset"/>
           <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
           <prop v="MM" k="offset_unit"/>
-          <prop v="0,0,0,255" k="outline_color"/>
+          <prop v="255,1,255,38" k="outline_color"/>
           <prop v="solid" k="outline_style"/>
-          <prop v="0.26" k="outline_width"/>
+          <prop v="2.0" k="outline_width"/>
           <prop v="MM" k="outline_width_unit"/>
           <prop v="solid" k="style"/>
           <data_defined_properties>
@@ -35,7 +35,7 @@
   </renderer-v2>
   <labeling type="simple">
     <settings>
-      <text-style blendMode="0" fontLetterSpacing="0" fontFamily="Sans Serif" fontCapitals="0" fontWeight="50" previewBkgrdColor="#ffffff" multilineHeight="1" namedStyle="Normal" fontStrikeout="0" textColor="0,0,0,255" useSubstitutions="0" textOpacity="1" fontWordSpacing="0" fontUnderline="0" fontSizeMapUnitScale="3x:0,0,0,0,0,0" fieldName="label" fontItalic="0" fontSizeUnit="Point" isExpression="0" fontSize="10">
+      <text-style blendMode="0" fontLetterSpacing="0" fontFamily="Sans Serif" fontCapitals="0" fontWeight="50" previewBkgrdColor="#ffffff" multilineHeight="1" namedStyle="Normal" fontStrikeout="0" textColor="0,0,0,255" useSubstitutions="0" textOpacity="1" fontWordSpacing="0" fontUnderline="0" fontSizeMapUnitScale="3x:0,0,0,0,0,0" fieldName="label" fontItalic="0" fontSizeUnit="Point" isExpression="0" fontSize="8">
         <text-buffer bufferDraw="1" bufferColor="255,255,255,255" bufferSizeMapUnitScale="3x:0,0,0,0,0,0" bufferNoFill="1" bufferSizeUnits="MM" bufferJoinStyle="128" bufferSize="1" bufferBlendMode="0" bufferOpacity="1"/>
         <background shapeBorderWidthMapUnitScale="3x:0,0,0,0,0,0" shapeOffsetUnit="MM" shapeSizeX="0" shapeSizeType="0" shapeOpacity="1" shapeOffsetY="0" shapeSizeUnit="MM" shapeRadiiX="0" shapeJoinStyle="64" shapeType="0" shapeRadiiMapUnitScale="3x:0,0,0,0,0,0" shapeBorderWidthUnit="MM" shapeSizeMapUnitScale="3x:0,0,0,0,0,0" shapeFillColor="255,255,255,255" shapeRotation="0" shapeOffsetMapUnitScale="3x:0,0,0,0,0,0" shapeSizeY="0" shapeBorderWidth="0" shapeOffsetX="0" shapeRadiiUnit="MM" shapeSVGFile="" shapeBlendMode="0" shapeDraw="0" shapeRotationType="0" shapeRadiiY="0" shapeBorderColor="128,128,128,255"/>
         <shadow shadowRadiusMapUnitScale="3x:0,0,0,0,0,0" shadowOffsetMapUnitScale="3x:0,0,0,0,0,0" shadowBlendMode="6" shadowOffsetDist="1" shadowRadius="1.5" shadowRadiusUnit="MM" shadowScale="100" shadowRadiusAlphaOnly="0" shadowOpacity="0.7" shadowOffsetAngle="135" shadowOffsetUnit="MM" shadowOffsetGlobal="1" shadowColor="0,0,0,255" shadowDraw="0" shadowUnder="0"/>
@@ -43,7 +43,7 @@
       </text-style>
       <text-format formatNumbers="0" plussign="0" multilineAlign="4294967295" autoWrapLength="0" placeDirectionSymbol="0" useMaxLineLengthForAutoWrap="1" decimals="3" leftDirectionSymbol="&lt;" rightDirectionSymbol=">" wrapChar="" addDirectionSymbol="0" reverseDirectionSymbol="0"/>
       <placement rotationAngle="0" predefinedPositionOrder="TR,TL,BR,BL,R,L,TSR,BSR" repeatDistanceMapUnitScale="3x:0,0,0,0,0,0" priority="5" distMapUnitScale="3x:0,0,0,0,0,0" preserveRotation="1" offsetUnits="MM" yOffset="0" dist="0" repeatDistanceUnits="MM" fitInPolygonOnly="0" offsetType="0" placement="0" centroidInside="0" quadOffset="4" repeatDistance="0" distUnits="MM" maxCurvedCharAngleIn="25" xOffset="0" maxCurvedCharAngleOut="-25" centroidWhole="0" labelOffsetMapUnitScale="3x:0,0,0,0,0,0" placementFlags="10"/>
-      <rendering upsidedownLabels="0" fontLimitPixelSize="0" obstacleType="0" scaleMin="1" minFeatureSize="0" mergeLines="0" fontMaxPixelSize="10000" fontMinPixelSize="3" drawLabels="1" obstacleFactor="1" labelPerPart="0" maxNumLabels="2000" displayAll="0" scaleMax="30000" scaleVisibility="1" limitNumLabels="0" obstacle="1" zIndex="0"/>
+      <rendering upsidedownLabels="0" fontLimitPixelSize="0" obstacleType="0" scaleMin="1" minFeatureSize="0" mergeLines="0" fontMaxPixelSize="10000" fontMinPixelSize="3" drawLabels="1" obstacleFactor="1" labelPerPart="0" maxNumLabels="2000" displayAll="0" scaleMax="40000" scaleVisibility="1" limitNumLabels="0" obstacle="1" zIndex="0"/>
       <dd_properties>
         <Option type="Map">
           <Option name="name" type="QString" value=""/>
@@ -256,12 +256,12 @@ def my_form_open(dialog, layer, feature):
   </widgets>
   <previewExpression>id</previewExpression>
     <mapTip>[% "id" %]&lt;/br>
-    [% "typ" %]&lt;/br>
-    [% CASE WHEN "stav" = 1 THEN 'Pátrání: &lt;span style="background-color:#f6f372">Zahájeno&lt;/span>' END %]
-    [% CASE WHEN "stav" = 2 THEN 'Pátrání: &lt;span style="background-color:#AAFFAA">Dokončeno&lt;/span>' END %]
+    [% "typ" %], [% "area_ha" %] ha&lt;/br>
+    [% CASE WHEN "stav" = 1 THEN '&lt;span style="background-color:#f6f372">Zahájeno&lt;/span>' END %]
+    [% CASE WHEN "stav" = 2 THEN '&lt;span style="background-color:#AAFFAA">Dokončeno&lt;/span>' END %]
     [% CASE WHEN "stav" = 0 THEN '&lt;span style="background-color:#d36450">Rizikový sektor&lt;/span>' END %]
-    [% CASE WHEN "stav" IS NULL THEN 'Pátrání: Nezahájeno' END %]&lt;/br>
-    [% CASE WHEN "prostredky" = 0 THEN 'Prostředky: Psovod&lt;/br/>
+    [% CASE WHEN "stav" IS NULL THEN 'Nezahájeno' END %]&lt;/br>
+    [% CASE WHEN "prostredky" = 0 THEN 'Psovod
     &lt;svg version="1.0" xmlns="http://www.w3.org/2000/svg"
      width="20pt" height="20pt" viewBox="0 0 1280.000000 1254.000000"
      preserveAspectRatio="xMidYMid meet">
@@ -316,8 +316,8 @@ def my_form_open(dialog, layer, feature):
     1245 -302 454 -575 749 -882 953 -166 110 -311 173 -487 212 -87 19 -363 28
     -462 14z"/>
     &lt;/g>
-    &lt;/svg>' END %]
-    [% CASE WHEN "prostredky" = 1 THEN 'Prostředky: Rojnice&lt;br/>&lt;svg
+    &lt;/svg>&lt;br/>' END %]
+    [% CASE WHEN "prostredky" = 1 THEN 'Rojnice&lt;svg
        xmlns:dc="http://purl.org/dc/elements/1.1/"
        xmlns:cc="http://creativecommons.org/ns#"
        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -373,12 +373,13 @@ def my_form_open(dialog, layer, feature):
            id="rect5291-0-8"
            style="fill:#909000;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       &lt;/g>
-    &lt;/svg>' END %]
-    [% CASE WHEN "prostredky" = 2 THEN 'Prostředky: Dron' END %]
-    [% CASE WHEN "prostredky" = 3 THEN 'Prostředky: Jiný' END %]
-    [% CASE WHEN "prostredky" IS NULL THEN 'Prostředky: Neuvedeny' END %]&lt;/br>
-    Od: [% "od_cas" %]&lt;/br>
-    Do: [% "do_cas" %]
+    &lt;/svg>&lt;br/>' END %]
+    [% CASE WHEN "prostredky" = 2 THEN 'Dron&lt;br/>' END %]
+    [% CASE WHEN "prostredky" = 3 THEN 'Jiný&lt;br/>' END %]
+    [% CASE WHEN "prostredky" IS NULL THEN '' END %]
+    Od: [% "od_cas" %]&lt;br/>
+    Do: [% "do_cas" %]&lt;br/>
+    [% concat('&lt;a href="file://', @project_folder, '/sektory/html/', "id", '.html">Další&lt;/a>') %]
     </mapTip>
   <layerGeometryType>2</layerGeometryType>
 </qgis>
