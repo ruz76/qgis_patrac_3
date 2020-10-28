@@ -389,6 +389,12 @@ class Ui_PatracDockWidget(object):
     def setGuideLayoutStep1(self):
         self.verticalGuideLayoutStep1 = QVBoxLayout(self.tabGuideStep1)
         self.verticalGuideLayoutStep1.setObjectName(_fromUtf8("verticalGuideLayoutStep1"))
+        self.guideTestSearch = QRadioButton(self.tabGuideStep1)
+        self.guideTestSearch.setText(QApplication.translate("PatracDockWidget", "Education and testing", None))
+        self.verticalGuideLayoutStep1.addWidget(self.guideTestSearch)
+        self.guideRealSearch = QRadioButton(self.tabGuideStep1)
+        self.guideRealSearch.setText(QApplication.translate("PatracDockWidget", "Real action", None))
+        self.verticalGuideLayoutStep1.addWidget(self.guideRealSearch)
         self.guideLabelStep1 = QLabel(self.dockWidgetContents)
         self.guideLabelStep1.setObjectName(_fromUtf8("guideLabelStep1"))
         self.guideLabelStep1.setText(QApplication.translate("PatracDockWidget", "Enter name and description", None))

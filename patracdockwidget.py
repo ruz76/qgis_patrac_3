@@ -275,10 +275,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.projectname = self.msearch.text()
         self.Project.createProject(self.projectname)
 
-    def runCreateProjectGuide(self, index):
+    def runCreateProjectGuide(self, index, version):
         self.projectname = self.municipalities_names[index]
         self.projectdesc = self.guideSearchDescription.text()
-        self.Project.createProject(index, self.projectdesc)
+        self.Project.createProject(index, self.projectdesc, version)
 
     def municipalitySearch(self, textBox):
         """Tries to find municipallity in list and zoom to coordinates of it."""
@@ -315,13 +315,20 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.municipalitySearch(self.msearch)
 
     def runGuideMunicipalitySearch(self):
+        if not self.guideTestSearch.isChecked() and not self.guideRealSearch.isChecked():
+            QMessageBox.information(self.iface.mainWindow(), QApplication.translate("Patrac", "Missing input", None), QApplication.translate("Patrac", "You have to select type of the search", None))
+            return
+
         municipalityindex = self.municipalitySearch(self.guideMunicipalitySearch)
 
         if municipalityindex < 0:
             return
 
         # generate project
-        self.runCreateProjectGuide(municipalityindex)
+        version = 0
+        if self.guideRealSearch.isChecked():
+            version = 1
+        self.runCreateProjectGuide(municipalityindex, version)
 
         # set mista to editing mode
         self.currentTool = self.iface.mapCanvas().mapTool()

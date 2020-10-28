@@ -188,7 +188,7 @@ class Project(object):
         else:
             return True
 
-    def createProject(self, index, desc):
+    def createProject(self, index, desc, version):
         # Check if the project has okresy_pseudo.shp
 
         QgsMessageLog.logMessage("CREATING PROJECT", "Patrac")
@@ -266,7 +266,7 @@ class Project(object):
         self.zoomToExtent(XMIN, YMIN, XMAX, YMAX)
 
         self.widget.Sectors.recalculateSectors(True, False)
-        self.createNewSearch(name, desc, region)
+        self.createNewSearch(name, desc, region, version)
         self.widget.settingsdlg.updateSettings()
         self.saveRegion(region, NEW_PROJECT_PATH)
         self.saveExtent(XMIN, YMIN, XMAX, YMAX, NEW_PROJECT_PATH)
@@ -299,10 +299,10 @@ class Project(object):
             self.canvas.setExtent(extent)
         self.canvas.refresh()
 
-    def createNewSearch(self, name, desc, region):
+    def createNewSearch(self, name, desc, region, version):
         QgsMessageLog.logMessage("Vytvářím nové pátrání: " + name + " " + region, "Patrac")
         searchid = self.createSearchId(name)
-        self.createSearchOnServer(searchid, name, desc, region)
+        self.createSearchOnServer(searchid, name, desc, region, version)
 
     def createSearchId(self, name):
         dirname = self.getSafeDirectoryName(name.split(" ")[0])
@@ -316,11 +316,11 @@ class Project(object):
         f.close()
         return searchid20
 
-    def createSearchOnServer(self, searchid, name, desc, region):
+    def createSearchOnServer(self, searchid, name, desc, region, version):
         escaped_name = quote(name.encode('utf-8'))
         escaped_desc = quote(desc.encode('utf-8'))
         url = self.serverUrl + 'search.php?operation=createnewsearch&id=' + self.systemid + '&searchid=' \
-              + searchid + '&name=' + escaped_name + '&desc=' + escaped_desc + '&region=' + region
+              + searchid + '&name=' + escaped_name + '&desc=' + escaped_desc + '&region=' + region + '&version=' + str(version)
         self.createSearch = Connect()
         self.createSearch.setUrl(url)
         self.createSearch.statusChanged.connect(self.onCreateSearchOnServerResponse)
