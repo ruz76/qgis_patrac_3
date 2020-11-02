@@ -44,15 +44,32 @@ class PointMapTool(QgsMapTool):
 
   def addToCanvas(self, point):
       layer = QgsVectorLayer("Point", "result", "memory")
+      crs = QgsCoordinateReferenceSystem("EPSG:5514")
+      layer.setCrs(crs)
       pr = layer.dataProvider()
+      field = QgsField("note", QVariant.String)
+      field.setLength(50)
+      pr.addAttributes([field])
+      layer.updateFields()
       f = QgsFeature()
       f.setGeometry(QgsGeometry.fromPointXY(point))
+      f.setAttributes(["NOP"])
       pr.addFeature(f)
       layer.updateExtents()
+      self.saveLayer(layer)
+
+  def saveLayer(self, layer):
       crs = QgsCoordinateReferenceSystem("EPSG:5514")
       QgsVectorFileWriter.writeAsVectorFormat(layer, self.Utils.getDataPath() + "/pracovni/result.shp",
                                               "utf-8", crs, "ESRI Shapefile")
-      self.Utils.addVectorLayer(self.Utils.getDataPath() + "/pracovni/result.shp", "result")
+
+      vector = QgsVectorLayer(self.Utils.getDataPath() + "/pracovni/result.shp", "Nález", "ogr")
+      if not vector.isValid():
+          QgsMessageLog.logMessage("Vrstvu " + path + " se nepodařilo načíst", "Patrac")
+      else:
+          settingsPath = self.widget.pluginPath + "/../../../qgis_patrac_settings"
+          vector.loadNamedStyle(settingsPath + '/styles/result.qml')
+          QgsProject.instance().addMapLayer(vector)
 
   def canvasReleaseEvent(self, e):
       if self.point is not None:
