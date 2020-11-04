@@ -108,7 +108,7 @@ class Printing(object):
         exporter = QgsLayoutExporter(layout)
         exporter.exportToPdf(path + "report.pdf", QgsLayoutExporter.PdfExportSettings())
         #self.exportTiles(composer_map.extent(), path, 50)
-        #composer_map.zoomToExtent(extent)
+        composer_map.zoomToExtent(extent)
         self.exportTiles(composer_map.extent(), path, 25)
         composer_map.zoomToExtent(extent)
         self.exportTiles(composer_map.extent(), path, 10)
