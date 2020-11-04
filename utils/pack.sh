@@ -62,6 +62,7 @@ cp $PLUGIN_PATH/*.md qgis_patrac/
 cp $PLUGIN_PATH/metadata.txt qgis_patrac/
 cp $PLUGIN_PATH/RELEASE qgis_patrac/
 cp $PLUGIN_PATH/settings.db qgis_patrac/
+cp $PLUGIN_PATH/templates/projekt/clean_v3.qgs qgis_patrac/templates/projekt/
 
 rm qgis_patrac.$PREFIX"."$ID.zip
 zip -r qgis_patrac.$PREFIX"."$ID.zip qgis_patrac
