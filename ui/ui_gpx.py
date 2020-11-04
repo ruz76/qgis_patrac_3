@@ -275,6 +275,8 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
                     listViewModelCurrent.item(i).setText(listViewModelCurrent.item(i).text() + " -> !!!" + self.tr("Problem with loading track") + "!!!")
             i += 1
 
+        QMessageBox.information(None, self.tr("INFO"), self.tr("Loading tracks finished."))
+
     def loadTrack(self, track_id, dir_name):
         shutil.copyfile(self.DATAPATH + '/search/temp/' + track_id + '.gpx', self.DATAPATH + '/search/gpx/' + dir_name + '/' + track_id + '.gpx')
         vector = QgsVectorLayer(self.DATAPATH + '/search/gpx/' + dir_name + '/' + track_id + '.gpx' + '|layername=tracks', dir_name + '_track_' + track_id, 'ogr')
