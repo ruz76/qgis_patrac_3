@@ -106,6 +106,7 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
         for drive in drives:
             if os.path.exists(drive + "Garmin/GPX"):
                 drives_out.append(drive)
+        return drives_out
 
     def getDrive(self):
         """Shows list of Windows drives"""
