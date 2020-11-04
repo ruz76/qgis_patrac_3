@@ -286,7 +286,13 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
         else:
             if vector.featureCount() > 0:
                 vector.loadNamedStyle(self.DATAPATH + '/search/shp/style.qml')
-                QgsProject.instance().addMapLayer(vector)
+                QgsProject.instance().addMapLayer(vector, False)
+                root = QgsProject.instance().layerTreeRoot()
+                sektory_current_gpx = root.findGroup(dir_name)
+                if sektory_current_gpx is None:
+                    sektory_current_gpx = root.insertGroup(0, dir_name)
+                sektory_current_gpx.addLayer(vector)
+                sektory_current_gpx.setExpanded(False)
                 return True
             else:
                 QMessageBox.information(None, self.tr("INFO"), self.tr("There are not any tracks in the GPX."))
