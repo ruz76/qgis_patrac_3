@@ -654,7 +654,8 @@ class Sectors(object):
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
         with open(DATAPATH + '/sektory/html/' + feature['id'] + '.html', 'w+') as f:
-            print('*****' + feature['id'] + '*****')
+            # print('*****' + feature['id'] + '*****')
+            f.write('<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"></head><body>')
             f.write("<h1>" + QApplication.translate("Patrac", "SECTOR", None) + " " + feature['label'] + " (" + str(feature['area_ha']) + " ha)</h1>" + "\n")
             f.write(report)
             f.write("<h2>" + QApplication.translate("Patrac", "Map lists where the sector is present", None) + "</h2>")
@@ -677,6 +678,7 @@ class Sectors(object):
 
             f.write("<h2>" + QApplication.translate("Patrac", "GPS file with drawn sector", None) + "</h2>")
             f.write('<a href="../gpx/' + feature['id'] + '.gpx">' + feature['id'] + '.gpx</a>\n')
+            f.write("</body></html>")
 
     def reportExportSectors(self, openReport, exportPDF):
         """Creates report and exports sectors to SHP and GPX"""
