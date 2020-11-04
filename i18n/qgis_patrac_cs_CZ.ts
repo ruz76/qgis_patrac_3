@@ -469,7 +469,7 @@
         <translation>Chybný projekt. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="558"/>
+        <location filename="../patracdockwidget.py" line="559"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
@@ -534,12 +534,12 @@
         <translation>Pro daný kraj nemám k dispozici data. Nemám data nemohu pokračovat.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1263"/>
+        <location filename="../patracdockwidget.py" line="1311"/>
         <source>Can not connect to the server.</source>
         <translation>Nemohu se spojit se serverem.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1270"/>
+        <location filename="../patracdockwidget.py" line="1318"/>
         <source>Wrong project.</source>
         <translation>Chybný projekt. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.</translation>
     </message>
@@ -569,72 +569,72 @@
         <translation type="obsolete">J-V</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1263"/>
+        <location filename="../patracdockwidget.py" line="1311"/>
         <source>Error</source>
         <translation>CHYBA</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="248"/>
+        <location filename="../patracdockwidget.py" line="249"/>
         <source>Can not find web browser to open help</source>
         <translation>Nemohu otevřít WWW prohlížeč k načtení nápovědy</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="312"/>
+        <location filename="../patracdockwidget.py" line="313"/>
         <source>Wrong municipality</source>
         <translation>Chybná obec</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="312"/>
+        <location filename="../patracdockwidget.py" line="313"/>
         <source>The municipality has not been found</source>
         <translation>Obec nebyla nalezena</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="345"/>
+        <location filename="../patracdockwidget.py" line="346"/>
         <source>Step</source>
         <translation>Krok</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="345"/>
+        <location filename="../patracdockwidget.py" line="346"/>
         <source>You skipped the step. Do you want to continue?</source>
         <translation>Přeskočili jste krok v průvodci. Chcete pokračovat?</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="479"/>
+        <location filename="../patracdockwidget.py" line="480"/>
         <source>No probability layer. Can not continue.</source>
         <translation>Nemohu najít vrstvu pravděpodobnosti. Nemohu pokračovat.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="510"/>
+        <location filename="../patracdockwidget.py" line="511"/>
         <source>Can not find web browser to open report</source>
         <translation>Nemohu otevřít WWW prohlížeč k načtení reportu</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="540"/>
+        <location filename="../patracdockwidget.py" line="541"/>
         <source>Did not find GPS. You have to copy GPX manually from the report.</source>
         <translation>Nenašel jsem připojenou GPS. Soubor musite uložit z reportu ručně.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="544"/>
+        <location filename="../patracdockwidget.py" line="545"/>
         <source>select input dialog</source>
         <translation>Vyberte</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="544"/>
+        <location filename="../patracdockwidget.py" line="545"/>
         <source>list of drives</source>
         <translation>Seznam disků</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="558"/>
+        <location filename="../patracdockwidget.py" line="559"/>
         <source>The sectors has been copied into the device: </source>
         <translation>Sektory byly zkopírovány do zařízení</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="560"/>
+        <location filename="../patracdockwidget.py" line="561"/>
         <source>Can not copy. You have copy it manually from the path: </source>
         <translation>Při kopírování sektorů došlo k chybě. Zkopírujte přes správce souborů z cesty:</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="696"/>
+        <location filename="../patracdockwidget.py" line="697"/>
         <source>No probability layer. Please try step 3 again.</source>
         <translation>Projekt neobsahuje vrstvu pravděpodobnosti. Zkuste prosím znovu použít krok 3 v průvodci.</translation>
     </message>
@@ -649,22 +649,22 @@
         <translation type="obsolete">Nedostupné</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1163"/>
+        <location filename="../patracdockwidget.py" line="1196"/>
         <source>Tracks are empty.</source>
         <translation>Stopy jsou prázdné.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1256"/>
+        <location filename="../patracdockwidget.py" line="1304"/>
         <source>Problem to read data from: </source>
         <translation>Problém s načtením dat z databáze</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1237"/>
+        <location filename="../patracdockwidget.py" line="1285"/>
         <source>Positions are empty.</source>
         <translation>Pozice jsou prázdné.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1270"/>
+        <location filename="../patracdockwidget.py" line="1318"/>
         <source>CHYBA:</source>
         <translation>CHYBA:</translation>
     </message>
@@ -719,12 +719,12 @@
         <translation>DATA TEST DOKONČEN</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="877"/>
+        <location filename="../patracdockwidget.py" line="878"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="877"/>
+        <location filename="../patracdockwidget.py" line="878"/>
         <source>Click into the map at the place of finding. If you finishing without finding, click anywhere into map.</source>
         <translation>Klikněte do mapy na místo nálzeu. Pokud ukončujete bez nálezu, klikněte na libovolné místo v mapě.</translation>
     </message>
@@ -794,14 +794,19 @@
         <translation>Pokud nevidíte odkazy na PDF soubory, znamená to, že ještě nebyly vygenerovány. Použijte zaškrrtávací tlačítko na posledním kroku průvodce a zobrazte reprt znovu.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="322"/>
+        <location filename="../patracdockwidget.py" line="323"/>
         <source>Missing input</source>
         <translation>Chybějící vstup</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="322"/>
+        <location filename="../patracdockwidget.py" line="323"/>
         <source>You have to select type of the search</source>
         <translation>Musíte zadat typ pátrání</translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="1168"/>
+        <source>Online tracks</source>
+        <translation>Online stopy</translation>
     </message>
 </context>
 <context>
@@ -1054,12 +1059,12 @@
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="451"/>
         <source>Click into the map for report of the last seen.</source>
-        <translation type="unfinished">Klikněte do mapy, kde máte hlášení o spatření osoby. Kliknout můžete vícekrát. Mapu si můžete přiblížit, ale následně je nutné se přepnout zpět na aktuálně aktivní ikonu.  Následně dojde k určení pravděpodobnosti výskytu. Výpočet může trvat i několik minut.</translation>
+        <translation>Klikněte do mapy, kde máte hlášení o spatření osoby. Kliknout můžete vícekrát. Mapu si můžete přiblížit, ale následně je nutné se přepnout zpět na aktuálně aktivní ikonu.  Následně dojde k určení pravděpodobnosti výskytu. Výpočet může trvat i několik minut.</translation>
     </message>
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="424"/>
         <source>Select type of the person</source>
-        <translation type="unfinished">Vyberte typ pohřešované osoby.</translation>
+        <translation>Vyberte typ pohřešované osoby</translation>
     </message>
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="430"/>
@@ -1346,12 +1351,12 @@
         <translation>Nebyl nalezen žádný záznam</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="292"/>
+        <location filename="../ui/ui_gpx.py" line="300"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="292"/>
+        <location filename="../ui/ui_gpx.py" line="300"/>
         <source>There are not any tracks in the GPX.</source>
         <translation>Soubory GPX neobsahují žádné stopy.</translation>
     </message>
@@ -1379,6 +1384,11 @@
         <location filename="../ui/ui_gpx.py" line="277"/>
         <source>Problem with loading track</source>
         <translation>Problém s načtením stopy</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_gpx.py" line="280"/>
+        <source>Loading tracks finished.</source>
+        <translation>Načtení stop dokončeno.</translation>
     </message>
 </context>
 <context>

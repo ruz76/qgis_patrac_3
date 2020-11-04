@@ -441,7 +441,7 @@
         <translation>Wrong project</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="558"/>
+        <location filename="../patracdockwidget.py" line="559"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
@@ -506,12 +506,12 @@
         <translation>Do not have data for seleted region. Can not continue.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1263"/>
+        <location filename="../patracdockwidget.py" line="1311"/>
         <source>Can not connect to the server.</source>
         <translation>Can not connect to the server.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1270"/>
+        <location filename="../patracdockwidget.py" line="1318"/>
         <source>Wrong project.</source>
         <translation>Wrong project.</translation>
     </message>
@@ -541,72 +541,72 @@
         <translation type="obsolete">S-E</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1263"/>
+        <location filename="../patracdockwidget.py" line="1311"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="248"/>
+        <location filename="../patracdockwidget.py" line="249"/>
         <source>Can not find web browser to open help</source>
         <translation>Can not find web browser to open help</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="312"/>
+        <location filename="../patracdockwidget.py" line="313"/>
         <source>Wrong municipality</source>
         <translation>Wrong municipality</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="312"/>
+        <location filename="../patracdockwidget.py" line="313"/>
         <source>The municipality has not been found</source>
         <translation>The municipality has not been found</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="345"/>
+        <location filename="../patracdockwidget.py" line="346"/>
         <source>Step</source>
         <translation>Step</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="345"/>
+        <location filename="../patracdockwidget.py" line="346"/>
         <source>You skipped the step. Do you want to continue?</source>
         <translation>You skipped the step. Do you want to continue?</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="479"/>
+        <location filename="../patracdockwidget.py" line="480"/>
         <source>No probability layer. Can not continue.</source>
         <translation>No probability layer. Can not continue.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="510"/>
+        <location filename="../patracdockwidget.py" line="511"/>
         <source>Can not find web browser to open report</source>
         <translation>Can not find web browser to open report</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="540"/>
+        <location filename="../patracdockwidget.py" line="541"/>
         <source>Did not find GPS. You have to copy GPX manually from the report.</source>
         <translation>Did not find GPS. You have to copy GPX manually from the report.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="544"/>
+        <location filename="../patracdockwidget.py" line="545"/>
         <source>select input dialog</source>
         <translation>Select</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="544"/>
+        <location filename="../patracdockwidget.py" line="545"/>
         <source>list of drives</source>
         <translation>List of drives</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="558"/>
+        <location filename="../patracdockwidget.py" line="559"/>
         <source>The sectors has been copied into the device: </source>
         <translation>The sectors has been copied into the device: </translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="560"/>
+        <location filename="../patracdockwidget.py" line="561"/>
         <source>Can not copy. You have copy it manually from the path: </source>
         <translation>Can not copy. You have copy it manually from the path: </translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="696"/>
+        <location filename="../patracdockwidget.py" line="697"/>
         <source>No probability layer. Please try step 3 again.</source>
         <translation>No probability layer. Please try step 3 again.</translation>
     </message>
@@ -621,22 +621,22 @@
         <translation type="obsolete">Not available</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1163"/>
+        <location filename="../patracdockwidget.py" line="1196"/>
         <source>Tracks are empty.</source>
         <translation>Tracks are empty.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1256"/>
+        <location filename="../patracdockwidget.py" line="1304"/>
         <source>Problem to read data from: </source>
         <translation>Problem to read data from: </translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1237"/>
+        <location filename="../patracdockwidget.py" line="1285"/>
         <source>Positions are empty.</source>
         <translation>Positions are empty.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1270"/>
+        <location filename="../patracdockwidget.py" line="1318"/>
         <source>CHYBA:</source>
         <translation>ERROR:</translation>
     </message>
@@ -691,12 +691,12 @@
         <translation>DATA TEST FINISHED</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="877"/>
+        <location filename="../patracdockwidget.py" line="878"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="877"/>
+        <location filename="../patracdockwidget.py" line="878"/>
         <source>Click into the map at the place of finding. If you finishing without finding, click anywhere into map.</source>
         <translation>Click into the map at the place of finding. If you finishing without finding, click anywhere into map.</translation>
     </message>
@@ -766,14 +766,19 @@
         <translation>If you do not see links to PDF files for print, the files were not generated. Please use checkbox on last card in the guide and show report again.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="322"/>
+        <location filename="../patracdockwidget.py" line="323"/>
         <source>Missing input</source>
         <translation>Missing input</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="322"/>
+        <location filename="../patracdockwidget.py" line="323"/>
         <source>You have to select type of the search</source>
         <translation>You have to select type of the search</translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="1168"/>
+        <source>Online tracks</source>
+        <translation>Online tracks</translation>
     </message>
 </context>
 <context>
@@ -1318,12 +1323,12 @@
         <translation>No records found</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="292"/>
+        <location filename="../ui/ui_gpx.py" line="300"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="292"/>
+        <location filename="../ui/ui_gpx.py" line="300"/>
         <source>There are not any tracks in the GPX.</source>
         <translation>There are not any tracks in the GPX.</translation>
     </message>
@@ -1351,6 +1356,11 @@
         <location filename="../ui/ui_gpx.py" line="277"/>
         <source>Problem with loading track</source>
         <translation>Problem with loading track</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_gpx.py" line="280"/>
+        <source>Loading tracks finished.</source>
+        <translation>Loading tracks finished.</translation>
     </message>
 </context>
 <context>

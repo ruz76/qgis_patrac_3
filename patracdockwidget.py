@@ -53,6 +53,7 @@ from .main.styles import Styles
 from os import path
 
 import os, sys, subprocess, time, math, socket
+import urllib.parse
 
 from datetime import datetime, timedelta
 from shutil import copy
@@ -1110,10 +1111,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             searchid = f.read()
         return searchid
 
-    def addFeaturePolyLineFromPoints(self, points, cols, provider):
+    def addFeaturePolyLineFromPoints(self, points, cols, end_time, provider):
         fet = QgsFeature()
         # Name and sessionid are on first and second place
-        fet.setAttributes([str(cols[0]), str(cols[1]), str(cols[2]), str(cols[3])])
+        fet.setAttributes([str(cols[0]), str(end_time), str(cols[2]), str(cols[3])])
         # Geometry is on third and fourth places
         if len(points) > 1:
             line = QgsGeometry.fromPolylineXY(points)
@@ -1123,48 +1124,86 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def showPeopleTracks(self):
         """Shows tracks of logged positions in map"""
         # Check if the project has patraci_lines.shp
-        if not self.Utils.checkLayer("/pracovni/patraci_lines.shp"):
+        if not self.Utils.checkLayer("/pracovni/patraci.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
                                                                  QApplication.translate("Patrac", "Wrong project.", None))
             return
 
+        prjfi = QFileInfo(QgsProject.instance().fileName())
+        DATAPATH = prjfi.absolutePath()
+        url = self.serverUrl + 'track.php?searchid=' + self.getSearchID()
+        if os.path.exists(DATAPATH + "/pracovni/lasttrackcheck.txt"):
+            with open(DATAPATH + "/pracovni/lasttrackcheck.txt", "r") as f:
+                start_from = f.read()
+                url += "&start_from=" + urllib.parse.quote(start_from)
+
         self.tracks = Connect()
-        self.tracks.setUrl(self.serverUrl + 'track.php?searchid=' + self.getSearchID())
+        self.tracks.setUrl(url)
         self.tracks.setTimeout(20)
         self.tracks.statusChanged.connect(self.onShowPeopleTractResponse)
         self.tracks.start()
 
+    def getProviderAndLayerForTrack(self, DATAPATH, sessionid, username):
+        layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if DATAPATH + "/search/shp/" + sessionid + ".shp" in lyr.source():
+                layer = lyr
+                break
+        if layer is None:
+            self.Utils.copyOnlineTrackLayer(DATAPATH, sessionid)
+            layer = QgsVectorLayer(DATAPATH + "/search/shp/" + sessionid + ".shp", 'ogr')
+            if not layer.isValid():
+                QgsMessageLog.logMessage("Layer " + DATAPATH + "/search/shp/" + sessionid + ".shp" + " failed to load!", "Patrac")
+                return []
+            else:
+                layer.setName(username)
+                crs = QgsCoordinateReferenceSystem("EPSG:4326")
+                layer.setCrs(crs)
+                QgsProject.instance().addMapLayer(layer, False)
+                layer.loadNamedStyle(DATAPATH + '/search/shp/style.qml')
+                root = QgsProject.instance().layerTreeRoot()
+                group_name = QApplication.translate("Patrac", "Online tracks", None)
+                sektory_current_gpx = root.findGroup(group_name)
+                if sektory_current_gpx is None:
+                    sektory_current_gpx = root.insertGroup(0, group_name)
+                sektory_current_gpx.addLayer(layer)
+                sektory_current_gpx.setExpanded(False)
+
+        if layer is not None:
+            provider = layer.dataProvider()
+            return [provider, layer]
+        else:
+            return []
+
     def onShowPeopleTractResponse(self, response):
         if response.status == 200:
+            locations = response.data.read().decode("utf-8")
             prjfi = QFileInfo(QgsProject.instance().fileName())
             DATAPATH = prjfi.absolutePath()
-            layer = None
-            for lyr in list(QgsProject.instance().mapLayers().values()):
-                if DATAPATH + "/pracovni/patraci_lines.shp" in lyr.source():
-                    layer = lyr
-                    break
-            provider = layer.dataProvider()
-            features = provider.getFeatures()
-            sectorid = 0
-            locations = response.data.read().decode("utf-8")
             # print(locations)
             if "Error" in locations:
                 self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
                 # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
                 return
-            listOfIds = [feat.id() for feat in layer.getFeatures()]
+            # listOfIds = [feat.id() for feat in layer.getFeatures()]
             # Splits to lines
             lines = locations.split("\n")
-            if len(lines) < 1 or len(lines[0]) < 10:
+            if len(lines) < 2 or len(lines[1]) < 10:
                 # Wrong response
                 self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Tracks are empty.", None), level=Qgis.Warning)
                 return
             # Deletes all features in layer patraci.shp
-            layer.startEditing()
-            layer.deleteFeatures(listOfIds)
-            layer.commitChanges()
+            # layer.deleteFeatures(listOfIds)
+            # layer.commitChanges()
             # Loops the lines
+            firstLine = True
+            end_time = ""
             for line in lines:
+                if firstLine and len(line) > 18:
+                    with open(DATAPATH + "/pracovni/lasttrackcheck.txt", "w") as f:
+                        f.write(line[:19])
+                        end_time = line[:19]
+                    firstLine = False
                 if line != "":  # add other needed checks to skip titles
                     # Splits based on semicolon
                     # TODO - add time
@@ -1186,10 +1225,18 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                                 pass
                         position = position + 1
                     if len(points) > 1:
-                        # print(points)
-                        self.addFeaturePolyLineFromPoints(points, cols, provider)
-            layer.commitChanges()
-            layer.triggerRepaint()
+                        print("*****" + cols[0])
+                        print(points)
+                        provider_layer = self.getProviderAndLayerForTrack(DATAPATH, cols[0], cols[3])
+                        if len(provider_layer) < 2:
+                            # some error occured
+                            continue
+                        provider = provider_layer[0]
+                        layer = provider_layer[1]
+                        layer.startEditing()
+                        self.addFeaturePolyLineFromPoints(points, cols, end_time, provider)
+                        layer.commitChanges()
+                        layer.triggerRepaint()
         else:
             self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
 

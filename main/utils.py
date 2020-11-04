@@ -68,6 +68,11 @@ class Utils(object):
                 QgsProject.instance().removeMapLayer(layer)
         return
 
+    def copyOnlineTrackLayer(self, DATAPATH, name):
+        copy(DATAPATH + "/pracovni/patraci_lines.shp", DATAPATH + "/search/shp/" + name + ".shp")
+        copy(DATAPATH + "/pracovni/patraci_lines.shx", DATAPATH + "/search/shp/" + name + ".shx")
+        copy(DATAPATH + "/pracovni/patraci_lines.dbf", DATAPATH + "/search/shp/" + name + ".dbf")
+
     def copyLayer(self, DATAPATH, name):
         copy(DATAPATH + "/sektory/shp/template.shp", DATAPATH + "/sektory/shp/" + name + ".shp")
         copy(DATAPATH + "/sektory/shp/template.shx", DATAPATH + "/sektory/shp/" + name + ".shx")
