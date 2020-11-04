@@ -72,7 +72,7 @@ gsetup.init(gisbase,
 MIN=str(sys.argv[3])
 MAX=str(sys.argv[4])
 
-print(gscript.read_command('v.in.ogr', output='sectors_group_modified', input=DATAPATH +'/pracovni', layer='sektory_group', snap=1, overwrite=True, flags="o"))
+print(gscript.read_command('v.in.ogr', output='sectors_group_modified', input=DATAPATH +'/pracovni', layer='sektory_group', snap=0.01, overwrite=True, flags="o"))
 print(gscript.read_command('r.mapcalc', expression='distances_costed_cum_selected = if(distances_costed_cum<='+MIN+'||distances_costed_cum>='+MAX+', null(), 1)', overwrite=True))
 print(gscript.read_command('r.to.vect', input='distances_costed_cum_selected',  output='distances_costed_cum_selected', type='area', overwrite=True))
 print(gscript.read_command('v.select', ainput='sectors_group_modified', binput='distances_costed_cum_selected', output='sektory_group_selected', overwrite=True))

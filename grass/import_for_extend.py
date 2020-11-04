@@ -98,12 +98,12 @@ os.remove(DATAPATH+'/grassdata/dem.bin')
 
 #If the data are from ZABAGED
 if os.path.isfile(DATAINPUTPATH+'/vektor/ZABAGED/line_x/merged_polygons_groupped.shp'):
-    print(gscript.read_command('v.in.ogr', output='sectors_group_to_append', input=DATAINPUTPATH+'/vektor/ZABAGED/line_x', layer='merged_polygons_groupped', spatial=str(XMIN)+','+str(YMIN)+','+str(XMAX)+','+str(YMAX), overwrite=True, flags="o"))
+    print(gscript.read_command('v.in.ogr', output='sectors_group_to_append', input=DATAINPUTPATH+'/vektor/ZABAGED/line_x', layer='merged_polygons_groupped', snap=0.01, spatial=str(XMIN)+','+str(YMIN)+','+str(XMAX)+','+str(YMAX), overwrite=True, flags="o"))
     print(gscript.read_command('r.reclass', input='landuse', output='landuse_type', rules=PLUGIN_PATH+'/grass/landuse_type_zbg.rules', overwrite=True))
 
 #If the data are from OSM
 if os.path.isfile(DATAINPUTPATH+'/vektor/OSM/line_x/merged_polygons_groupped.shp'):
-    print(gscript.read_command('v.in.ogr', output='sectors_group_to_append', input=DATAINPUTPATH+'/vektor/OSM/line_x', layer='merged_polygons_groupped', spatial=str(XMIN)+','+str(YMIN)+','+str(XMAX)+','+str(YMAX), overwrite=True, flags="o"))
+    print(gscript.read_command('v.in.ogr', output='sectors_group_to_append', input=DATAINPUTPATH+'/vektor/OSM/line_x', layer='merged_polygons_groupped', snap=0.01, spatial=str(XMIN)+','+str(YMIN)+','+str(XMAX)+','+str(YMAX), overwrite=True, flags="o"))
     print(gscript.read_command('r.reclass', input='landuse', output='landuse_type', rules=PLUGIN_PATH+'/grass/landuse_type_osm.rules', overwrite=True))
 
 
