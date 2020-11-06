@@ -217,9 +217,9 @@ class ProgressMapTool(QgsMapTool):
                 return
             buffer_union = self.analyzeTrackDouble(selectedLayers, sector)
         else:
-            print(selectedLayers[0].geometryType())
-            print(selectedLayers[0].crs().authid())
-            print(selectedLayers[0].type())
+            # print(selectedLayers[0].geometryType())
+            # print(selectedLayers[0].crs().authid())
+            # print(selectedLayers[0].type())
             if len(selectedLayers) != 1:
                 QMessageBox.information(None, self.tr("CHYBA:"), self.tr("Yout have to select just one layer."))
                 return
