@@ -212,18 +212,21 @@ class ProgressMapTool(QgsMapTool):
             if selectedLayers[0] != None and selectedLayers[0].crs().authid() != "EPSG:4326" and selectedLayers[1] != None and selectedLayers[1].crs().authid() != "EPSG:4326":
                 QMessageBox.information(None, self.tr("CHYBA:"), self.tr("Selected layers are not tracks."))
                 return
-            if selectedLayers[0].type() != 0 or selectedLayers[0].geometryType() != 1 or selectedLayers[1].type() != 0 or selectedLayers[1].geometryType() != 1:
+            if selectedLayers[0].type() != QgsMapLayerType.VectorLayer or selectedLayers[0].geometryType() != 1 or selectedLayers[1].type() != QgsMapLayerType.VectorLayer or selectedLayers[1].geometryType() != 1:
                 QMessageBox.information(None, self.tr("CHYBA:"), self.tr("Selected layers are not tracks."))
                 return
             buffer_union = self.analyzeTrackDouble(selectedLayers, sector)
         else:
+            print(selectedLayers[0].geometryType())
+            print(selectedLayers[0].crs().authid())
+            print(selectedLayers[0].type())
             if len(selectedLayers) != 1:
                 QMessageBox.information(None, self.tr("CHYBA:"), self.tr("Yout have to select just one layer."))
                 return
             if selectedLayers[0] != None and selectedLayers[0].crs().authid() != "EPSG:4326":
                 QMessageBox.information(None, self.tr("CHYBA:"), self.tr("Selected layer is not track."))
                 return
-            if selectedLayers[0].type() != 0 or selectedLayers[0].geometryType() != 1:
+            if selectedLayers[0].type() != QgsMapLayerType.VectorLayer or selectedLayers[0].geometryType() != 1:
                 QMessageBox.information(None, self.tr("CHYBA:"), self.tr("Selected layer is not track."))
                 return
             provider = selectedLayers[0].dataProvider()
