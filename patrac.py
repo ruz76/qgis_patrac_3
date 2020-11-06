@@ -314,6 +314,10 @@ class PatracPlugin(object):
     def showWidget(self):
         self.dockWidget.show()
         self.hideToolbars()
+        for x in self.iface.mainWindow().findChildren(QDockWidget):
+            if x.objectName() == 'Layers' or x.objectName() == 'PatracDockWidget':
+                x.setVisible(True)
+                x.setFloating(False)
 
     def layerChanged(self):
         self.layer = self.iface.activeLayer()
