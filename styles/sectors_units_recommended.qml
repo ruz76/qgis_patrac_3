@@ -924,6 +924,7 @@ def my_form_open(dialog, layer, feature):
         [% CASE WHEN "prostredky" IS NULL THEN '' END %]
         Od: [% "od_cas" %]&lt;br/>
         Do: [% "do_cas" %]&lt;br/>
+        Poznámka: [% "poznamka" %]&lt;br/>
         [% concat('&lt;a href="file:///', @project_folder, '/sektory/html/', "id", '.html">Další&lt;/a>') %]
         </mapTip>
   <layerGeometryType>2</layerGeometryType>
