@@ -496,7 +496,7 @@ class Sectors(object):
         if len(selectedLayers) > 1:
             QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "You have to select line layer.", None))
             return
-        if selectedLayers[0].type() != 0 or selectedLayers[0].geometryType() != 1:
+        if selectedLayers[0].type() != QgsMapLayerType.VectorLayer or selectedLayers[0].geometryType() != 1:
             QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "Selected layer is not line layer.", None))
             return
         return "OK"
