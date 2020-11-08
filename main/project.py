@@ -116,9 +116,9 @@ class Project(object):
 
     def getSafeDirectoryName(self, name):
         name = name.lower()
-        replace = ['a', 'c', 'd', 'e', 'e', 'i', 'n', 'o', 'r', 's', 't', 'u', 'u', 'y', 'z', '_', '_', '_', '_', '_']
+        replace = ['a', 'c', 'd', 'e', 'e', 'i', 'n', 'o', 'r', 's', 't', 'u', 'u', 'y', 'z', '_', '_', '_', '_', '_', '_']
         position = 0
-        for ch in ['á', 'č', 'ď', 'ě', 'é', 'í', 'ň', 'ó', 'ř', 'š', 'ť', 'ú', 'ů', 'ý', 'ž', ' ', '(', ')', '.', ':']:
+        for ch in ['á', 'č', 'ď', 'ě', 'é', 'í', 'ň', 'ó', 'ř', 'š', 'ť', 'ú', 'ů', 'ý', 'ž', ' ', '(', ')', '.', ':', ',']:
             if ch in name:
                 name = name.replace(ch, replace[position])
             position = position + 1
