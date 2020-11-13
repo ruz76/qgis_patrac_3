@@ -1,5 +1,23 @@
 # Changelog 
 
+## Version 3.12.21 (2020-11-08)
+
+#### Bug Fixes
+* 63
+* 47
+* Windows like URL
+* 27
+* 65
+* 73
+* Constant for layer type  
+
+#### Improvements
+* Label inside polygons
+* Message after tracks are loaded
+* Tracks merged into group
+* Filtered drive list
+* Added maptips
+
 ## Version 3.12.20 (2020-09-28)
 #### Improvements
 * Split by line
