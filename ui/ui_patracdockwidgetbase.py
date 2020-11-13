@@ -27,10 +27,10 @@ class Ui_PatracDockWidget(object):
 
         self.tabWidget = QTabWidget()
         self.tabGuide = QWidget()
-        self.tabWidget.addTab(self.tabGuide, QApplication.translate("PatracDockWidget", "Guide", None))
+        self.tabWidget.addTab(self.tabGuide, QApplication.translate("PatracDockWidget", "Plan", None))
 
         self.tabStyle = QWidget()
-        self.tabWidget.addTab(self.tabStyle, QApplication.translate("PatracDockWidget", "View", None))
+        self.tabWidget.addTab(self.tabStyle, QApplication.translate("PatracDockWidget", "Management", None))
 
         self.verticalLayoutStyle = QVBoxLayout(self.tabStyle)
         self.verticalLayoutStyle.setObjectName(_fromUtf8("verticalLayoutStyle"))
@@ -38,7 +38,7 @@ class Ui_PatracDockWidget(object):
         self.setUpStyles()
 
         self.tabProgress = QWidget()
-        self.tabWidget.addTab(self.tabProgress, QApplication.translate("PatracDockWidget", "State", None))
+        self.tabWidget.addTab(self.tabProgress, QApplication.translate("PatracDockWidget", "Action", None))
 
         self.verticalLayoutProgress = QVBoxLayout(self.tabProgress)
         self.verticalLayoutProgress.setObjectName(_fromUtf8("verticalLayoutProgress"))
@@ -47,7 +47,7 @@ class Ui_PatracDockWidget(object):
 
 
         self.tabExpert = QWidget()
-        self.tabWidget.addTab(self.tabExpert, QApplication.translate("PatracDockWidget", "Expert", None))
+        # self.tabWidget.addTab(self.tabExpert, QApplication.translate("PatracDockWidget", "Expert", None))
 
         self.verticalLayout = QVBoxLayout(self.tabExpert)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
@@ -62,15 +62,7 @@ class Ui_PatracDockWidget(object):
         self.tabGuide.setLayout(self.verticalGuideLayout)
 
         self.horizontalLayoutToolbar = QHBoxLayout()
-        self.horizontalLayoutToolbar.setObjectName(_fromUtf8("horizontalLayoutToolbar"))  
-
-        self.tbtnDefinePlaces = QPushButton(self.dockWidgetContents)
-        self.tbtnDefinePlaces.setObjectName(_fromUtf8("tbtnDefinePlaces"))  
-        self.tbtnDefinePlaces.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "define_places.png")));
-        self.tbtnDefinePlaces.setIconSize(QSize(32,32));
-        self.tbtnDefinePlaces.setFixedSize(QSize(42,42));
-        self.horizontalLayoutToolbar.addWidget(self.tbtnDefinePlaces)
-        self.tbtnDefinePlaces.setToolTip(QApplication.translate("PatracDockWidget", "Places management", None))
+        self.horizontalLayoutToolbar.setObjectName(_fromUtf8("horizontalLayoutToolbar"))
 
         self.tbtnGetSectors = QPushButton(self.dockWidgetContents)
         self.tbtnGetSectors.setObjectName(_fromUtf8("tbtnGetSectors"))  
@@ -168,14 +160,6 @@ class Ui_PatracDockWidget(object):
 
         self.horizontalLayoutToolbar_5 = QHBoxLayout()
         self.horizontalLayoutToolbar_5.setObjectName(_fromUtf8("horizontalLayoutToolbar_5"))
-
-        self.tbtnExtendRegion = QPushButton(self.dockWidgetContents)
-        self.tbtnExtendRegion.setObjectName(_fromUtf8("tbtnImportPaths"))
-        self.tbtnExtendRegion.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "extend_region.png")))
-        self.tbtnExtendRegion.setIconSize(QSize(32, 32))
-        self.tbtnExtendRegion.setFixedSize(QSize(42, 42))
-        self.horizontalLayoutToolbar_5.addWidget(self.tbtnExtendRegion)
-        self.tbtnExtendRegion.setToolTip(QApplication.translate("PatracDockWidget", "Extend area", None))
 
         self.tbtnShowSearchers = QPushButton(self.dockWidgetContents)
         self.tbtnShowSearchers.setObjectName(_fromUtf8("tbtnShowSearchers"))
@@ -363,6 +347,11 @@ class Ui_PatracDockWidget(object):
         self.verticalLayoutProgress.addWidget(self.horizontalSectorsAnalyzeTrackNumberOfPersonsContainer)
         self.horizontalSectorsAnalyzeTrackNumberOfPersonsContainer.setEnabled(False)
 
+        self.guideCopyGpx = QPushButton(self.dockWidgetContents)
+        self.guideCopyGpx.setObjectName(_fromUtf8("guideCopyGpx"))
+        self.guideCopyGpx.setText(QApplication.translate("PatracDockWidget", "Save sectors to GPS", None))
+        self.verticalLayoutProgress.addWidget(self.guideCopyGpx)
+
     def setGuideSteps(self):
         self.tabGuideSteps = QTabWidget()
         self.tabGuideStep1 = QWidget()
@@ -383,6 +372,9 @@ class Ui_PatracDockWidget(object):
         self.tabGuideStep6 = QWidget()
         self.tabGuideSteps.addTab(self.tabGuideStep6, "6")
         self.setGuideLayoutStep6()
+        self.tabGuideStep7 = QWidget()
+        self.tabGuideSteps.addTab(self.tabGuideStep7, QApplication.translate("PatracDockWidget", "Changes in the plan", None))
+        self.setGuideLayoutStep7()
         self.verticalGuideLayout.addWidget(self.tabGuideSteps)
         self.tabGuideSteps.setCurrentIndex(0)
 
@@ -437,6 +429,11 @@ class Ui_PatracDockWidget(object):
         self.guideComboPerson.addItem(QApplication.translate("PatracDockWidget", "Turist", None))
         self.guideComboPerson.addItem(QApplication.translate("PatracDockWidget", "Demention", None))
         self.verticalGuideLayoutStep2.addWidget(self.guideComboPerson)
+        self.guideLabel2Step2 = QLabel(self.dockWidgetContents)
+        self.guideLabel2Step2.setObjectName(_fromUtf8("guideLabel2Step2"))
+        self.guideLabel2Step2.setText(QApplication.translate("PatracDockWidget", "Guide Step 2 Note", None))
+        self.guideLabel2Step2.setWordWrap(True)
+        self.verticalGuideLayoutStep2.addWidget(self.guideLabel2Step2)
         self.guideStep2Next = QPushButton(self.dockWidgetContents)
         self.guideStep2Next.setObjectName(_fromUtf8("guideStep2Next"))
         self.guideStep2Next.setText(QApplication.translate("PatracDockWidget", "Next", None))
@@ -451,6 +448,32 @@ class Ui_PatracDockWidget(object):
         self.guideLabelStep3.setText(QApplication.translate("PatracDockWidget", "Click into the map for report of the last seen.", None))
         self.guideLabelStep3.setWordWrap(True)
         self.verticalGuideLayoutStep3.addWidget(self.guideLabelStep3)
+        self.guideLabel2Step3 = QLabel(self.dockWidgetContents)
+        self.guideLabel2Step3.setObjectName(_fromUtf8("guideLabel2Step3"))
+        self.guideLabel2Step3.setText(QApplication.translate("PatracDockWidget", "If you know the time you may specify it.", None))
+        self.guideLabel2Step3.setWordWrap(True)
+        self.verticalGuideLayoutStep3.addWidget(self.guideLabel2Step3)
+        self.guideLabel3Step3 = QLabel(self.dockWidgetContents)
+        self.guideLabel3Step3.setObjectName(_fromUtf8("guideLabel3Step3"))
+        self.guideLabel3Step3.setText(QApplication.translate("PatracDockWidget", "Guide Step 3 Note.", None))
+        self.guideLabel3Step3.setWordWrap(True)
+        self.verticalGuideLayoutStep3.addWidget(self.guideLabel3Step3)
+        self.horizontalGuideStep3AddFeature = QHBoxLayout()
+        self.horizontalGuideStep3AddFeature.setObjectName(_fromUtf8("horizontalGuideStep3AddFeature"))
+        self.guideLabel4Step3 = QLabel(self.dockWidgetContents)
+        self.guideLabel4Step3.setObjectName(_fromUtf8("guideLabel4Step3"))
+        self.guideLabel4Step3.setText(QApplication.translate("PatracDockWidget", "Return to point add.", None))
+        self.guideLabel4Step3.setWordWrap(True)
+        self.horizontalGuideStep3AddFeature.addWidget(self.guideLabel4Step3)
+        self.tbtnReturnToAddfeature = QPushButton(self.dockWidgetContents)
+        self.tbtnReturnToAddfeature.setObjectName(_fromUtf8("tbtnReturnToAddfeature"))
+        self.tbtnReturnToAddfeature.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "pointer.png")))
+        self.tbtnReturnToAddfeature.setIconSize(QSize(24, 24))
+        self.tbtnReturnToAddfeature.setFixedSize(QSize(30, 30))
+        self.tbtnReturnToAddfeature.setToolTip(QApplication.translate(
+            "PatracDockWidget", "Return to point add", None))
+        self.horizontalGuideStep3AddFeature.addWidget(self.tbtnReturnToAddfeature)
+        self.verticalGuideLayoutStep3.addLayout(self.horizontalGuideStep3AddFeature)
         self.guideStep3Next = QPushButton(self.dockWidgetContents)
         self.guideStep3Next.setObjectName(_fromUtf8("guideStep3Next"))
         self.guideStep3Next.setText(QApplication.translate("PatracDockWidget", "Next", None))
@@ -465,6 +488,11 @@ class Ui_PatracDockWidget(object):
         self.guideLabelStep4.setText(QApplication.translate("PatracDockWidget", "The search area is set to 70%", None))
         self.guideLabelStep4.setWordWrap(True)
         self.verticalGuideLayoutStep4.addWidget(self.guideLabelStep4)
+        self.guideLabel2Step4 = QLabel(self.dockWidgetContents)
+        self.guideLabel2Step4.setObjectName(_fromUtf8("guideLabel2Step4"))
+        self.guideLabel2Step4.setText(QApplication.translate("PatracDockWidget", "Guide Step 4 Note.", None))
+        self.guideLabel2Step4.setWordWrap(True)
+        self.verticalGuideLayoutStep4.addWidget(self.guideLabel2Step4)
         self.guideSpinEnd = QSpinBox(self.dockWidgetContents)
         self.guideSpinEnd.setMaximum(100)
         self.guideSpinEnd.setObjectName(_fromUtf8("guideSpinEnd"))
@@ -485,11 +513,10 @@ class Ui_PatracDockWidget(object):
         self.guideLabelStep5.setWordWrap(True)
         self.verticalGuideLayoutStep5.addWidget(self.guideLabelStep5)
         self.loadAvailableUnits()
-        self.guideLabelStep5b = QLabel(self.dockWidgetContents)
-        self.guideLabelStep5b.setObjectName(_fromUtf8("guideLabelStep5b"))
-        self.guideLabelStep5b.setText(QApplication.translate("PatracDockWidget", "Or maximum time for search", None))
-        self.guideLabelStep5b.setWordWrap(True)
-        self.verticalGuideLayoutStep5.addWidget(self.guideLabelStep5b)
+        self.guideStep5OtherUnits = QPushButton(self.dockWidgetContents)
+        self.guideStep5OtherUnits.setObjectName(_fromUtf8("guideStep5OtherUnits"))
+        self.guideStep5OtherUnits.setText(QApplication.translate("PatracDockWidget", "Other units", None))
+        self.verticalGuideLayoutStep5.addWidget(self.guideStep5OtherUnits)
         self.guideMaxTimeLabel = QLabel(self.dockWidgetContents)
         self.guideMaxTimeLabel.setText(QApplication.translate("PatracDockWidget", "Maximum time for search", None))
         self.guideMaxTime = QLineEdit()
@@ -498,6 +525,12 @@ class Ui_PatracDockWidget(object):
         self.horizontalMaxTimeLayout.addWidget(self.guideMaxTimeLabel)
         self.horizontalMaxTimeLayout.addWidget(self.guideMaxTime)
         self.verticalGuideLayoutStep5.addLayout(self.horizontalMaxTimeLayout)
+        self.guideLabelStep5b = QLabel(self.dockWidgetContents)
+        self.guideLabelStep5b.setObjectName(_fromUtf8("guideLabelStep5b"))
+        self.guideLabelStep5b.setText(QApplication.translate("PatracDockWidget", "Or maximum time for search", None))
+        self.guideLabelStep5b.setWordWrap(True)
+        self.verticalGuideLayoutStep5.addWidget(self.guideLabelStep5b)
+        self.tabGuideStep5.setLayout(self.verticalGuideLayoutStep5)
         self.guideStep5Next = QPushButton(self.dockWidgetContents)
         self.guideStep5Next.setObjectName(_fromUtf8("guideStep5Next"))
         self.guideStep5Next.setText(QApplication.translate("PatracDockWidget", "Next", None))
@@ -507,26 +540,36 @@ class Ui_PatracDockWidget(object):
     def setGuideLayoutStep6(self):
         self.verticalGuideLayoutStep6 = QVBoxLayout(self.tabGuideStep6)
         self.verticalGuideLayoutStep6.setObjectName(_fromUtf8("verticalGuideLayoutStep6"))
+        self.chkGenerateOverallPDF = QCheckBox(self.dockWidgetContents)
+        self.chkGenerateOverallPDF.setText(QApplication.translate("PatracDockWidget", "Generate PDF", None))
+        self.verticalGuideLayoutStep6.addWidget(self.chkGenerateOverallPDF)
+
         self.guideLabelStep6 = QLabel(self.dockWidgetContents)
         self.guideLabelStep6.setObjectName(_fromUtf8("guideLabelStep6"))
         self.guideLabelStep6.setText(QApplication.translate("PatracDockWidget", "Almost finished. You may generate PDF and then show the report.", None))
         self.guideLabelStep6.setWordWrap(True)
         self.verticalGuideLayoutStep6.addWidget(self.guideLabelStep6)
-        self.chkGenerateOverallPDF = QCheckBox(self.dockWidgetContents)
-        self.chkGenerateOverallPDF.setText(QApplication.translate("PatracDockWidget", "Generate PDF", None))
-        self.verticalGuideLayoutStep6.addWidget(self.chkGenerateOverallPDF)
-        #self.chkGeneratePDF = QCheckBox(self.dockWidgetContents)
-        #self.chkGeneratePDF.setText(u"Vygenerovat PDF pro tisk")
-        #self.verticalGuideLayoutStep6.addWidget(self.chkGeneratePDF)
+
         self.guideShowReport = QPushButton(self.dockWidgetContents)
         self.guideShowReport.setObjectName(_fromUtf8("guideShowReport"))
         self.guideShowReport.setText(QApplication.translate("PatracDockWidget", "Show report", None))
         self.verticalGuideLayoutStep6.addWidget(self.guideShowReport)
 
-        self.guideCopyGpx = QPushButton(self.dockWidgetContents)
-        self.guideCopyGpx.setObjectName(_fromUtf8("guideCopyGpx"))
-        self.guideCopyGpx.setText(QApplication.translate("PatracDockWidget", "Save sectors to GPS", None))
-        self.verticalGuideLayoutStep6.addWidget(self.guideCopyGpx)
+        self.guideStep6ShowSectorsByType = QPushButton(self.dockWidgetContents)
+        self.guideStep6ShowSectorsByType.setObjectName(_fromUtf8("guideStep6ShowSectorsByType"))
+        self.guideStep6ShowSectorsByType.setText(QApplication.translate("PatracDockWidget", "Show sectors by type", None))
+        self.verticalGuideLayoutStep6.addWidget(self.guideStep6ShowSectorsByType)
+
+        self.guideStep6ShowSectorsBySuggestedUnits = QPushButton(self.dockWidgetContents)
+        self.guideStep6ShowSectorsBySuggestedUnits.setObjectName(_fromUtf8("guideStep6ShowSectorsBySuggestedUnits"))
+        self.guideStep6ShowSectorsBySuggestedUnits.setText(QApplication.translate("PatracDockWidget", "Show sectors by recomended units", None))
+        self.verticalGuideLayoutStep6.addWidget(self.guideStep6ShowSectorsBySuggestedUnits)
+
+        self.guideLabel2Step6 = QLabel(self.dockWidgetContents)
+        self.guideLabel2Step6.setObjectName(_fromUtf8("guideLabel2Step6"))
+        self.guideLabel2Step6.setText(QApplication.translate("PatracDockWidget", "Guide Step 2 Note 2.", None))
+        self.guideLabel2Step6.setWordWrap(True)
+        self.verticalGuideLayoutStep6.addWidget(self.guideLabel2Step6)
 
         self.horizontalLayoutToolbarGuide6 = QHBoxLayout()
         self.horizontalLayoutToolbarGuide6.setObjectName(_fromUtf8("horizontalLayoutToolbarGuide6"))
@@ -534,6 +577,39 @@ class Ui_PatracDockWidget(object):
         self.verticalGuideLayoutStep6.addLayout(self.horizontalLayoutToolbarGuide6)
         self.tabGuideStep6.setLayout(self.verticalGuideLayoutStep6)
 
+    def setGuideLayoutStep7(self):
+        self.verticalGuideLayoutStep7 = QVBoxLayout(self.tabGuideStep7)
+
+        self.horizontalLayoutToolbarGuideLayoutStep7 = QHBoxLayout()
+        self.horizontalLayoutToolbarGuideLayoutStep7.setObjectName(_fromUtf8("horizontalLayoutToolbarGuideLayoutStep7"))
+
+        self.tbtnExtendRegion = QPushButton(self.dockWidgetContents)
+        self.tbtnExtendRegion.setObjectName(_fromUtf8("tbtnImportPaths"))
+        self.tbtnExtendRegion.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "extend_region.png")))
+        self.tbtnExtendRegion.setIconSize(QSize(24, 24))
+        self.tbtnExtendRegion.setFixedSize(QSize(32, 32))
+        self.horizontalLayoutToolbarGuideLayoutStep7.addWidget(self.tbtnExtendRegion)
+        self.tbtnExtendRegion.setToolTip(QApplication.translate("PatracDockWidget", "Extend area", None))
+
+        self.tbtnDefinePlaces = QPushButton(self.dockWidgetContents)
+        self.tbtnDefinePlaces.setObjectName(_fromUtf8("tbtnDefinePlaces"))
+        self.tbtnDefinePlaces.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "define_places.png")));
+        self.tbtnDefinePlaces.setIconSize(QSize(24,24));
+        self.tbtnDefinePlaces.setFixedSize(QSize(32,32));
+        self.horizontalLayoutToolbarGuideLayoutStep7.addWidget(self.tbtnDefinePlaces)
+        self.tbtnDefinePlaces.setToolTip(QApplication.translate("PatracDockWidget", "Places management", None))
+
+        self.tbtnAddPlaces = QPushButton(self.dockWidgetContents)
+        self.tbtnAddPlaces.setObjectName(_fromUtf8("tbtnDefinePlaces"))
+        self.tbtnAddPlaces.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "add_places.png")));
+        self.tbtnAddPlaces.setIconSize(QSize(24,24));
+        self.tbtnAddPlaces.setFixedSize(QSize(32,32));
+        self.horizontalLayoutToolbarGuideLayoutStep7.addWidget(self.tbtnAddPlaces)
+        self.tbtnAddPlaces.setToolTip(QApplication.translate("PatracDockWidget", "Append places", None))
+
+        self.verticalGuideLayoutStep7.addLayout(self.horizontalLayoutToolbarGuideLayoutStep7)
+
+        self.tabGuideStep7.setLayout(self.verticalGuideLayoutStep7)
 
     def loadAvailableUnits(self):
         settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"

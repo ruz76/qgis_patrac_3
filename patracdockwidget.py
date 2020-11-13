@@ -118,6 +118,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         # Button of places management
         self.tbtnDefinePlaces.clicked.connect(self.definePlaces)
+        self.tbtnAddPlaces.clicked.connect(self.setAddFeatureForPlaces)
         # Button of GetSectors
         self.tbtnGetSectors.clicked.connect(self.runExpertGetSectors)
 
@@ -157,11 +158,13 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         self.Styles = Styles(self)
         self.sectorsUniqueStyle.clicked.connect(self.setSectorsUniqueValuesStyle)
+        self.guideStep6ShowSectorsByType.clicked.connect(self.setSectorsUniqueValuesStyle)
         self.sectorsSingleStyle.clicked.connect(self.setSectorsSingleValuesStyle)
         self.chkShowLabels.clicked.connect(self.setSectorsShowLabels)
         self.sectorsProgressStyle.clicked.connect(self.setSectorsProgressStyle)
         self.sectorsUnitsStyle.clicked.connect(self.setSectorsUnitsStyle)
         self.sectorsUnitsRecommendedStyle.clicked.connect(self.setSectorsUnitsRecommendedStyle)
+        self.guideStep6ShowSectorsBySuggestedUnits.clicked.connect(self.setSectorsUnitsRecommendedStyle)
 
         # self.sectorsProgress.clicked.connect(self.setSectorsProgress)
         self.sectorsProgressStateNotStarted.clicked.connect(self.setSectorsProgress)
@@ -178,6 +181,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         self.tabWidget.currentChanged.connect(self.onTabChanged)
         # self.setMouseHandler()
+
+        self.tbtnReturnToAddfeature.clicked.connect(self.actionAddFeature)
 
     def sayHello(self):
         print("HELLO")
@@ -349,15 +354,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             else:
                 return False
 
-    def runGuideStep2Next(self):
-        if not self.checkStep(3):
-            return
-
-        # run area determination computation
-        self.personType = self.guideComboPerson.currentIndex() + 1
-
-        # set mista to editing mode
-        self.currentTool = self.iface.mapCanvas().mapTool()
+    def setAddFeatureForPlaces(self):
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
         layer = None
@@ -372,6 +369,18 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
             # set tool to add feature
             self.iface.actionAddFeature().trigger()
+
+    def runGuideStep2Next(self):
+        if not self.checkStep(3):
+            return
+
+        # run area determination computation
+        self.personType = self.guideComboPerson.currentIndex() + 1
+
+        # set mista to editing mode
+        self.currentTool = self.iface.mapCanvas().mapTool()
+
+        self.setAddFeatureForPlaces()
 
         # move to next tab (tab 3)
         self.tabGuideSteps.setCurrentIndex(2)
@@ -923,6 +932,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.progresstool.setValue(value)
         self.progresstool.setNumberOfSearchers(numberOfSearchers)
         self.plugin.iface.mapCanvas().setMapTool(self.progresstool)
+
+    def actionAddFeature(self):
+        self.iface.actionAddFeature().trigger()
 
     def definePlaces(self):
         """Moves the selected point to specified coordinates
