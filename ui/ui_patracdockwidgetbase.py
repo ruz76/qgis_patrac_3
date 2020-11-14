@@ -29,22 +29,24 @@ class Ui_PatracDockWidget(object):
         self.tabGuide = QWidget()
         self.tabWidget.addTab(self.tabGuide, QApplication.translate("PatracDockWidget", "Plan", None))
 
-        self.tabStyle = QWidget()
-        self.tabWidget.addTab(self.tabStyle, QApplication.translate("PatracDockWidget", "Management", None))
+        self.tabManagement = QWidget()
+        self.tabWidget.addTab(self.tabManagement, QApplication.translate("PatracDockWidget", "Management", None))
 
-        self.verticalLayoutStyle = QVBoxLayout(self.tabStyle)
-        self.verticalLayoutStyle.setObjectName(_fromUtf8("verticalLayoutStyle"))
-        self.tabStyle.setLayout(self.verticalLayoutStyle)
+        self.verticalLayoutManagement = QVBoxLayout(self.tabManagement)
+        self.verticalLayoutManagement.setObjectName(_fromUtf8("verticalLayoutManagement"))
+        self.tabManagement.setLayout(self.verticalLayoutManagement)
         self.setUpStyles()
-
-        self.tabProgress = QWidget()
-        self.tabWidget.addTab(self.tabProgress, QApplication.translate("PatracDockWidget", "Action", None))
-
-        self.verticalLayoutProgress = QVBoxLayout(self.tabProgress)
-        self.verticalLayoutProgress.setObjectName(_fromUtf8("verticalLayoutProgress"))
-        self.tabProgress.setLayout(self.verticalLayoutProgress)
         self.setUpProgress()
 
+        self.tabAction = QWidget()
+        self.tabWidget.addTab(self.tabAction, QApplication.translate("PatracDockWidget", "Action", None))
+
+        self.tabAnalyze = QWidget()
+        self.tabWidget.addTab(self.tabAnalyze, QApplication.translate("PatracDockWidget", "Analyze", None))
+        self.verticalLayoutAnalyze = QVBoxLayout(self.tabAnalyze)
+        self.verticalLayoutAnalyze.setObjectName(_fromUtf8("verticalLayoutAnalyze"))
+        self.tabAnalyze.setLayout(self.verticalLayoutAnalyze)
+        self.setUpAnalyse()
 
         self.tabExpert = QWidget()
         # self.tabWidget.addTab(self.tabExpert, QApplication.translate("PatracDockWidget", "Expert", None))
@@ -161,24 +163,6 @@ class Ui_PatracDockWidget(object):
         self.horizontalLayoutToolbar_5 = QHBoxLayout()
         self.horizontalLayoutToolbar_5.setObjectName(_fromUtf8("horizontalLayoutToolbar_5"))
 
-        self.tbtnShowSearchers = QPushButton(self.dockWidgetContents)
-        self.tbtnShowSearchers.setObjectName(_fromUtf8("tbtnShowSearchers"))
-        self.tbtnShowSearchers.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "show_searchers.png")))
-        self.tbtnShowSearchers.setIconSize(QSize(32, 32))
-        self.tbtnShowSearchers.setFixedSize(QSize(42, 42))
-        self.horizontalLayoutToolbar_5.addWidget(self.tbtnShowSearchers)
-        self.tbtnShowSearchers.setToolTip(
-            QApplication.translate("PatracDockWidget", "Show searchers (points)", None))
-
-        self.tbtnShowSearchersTracks = QPushButton(self.dockWidgetContents)
-        self.tbtnShowSearchersTracks.setObjectName(_fromUtf8("tbtnShowSearchersTracks"))
-        self.tbtnShowSearchersTracks.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "show_searchers_tracks.png")))
-        self.tbtnShowSearchersTracks.setIconSize(QSize(32, 32))
-        self.tbtnShowSearchersTracks.setFixedSize(QSize(42, 42))
-        self.horizontalLayoutToolbar_5.addWidget(self.tbtnShowSearchersTracks)
-        self.tbtnShowSearchersTracks.setToolTip(
-            QApplication.translate("PatracDockWidget", "Show searchers (lines)", None))
-
         self.tbtnShowMessage = QPushButton(self.dockWidgetContents)
         self.tbtnShowMessage.setObjectName(_fromUtf8("tbtnShowMessage"))
         self.tbtnShowMessage.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "message.png")))
@@ -195,22 +179,14 @@ class Ui_PatracDockWidget(object):
         self.horizontalGeneralToolbarLayout = QHBoxLayout()
         self.horizontalGeneralToolbarLayout.setObjectName(_fromUtf8("horizontalGeneralToolbarLayout"))
 
-        self.helpShow = QPushButton(self.dockWidgetContents)
-        self.helpShow.setObjectName(_fromUtf8("helpShow"))
-        self.helpShow.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "help.png")))
-        self.helpShow.setIconSize(QSize(32, 32))
-        self.helpShow.setFixedSize(QSize(42, 42))
-        self.helpShow.setToolTip(
-            QApplication.translate("PatracDockWidget", "Help", None))
-        self.horizontalGeneralToolbarLayout.addWidget(self.helpShow)
-
-        self.tbtnImportPaths = QPushButton(self.dockWidgetContents)
-        self.tbtnImportPaths.setObjectName(_fromUtf8("tbtnImportPaths"))
-        self.tbtnImportPaths.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "import_paths.png")))
-        self.tbtnImportPaths.setIconSize(QSize(32, 32))
-        self.tbtnImportPaths.setFixedSize(QSize(42, 42))
-        self.tbtnImportPaths.setToolTip(QApplication.translate("PatracDockWidget", "Import from GPS", None))
-        self.horizontalGeneralToolbarLayout.addWidget(self.tbtnImportPaths)
+        self.tbtnInsertFinal = QPushButton(self.dockWidgetContents)
+        self.tbtnInsertFinal.setObjectName(_fromUtf8("tbtnInsertFinal"))
+        self.tbtnInsertFinal.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "set_result.png")))
+        self.tbtnInsertFinal.setIconSize(QSize(32, 32))
+        self.tbtnInsertFinal.setFixedSize(QSize(42, 42))
+        self.tbtnInsertFinal.setToolTip(QApplication.translate(
+            "PatracDockWidget", "Result", None))
+        self.horizontalGeneralToolbarLayout.addWidget(self.tbtnInsertFinal)
 
         self.tbtnShowSettings = QPushButton(self.dockWidgetContents)
         self.tbtnShowSettings.setObjectName(_fromUtf8("tbtnShowSettings"))
@@ -221,14 +197,14 @@ class Ui_PatracDockWidget(object):
             QApplication.translate("PatracDockWidget", "Settings", None))
         self.horizontalGeneralToolbarLayout.addWidget(self.tbtnShowSettings)
 
-        self.tbtnInsertFinal = QPushButton(self.dockWidgetContents)
-        self.tbtnInsertFinal.setObjectName(_fromUtf8("tbtnInsertFinal"))
-        self.tbtnInsertFinal.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "set_result.png")))
-        self.tbtnInsertFinal.setIconSize(QSize(32, 32))
-        self.tbtnInsertFinal.setFixedSize(QSize(42, 42))
-        self.tbtnInsertFinal.setToolTip(QApplication.translate(
-            "PatracDockWidget", "Result", None))
-        self.horizontalGeneralToolbarLayout.addWidget(self.tbtnInsertFinal)
+        self.helpShow = QPushButton(self.dockWidgetContents)
+        self.helpShow.setObjectName(_fromUtf8("helpShow"))
+        self.helpShow.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "help.png")))
+        self.helpShow.setIconSize(QSize(32, 32))
+        self.helpShow.setFixedSize(QSize(42, 42))
+        self.helpShow.setToolTip(
+            QApplication.translate("PatracDockWidget", "Help", None))
+        self.horizontalGeneralToolbarLayout.addWidget(self.helpShow)
 
         self.tabLayout.addWidget(self.tabWidget)
         self.tabLayout.addLayout(self.horizontalGeneralToolbarLayout)
@@ -238,46 +214,84 @@ class Ui_PatracDockWidget(object):
         QtCore.QMetaObject.connectSlotsByName(PatracDockWidget)
 
     def setUpStyles(self):
-        self.sectorsUniqueStyle = QPushButton(self.dockWidgetContents)
-        self.sectorsUniqueStyle.setObjectName(_fromUtf8("sectorsUniqueStyle"))
-        self.sectorsUniqueStyle.setText(QApplication.translate("PatracDockWidget", "Sectors by type", None))
-        self.verticalLayoutStyle.addWidget(self.sectorsUniqueStyle)
+
+        self.horizontalLayoutStyles = QHBoxLayout()
+        self.horizontalLayoutStyles.setObjectName(_fromUtf8("horizontalLayoutStyles"))
 
         self.sectorsUnitsRecommendedStyle = QPushButton(self.dockWidgetContents)
         self.sectorsUnitsRecommendedStyle.setObjectName(_fromUtf8("sectorsUnitsRecommendedStyle"))
-        self.sectorsUnitsRecommendedStyle.setText(QApplication.translate("PatracDockWidget", "Sectors by recommended units", None))
-        self.verticalLayoutStyle.addWidget(self.sectorsUnitsRecommendedStyle)
-
-        self.sectorsProgressStyle = QPushButton(self.dockWidgetContents)
-        self.sectorsProgressStyle.setObjectName(_fromUtf8("sectorsProgressStyle"))
-        self.sectorsProgressStyle.setText(QApplication.translate("PatracDockWidget", "Sectors by state", None))
-        self.verticalLayoutStyle.addWidget(self.sectorsProgressStyle)
+        self.sectorsUnitsRecommendedStyle.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "sectors_units_recommended.png")));
+        self.sectorsUnitsRecommendedStyle.setIconSize(QSize(24,24));
+        self.sectorsUnitsRecommendedStyle.setFixedSize(QSize(32,32));
+        self.sectorsUnitsRecommendedStyle.setToolTip(QApplication.translate("PatracDockWidget", "Sectors by recommended units", None))
+        self.horizontalLayoutStyles.addWidget(self.sectorsUnitsRecommendedStyle)
 
         self.sectorsUnitsStyle = QPushButton(self.dockWidgetContents)
         self.sectorsUnitsStyle.setObjectName(_fromUtf8("sectorsUnitsStyle"))
-        self.sectorsUnitsStyle.setText(QApplication.translate("PatracDockWidget", "Sectors by units", None))
-        self.verticalLayoutStyle.addWidget(self.sectorsUnitsStyle)
+        self.sectorsUnitsStyle.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "sectors_units.png")));
+        self.sectorsUnitsStyle.setIconSize(QSize(24,24));
+        self.sectorsUnitsStyle.setFixedSize(QSize(32,32));
+        self.sectorsUnitsStyle.setToolTip(QApplication.translate("PatracDockWidget", "Sectors by units", None))
+        self.horizontalLayoutStyles.addWidget(self.sectorsUnitsStyle)
+
+        self.sectorsProgressStyle = QPushButton(self.dockWidgetContents)
+        self.sectorsProgressStyle.setObjectName(_fromUtf8("sectorsProgressStyle"))
+        self.sectorsProgressStyle.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "sectors_stav.png")));
+        self.sectorsProgressStyle.setIconSize(QSize(24,24));
+        self.sectorsProgressStyle.setFixedSize(QSize(32,32));
+        self.sectorsProgressStyle.setToolTip(QApplication.translate("PatracDockWidget", "Sectors by state", None))
+        self.horizontalLayoutStyles.addWidget(self.sectorsProgressStyle)
+
+        self.sectorsUniqueStyle = QPushButton(self.dockWidgetContents)
+        self.sectorsUniqueStyle.setObjectName(_fromUtf8("sectorsUniqueStyle"))
+        self.sectorsUniqueStyle.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "sectors_unique.png")));
+        self.sectorsUniqueStyle.setIconSize(QSize(24,24));
+        self.sectorsUniqueStyle.setFixedSize(QSize(32,32));
+        self.sectorsUniqueStyle.setToolTip(QApplication.translate("PatracDockWidget", "Sectors by type", None))
+        self.horizontalLayoutStyles.addWidget(self.sectorsUniqueStyle)
 
         self.sectorsSingleStyle = QPushButton(self.dockWidgetContents)
         self.sectorsSingleStyle.setObjectName(_fromUtf8("sectorsSingleStyle"))
-        self.sectorsSingleStyle.setText(QApplication.translate("PatracDockWidget", "Remove colors", None))
-        self.verticalLayoutStyle.addWidget(self.sectorsSingleStyle)
+        self.sectorsSingleStyle.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "sectors_single.png")));
+        self.sectorsSingleStyle.setIconSize(QSize(24,24));
+        self.sectorsSingleStyle.setFixedSize(QSize(32,32));
+        self.sectorsSingleStyle.setToolTip(QApplication.translate("PatracDockWidget", "Remove colors", None))
+        self.horizontalLayoutStyles.addWidget(self.sectorsSingleStyle)
+
+        self.printPrepared = QPushButton(self.dockWidgetContents)
+        self.printPrepared.setObjectName(_fromUtf8("printPrepared"))
+        self.printPrepared.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "print_prepared.png")));
+        self.printPrepared.setIconSize(QSize(24,24));
+        self.printPrepared.setFixedSize(QSize(32,32));
+        self.printPrepared.setToolTip(QApplication.translate("PatracDockWidget", "PDF from report", None))
+        self.horizontalLayoutStyles.addWidget(self.printPrepared)
+
+        self.printUserDefined = QPushButton(self.dockWidgetContents)
+        self.printUserDefined.setObjectName(_fromUtf8("printUserDefined"))
+        self.printUserDefined.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "print_user.png")));
+        self.printUserDefined.setIconSize(QSize(24,24));
+        self.printUserDefined.setFixedSize(QSize(32,32));
+        self.printUserDefined.setToolTip(QApplication.translate("PatracDockWidget", "Create own map", None))
+        self.horizontalLayoutStyles.addWidget(self.printUserDefined)
+
+        self.verticalLayoutManagement.addLayout(self.horizontalLayoutStyles)
 
         self.chkShowLabels = QCheckBox(self.dockWidgetContents)
         self.chkShowLabels.setText(QApplication.translate("PatracDockWidget", "Show labels", None))
         self.chkShowLabels.setChecked(True)
-        self.verticalLayoutStyle.addWidget(self.chkShowLabels)
+        self.verticalLayoutManagement.addWidget(self.chkShowLabels)
 
     def setUpProgress(self):
         self.sectorsProgressStateLabel = QLabel(self.dockWidgetContents)
         self.sectorsProgressStateLabel.setObjectName(_fromUtf8("sectorsProgressStateLabel"))
         self.sectorsProgressStateLabel.setText(QApplication.translate("PatracDockWidget", "Select type of operation. Click into the sector. For search analyze select the track.", None))
         self.sectorsProgressStateLabel.setWordWrap(True)
-        self.verticalLayoutProgress.addWidget(self.sectorsProgressStateLabel)
+        self.verticalLayoutManagement.addWidget(self.sectorsProgressStateLabel)
+
         self.sectorsProgressStateNotStarted = QRadioButton(self.dockWidgetContents)
         self.sectorsProgressStateNotStarted.setObjectName(_fromUtf8("sectorsProgressStateNotStarted"))
         self.sectorsProgressStateNotStarted.setText(QApplication.translate("PatracDockWidget", "Search not started", None))
-        self.verticalLayoutProgress.addWidget(self.sectorsProgressStateNotStarted)
+        self.verticalLayoutManagement.addWidget(self.sectorsProgressStateNotStarted)
 
         self.horizontalSectorsProgressStateStarted = QHBoxLayout()
         self.horizontalSectorsProgressStateStarted.setObjectName(_fromUtf8("horizontalSectorsProgressStateStarted"))
@@ -295,31 +309,84 @@ class Ui_PatracDockWidget(object):
 
         self.horizontalSectorsProgressStateStarted.addWidget(self.sectorsProgressStateStarted)
         self.horizontalSectorsProgressStateStarted.addWidget(self.sectorsProgressType)
-        self.verticalLayoutProgress.addLayout(self.horizontalSectorsProgressStateStarted)
+        self.verticalLayoutManagement.addLayout(self.horizontalSectorsProgressStateStarted)
 
         self.sectorsProgressStateFinished = QRadioButton(self.dockWidgetContents)
         self.sectorsProgressStateFinished.setObjectName(_fromUtf8("sectorsProgressStateFinished"))
         self.sectorsProgressStateFinished.setText(QApplication.translate("PatracDockWidget", "Search finished", None))
-        self.verticalLayoutProgress.addWidget(self.sectorsProgressStateFinished)
+        self.verticalLayoutManagement.addWidget(self.sectorsProgressStateFinished)
 
         self.sectorsProgressStateRisk = QRadioButton(self.dockWidgetContents)
         self.sectorsProgressStateRisk.setObjectName(_fromUtf8("sectorsProgressStateFinished"))
         self.sectorsProgressStateRisk.setText(QApplication.translate("PatracDockWidget", "Risk sector", None))
-        self.verticalLayoutProgress.addWidget(self.sectorsProgressStateRisk)
+        self.verticalLayoutManagement.addWidget(self.sectorsProgressStateRisk)
 
         self.horizontalSectorsAnalyzeTrackSeparator = QHBoxLayout()
-        self.verticalLayoutProgress.addLayout(self.horizontalSectorsAnalyzeTrackSeparator)
+        self.verticalLayoutManagement.addLayout(self.horizontalSectorsAnalyzeTrackSeparator)
 
-        self.sectorsProgressAnalyzeTrack = QRadioButton(self.dockWidgetContents)
-        self.sectorsProgressAnalyzeTrack.setObjectName(_fromUtf8("sectorsProgressStateFinished"))
-        self.sectorsProgressAnalyzeTrack.setText(QApplication.translate("PatracDockWidget", "Analyze the search", None))
+        self.setUpTracks()
+
+    def setUpTracks(self):
+        self.horizontalLayoutTracks = QHBoxLayout()
+        self.horizontalLayoutStyles.setObjectName(_fromUtf8("horizontalLayoutStyles"))
+
+        self.guideCopyGpx = QPushButton(self.dockWidgetContents)
+        self.guideCopyGpx.setObjectName(_fromUtf8("guideCopyGpx"))
+        self.guideCopyGpx.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "gpx_export.png")));
+        self.guideCopyGpx.setIconSize(QSize(24,24));
+        self.guideCopyGpx.setFixedSize(QSize(32,32));
+        self.guideCopyGpx.setToolTip(QApplication.translate("PatracDockWidget", "Save sectors to GPS", None))
+        self.horizontalLayoutTracks.addWidget(self.guideCopyGpx)
+
+        self.tbtnImportPaths = QPushButton(self.dockWidgetContents)
+        self.tbtnImportPaths.setObjectName(_fromUtf8("tbtnImportPaths"))
+        self.tbtnImportPaths.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "gpx_import.png")))
+        self.tbtnImportPaths.setIconSize(QSize(24, 24))
+        self.tbtnImportPaths.setFixedSize(QSize(32, 32))
+        self.tbtnImportPaths.setToolTip(QApplication.translate("PatracDockWidget", "Import from GPS", None))
+        self.horizontalLayoutTracks.addWidget(self.tbtnImportPaths)
+
+        self.tbtnShowSearchers = QPushButton(self.dockWidgetContents)
+        self.tbtnShowSearchers.setObjectName(_fromUtf8("tbtnShowSearchers"))
+        self.tbtnShowSearchers.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "show_searchers.png")))
+        self.tbtnShowSearchers.setIconSize(QSize(24, 24))
+        self.tbtnShowSearchers.setFixedSize(QSize(32, 32))
+        self.horizontalLayoutTracks.addWidget(self.tbtnShowSearchers)
+        self.tbtnShowSearchers.setToolTip(
+            QApplication.translate("PatracDockWidget", "Show searchers (points)", None))
+
+        self.tbtnShowSearchersTracks = QPushButton(self.dockWidgetContents)
+        self.tbtnShowSearchersTracks.setObjectName(_fromUtf8("tbtnShowSearchersTracks"))
+        self.tbtnShowSearchersTracks.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "show_searchers_tracks.png")))
+        self.tbtnShowSearchersTracks.setIconSize(QSize(24, 24))
+        self.tbtnShowSearchersTracks.setFixedSize(QSize(32, 32))
+        self.horizontalLayoutTracks.addWidget(self.tbtnShowSearchersTracks)
+        self.tbtnShowSearchersTracks.setToolTip(
+            QApplication.translate("PatracDockWidget", "Show searchers (lines)", None))
+
+        self.verticalLayoutManagement.addLayout(self.horizontalLayoutTracks)
+
+        self.sectorsTracksStateLabel = QLabel(self.dockWidgetContents)
+        self.sectorsTracksStateLabel.setObjectName(_fromUtf8("sectorsTracksStateLabel"))
+        self.sectorsTracksStateLabel.setText(QApplication.translate("PatracDockWidget", "Tracks Note", None))
+        self.sectorsTracksStateLabel.setWordWrap(True)
+        self.verticalLayoutManagement.addWidget(self.sectorsTracksStateLabel)
+
+    def setUpAnalyse(self):
+
+        self.sectorsAnalyzeStateLabel = QLabel(self.dockWidgetContents)
+        self.sectorsAnalyzeStateLabel.setObjectName(_fromUtf8("sectorsAnalyzeStateLabel"))
+        self.sectorsAnalyzeStateLabel.setText(QApplication.translate("PatracDockWidget", "Analyze Note", None))
+        self.sectorsAnalyzeStateLabel.setWordWrap(True)
+        self.verticalLayoutAnalyze.addWidget(self.sectorsAnalyzeStateLabel)
+
         self.sectorsProgressAnalyzeType = QComboBox(self.dockWidgetContents)
         self.sectorsProgressAnalyzeType.setObjectName(_fromUtf8("sectorsProgressAnalyzeType"))
         self.horizontalSectorsAnalyzeTrack = QHBoxLayout()
         self.horizontalSectorsAnalyzeTrack.setObjectName(_fromUtf8("horizontalSectorsAnalyzeTrack"))
-        self.horizontalSectorsAnalyzeTrack.addWidget(self.sectorsProgressAnalyzeTrack)
+
         self.horizontalSectorsAnalyzeTrack.addWidget(self.sectorsProgressAnalyzeType)
-        self.verticalLayoutProgress.addLayout(self.horizontalSectorsAnalyzeTrack)
+        self.verticalLayoutAnalyze.addLayout(self.horizontalSectorsAnalyzeTrack)
 
         self.horizontalSectorsAnalyzeTrackValue = QHBoxLayout()
         self.horizontalSectorsAnalyzeTrackValue.setObjectName(_fromUtf8("horizontalSectorsAnalyzeTrackValue"))
@@ -331,7 +398,7 @@ class Ui_PatracDockWidget(object):
         self.onlyInt = QIntValidator()
         self.sectorsProgressAnalyzeValue.setValidator(self.onlyInt)
         self.horizontalSectorsAnalyzeTrackValue.addWidget(self.sectorsProgressAnalyzeValue)
-        self.verticalLayoutProgress.addLayout(self.horizontalSectorsAnalyzeTrackValue)
+        self.verticalLayoutAnalyze.addLayout(self.horizontalSectorsAnalyzeTrackValue)
 
         self.horizontalSectorsAnalyzeTrackNumberOfPersonsContainer = QWidget()
         self.horizontalSectorsAnalyzeTrackNumberOfPersons = QHBoxLayout(self.horizontalSectorsAnalyzeTrackNumberOfPersonsContainer)
@@ -344,13 +411,9 @@ class Ui_PatracDockWidget(object):
         self.onlyInt = QIntValidator()
         self.sectorsProgressAnalyzeNumberOfPersons.setValidator(self.onlyInt)
         self.horizontalSectorsAnalyzeTrackNumberOfPersons.addWidget(self.sectorsProgressAnalyzeNumberOfPersons)
-        self.verticalLayoutProgress.addWidget(self.horizontalSectorsAnalyzeTrackNumberOfPersonsContainer)
+        self.verticalLayoutAnalyze.addWidget(self.horizontalSectorsAnalyzeTrackNumberOfPersonsContainer)
         self.horizontalSectorsAnalyzeTrackNumberOfPersonsContainer.setEnabled(False)
 
-        self.guideCopyGpx = QPushButton(self.dockWidgetContents)
-        self.guideCopyGpx.setObjectName(_fromUtf8("guideCopyGpx"))
-        self.guideCopyGpx.setText(QApplication.translate("PatracDockWidget", "Save sectors to GPS", None))
-        self.verticalLayoutProgress.addWidget(self.guideCopyGpx)
 
     def setGuideSteps(self):
         self.tabGuideSteps = QTabWidget()
@@ -584,7 +647,7 @@ class Ui_PatracDockWidget(object):
         self.horizontalLayoutToolbarGuideLayoutStep7.setObjectName(_fromUtf8("horizontalLayoutToolbarGuideLayoutStep7"))
 
         self.tbtnExtendRegion = QPushButton(self.dockWidgetContents)
-        self.tbtnExtendRegion.setObjectName(_fromUtf8("tbtnImportPaths"))
+        self.tbtnExtendRegion.setObjectName(_fromUtf8("tbtnExtendRegion"))
         self.tbtnExtendRegion.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "extend_region.png")))
         self.tbtnExtendRegion.setIconSize(QSize(24, 24))
         self.tbtnExtendRegion.setFixedSize(QSize(32, 32))
@@ -607,7 +670,29 @@ class Ui_PatracDockWidget(object):
         self.horizontalLayoutToolbarGuideLayoutStep7.addWidget(self.tbtnAddPlaces)
         self.tbtnAddPlaces.setToolTip(QApplication.translate("PatracDockWidget", "Append places", None))
 
+        self.tbtnPercent = QPushButton(self.dockWidgetContents)
+        self.tbtnPercent.setObjectName(_fromUtf8("tbtnPercent"))
+        self.tbtnPercent.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "percent.png")));
+        self.tbtnPercent.setIconSize(QSize(24,24));
+        self.tbtnPercent.setFixedSize(QSize(32,32));
+        self.horizontalLayoutToolbarGuideLayoutStep7.addWidget(self.tbtnPercent)
+        self.tbtnPercent.setToolTip(QApplication.translate("PatracDockWidget", "Set percent", None))
+
+        self.tbtnUnits = QPushButton(self.dockWidgetContents)
+        self.tbtnUnits.setObjectName(_fromUtf8("tbtnUnits"))
+        self.tbtnUnits.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "sap.png")));
+        self.tbtnUnits.setIconSize(QSize(24,24));
+        self.tbtnUnits.setFixedSize(QSize(32,32));
+        self.horizontalLayoutToolbarGuideLayoutStep7.addWidget(self.tbtnUnits)
+        self.tbtnUnits.setToolTip(QApplication.translate("PatracDockWidget", "Set units", None))
+
         self.verticalGuideLayoutStep7.addLayout(self.horizontalLayoutToolbarGuideLayoutStep7)
+
+        self.tbtnRecalculate = QPushButton(self.dockWidgetContents)
+        self.tbtnRecalculate.setObjectName(_fromUtf8("tbtnRecalculate"))
+        self.tbtnRecalculate.setText(QApplication.translate("PatracDockWidget", "Recalculate", None))
+        self.verticalGuideLayoutStep7.addWidget(self.tbtnRecalculate)
+        self.tbtnRecalculate.setToolTip(QApplication.translate("PatracDockWidget", "Recalculate", None))
 
         self.tabGuideStep7.setLayout(self.verticalGuideLayoutStep7)
 

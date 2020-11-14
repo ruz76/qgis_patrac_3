@@ -41,6 +41,8 @@ from .ui.ui_message import Ui_Message
 from .ui.ui_coords import Ui_Coords
 from .ui.ui_point_tool import PointMapTool
 from .ui.ui_progress_tool import ProgressMapTool
+from .ui.ui_percent import Ui_Percent
+from .ui.ui_units import Ui_Units
 
 from .main.printing import Printing
 from .main.project import ZPM_Raster, Project
@@ -155,6 +157,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.coordsdlg = Ui_Coords(self.plugin.iface.mapCanvas())
         self.pointtool = PointMapTool(self.plugin.iface.mapCanvas(), self)
         self.progresstool = ProgressMapTool(self.plugin.iface.mapCanvas(), self.plugin.iface)
+        self.percentdlg = Ui_Percent()
+        self.unitsdlg = Ui_Units(self.pluginPath, self)
 
         self.Styles = Styles(self)
         self.sectorsUniqueStyle.clicked.connect(self.setSectorsUniqueValuesStyle)
@@ -172,7 +176,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.sectorsProgressType.activated.connect(self.setSectorsProgress)
         self.sectorsProgressStateFinished.clicked.connect(self.setSectorsProgress)
         self.sectorsProgressStateRisk.clicked.connect(self.setSectorsProgress)
-        self.sectorsProgressAnalyzeTrack.clicked.connect(self.setSectorsProgress)
+
         self.sectorsProgressAnalyzeType.currentIndexChanged.connect(self.sectorsProgressAnalyzeTypeChanged)
         self.sectorsProgressAnalyzeValue.textChanged.connect(self.sectorsProgressAnalyzeValueChanged)
         self.sectorsProgressAnalyzeNumberOfPersons.textChanged.connect(self.sectorsProgressAnalyzeNumberOfPersonsChanged)
@@ -183,6 +187,13 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         # self.setMouseHandler()
 
         self.tbtnReturnToAddfeature.clicked.connect(self.actionAddFeature)
+        self.guideStep5OtherUnits.clicked.connect(self.showUnitsDialog)
+
+        self.tbtnPercent.clicked.connect(self.showPercentDialog)
+        self.tbtnUnits.clicked.connect(self.showUnitsDialog)
+        self.tbtnRecalculate.clicked.connect(self.recalculateAll)
+        self.printPrepared.clicked.connect(self.showReport)
+        self.printUserDefined.clicked.connect(self.actionShowLayoutManager)
 
     def sayHello(self):
         print("HELLO")
@@ -198,17 +209,18 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         # If the tab is activated we activate the tool
         if index == 2:
             self.setSectorsProgress()
+        if index == 4:
+            self.switchToAnalyse()
 
     def sectorsProgressAnalyzeNumberOfPersonsChanged(self):
         self.progresstool.setNumberOfSearchers(self.sectorsProgressAnalyzeNumberOfPersons.text())
 
     def sectorsProgressAnalyzeValueChanged(self):
         self.buffers[self.sectorsProgressAnalyzeType.currentIndex()] = self.sectorsProgressAnalyzeValue.text()
-        if self.sectorsProgressAnalyzeTrack.isChecked() == True:
-            self.progresstool.setAttribute(-1)
-            self.progresstool.setUnit(self.sectorsProgressAnalyzeType.currentIndex())
-            self.progresstool.setType(0)
-            self.progresstool.setValue(self.sectorsProgressAnalyzeValue.text())
+        self.progresstool.setAttribute(-1)
+        self.progresstool.setUnit(self.sectorsProgressAnalyzeType.currentIndex())
+        self.progresstool.setType(0)
+        self.progresstool.setValue(self.sectorsProgressAnalyzeValue.text())
 
     def sectorsProgressAnalyzeTypeChanged(self):
         self.sectorsProgressAnalyzeValue.setText(self.buffers[self.sectorsProgressAnalyzeType.currentIndex()])
@@ -449,6 +461,25 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         # move to next tab (tab 6)
         self.tabGuideSteps.setCurrentIndex(5)
         self.currentStep = 6
+
+    def recalculateAll(self):
+        self.Area.getArea()
+        self.runGuideGetSectors()
+        self.showReport()
+
+    def setPercent(self, percent):
+        self.spinStart.setValue(0)
+        self.spinEnd.setValue(percent)
+        self.guideSpinEnd.setValue(percent)
+        self.updatePatrac()
+
+    def showPercentDialog(self):
+        self.percentdlg.setParent(self)
+        self.percentdlg.exec_()
+
+    def showUnitsDialog(self):
+        self.unitsdlg.updateTable()
+        self.unitsdlg.exec_()
 
     def exportSectors(self):
         self.Sectors.exportSectors()
@@ -884,22 +915,12 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Info", None), QApplication.translate("Patrac", "Click into the map at the place of finding. If you finishing without finding, click anywhere into map.", None), level=Qgis.Warning, duration=-1)
 
     def setSectorsProgress(self):
-        # Check if the project has sektory_group_selected.shp
+        layer = self.setSectorsProgressPrepare()
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
-                                                                 QApplication.translate("Patrac", "Wrong project.", None))
+                                    QApplication.translate("Patrac", "Wrong project.", None))
             return
 
-        layer = None
-        for lyr in list(QgsProject.instance().mapLayers().values()):
-            if self.Utils.getDataPath() + "/pracovni/sektory_group.shp" in lyr.source():
-                layer = lyr
-                break
-
-        prjfi = QFileInfo(QgsProject.instance().fileName())
-        DATAPATH = prjfi.absolutePath()
-        self.progresstool.setDataPath(DATAPATH)
-        self.progresstool.setPluginPath(self.pluginPath)
         attribute = 3
         type = 1
         unit = 0
@@ -918,12 +939,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if self.sectorsProgressStateRisk.isChecked() == True:
             attribute = 3
             type = 0
-        if self.sectorsProgressAnalyzeTrack.isChecked() == True:
-            attribute = -1
-            type = 0
-            unit = self.sectorsProgressAnalyzeType.currentIndex()
-            value = self.sectorsProgressAnalyzeValue.text()
-            numberOfSearchers = self.sectorsProgressAnalyzeNumberOfPersons.text()
 
         self.progresstool.setAttribute(attribute)
         self.progresstool.setUnit(unit)
@@ -932,6 +947,50 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.progresstool.setValue(value)
         self.progresstool.setNumberOfSearchers(numberOfSearchers)
         self.plugin.iface.mapCanvas().setMapTool(self.progresstool)
+
+    def setSectorsProgressPrepare(self):
+        # Check if the project has sektory_group_selected.shp
+        if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                    QApplication.translate("Patrac", "Wrong project.", None))
+            return
+
+        layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if self.Utils.getDataPath() + "/pracovni/sektory_group.shp" in lyr.source():
+                layer = lyr
+                break
+
+        prjfi = QFileInfo(QgsProject.instance().fileName())
+        DATAPATH = prjfi.absolutePath()
+        self.progresstool.setDataPath(DATAPATH)
+        self.progresstool.setPluginPath(self.pluginPath)
+
+        return layer
+
+    def switchToAnalyse(self):
+        layer = self.setSectorsProgressPrepare()
+        if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                    QApplication.translate("Patrac", "Wrong project.", None))
+            return
+
+        attribute = -1
+        type = 0
+        unit = self.sectorsProgressAnalyzeType.currentIndex()
+        value = self.sectorsProgressAnalyzeValue.text()
+        numberOfSearchers = self.sectorsProgressAnalyzeNumberOfPersons.text()
+
+        self.progresstool.setAttribute(attribute)
+        self.progresstool.setUnit(unit)
+        self.progresstool.setType(type)
+        self.progresstool.setLayer(layer)
+        self.progresstool.setValue(value)
+        self.progresstool.setNumberOfSearchers(numberOfSearchers)
+        self.plugin.iface.mapCanvas().setMapTool(self.progresstool)
+
+    def actionShowLayoutManager(self):
+        self.iface.actionShowLayoutManager().trigger()
 
     def actionAddFeature(self):
         self.iface.actionAddFeature().trigger()
