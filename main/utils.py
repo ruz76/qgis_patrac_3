@@ -26,15 +26,11 @@
 # The sliders and layer transparency are based on https://github.com/alexbruy/raster-transparency
 # ******************************************************************************
 
-import csv, io, math, subprocess, os, sys, uuid
+import csv, io, math, subprocess, os, sys, uuid, json
 
 from qgis.core import *
 from qgis.gui import *
-
-from datetime import datetime, timedelta
 from shutil import copy
-from time import gmtime, strftime
-from glob import glob
 
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import *
@@ -176,3 +172,49 @@ class Utils(object):
         letters = "CDEFGHIJKLMNOPQRSTUVWXYZ"
         return [letters[i] + ":/" for i in range(len(letters))]
 
+    def createProjectInfo(self, projectname, projectdesc, version):
+        project_info = {
+            "projectname": projectname,
+            "projectdesc": projectdesc,
+            "projectversion": version,
+            "coordinatorname": "",
+            "coordinatortel": "",
+            "placehandlers": "",
+            "placehandlers_lat": 0.0,
+            "placehandlers_lon": 0.0,
+            "placeother": "",
+            "placeother_lat": 0.0,
+            "placeother_lon": 0.0,
+            "lost_name": "",
+            "lost_age": 0,
+            "lost_from_date_time": "",
+            "lost_time_from_info": "",
+            "lost_physical_condition": 0,
+            "lost_health": 0,
+            "lost_height": 0,
+            "lost_body_type": 0,
+            "lost_hair_color": 0,
+            "lost_clothes": ""
+        }
+
+        with open(self.getDataPath() + "/pracovni/project.json", 'w') as outfile:
+            json.dump(project_info, outfile)
+
+    def getProjectInfo(self):
+        if os.path.exists(self.getDataPath() + "/pracovni/project.json"):
+            with open(self.getDataPath() + "/pracovni/project.json") as json_file:
+                return json.load(json_file)
+        else:
+            return None
+
+    def updateProjectInfo(self, key, value):
+        project_info = self.getProjectInfo()
+        if project_info is None:
+            # TODO get name form filename QgsProject.instance().fileName()
+            self.createProjectInfo("Noname testing", "Noname description", 0)
+            project_info = self.getProjectInfo()
+
+        project_info[key] = value
+
+        with open(self.getDataPath() + "/pracovni/project.json", 'w') as outfile:
+            json.dump(project_info, outfile)

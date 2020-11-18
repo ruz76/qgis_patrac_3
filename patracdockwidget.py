@@ -40,9 +40,11 @@ from .ui.ui_gpx import Ui_Gpx
 from .ui.ui_message import Ui_Message
 from .ui.ui_coords import Ui_Coords
 from .ui.ui_point_tool import PointMapTool
+from .ui.ui_point_tool_lat_lon import PointMapToolLatLon
 from .ui.ui_progress_tool import ProgressMapTool
 from .ui.ui_percent import Ui_Percent
 from .ui.ui_units import Ui_Units
+from .ui.ui_handlers import Ui_Handlers
 
 from .main.printing import Printing
 from .main.project import ZPM_Raster, Project
@@ -61,7 +63,7 @@ from datetime import datetime, timedelta
 from shutil import copy
 from time import gmtime, strftime
 
-import csv, io, webbrowser, filecmp, uuid, random, getpass
+import csv, io, webbrowser, filecmp, uuid, random, getpass, json
 
 from .connect.connect import *
 
@@ -156,9 +158,11 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.settingsdlg = Ui_Settings(self.pluginPath, self)
         self.coordsdlg = Ui_Coords(self.plugin.iface.mapCanvas())
         self.pointtool = PointMapTool(self.plugin.iface.mapCanvas(), self)
+        self.pointtoollatlon = PointMapToolLatLon(self.plugin.iface.mapCanvas(), self)
         self.progresstool = ProgressMapTool(self.plugin.iface.mapCanvas(), self.plugin.iface)
         self.percentdlg = Ui_Percent()
         self.unitsdlg = Ui_Units(self.pluginPath, self)
+        self.handlersdlg = Ui_Handlers(self.pluginPath, self)
 
         self.Styles = Styles(self)
         self.sectorsUniqueStyle.clicked.connect(self.setSectorsUniqueValuesStyle)
@@ -191,9 +195,27 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         self.tbtnPercent.clicked.connect(self.showPercentDialog)
         self.tbtnUnits.clicked.connect(self.showUnitsDialog)
+        self.showHandlers.clicked.connect(self.showHandlersDialog)
         self.tbtnRecalculate.clicked.connect(self.recalculateAll)
         self.printPrepared.clicked.connect(self.showReport)
         self.printUserDefined.clicked.connect(self.actionShowLayoutManager)
+
+        self.tbtnSetPlaceHandlers.clicked.connect(self.insertPlaceHandlers)
+        self.tbtnSetPlaceOther.clicked.connect(self.insertPlaceOther)
+        self.tbtnUpdateAction.clicked.connect(self.updateActionSettings)
+        self.tbtnSetLostPerson.clicked.connect(self.showSetLostPersonDialog)
+
+        project = QgsProject.instance()
+        project.readProject.connect(self.on_project_change)
+
+        self.loadActionSettings()
+
+    def on_project_change(self):
+        # print("PROJECT CHANGE")
+        self.loadActionSettings()
+
+    def showSetLostPersonDialog(self):
+        QMessageBox.information(self.iface.mainWindow(), self.tr("ERROR"), self.tr("Not yet implemented"))
 
     def sayHello(self):
         print("HELLO")
@@ -296,7 +318,29 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def runCreateProjectGuide(self, index, version):
         self.projectname = self.municipalities_names[index]
         self.projectdesc = self.guideSearchDescription.text()
+        self.Utils.createProjectInfo(self.projectname, self.projectdesc, version)
         self.Project.createProject(index, self.projectdesc, version)
+
+    def updateActionSettings(self):
+        if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                            QApplication.translate("Patrac", "Wrong project.", None))
+            return
+
+        self.Utils.updateProjectInfo("coordinatorname", self.coordinatorActionLineEdit.text())
+        self.Utils.updateProjectInfo("coordinatortel", self.coordinatorTelActionLineEdit.text())
+        self.Utils.updateProjectInfo("placehandlers", self.placeHandlersActionLineEdit.text())
+        self.Utils.updateProjectInfo("placeother", self.placeOtherActionLineEdit.text())
+        self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Info", None), QApplication.translate("Patrac", "Information updated", None), level=Qgis.Info)
+
+    def loadActionSettings(self):
+        project_info = self.Utils.getProjectInfo()
+        # print(project_info)
+        if project_info is not None:
+            self.coordinatorActionLineEdit.setText(project_info["coordinatorname"])
+            self.coordinatorTelActionLineEdit.setText(project_info["coordinatortel"])
+            self.placeHandlersActionLineEdit.setText(project_info["placehandlers"])
+            self.placeOtherActionLineEdit.setText(project_info["placeother"])
 
     def municipalitySearch(self, textBox):
         """Tries to find municipallity in list and zoom to coordinates of it."""
@@ -867,6 +911,16 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.settingsdlg.updateSettings()
         self.settingsdlg.show()
 
+    def showHandlersDialog(self):
+        """Shows the settings dialog"""
+        if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                    QApplication.translate("Patrac", "Wrong project.", None))
+            return
+
+        self.handlersdlg.updateSettings()
+        self.handlersdlg.show()
+
     def showMessage(self):
         """Show the dialog for sending messages"""
         # Check if the project has sektory_group_selected.shp
@@ -892,6 +946,28 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         self.importgpxdlg = Ui_Gpx(self.pluginPath)
         self.importgpxdlg.show()
+
+    def setPointLatLon(self, point, type):
+        if type == 0:
+            self.Utils.updateProjectInfo("placehandlers_lon", point.x())
+            self.Utils.updateProjectInfo("placehandlers_lat", point.y())
+        if type == 1:
+            self.Utils.updateProjectInfo("placeother_lon", point.x())
+            self.Utils.updateProjectInfo("placeother_lat", point.y())
+
+    def setPointLatLonHumanReadable(self, point, type):
+        if type == 0:
+            self.placeHandlersActionLineEdit.setText(str(point))
+        if type == 1:
+            self.placeOtherActionLineEdit.setText(str(point))
+
+    def insertPlaceHandlers(self):
+        self.pointtoollatlon.setType(0)
+        self.plugin.iface.mapCanvas().setMapTool(self.pointtoollatlon)
+
+    def insertPlaceOther(self):
+        self.pointtoollatlon.setType(1)
+        self.plugin.iface.mapCanvas().setMapTool(self.pointtoollatlon)
 
     def insertFinal(self):
         """Sets tool to pointtool to be able handle from click to map.

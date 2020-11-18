@@ -1,5 +1,13 @@
 # Changelog 
 
+## Version 3.12.22 (2020-11-18)
+
+#### Bug Fixes
+
+
+#### Improvements
+* Changed GUI
+
 ## Version 3.12.21 (2020-11-08)
 
 #### Bug Fixes

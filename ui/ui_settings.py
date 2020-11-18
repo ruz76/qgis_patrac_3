@@ -85,9 +85,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.fillTableWidgetFriction("/grass/friction.csv", self.tableWidgetFriction)
 
         # Fills table with search units
-        self.fillTableWidgetUnits("/grass/units.txt", self.tableWidgetUnits)
-
-        # Fills table with search units
         self.fillTableWidgetUnitsTimes("/grass/units_times.csv", self.tableWidgetUnitsTimes)
 
         # Fills values for weights of the points
@@ -103,34 +100,9 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.pushButtonUpdateData.clicked.connect(self.updateData)
         self.pushButtonFixData.clicked.connect(self.fixData)
 
-        # fill filtering combos
-        self.fillCmbArea()
-        self.fillCmbTime()
-        self.fillCmbStatus()
-        self.fillCentroid()
-
-        self.pushButtonGetSystemUsers.clicked.connect(self.refreshSystemUsers)
-        self.comboBoxArea.currentIndexChanged.connect(self.refreshSystemUsers)
-        self.comboBoxTime.currentIndexChanged.connect(self.refreshSystemUsers)
-        self.comboBoxStatus.currentIndexChanged.connect(self.refreshSystemUsers)
-        self.pushButtonCallOnDuty.clicked.connect(self.callOnDuty)
-        self.pushButtonJoinSearch.clicked.connect(self.callToJoin)
-        self.pushButtonPutToSleep.clicked.connect(self.putToSleep)
-        self.pushButtonShowHelp.clicked.connect(self.showHelp)
         self.buttonBox.accepted.connect(self.accept)
 
-        # Psovodi HS
-        self.hsCallType = 0
-        self.pushButtonCheckAvailability.clicked.connect(self.checkIncidentHandlers)
-        self.pushButtonCreateIncident.clicked.connect(self.callHandlers)
-        self.pushButtonIncidentEdit.clicked.connect(self.incidentEdit)
-        self.incidentId = None
-        self.fillHSConfig()
-
-        # set up empty sheduler
-        self.pushButtonGetSystemUsersShedule.clicked.connect(self.refreshSystemUsersSetSheduler)
         self.periodic_scheduler = None
-
         self.pushButtonShowQrCode.clicked.connect(self.showQrCode)
 
         self.pushButtonSaveStyle.clicked.connect(self.saveStyle)
@@ -231,126 +203,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
     def refreshSystemUsersSetSheduler(self):
         QMessageBox.information(None, self.tr("Not available"), self.tr("The function is not implemented"))
 
-    def fillCentroid(self):
-        lon, lat = self.getCentroid()
-        if lon == 0 and lat == 0:
-            return
-        else:
-            self.lineEditLongitude.setText(str(lon))
-            self.lineEditLattitude.setText(str(lat))
-
-    def getCentroid(self):
-        center = self.iface.mapCanvas().center()
-        srs = self.iface.mapCanvas().mapSettings().destinationCrs()
-        source_crs = QgsCoordinateReferenceSystem(srs)
-        dest_crs = QgsCoordinateReferenceSystem(4326)
-        transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
-        xyWGS = transform.transform(center.x(), center.y())
-        return xyWGS
-
-    def checkIncidentHandlers(self):
-        self.hsCallType = 0
-        self.createIncident("https://www.horskasluzba.cz/cz/app-patrac-new-incident-test")
-
-    def callHandlers(self):
-        self.hsCallType = 1
-        self.createIncident("https://www.horskasluzba.cz/cz/app-patrac-new-incident")
-
-    def createIncident(self, urlInput):
-        if len(self.lineEditTitle.text()) < 5:
-            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter Title"))
-            return
-        if len(self.lineEditText.text()) < 5:
-            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter description"))
-            return
-        if len(self.lineEditAccessKey.text()) < 24:
-            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter API Key"))
-            return
-        if len(self.lineEditPhone.text()) < 9:
-            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter phone"))
-            return
-
-        distance = 500
-        try:
-            distance = int(self.lineEditDistance.text())
-        except ValueError:
-            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter distance in km"))
-            return
-        lon = 0
-        try:
-            lon = float(self.lineEditLongitude.text())
-        except ValueError:
-            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter longitute in format 18.14556"))
-            return
-        lat = 0
-        try:
-            lat = float(self.lineEditLattitude.text())
-        except ValueError:
-            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter latitude in format 48.54556"))
-            return
-
-        url = urlInput + "?"
-        url += "accessKey=" + self.lineEditAccessKey.text()
-        url += "&lat=" + str(lat)
-        url += "&lng=" + str(lon)
-        url += "&title=" + urllib.parse.quote(self.lineEditTitle.text())
-        url += "&text=" + urllib.parse.quote(self.lineEditText.text())
-        url += "&searchRadius=" + str(distance)
-        url += "&userPhone=" + str(self.lineEditPhone.text())
-        url += "&createIncident=1"
-
-        self.incident = Connect()
-        self.incident.setUrl(url)
-        self.incident.statusChanged.connect(self.onIncidentResponse)
-        self.incident.start()
-
-    def onIncidentResponse(self, response):
-        if response.status == 200:
-            data = response.data.read().decode('utf-8')
-            if len(data) > 20:
-                self.fillSystemUsersHS(data)
-            else:
-                QMessageBox.information(self.main.iface.mainWindow(), self.tr("Error"), self.tr("Can not create incident"))
-        else:
-            self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
-
-    def fillSystemUsersHS(self, data):
-        msg = self.tr("Can not read data")
-        hsdata = None
-        hsusersids = ""
-        try:
-            hsdata = json.loads(data)
-        except:
-            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Error"), msg)
-            return
-
-        if hsdata["ok"] == 1:
-            self.iface.messageBar().pushMessage(self.tr("Success"), self.tr("Connected"), level=Qgis.Info)
-            # print(hsdata["users"])
-            self.incidentId = hsdata["IncidentId"]
-            self.tableWidgetSystemUsersHS.setHorizontalHeaderLabels([self.tr("Name"), self.tr("Phone"), self.tr("Distance")])
-            self.tableWidgetSystemUsersHS.setColumnWidth(1, 300);
-            self.tableWidgetSystemUsersHS.setRowCount(len(hsdata["users"]))
-            i = 0
-            for user in hsdata["users"]:
-                self.tableWidgetSystemUsersHS.setItem(i, 0, QTableWidgetItem(user["name"]))
-                self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(user["phone"]))
-                self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(str(round(float(user["distance"])))))
-                hsusersids += "hs" + user["id"] + ";"
-                i += 1
-            if self.hsCallType == 1 or self.config["debug_level"] > 0:
-                self.setSystemUsersHSStatus(hsusersids, "onduty")
-        else:
-            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Error"), msg)
-
-    def setSystemUsersHSStatus(self, hsusersids, status):
-        # print(hsusersids)
-        # Connects to the server to call the selected users on duty
-        if hasattr(self, 'searchID') and self.searchID != "":
-            self.connect = Connect()
-            self.connect.setUrl(self.serverUrl + 'users.php?operation=changestatushs&id=' + self.systemid + '&status_to=' + status + '&ids=' + hsusersids + "hs0" + "&searchid=" + self.searchID)
-            self.connect.statusChanged.connect(self.onStatusChanged)
-            self.connect.start()
 
     def incidentEdit(self):
         if self.incidentId is None:
@@ -399,11 +251,10 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
     def updateSettings(self):
         self.showSearchId()
         self.showPath()
-        self.fillCentroid()
-        if self.parent.projectname != "":
-            self.lineEditTitle.setText(self.parent.projectname)
-        if self.parent.projectdesc != "":
-            self.lineEditText.setText(self.parent.projectdesc)
+        # if self.parent.projectname != "":
+        #     self.lineEditTitle.setText(self.parent.projectname)
+        # if self.parent.projectdesc != "":
+        #     self.lineEditText.setText(self.parent.projectdesc)
 
     def showSearchId(self):
         # Fills textEdit with SearchID

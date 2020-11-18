@@ -40,6 +40,10 @@ class Ui_PatracDockWidget(object):
 
         self.tabAction = QWidget()
         self.tabWidget.addTab(self.tabAction, QApplication.translate("PatracDockWidget", "Action", None))
+        self.verticalLayoutAction = QVBoxLayout(self.tabAction)
+        self.verticalLayoutAction.setObjectName(_fromUtf8("verticalLayoutAction"))
+        self.tabAction.setLayout(self.verticalLayoutAction)
+        self.setUpAction()
 
         self.tabAnalyze = QWidget()
         self.tabWidget.addTab(self.tabAnalyze, QApplication.translate("PatracDockWidget", "Analyze", None))
@@ -178,6 +182,15 @@ class Ui_PatracDockWidget(object):
 
         self.horizontalGeneralToolbarLayout = QHBoxLayout()
         self.horizontalGeneralToolbarLayout.setObjectName(_fromUtf8("horizontalGeneralToolbarLayout"))
+
+        self.showHandlers = QPushButton(self.dockWidgetContents)
+        self.showHandlers.setObjectName(_fromUtf8("helpShow"))
+        self.showHandlers.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "handlers.png")))
+        self.showHandlers.setIconSize(QSize(32, 32))
+        self.showHandlers.setFixedSize(QSize(42, 42))
+        self.showHandlers.setToolTip(
+            QApplication.translate("PatracDockWidget", "Handlers", None))
+        self.horizontalGeneralToolbarLayout.addWidget(self.showHandlers)
 
         self.tbtnInsertFinal = QPushButton(self.dockWidgetContents)
         self.tbtnInsertFinal.setObjectName(_fromUtf8("tbtnInsertFinal"))
@@ -372,6 +385,97 @@ class Ui_PatracDockWidget(object):
         self.sectorsTracksStateLabel.setWordWrap(True)
         self.verticalLayoutManagement.addWidget(self.sectorsTracksStateLabel)
 
+    def setUpAction(self):
+
+        self.horizontalLostAction = QHBoxLayout()
+        self.horizontalLostAction.setObjectName(_fromUtf8("horizontalLostAction"))
+        self.lostActionLabel = QLabel(self.dockWidgetContents)
+        self.lostActionLabel.setObjectName(_fromUtf8("sectorsAnalyzeStateLabel"))
+        self.lostActionLabel.setText(QApplication.translate("PatracDockWidget", "Lost person description", None))
+        self.lostActionLabel.setWordWrap(True)
+        self.horizontalLostAction.addWidget(self.lostActionLabel)
+        self.tbtnSetLostPerson = QPushButton(self.dockWidgetContents)
+        self.tbtnSetLostPerson.setObjectName(_fromUtf8("tbtnSetLostPerson"))
+        self.tbtnSetLostPerson.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "person.png")))
+        self.tbtnSetLostPerson.setIconSize(QSize(24, 24))
+        self.tbtnSetLostPerson.setFixedSize(QSize(30, 30))
+        self.tbtnSetLostPerson.setToolTip(QApplication.translate(
+            "PatracDockWidget", "Edit lost person description", None))
+        self.horizontalLostAction.addWidget(self.tbtnSetLostPerson)
+        self.verticalLayoutAction.addLayout(self.horizontalLostAction)
+
+        self.horizontalCoordinatorAction = QHBoxLayout()
+        self.horizontalCoordinatorAction.setObjectName(_fromUtf8("horizontalCoordinatorAction"))
+        self.coordinatorActionLabel = QLabel(self.dockWidgetContents)
+        self.coordinatorActionLabel.setObjectName(_fromUtf8("sectorsAnalyzeStateLabel"))
+        self.coordinatorActionLabel.setText(QApplication.translate("PatracDockWidget", "Name of the commander", None))
+        self.coordinatorActionLabel.setWordWrap(True)
+        self.coordinatorActionLabel.setFixedWidth(200)
+        self.horizontalCoordinatorAction.addWidget(self.coordinatorActionLabel)
+        self.coordinatorActionLineEdit = QLineEdit()
+        self.horizontalCoordinatorAction.addWidget(self.coordinatorActionLineEdit)
+        self.verticalLayoutAction.addLayout(self.horizontalCoordinatorAction)
+
+        self.horizontalCoordinatorTelAction = QHBoxLayout()
+        self.horizontalCoordinatorTelAction.setObjectName(_fromUtf8("horizontalCoordinatorTelAction"))
+        self.coordinatorTelActionLabel = QLabel(self.dockWidgetContents)
+        self.coordinatorTelActionLabel.setObjectName(_fromUtf8("coordinatorTelActionLabel"))
+        self.coordinatorTelActionLabel.setText(QApplication.translate("PatracDockWidget", "Telephone of the commander", None))
+        self.coordinatorTelActionLabel.setWordWrap(True)
+        self.coordinatorTelActionLabel.setFixedWidth(200)
+        self.horizontalCoordinatorTelAction.addWidget(self.coordinatorTelActionLabel)
+        self.coordinatorTelActionLineEdit = QLineEdit()
+        self.horizontalCoordinatorTelAction.addWidget(self.coordinatorTelActionLineEdit)
+        self.verticalLayoutAction.addLayout(self.horizontalCoordinatorTelAction)
+
+        self.horizontalPlaceHandlersAction = QHBoxLayout()
+        self.horizontalPlaceHandlersAction.setObjectName(_fromUtf8("horizontalPlaceHandlersAction"))
+        self.placeHandlersActionLabel = QLabel(self.dockWidgetContents)
+        self.placeHandlersActionLabel.setObjectName(_fromUtf8("placeHandlersActionLabel"))
+        self.placeHandlersActionLabel.setText(QApplication.translate("PatracDockWidget", "Place of meeting of handlers", None))
+        self.placeHandlersActionLabel.setWordWrap(True)
+        self.placeHandlersActionLabel.setFixedWidth(200)
+        self.horizontalPlaceHandlersAction.addWidget(self.placeHandlersActionLabel)
+        self.placeHandlersActionLineEdit = QLineEdit()
+        self.horizontalPlaceHandlersAction.addWidget(self.placeHandlersActionLineEdit)
+        self.tbtnSetPlaceHandlers = QPushButton(self.dockWidgetContents)
+        self.tbtnSetPlaceHandlers.setObjectName(_fromUtf8("tbtnSetPlaceHandlers"))
+        self.tbtnSetPlaceHandlers.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "pointer.png")))
+        self.tbtnSetPlaceHandlers.setIconSize(QSize(24, 24))
+        self.tbtnSetPlaceHandlers.setFixedSize(QSize(30, 30))
+        self.tbtnSetPlaceHandlers.setToolTip(QApplication.translate(
+            "PatracDockWidget", "Select from map", None))
+        self.horizontalPlaceHandlersAction.addWidget(self.tbtnSetPlaceHandlers)
+        self.verticalLayoutAction.addLayout(self.horizontalPlaceHandlersAction)
+
+        self.horizontalPlaceOtherAction = QHBoxLayout()
+        self.horizontalPlaceOtherAction.setObjectName(_fromUtf8("horizontalPlaceOtherAction"))
+        self.placeOtherActionLabel = QLabel(self.dockWidgetContents)
+        self.placeOtherActionLabel.setObjectName(_fromUtf8("placeOtherActionLabel"))
+        self.placeOtherActionLabel.setText(QApplication.translate("PatracDockWidget", "Place of meeting of others", None))
+        self.placeOtherActionLabel.setWordWrap(True)
+        self.placeOtherActionLabel.setFixedWidth(200)
+        self.horizontalPlaceOtherAction.addWidget(self.placeOtherActionLabel)
+        self.placeOtherActionLineEdit = QLineEdit()
+        self.horizontalPlaceOtherAction.addWidget(self.placeOtherActionLineEdit)
+        self.tbtnSetPlaceOther = QPushButton(self.dockWidgetContents)
+        self.tbtnSetPlaceOther.setObjectName(_fromUtf8("tbtnSetPlaceOther"))
+        self.tbtnSetPlaceOther.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "pointer.png")))
+        self.tbtnSetPlaceOther.setIconSize(QSize(24, 24))
+        self.tbtnSetPlaceOther.setFixedSize(QSize(30, 30))
+        self.tbtnSetPlaceOther.setToolTip(QApplication.translate(
+            "PatracDockWidget", "Select from map", None))
+        self.horizontalPlaceOtherAction.addWidget(self.tbtnSetPlaceOther)
+        self.verticalLayoutAction.addLayout(self.horizontalPlaceOtherAction)
+
+        self.tbtnUpdateAction = QPushButton(self.dockWidgetContents)
+        self.tbtnUpdateAction.setObjectName(_fromUtf8("tbtnUpdateAction"))
+        self.tbtnUpdateAction.setText(QApplication.translate(
+            "PatracDockWidget", "Update action", None))
+        self.tbtnUpdateAction.setToolTip(QApplication.translate(
+            "PatracDockWidget", "Update action settings", None))
+        self.verticalLayoutAction.addWidget(self.tbtnUpdateAction)
+
     def setUpAnalyse(self):
 
         self.sectorsAnalyzeStateLabel = QLabel(self.dockWidgetContents)
@@ -413,7 +517,6 @@ class Ui_PatracDockWidget(object):
         self.horizontalSectorsAnalyzeTrackNumberOfPersons.addWidget(self.sectorsProgressAnalyzeNumberOfPersons)
         self.verticalLayoutAnalyze.addWidget(self.horizontalSectorsAnalyzeTrackNumberOfPersonsContainer)
         self.horizontalSectorsAnalyzeTrackNumberOfPersonsContainer.setEnabled(False)
-
 
     def setGuideSteps(self):
         self.tabGuideSteps = QTabWidget()
