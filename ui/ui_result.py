@@ -294,7 +294,7 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
             self.widget.iface.messageBar().pushMessage(QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
 
     def closeHSSearch(self):
-        GinaGUID = self.Utils.getProjectInfo()['GinaGUID']
+        GinaGUID = self.Utils.getProjectInfo()['gina_guid']
         with open(self.widget.getPluginPath() + "/../../../qgis_patrac_settings" + "/config/config.json") as json_file:
             config = json.load(json_file)
             accessKey = config['hsapikey']
