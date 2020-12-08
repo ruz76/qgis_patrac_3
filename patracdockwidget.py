@@ -318,8 +318,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def runCreateProjectGuide(self, index, version):
         self.projectname = self.municipalities_names[index]
         self.projectdesc = self.guideSearchDescription.text()
-        self.Utils.createProjectInfo(self.projectname, self.projectdesc, version)
         self.Project.createProject(index, self.projectdesc, version)
+        self.Utils.createProjectInfo(self.projectname, self.projectdesc, version)
 
     def updateActionSettings(self):
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
@@ -394,6 +394,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         self.tabGuideSteps.setCurrentIndex(1)
         self.currentStep = 2
+        self.iface.actionPan().trigger()
 
         self.Styles.setSectorsStyle('single')
 
@@ -442,10 +443,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.tabGuideSteps.setCurrentIndex(2)
         self.currentStep = 3
 
-    def runGuideStep3Next(self):
-        if not self.checkStep(4):
-            return
-
+    def saveMistaLayer(self):
         # set tool to save edits
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
@@ -458,6 +456,16 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if not layer is None:
             layer.commitChanges()
             self.iface.actionToggleEditing().trigger()
+
+        return layer
+
+    def runGuideStep3Next(self):
+        if not self.checkStep(4):
+            return
+
+        layer = self.saveMistaLayer()
+
+        if not layer is None:
 
             self.Area.getArea()
 
@@ -506,10 +514,30 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.tabGuideSteps.setCurrentIndex(5)
         self.currentStep = 6
 
+    def updateUnitsGuide(self):
+        with open(self.settingsPath + "/grass/units.txt", "r") as fileInput:
+            i=0
+            for row in csv.reader(fileInput, delimiter=';'):
+                unicode_row = row
+                # dog
+                if i == 0:
+                    self.guideDogCount.setText(unicode_row[0])
+                # person
+                if i == 1:
+                    self.guidePersonCount.setText(unicode_row[0])
+                # diver
+                if i == 5:
+                    self.guideDiverCount.setText(unicode_row[0])
+                i=i+1
+
     def recalculateAll(self):
-        self.Area.getArea()
-        self.runGuideGetSectors()
-        self.showReport()
+        layer = self.saveMistaLayer()
+        if not layer is None:
+            self.updateUnitsGuide()
+            self.Area.getArea()
+            self.runGuideGetSectors()
+            self.Sectors.reportExportSectors(False, False)
+            self.showReport()
 
     def setPercent(self, percent):
         self.spinStart.setValue(0)
