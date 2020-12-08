@@ -63,6 +63,18 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
         self.pushButtonShowInAction.clicked.connect(self.showInAction)
         self.pushButtonMessages.clicked.connect(self.showMessages)
         self.readConfig()
+        self.readUsersInCall()
+
+    def readUsersInCall(self):
+        path = self.Utils.getDataPath() + "/pracovni/users_in_call.json"
+        if os.path.exists(path):
+            with open(path, "r") as json_file:
+                self.hs_users_in_call = json.load(json_file)
+
+    def saveUsersInCall(self):
+        path = self.Utils.getDataPath() + "/pracovni/users_in_call.json"
+        with open(path, "w") as outfile:
+            json.dump(self.hs_users_in_call, outfile)
 
     def readConfig(self):
         with open(self.settingsPath + "/config/config.json") as json_file:
@@ -70,12 +82,14 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
 
     def updateSettings(self):
         self.project_settings = self.Utils.getProjectInfo()
+        self.readUsersInCall()
 
     def accept(self):
         self.close()
 
     def showInAction(self):
-        QMessageBox.information(self.parent.iface.mainWindow(), self.tr("ERROR"), self.tr("Not yet implemented"))
+        self.getUsersStatus()
+        # QMessageBox.information(self.parent.iface.mainWindow(), self.tr("ERROR"), self.tr("Not yet implemented"))
 
     def showMessages(self):
         QMessageBox.information(self.parent.iface.mainWindow(), self.tr("ERROR"), self.tr("Not yet implemented"))
@@ -191,6 +205,7 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
                 QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("Can not call handlers. Some error occured."))
             else:
                 self.getUsersStatus()
+                self.saveUsersInCall()
         else:
             self.parent.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
@@ -244,6 +259,8 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             self.parent.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
     def getUserFromCalls(self, user_in_action):
+        print(user_in_action)
+        print(self.hs_users_in_call)
         for user in self.hs_users_in_call:
             if user["id"] == str(user_in_action["userId"]):
                 return user
@@ -281,6 +298,7 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
                     self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(str(user_from_calls["phone"])))
                     self.tableWidgetSystemUsersHS.setItem(i, 3, QTableWidgetItem(str(user_from_calls["state"])))
                 else:
+                    print("TADY")
                     QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), msg)
                 i += 1
                 hsusersids += "hs" + str(user["userId"]) + ";"
