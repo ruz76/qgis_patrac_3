@@ -57,13 +57,12 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
 
         # Psovodi HS
         self.hsCallType = 0
+        self.hs_users_in_call = []
         self.pushButtonCheckAvailability.clicked.connect(self.checkIncidentHandlers)
         self.pushButtonCreateIncident.clicked.connect(self.callHandlers)
         self.pushButtonShowInAction.clicked.connect(self.showInAction)
         self.pushButtonMessages.clicked.connect(self.showMessages)
-        self.incidentId = None
         self.readConfig()
-        # self.fillHSConfig()
 
     def readConfig(self):
         with open(self.settingsPath + "/config/config.json") as json_file:
@@ -87,7 +86,10 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
 
     def callHandlers(self):
         self.hsCallType = 1
-        self.createIncident("https://www.horskasluzba.cz/cz/app-patrac-new-incident")
+        if self.project_settings["gina_guid"] == "":
+            self.createIncident("https://www.horskasluzba.cz/cz/app-patrac-new-incident")
+        else:
+            self.addUsersIntoCall()
 
     def createIncident(self, urlInput):
         if self.project_settings is None:
@@ -97,8 +99,9 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Wrong input"), self.tr("Missing Title"))
             return
         if len(self.project_settings['projectdesc']) < 5:
-            QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Wrong input"), self.tr("Missing Description"))
-            return
+            self.project_settings['projectdesc'] = self.tr("No description")
+            # QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Wrong input"), self.tr("Missing Description"))
+            # return
         if len(self.config["hsapikey"]) < 24:
             QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Wrong input"), self.tr("Missing API Key"))
             return
@@ -127,7 +130,10 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
         url += "&lng=" + str(lon)
         url += "&title=" + urllib.parse.quote(self.project_settings['projectname'])
         url += "&text=" + urllib.parse.quote(self.project_settings['projectdesc'])
-        url += "&searchRadius=" + str(distance)
+        if self.hsCallType == 0:
+            url += "&searchRadius=" + str(distance)
+        else:
+            url += "&searchRadius=0"
         url += "&userPhone=" + urllib.parse.quote(self.project_settings['coordinatortel'])
         url += "&createIncident=1"
 
@@ -141,12 +147,150 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             data = response.data.read().decode('utf-8')
             if len(data) > 20:
                 self.fillSystemUsersHS(data)
+                if self.hsCallType == 0:
+                    self.pushButtonCreateIncident.setEnabled(True)
             else:
                 QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("Can not create incident"))
         else:
             self.parent.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
+    def addUsersIntoCall(self):
+        if self.project_settings["gina_guid"] == "":
+            QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("Can not call handlers. Some error occured."))
+            return
+        hsusersids = ""
+        i = 0
+        for checkbox in self.hs_users_available_checkboxes:
+            if checkbox.isChecked():
+                user = self.hs_users_available[i]
+                hsusersids += user["id"] + ","
+                user["state"] = self.tr("Notified")
+                self.hs_users_in_call.append(user)
+            i += 1
+
+        if hsusersids != "":
+            url = "https://www.horskasluzba.cz/cz/app-patrac-add-users-to-incident?"
+            url += "accessKey=" + self.config["hsapikey"]
+            url += "&GinaGUID=" + self.project_settings["gina_guid"]
+            url += "&users=" + hsusersids[:-1]
+
+            self.adduserstocall = Connect()
+            self.adduserstocall.setUrl(url)
+            self.adduserstocall.statusChanged.connect(self.onAddUsersIntoCallResponse)
+            self.adduserstocall.start()
+
+            self.sendNotification(hsusersids[:-1])
+
+        else:
+            QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("You have to check the handlers."))
+
+    def onAddUsersIntoCallResponse(self, response):
+        if response.status == 200:
+            data = response.data.read().decode('utf-8')
+            if len(data) < 20:
+                QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("Can not call handlers. Some error occured."))
+            else:
+                self.getUsersStatus()
+        else:
+            self.parent.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
+
+    def getUsersStatus(self):
+        if self.project_settings["gina_guid"] == "":
+            QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("Can not show handlers in action. Action was not created yet."))
+            return
+
+        url = "https://www.horskasluzba.cz/cz/app-patrac-incident-info?"
+        url += "accessKey=" + self.config["hsapikey"]
+        url += "&GinaGUID=" + self.project_settings["gina_guid"]
+
+        self.getusersstatus = Connect()
+        self.getusersstatus.setUrl(url)
+        self.getusersstatus.statusChanged.connect(self.onGetUsersStatusResponse)
+        self.getusersstatus.start()
+
+    def onGetUsersStatusResponse(self, response):
+        if response.status == 200:
+            data = response.data.read().decode('utf-8')
+            if len(data) < 20:
+                QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("Can not connect to the server."))
+            else:
+                self.fillUsersInAction(data)
+                self.pushButtonCreateIncident.setEnabled(False)
+        else:
+            self.parent.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
+
+    def sendNotification(self, users):
+        if self.project_settings["gina_guid"] == "":
+            QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("Can not notify handlers. Action was not created yet."))
+            return
+
+        url = "https://www.horskasluzba.cz/cz/app-patrac-send-notifications?"
+        url += "accessKey=" + self.config["hsapikey"]
+        url += "&GinaGUID=" + self.project_settings["gina_guid"]
+        url += "&notifyUsersType=list"
+        url += "&users=" + users
+
+        self.notifyusers = Connect()
+        self.notifyusers.setUrl(url)
+        self.notifyusers.statusChanged.connect(self.onSendNotificationResponse)
+        self.notifyusers.start()
+
+    def onSendNotificationResponse(self, response):
+        if response.status == 200:
+            data = response.data.read().decode('utf-8')
+            if len(data) < 20:
+                QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("Can not connect to the server."))
+        else:
+            self.parent.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
+
+    def getUserFromCalls(self, user_in_action):
+        for user in self.hs_users_in_call:
+            if user["id"] == str(user_in_action["userId"]):
+                return user
+        return None
+
+    def fillUsersInAction(self, data):
+        print("fillUsersInAction")
+        print(data)
+        msg = self.tr("Can not read data")
+        hsdata = None
+        hsusersids = ""
+        try:
+            hsdata = json.loads(data)
+        except:
+            QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), msg)
+            return
+
+        if hsdata["ok"] == 1:
+            self.parent.iface.messageBar().pushMessage(self.tr("Success"), self.tr("Connected"), level=Qgis.Info)
+            self.tableWidgetSystemUsersHS.setColumnCount(4)
+            self.tableWidgetSystemUsersHS.setHorizontalHeaderLabels([self.tr("Selected"), self.tr("Name"), self.tr("Phone"), self.tr("State")])
+            self.tableWidgetSystemUsersHS.setColumnWidth(1, 300);
+            self.tableWidgetSystemUsersHS.setRowCount(len(hsdata["incident"]["users"]))
+            hs_users = hsdata["incident"]["users"]
+            hs_users.sort(key = lambda json : json['userId'])
+            self.hs_users_in_action_checkboxes = []
+            i = 0
+            for user in hs_users:
+                row_checkbox = QCheckBox()
+                self.hs_users_in_action_checkboxes.append(row_checkbox)
+                self.tableWidgetSystemUsersHS.setCellWidget(i, 0, row_checkbox)
+                user_from_calls = self.getUserFromCalls(user)
+                if user_from_calls is not None:
+                    self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(str(user_from_calls["name"])))
+                    self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(str(user_from_calls["phone"])))
+                    self.tableWidgetSystemUsersHS.setItem(i, 3, QTableWidgetItem(str(user_from_calls["state"])))
+                else:
+                    QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), msg)
+                i += 1
+                hsusersids += "hs" + str(user["userId"]) + ";"
+            self.setSystemUsersHSStatus(hsusersids, "onduty")
+        else:
+            QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), msg)
+
     def fillSystemUsersHS(self, data):
+        print("fillSystemUsersHS")
+        print(data)
         msg = self.tr("Can not read data")
         hsdata = None
         hsusersids = ""
@@ -159,20 +303,33 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
         if hsdata["ok"] == 1:
             self.parent.iface.messageBar().pushMessage(self.tr("Success"), self.tr("Connected"), level=Qgis.Info)
             # print(hsdata["users"])
-            self.incidentId = hsdata["IncidentId"]
-            self.tableWidgetSystemUsersHS.setHorizontalHeaderLabels([self.tr("Name"), self.tr("Phone"), self.tr("Distance")])
-            self.tableWidgetSystemUsersHS.setColumnWidth(1, 300);
-            self.tableWidgetSystemUsersHS.setRowCount(len(hsdata["users"]))
-            i = 0
-            for user in hsdata["users"]:
-                self.tableWidgetSystemUsersHS.setItem(i, 0, QTableWidgetItem(user["name"]))
-                self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(user["phone"]))
-                self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(str(round(float(user["distance"])))))
-                hsusersids += "hs" + user["id"] + ";"
-                i += 1
-            if self.hsCallType == 1 or self.config["debug_level"] > 0:
-                self.setSystemUsersHSStatus(hsusersids, "onduty")
-            self.tableWidgetSystemUsersHS.sortItems(2, QtCore.Qt.AscendingOrder)
+            if self.hsCallType == 1:
+                self.project_settings["hs_incidentid"] = hsdata["IncidentId"]
+                self.project_settings["gina_guid"] = hsdata["GinaGUID"]
+                self.Utils.updateProjectInfo("hs_incidentid", self.project_settings["hs_incidentid"])
+                self.Utils.updateProjectInfo("gina_guid", self.project_settings["gina_guid"])
+                self.addUsersIntoCall()
+            if self.hsCallType == 0:
+                self.tableWidgetSystemUsersHS.setColumnCount(5)
+                self.tableWidgetSystemUsersHS.setHorizontalHeaderLabels([self.tr("Selected"), self.tr("Distance"), self.tr("Name"), self.tr("Phone"), self.tr("State")])
+                self.tableWidgetSystemUsersHS.setColumnWidth(2, 300);
+                self.tableWidgetSystemUsersHS.setRowCount(len(hsdata["users"]))
+                self.hs_users_available = []
+                self.hs_users_available_checkboxes = []
+                hs_users = hsdata["users"]
+                hs_users.sort(key = lambda json : json['distance'])
+                i = 0
+                for user in hs_users:
+                    row_checkbox = QCheckBox()
+                    self.hs_users_available_checkboxes.append(row_checkbox)
+                    self.tableWidgetSystemUsersHS.setCellWidget(i, 0, row_checkbox)
+                    self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(str(round(float(user["distance"])))))
+                    self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(user["name"]))
+                    self.tableWidgetSystemUsersHS.setItem(i, 3, QTableWidgetItem(user["phone"]))
+                    user["state"] = self.tr("Available")
+                    self.tableWidgetSystemUsersHS.setItem(i, 4, QTableWidgetItem(user["state"]))
+                    self.hs_users_available.append(user)
+                    i += 1
         else:
             QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), msg)
 
