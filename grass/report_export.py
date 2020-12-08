@@ -13,6 +13,13 @@ import time
 import sqlite3
 from sqlite3 import Error
 
+def fixUt(ut):
+    if ut == 0:
+        print("The unit speed value is set to 0, this is not correct. Returning 1.")
+        return 1
+    else:
+        return ut
+
 if sys.argv[5][:2] == "cs":
   from report_export_cs import *
 else:
@@ -342,14 +349,14 @@ f.write(u'<div id="teams" class="fixed400">\n')
 f.write(u"<h2>" + handlersLabel + "</h2>\n")
 f.write(u"<p>" + areaForhandlersLabel + " " + str(int(math.ceil(KPT + KPT_PT))) + u" ha.\n")
 f.write(u"<p>" + availableLabel + " " + str(CUR_KPT) + u" " + handlersLabel2 + ".\n")
-P2_P3_P5_KPT = float(SUM_P2) / unitsTimes[1][0] + float(SUM_P3) / unitsTimes[2][0] + float(SUM_P5) / unitsTimes[4][0]
-P1_P4_P8_KPT = float(SUM_P1) / unitsTimes[0][0] + float(SUM_P4) / unitsTimes[3][0] + float(SUM_P8) / unitsTimes[7][0]
+P2_P3_P5_KPT = float(SUM_P2) / fixUt(unitsTimes[1][0]) + float(SUM_P3) / fixUt(unitsTimes[2][0]) + float(SUM_P5) / fixUt(unitsTimes[4][0])
+P1_P4_P8_KPT = float(SUM_P1) / fixUt(unitsTimes[0][0]) + float(SUM_P4) / fixUt(unitsTimes[3][0]) + float(SUM_P8) / fixUt(unitsTimes[7][0])
 if CUR_KPT > 0:
     f.write(u"<p>" + searchingForTime + " " + str(
         int(math.ceil((P2_P3_P5_KPT + P1_P4_P8_KPT) / float(CUR_KPT)))) + u" h.\n")
 
 if KPT_PT > 0:
-    P1_P4_P8_PT = float(SUM_P1) / unitsTimes[0][1] + float(SUM_P4) / unitsTimes[3][1] + float(SUM_P8) / unitsTimes[7][1]
+    P1_P4_P8_PT = float(SUM_P1) / fixUt(unitsTimes[0][1]) + float(SUM_P4) / fixUt(unitsTimes[3][1]) + float(SUM_P8) / fixUt(unitsTimes[7][1])
     f.write(
         u"<p>" + handlersSubstitute + " " + str(int(math.ceil(KPT_PT))) + u" ha.\n")
 if (SUM_P2 + SUM_P1) > 0:
@@ -360,8 +367,8 @@ PT = SUM_P6 + SUM_P7 + SUM_P10
 f.write(u"<h2>" + searchersLabel + "</h2>\n")
 f.write(u"<p>" + searchersArea + " " + str(round(PT)) + u" ha.\n")
 f.write(u"<p>" + availableLabel + " " + str(CUR_PT) + u" " + searchersLabel2 + ".\n")
+P6_P7_P10_PT = float(SUM_P6) / fixUt(unitsTimes[5][1]) + float(SUM_P7) / fixUt(unitsTimes[6][1]) + float(SUM_P10) / fixUt(unitsTimes[9][1])
 if CUR_PT > 0:
-    P6_P7_P10_PT = float(SUM_P6) / unitsTimes[5][1] + float(SUM_P7) / unitsTimes[6][1] + float(SUM_P10) / unitsTimes[9][1]
     f.write(u"<p>" + searchingForTime + " " + str(int(math.ceil(P6_P7_P10_PT / float(CUR_PT)))) + u" h.\n")
 else:
     f.write(u"<p>" + noSearchers + ".\n")
@@ -370,7 +377,7 @@ if SUM_P9 > 0:
     f.write(u"<h2>" + diverLabel + "</h2>\n")
     f.write(u"<p>" + waterArea + " " + str(int(math.ceil(SUM_P9))) + u" ha.\n")
     if CUR_VPT > 0:
-        P9_VPT = float(SUM_P9) / unitsTimes[8][4]
+        P9_VPT = float(SUM_P9) / fixUt(unitsTimes[8][4])
         f.write(u"<p>" + availableLabel + " " + str(CUR_VPT) + u" " + diverLabel2 + ".\n")
         f.write(u"<p>" + searchingForTime + " " + str(int(math.ceil(P9_VPT / float(CUR_VPT)))) + u" h.\n")
     else:
