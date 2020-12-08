@@ -443,19 +443,79 @@
         <translation>HS Messenger</translation>
     </message>
     <message>
-        <location filename="../ui/handlers.ui" line="81"/>
+        <location filename="../ui/handlers.ui" line="84"/>
         <source>Call handlers</source>
         <translation>Vyzvat psovody</translation>
     </message>
     <message>
-        <location filename="../ui/handlers.ui" line="110"/>
+        <location filename="../ui/handlers.ui" line="113"/>
         <source>Show in action</source>
         <translation>Zobrazit psovody zařazené do pátrací akce</translation>
     </message>
     <message>
-        <location filename="../ui/handlers.ui" line="123"/>
+        <location filename="../ui/handlers.ui" line="126"/>
         <source>Messages</source>
         <translation>Zprávy</translation>
+    </message>
+    <message>
+        <location filename="../ui/person.ui" line="14"/>
+        <source>Person information</source>
+        <translation>Popis pohřešované osoby</translation>
+    </message>
+    <message>
+        <location filename="../ui/person.ui" line="42"/>
+        <source>Lost Person Name</source>
+        <translation>Jméno pohřešované osoby</translation>
+    </message>
+    <message>
+        <location filename="../ui/person.ui" line="65"/>
+        <source>Age</source>
+        <translation>Věk</translation>
+    </message>
+    <message>
+        <location filename="../ui/person.ui" line="91"/>
+        <source>Missing from</source>
+        <translation>Pohřešována od</translation>
+    </message>
+    <message>
+        <location filename="../ui/person.ui" line="114"/>
+        <source>Missing reported</source>
+        <translation>Čas oznámení o pohřešování</translation>
+    </message>
+    <message>
+        <location filename="../ui/person.ui" line="137"/>
+        <source>Physical condition</source>
+        <translation>Fyzická zdatnost</translation>
+    </message>
+    <message>
+        <location filename="../ui/person.ui" line="170"/>
+        <source>Known health state</source>
+        <translation>Známý zdravotní stav</translation>
+    </message>
+    <message>
+        <location filename="../ui/person.ui" line="193"/>
+        <source>Sex</source>
+        <translation>Pohlaví</translation>
+    </message>
+    <message>
+        <location filename="../ui/person.ui" line="222"/>
+        <source>Height</source>
+        <translation>Výška postavy</translation>
+    </message>
+    <message>
+        <location filename="../ui/person.ui" line="245"/>
+        <source>Body type</source>
+        <translation>Typ postavy</translation>
+    </message>
+    <message>
+        <location filename="../ui/person.ui" line="258"/>
+        <source>Hair color</source>
+        <translation>Barva vlasů</translation>
+    </message>
+    <message>
+        <location filename="../ui/person.ui" line="281"/>
+        <source>Clothes</source>
+        <translation>Oblečení</translation>
     </message>
 </context>
 <context>
@@ -504,7 +564,7 @@
         <translation>Chybný projekt. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="643"/>
+        <location filename="../patracdockwidget.py" line="671"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
@@ -569,12 +629,12 @@
         <translation>Pro daný kraj nemám k dispozici data. Nemám data nemohu pokračovat.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1458"/>
+        <location filename="../patracdockwidget.py" line="1490"/>
         <source>Can not connect to the server.</source>
         <translation>Nemohu se spojit se serverem.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1465"/>
+        <location filename="../patracdockwidget.py" line="1497"/>
         <source>Wrong project.</source>
         <translation>Chybný projekt. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.</translation>
     </message>
@@ -604,12 +664,12 @@
         <translation type="obsolete">J-V</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1458"/>
+        <location filename="../patracdockwidget.py" line="1490"/>
         <source>Error</source>
         <translation>CHYBA</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="288"/>
+        <location filename="../patracdockwidget.py" line="287"/>
         <source>Can not find web browser to open help</source>
         <translation>Nemohu otevřít WWW prohlížeč k načtení nápovědy</translation>
     </message>
@@ -624,52 +684,52 @@
         <translation>Obec nebyla nalezena</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="407"/>
+        <location filename="../patracdockwidget.py" line="408"/>
         <source>Step</source>
         <translation>Krok</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="407"/>
+        <location filename="../patracdockwidget.py" line="408"/>
         <source>You skipped the step. Do you want to continue?</source>
         <translation>Přeskočili jste krok v průvodci. Chcete pokračovat?</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="564"/>
+        <location filename="../patracdockwidget.py" line="592"/>
         <source>No probability layer. Can not continue.</source>
         <translation>Nemohu najít vrstvu pravděpodobnosti. Nemohu pokračovat.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="595"/>
+        <location filename="../patracdockwidget.py" line="623"/>
         <source>Can not find web browser to open report</source>
         <translation>Nemohu otevřít WWW prohlížeč k načtení reportu</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="625"/>
+        <location filename="../patracdockwidget.py" line="653"/>
         <source>Did not find GPS. You have to copy GPX manually from the report.</source>
         <translation>Nenašel jsem připojenou GPS. Soubor musite uložit z reportu ručně.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="629"/>
+        <location filename="../patracdockwidget.py" line="657"/>
         <source>select input dialog</source>
         <translation>Vyberte</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="629"/>
+        <location filename="../patracdockwidget.py" line="657"/>
         <source>list of drives</source>
         <translation>Seznam disků</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="643"/>
+        <location filename="../patracdockwidget.py" line="671"/>
         <source>The sectors has been copied into the device: </source>
         <translation>Sektory byly zkopírovány do zařízení</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="645"/>
+        <location filename="../patracdockwidget.py" line="673"/>
         <source>Can not copy. You have copy it manually from the path: </source>
         <translation>Při kopírování sektorů došlo k chybě. Zkopírujte přes správce souborů z cesty:</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="781"/>
+        <location filename="../patracdockwidget.py" line="809"/>
         <source>No probability layer. Please try step 3 again.</source>
         <translation>Projekt neobsahuje vrstvu pravděpodobnosti. Zkuste prosím znovu použít krok 3 v průvodci.</translation>
     </message>
@@ -684,22 +744,22 @@
         <translation type="obsolete">Nedostupné</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1343"/>
+        <location filename="../patracdockwidget.py" line="1375"/>
         <source>Tracks are empty.</source>
         <translation>Stopy jsou prázdné.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1451"/>
+        <location filename="../patracdockwidget.py" line="1483"/>
         <source>Problem to read data from: </source>
         <translation>Problém s načtením dat z databáze</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1432"/>
+        <location filename="../patracdockwidget.py" line="1464"/>
         <source>Positions are empty.</source>
         <translation>Pozice jsou prázdné.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1465"/>
+        <location filename="../patracdockwidget.py" line="1497"/>
         <source>CHYBA:</source>
         <translation>CHYBA:</translation>
     </message>
@@ -754,12 +814,12 @@
         <translation>DATA TEST DOKONČEN</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="994"/>
+        <location filename="../patracdockwidget.py" line="1026"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="994"/>
+        <location filename="../patracdockwidget.py" line="1026"/>
         <source>Click into the map at the place of finding. If you finishing without finding, click anywhere into map.</source>
         <translation>Klikněte do mapy na místo nálzeu. Pokud ukončujete bez nálezu, klikněte na libovolné místo v mapě.</translation>
     </message>
@@ -839,7 +899,7 @@
         <translation>Musíte zadat typ pátrání (výuka a testování nbeo reálná pátrací akce).</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1315"/>
+        <location filename="../patracdockwidget.py" line="1347"/>
         <source>Online tracks</source>
         <translation>Online stopy</translation>
     </message>
@@ -1359,12 +1419,12 @@
     <message>
         <location filename="../patracdockwidget.py" line="220"/>
         <source>ERROR</source>
-        <translation>CHYBA</translation>
+        <translation type="obsolete">CHYBA</translation>
     </message>
     <message>
         <location filename="../patracdockwidget.py" line="220"/>
         <source>Not yet implemented</source>
-        <translation>Zatím nebylo implementováno</translation>
+        <translation type="obsolete">Zatím nebylo implementováno</translation>
     </message>
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="455"/>
@@ -1609,99 +1669,144 @@
 <context>
     <name>Ui_Handlers</name>
     <message>
-        <location filename="../ui/ui_handlers.py" line="82"/>
+        <location filename="../ui/ui_handlers.py" line="81"/>
         <source>ERROR</source>
         <translation>CHYBA</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="82"/>
+        <location filename="../ui/ui_handlers.py" line="81"/>
         <source>Not yet implemented</source>
         <translation>Zatím nebylo implementováno</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="94"/>
+        <location filename="../ui/ui_handlers.py" line="96"/>
         <source>Wrong project</source>
         <translation>Chybný projekt</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="94"/>
+        <location filename="../ui/ui_handlers.py" line="96"/>
         <source>This function is avaialble from projects created in at least version 3.12.22</source>
         <translation>Tato funkce je dostupná pouze pro projekty vytvořené ve verzi 3.12.22 a vyšší</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="113"/>
+        <location filename="../ui/ui_handlers.py" line="116"/>
         <source>Wrong input</source>
         <translation>Chybný vstup</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="97"/>
+        <location filename="../ui/ui_handlers.py" line="99"/>
         <source>Missing Title</source>
         <translation>Chybí název</translation>
     </message>
     <message>
         <location filename="../ui/ui_handlers.py" line="100"/>
         <source>Missing Description</source>
-        <translation>Chybí popis</translation>
+        <translation type="obsolete">Chybí popis</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="103"/>
+        <location filename="../ui/ui_handlers.py" line="106"/>
         <source>Missing API Key</source>
         <translation>Chybí API key. Zadejte v Nastavení.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="106"/>
+        <location filename="../ui/ui_handlers.py" line="109"/>
         <source>Missing Phone</source>
         <translation>Chybí telefon. Zadejte na kartě Pátrací akce.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="113"/>
+        <location filename="../ui/ui_handlers.py" line="116"/>
         <source>Enter distance in km</source>
         <translation>Zadejte vzdálenost v kilometrech</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="177"/>
+        <location filename="../ui/ui_handlers.py" line="337"/>
         <source>Error</source>
         <translation>CHYBA</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="145"/>
+        <location filename="../ui/ui_handlers.py" line="153"/>
         <source>Can not create incident</source>
         <translation>Nemohu vyzvat psovody.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="147"/>
+        <location filename="../ui/ui_handlers.py" line="245"/>
         <source>Can not connect to the server.</source>
         <translation>Nemohu se spojit se serverem. Zkontrolujte připojení k Internetu.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="150"/>
+        <location filename="../ui/ui_handlers.py" line="296"/>
         <source>Can not read data</source>
         <translation>Nepodařilo se načíst data o psovodech</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="161"/>
+        <location filename="../ui/ui_handlers.py" line="307"/>
         <source>Success</source>
         <translation>Úspěch</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="161"/>
+        <location filename="../ui/ui_handlers.py" line="307"/>
         <source>Connected</source>
         <translation>Připojeno</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="164"/>
+        <location filename="../ui/ui_handlers.py" line="317"/>
         <source>Name</source>
         <translation>Jméno</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="164"/>
+        <location filename="../ui/ui_handlers.py" line="317"/>
         <source>Phone</source>
         <translation>Telefon</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="164"/>
+        <location filename="../ui/ui_handlers.py" line="317"/>
         <source>Distance</source>
         <translation>Vzdálenost</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_handlers.py" line="102"/>
+        <source>No description</source>
+        <translation>Bez popisu</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_handlers.py" line="192"/>
+        <source>Can not call handlers. Some error occured.</source>
+        <translation>Nemohu vyzvat psovody. Nastala neočákavná chyba.</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_handlers.py" line="168"/>
+        <source>Notified</source>
+        <translation>Informováni</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_handlers.py" line="186"/>
+        <source>You have to check the handlers.</source>
+        <translation>Musíte vybrat psovody.</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_handlers.py" line="200"/>
+        <source>Can not show handlers in action. Action was not created yet.</source>
+        <translation>Nemohu ukázat psovody v akci. Akce ještě nebyla vytvořena.</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_handlers.py" line="225"/>
+        <source>Can not notify handlers. Action was not created yet.</source>
+        <translation>Nemohu informovat psovody. Akce ještě nebyla vytvořena.</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_handlers.py" line="317"/>
+        <source>Selected</source>
+        <translation>Vybráni</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_handlers.py" line="317"/>
+        <source>State</source>
+        <translation>Stav</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_handlers.py" line="332"/>
+        <source>Available</source>
+        <translation>Dostupní</translation>
     </message>
 </context>
 <context>
@@ -1738,6 +1843,104 @@
         <location filename="../ui/ui_percent.py" line="62"/>
         <source>You have to insert integer.</source>
         <translation>Musíte zadat celé číslo</translation>
+    </message>
+</context>
+<context>
+    <name>Ui_Person</name>
+    <message>
+        <location filename="../ui/ui_person.py" line="60"/>
+        <source>Male</source>
+        <translation>Muž</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="61"/>
+        <source>Female</source>
+        <translation>Žena</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="63"/>
+        <source>Very good</source>
+        <translation>Velmi dobrá</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="64"/>
+        <source>Good</source>
+        <translation>Dobrá</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="65"/>
+        <source>Bad</source>
+        <translation>Špatná</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="66"/>
+        <source>Very bad</source>
+        <translation>Velmi špatná</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="68"/>
+        <source>No health problems</source>
+        <translation>Bez zdravotních obtíží</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="69"/>
+        <source>Diabetes</source>
+        <translation>Diabetes</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="70"/>
+        <source>Epilepsie</source>
+        <translation>Epilepsie</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="71"/>
+        <source>Movement problems</source>
+        <translation>Pohybově postižený</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="72"/>
+        <source>Hypertension</source>
+        <translation>Vysoký krevní tlak</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="73"/>
+        <source>Other</source>
+        <translation>Jiná</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="75"/>
+        <source>Thin</source>
+        <translation>Hubená</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="76"/>
+        <source>Middle</source>
+        <translation>Plnoštíhlá</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="77"/>
+        <source>Thick</source>
+        <translation>Nadváha</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="78"/>
+        <source>Obese</source>
+        <translation>Obézní</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="80"/>
+        <source>Blonde</source>
+        <translation>Světlá</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="81"/>
+        <source>Brunette</source>
+        <translation>Tmavá</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_person.py" line="82"/>
+        <source>Reddish</source>
+        <translation>Zrzavá</translation>
     </message>
 </context>
 <context>

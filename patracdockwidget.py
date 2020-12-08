@@ -45,6 +45,7 @@ from .ui.ui_progress_tool import ProgressMapTool
 from .ui.ui_percent import Ui_Percent
 from .ui.ui_units import Ui_Units
 from .ui.ui_handlers import Ui_Handlers
+from .ui.ui_person import Ui_Person
 
 from .main.printing import Printing
 from .main.project import ZPM_Raster, Project
@@ -163,6 +164,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.percentdlg = Ui_Percent()
         self.unitsdlg = Ui_Units(self.pluginPath, self)
         self.handlersdlg = Ui_Handlers(self.pluginPath, self)
+        self.persondlg = Ui_Person(self.pluginPath, self)
 
         self.Styles = Styles(self)
         self.sectorsUniqueStyle.clicked.connect(self.setSectorsUniqueValuesStyle)
@@ -203,7 +205,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.tbtnSetPlaceHandlers.clicked.connect(self.insertPlaceHandlers)
         self.tbtnSetPlaceOther.clicked.connect(self.insertPlaceOther)
         self.tbtnUpdateAction.clicked.connect(self.updateActionSettings)
-        self.tbtnSetLostPerson.clicked.connect(self.showSetLostPersonDialog)
+        self.tbtnSetLostPerson.clicked.connect(self.showPersonInfo)
 
         project = QgsProject.instance()
         project.readProject.connect(self.on_project_change)
@@ -213,9 +215,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def on_project_change(self):
         # print("PROJECT CHANGE")
         self.loadActionSettings()
-
-    def showSetLostPersonDialog(self):
-        QMessageBox.information(self.iface.mainWindow(), self.tr("ERROR"), self.tr("Not yet implemented"))
 
     def sayHello(self):
         print("HELLO")
@@ -320,6 +319,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.projectdesc = self.guideSearchDescription.text()
         self.Project.createProject(index, self.projectdesc, version)
         self.Utils.createProjectInfo(self.projectname, self.projectdesc, version)
+        self.Utils.createPersonInfo()
 
     def updateActionSettings(self):
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
@@ -938,6 +938,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         """Shows the settings dialog"""
         self.settingsdlg.updateSettings()
         self.settingsdlg.show()
+
+    def showPersonInfo(self):
+        """Shows the person info dialog"""
+        self.persondlg.show()
 
     def showHandlersDialog(self):
         """Shows the settings dialog"""
