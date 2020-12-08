@@ -319,7 +319,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.projectdesc = self.guideSearchDescription.text()
         self.Project.createProject(index, self.projectdesc, version)
         self.Utils.createProjectInfo(self.projectname, self.projectdesc, version)
-        self.Utils.createPersonInfo()
 
     def updateActionSettings(self):
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
@@ -538,6 +537,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             self.runGuideGetSectors()
             self.Sectors.reportExportSectors(False, False)
             self.showReport()
+            self.updatePatrac()
 
     def setPercent(self, percent):
         self.spinStart.setValue(0)
@@ -887,7 +887,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         self.spinEnd.setMaximum(int(self.maxVal))
         self.spinEnd.setMinimum(int(self.minVal))
-        self.spinEnd.setValue(int(self.maxVal))
+        self.spinEnd.setValue(int(self.guideSpinEnd.value()))
 
         self.sliderStart.setMinimum(int(self.minVal))
         self.sliderStart.setMaximum(int(self.maxVal))
@@ -895,7 +895,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         self.sliderEnd.setMinimum(int(self.minVal))
         self.sliderEnd.setMaximum(int(self.maxVal))
-        self.sliderEnd.setValue(int(self.maxVal))
+        self.sliderEnd.setValue(int(self.guideSpinEnd.value()))
 
     def generateTransparencyList(self, minVal, maxVal):
         trList = []
