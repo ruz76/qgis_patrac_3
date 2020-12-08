@@ -194,7 +194,9 @@ class Utils(object):
             "lost_height": 0,
             "lost_body_type": 0,
             "lost_hair_color": 0,
-            "lost_clothes": ""
+            "lost_clothes": "",
+            "hs_incidentid": "0",
+            "gina_guid": ""
         }
 
         with open(self.getDataPath() + "/pracovni/project.json", 'w') as outfile:
