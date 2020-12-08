@@ -186,6 +186,7 @@ class Utils(object):
             "placeother_lat": 0.0,
             "placeother_lon": 0.0,
             "lost_name": "",
+            "lost_sex": 0,
             "lost_age": 0,
             "lost_from_date_time": "",
             "lost_time_from_info": "",
