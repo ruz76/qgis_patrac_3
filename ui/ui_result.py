@@ -40,6 +40,7 @@ import socket
 import zipfile
 from time import gmtime, strftime
 from ..connect.connect import *
+from .. main.utils import Utils
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -55,6 +56,7 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         super(Ui_Result, self).__init__()
 
         self.widget = widget
+        self.Utils = Utils(self.widget)
         self.serverUrl = self.widget.serverUrl
         self.systemid = self.widget.systemid
 
@@ -139,6 +141,7 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         self.saveXML()
         self.saveHTML()
         self.closeSearch()
+        self.closeHSSearch()
         self.zipDir()
         self.zipForServer()
         self.close()
@@ -146,6 +149,7 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
     def acceptNotFound(self):
         self.saveXMLNoResult()
         self.closeSearch()
+        self.closeHSSearch()
         self.zipDir()
         self.zipForServer()
         self.close()
@@ -287,4 +291,24 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         else:
             self.database = Database(self.widget.pluginPath + "/settings.db")
             self.database.insertRequest(self.closeSearchConnect.url, None, None)
+            self.widget.iface.messageBar().pushMessage(QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
+
+    def closeHSSearch(self):
+        GinaGUID = self.Utils.getProjectInfo()['GinaGUID']
+        with open(self.widget.getPluginPath() + "/../../../qgis_patrac_settings" + "/config/config.json") as json_file:
+            config = json.load(json_file)
+            accessKey = config['hsapikey']
+
+        url = 'https://www.horskasluzba.cz/cz/app-patrac-close-incident?accessKey=' + accessKey + '&GinaGUID=' + GinaGUID
+        self.closeHSSearchConnect = Connect()
+        self.closeHSSearchConnect.setUrl(url)
+        self.closeHSSearchConnect.statusChanged.connect(self.onCloseHSSearchServerResponse)
+        self.closeHSSearchConnect.start()
+
+    def onCloseHSSearchServerResponse(self, response):
+        if response.status == 200:
+            searchStatus = response.data.read()
+        else:
+            self.database = Database(self.widget.pluginPath + "/settings.db")
+            self.database.insertRequest(self.closeHSSearchConnect.url, None, None)
             self.widget.iface.messageBar().pushMessage(QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
