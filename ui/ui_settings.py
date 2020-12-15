@@ -152,10 +152,22 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         with open(self.settingsPath + "/config/config.json") as json_file:
             self.config = json.load(json_file)
 
+    def writeConfig(self):
+        self.config["hsapikey"] = self.lineEditAccessKey.text()
+        self.config["emailfrom"] = self.lineEditEmailFrom.text()
+        self.config["emailto1"] = self.lineEditEmailTo1.text()
+        self.config["emailto2"] = self.lineEditEmailTo2.text()
+        with open(self.settingsPath + "/config/config.json", "w") as outfile:
+            json.dump(self.config, outfile)
+
     def fillHSConfig(self):
         self.lineEditAccessKey.setText(self.config["hsapikey"])
-        self.lineEditUsername.setText(self.config["hsuser"])
-        self.lineEditPassword.setText(self.config["hspassword"])
+        if 'emailfrom' in self.config:
+            self.lineEditEmailFrom.setText(self.config["emailfrom"])
+        if 'emailto1' in self.config:
+            self.lineEditEmailTo1.setText(self.config["emailto1"])
+        if 'emailto2' in self.config:
+            self.lineEditEmailTo2.setText(self.config["emailto2"])
 
     def fillDataHdsCmb(self):
         if sys.platform.startswith('win'):
@@ -251,6 +263,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
     def updateSettings(self):
         self.showSearchId()
         self.showPath()
+        self.fillHSConfig()
         # if self.parent.projectname != "":
         #     self.lineEditTitle.setText(self.parent.projectname)
         # if self.parent.projectdesc != "":
@@ -699,19 +712,19 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         f.close()
 
         # Units can be changes so the units.txt is written
-        f = io.open(settingsPath + '/grass/units.txt', 'w', encoding='utf-8')
-        for i in range(0, 7):
-            for j in range(0, 2):
-                value = self.tableWidgetUnits.item(i, j).text()
-                if value == '':
-                    value = '0'
-                unicodeValue = self.getUnicode(value)
-                if j == 0:
-                    f.write(unicodeValue)
-                else:
-                    f.write(";" + unicodeValue)
-            f.write("\n")
-        f.close()
+        # f = io.open(settingsPath + '/grass/units.txt', 'w', encoding='utf-8')
+        # for i in range(0, 7):
+        #     for j in range(0, 2):
+        #         value = self.tableWidgetUnits.item(i, j).text()
+        #         if value == '':
+        #             value = '0'
+        #         unicodeValue = self.getUnicode(value)
+        #         if j == 0:
+        #             f.write(unicodeValue)
+        #         else:
+        #             f.write(";" + unicodeValue)
+        #     f.write("\n")
+        # f.close()
 
         # Units can be changes so the units.txt is written
         f = io.open(settingsPath + '/grass/units_times.csv', 'w', encoding='utf-8')
@@ -770,6 +783,10 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         else:
             f.write("0")
         f.close()
+
+        self.writeConfig()
+
+        QMessageBox.information(self.main.iface.mainWindow(), self.tr("INFO"), self.tr("Settings has been updated"))
 
     def ifNumberGetString(self, number):
         """Converts number to string"""

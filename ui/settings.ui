@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab_3">
     <attribute name="title">
@@ -341,32 +341,6 @@
       <string>r.walk algorithm</string>
      </property>
     </widget>
-    <widget class="QLabel" name="labelLimit">
-     <property name="geometry">
-      <rect>
-       <x>380</x>
-       <y>530</y>
-       <width>77</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Limit</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditLimit">
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>520</y>
-       <width>351</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>More than 45 degrees is not passable</string>
-     </property>
-    </widget>
     <widget class="QLabel" name="labelFrictionInfo">
      <property name="geometry">
       <rect>
@@ -657,6 +631,93 @@
      </property>
      <property name="echoMode">
       <enum>QLineEdit::Password</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelEmailFrom">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>80</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Email from</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditEmailFrom">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>80</y>
+       <width>461</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Normal</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelEmailTo1">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>130</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Email to (1)</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditEmailTo1">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>130</y>
+       <width>461</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Normal</enum>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditEmailTo2">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>180</y>
+       <width>461</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Normal</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelEmailTo2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>180</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Email to (2)</string>
      </property>
     </widget>
    </widget>

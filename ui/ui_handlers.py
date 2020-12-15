@@ -94,6 +94,44 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
     def showMessages(self):
         QMessageBox.information(self.parent.iface.mainWindow(), self.tr("ERROR"), self.tr("Not yet implemented"))
 
+    def getHsUsersInActionForEmail(self):
+        users_ids = []
+        users = ""
+        for user in self.hs_users_in_call:
+            if not user["id"] in users_ids:
+                users += user["name"] + " " + user["phone"] + "\n"
+                users_ids.append(user["id"])
+        return users
+
+    def sendEmail(self):
+        if self.config["emailfrom"] == "" or self.config["emailto1"] == "" and self.config["emailto2"] == "":
+            QMessageBox.information(self.parent.iface.mainWindow(), self.tr("ERROR"), self.tr("Emails in settings has to be set. Go to the settings dialog."))
+            return
+
+        url = "http://sarops.info/smpatrac.php?"
+        url += "apikey=" + self.config["hsapikey"]
+        url += "&from=" + self.config["emailfrom"]
+        url += "&to1=" + self.config["emailto1"]
+        url += "&to2=" + self.config["emailto2"]
+        url += "&subject=Patraci+akce"
+        body = "Pátrací akce: " + self.project_settings['projectname'] + "\n"
+        body += "Popis: " + self.project_settings['projectdesc'] + "\n"
+        body += "Kontaktní osoba: " + self.project_settings['coordinatorname'] + "\n"
+        body += "Telefon na kontaktní osobu: " + self.project_settings['coordinatortel'] + "\n"
+        body += "Atestovaní psovodi:\n" + self.getHsUsersInActionForEmail()
+        url += "&body=" + urllib.parse.quote(body)
+
+        self.sendemail = Connect()
+        self.sendemail.setUrl(url)
+        self.sendemail.statusChanged.connect(self.onSendEmailResponse)
+        self.sendemail.start()
+
+    def onSendEmailResponse(self, response):
+        if response.status == 200:
+            QMessageBox.information(self.parent.iface.mainWindow(), self.tr("INFO"), self.tr("Email with list of selected handlers has been sent"))
+        else:
+            QMessageBox.information(self.parent.iface.mainWindow(), self.tr("ERROR"), self.tr("Email with list of selected handlers can not be sent"))
+
     def checkIncidentHandlers(self):
         self.hsCallType = 0
         self.createIncident("https://www.horskasluzba.cz/cz/app-patrac-new-incident-test")
@@ -104,6 +142,7 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             self.createIncident("https://www.horskasluzba.cz/cz/app-patrac-new-incident")
         else:
             self.addUsersIntoCall()
+        self.sendEmail()
 
     def createIncident(self, urlInput):
         if self.project_settings is None:
