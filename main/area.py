@@ -88,6 +88,7 @@ class Area(object):
             QMessageBox.information(None, QApplication.translate("Patrac", "INFO:", None),
                                                                  QApplication.translate("Patrac", "Layer with places is empty. Placing point in the center of the map.", None))
             self.addPlaceToTheCenter()
+            features = self.filterAndSortFeatures(layer.getFeatures())
 
         # If there is just one point - impossible to define direction
         # TODO - think more about this check - should be more than two, probably and in some shape as well
@@ -140,7 +141,6 @@ class Area(object):
         f.close()
 
     def addPlaceToTheCenter(self):
-        self.setCursor(Qt.WaitCursor)
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
         layer = None
@@ -152,7 +152,7 @@ class Area(object):
         layer.startEditing()
         fet = QgsFeature()
         center = self.plugin.canvas.center()
-        fet.setGeometry(QgsGeometry.fromPoint(center))
+        fet.setGeometry(QgsGeometry.fromPointXY(center))
         fet.setAttributes(
             [1, datetime.now().strftime('%Y-%m-%d %H:%M:%S'), datetime.now().strftime('%Y-%m-%d %H:%M:%S')])
         provider.addFeatures([fet])

@@ -481,10 +481,13 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         if not layer is None:
 
+            self.setCursor(Qt.WaitCursor)
             self.Area.getArea()
+            self.setCursor(Qt.ArrowCursor)
 
             # set spin to 70%
             self.__updateSliderEnd(70)
+            self.updatePatrac()
 
             # move to next tab (tab 4)
             self.tabGuideSteps.setCurrentIndex(3)
