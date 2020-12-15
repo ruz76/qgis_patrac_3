@@ -105,7 +105,7 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
 
     def sendEmail(self):
         if self.config["emailfrom"] == "" or self.config["emailto1"] == "" and self.config["emailto2"] == "":
-            QMessageBox.information(self.parent.iface.mainWindow(), self.tr("ERROR"), self.tr("Emails in settings has to be set. Go to the settings dialog."))
+            QMessageBox.infor-mation(self.parent.iface.mainWindow(), self.tr("ERROR"), self.tr("Emails in settings has to be set. Go to the settings dialog."))
             return
 
         url = "http://sarops.info/smpatrac.php?"
@@ -142,7 +142,6 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             self.createIncident("https://www.horskasluzba.cz/cz/app-patrac-new-incident")
         else:
             self.addUsersIntoCall()
-        self.sendEmail()
 
     def createIncident(self, urlInput):
         if self.project_settings is None:
@@ -233,6 +232,7 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             self.adduserstocall.start()
 
             self.sendNotification(hsusersids[:-1])
+            self.sendEmail()
 
         else:
             QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("You have to check the handlers."))
