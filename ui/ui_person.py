@@ -52,9 +52,7 @@ class Ui_Person(QtWidgets.QDialog, FORM_CLASS):
         self.pluginPath = pluginPath
         self.settingsPath = pluginPath + "/../../../qgis_patrac_settings"
         self.Utils = Utils(self.parent)
-        self.project_settings = self.Utils.getProjectInfo()
         self.fillBoxes()
-        self.setItems()
 
     def fillBoxes(self):
         self.comboBoxSex.addItem(self.tr("Male"))
@@ -82,6 +80,7 @@ class Ui_Person(QtWidgets.QDialog, FORM_CLASS):
         self.comboBoxHairColor.addItem(self.tr("Reddish"))
 
     def setItems(self):
+        self.project_settings = self.Utils.getProjectInfo()
         self.lineEditName.setText(self.project_settings["lost_name"])
         self.comboBoxSex.setCurrentIndex(self.project_settings["lost_sex"])
         self.spinBoxAge.setValue(self.project_settings["lost_age"])

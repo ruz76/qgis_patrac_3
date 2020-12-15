@@ -940,7 +940,12 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.settingsdlg.show()
 
     def showPersonInfo(self):
+        if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
+            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                    QApplication.translate("Patrac", "Wrong project.", None))
+            return
         """Shows the person info dialog"""
+        self.persondlg.setItems()
         self.persondlg.show()
 
     def showHandlersDialog(self):
