@@ -799,7 +799,33 @@ class Ui_PatracDockWidget(object):
 
         self.tabGuideStep7.setLayout(self.verticalGuideLayoutStep7)
 
+    def setAvailableUnitsItems(self):
+        self.guideDogCountLabel = QLabel(self.dockWidgetContents)
+        self.guideDogCountLabel.setText(QApplication.translate("PatracDockWidget", "Handler", None))
+        self.guideDogCount = QLineEdit()
+        self.horizontalDogCountLayout = QHBoxLayout(self.tabGuideStep5)
+        self.horizontalDogCountLayout.addWidget(self.guideDogCountLabel)
+        self.horizontalDogCountLayout.addWidget(self.guideDogCount)
+        self.verticalGuideLayoutStep5.addLayout(self.horizontalDogCountLayout)
+
+        self.guidePersonCountLabel = QLabel(self.dockWidgetContents)
+        self.guidePersonCountLabel.setText(QApplication.translate("PatracDockWidget", "Person", None))
+        self.guidePersonCount = QLineEdit()
+        self.horizontalPersonCountLayout = QHBoxLayout(self.tabGuideStep5)
+        self.horizontalPersonCountLayout.addWidget(self.guidePersonCountLabel)
+        self.horizontalPersonCountLayout.addWidget(self.guidePersonCount)
+        self.verticalGuideLayoutStep5.addLayout(self.horizontalPersonCountLayout)
+
+        self.guideDiverCountLabel = QLabel(self.dockWidgetContents)
+        self.guideDiverCountLabel.setText(QApplication.translate("PatracDockWidget", "Diver", None))
+        self.guideDiverCount = QLineEdit()
+        self.horizontalDiverCountLayout = QHBoxLayout(self.tabGuideStep5)
+        self.horizontalDiverCountLayout.addWidget(self.guideDiverCountLabel)
+        self.horizontalDiverCountLayout.addWidget(self.guideDiverCount)
+        self.verticalGuideLayoutStep5.addLayout(self.horizontalDiverCountLayout)
+
     def loadAvailableUnits(self):
+        self.setAvailableUnitsItems()
         settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
         with open(settingsPath + "/grass/units.txt", "r") as fileInput:
             i=0
@@ -807,34 +833,13 @@ class Ui_PatracDockWidget(object):
                 unicode_row = row
                 # dog
                 if i == 0:
-                    self.guideDogCountLabel = QLabel(self.dockWidgetContents)
-                    self.guideDogCountLabel.setText(QApplication.translate("PatracDockWidget", "Handler", None))
-                    self.guideDogCount = QLineEdit()
                     self.guideDogCount.setText(unicode_row[0])
-                    self.horizontalDogCountLayout = QHBoxLayout(self.tabGuideStep5)
-                    self.horizontalDogCountLayout.addWidget(self.guideDogCountLabel)
-                    self.horizontalDogCountLayout.addWidget(self.guideDogCount)
-                    self.verticalGuideLayoutStep5.addLayout(self.horizontalDogCountLayout)
                 # person
                 if i == 1:
-                    self.guidePersonCountLabel = QLabel(self.dockWidgetContents)
-                    self.guidePersonCountLabel.setText(QApplication.translate("PatracDockWidget", "Person", None))
-                    self.guidePersonCount = QLineEdit()
                     self.guidePersonCount.setText(unicode_row[0])
-                    self.horizontalPersonCountLayout = QHBoxLayout(self.tabGuideStep5)
-                    self.horizontalPersonCountLayout.addWidget(self.guidePersonCountLabel)
-                    self.horizontalPersonCountLayout.addWidget(self.guidePersonCount)
-                    self.verticalGuideLayoutStep5.addLayout(self.horizontalPersonCountLayout)
                 # diver
                 if i == 5:
-                    self.guideDiverCountLabel = QLabel(self.dockWidgetContents)
-                    self.guideDiverCountLabel.setText(QApplication.translate("PatracDockWidget", "Diver", None))
-                    self.guideDiverCount = QLineEdit()
                     self.guideDiverCount.setText(unicode_row[0])
-                    self.horizontalDiverCountLayout = QHBoxLayout(self.tabGuideStep5)
-                    self.horizontalDiverCountLayout.addWidget(self.guideDiverCountLabel)
-                    self.horizontalDiverCountLayout.addWidget(self.guideDiverCount)
-                    self.verticalGuideLayoutStep5.addLayout(self.horizontalDiverCountLayout)
                 i=i+1
 
     def retranslateUi(self, PatracDockWidget):
