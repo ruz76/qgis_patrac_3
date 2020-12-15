@@ -375,7 +375,22 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def runExpertMunicipalitySearch(self):
         self.municipalitySearch(self.msearch)
 
+    def ok_to_close(self):
+        if path.exists(self.pluginPath + "/config/lastprojectpath.txt"):
+            with open(self.pluginPath + "/config/lastprojectpath.txt", "r") as f:
+                projectPath = f.read()
+                if not path.exists(projectPath + "/search/result.xml"):
+                    return False
+                else:
+                    return True
+        else:
+            return True
+
     def runGuideMunicipalitySearch(self):
+        if not self.ok_to_close():
+            QMessageBox.warning(None, QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "You did not enter the result of the search. Use smile button, please.", None))
+            return
+
         if not self.guideTestSearch.isChecked() and not self.guideRealSearch.isChecked():
             QMessageBox.information(self.iface.mainWindow(), QApplication.translate("Patrac", "Missing input", None), QApplication.translate("Patrac", "You have to select type of the search", None))
             return
