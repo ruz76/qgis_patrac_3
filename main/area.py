@@ -100,6 +100,10 @@ class Area(object):
                 self.generateRadialOnPoint(features[len(features) - 1])
                 self.writeAzimuthReclass(azimuth, 30, 100)
                 self.findAreaWithRadial(features[len(features) - 1], 0)
+                cats_status = self.checkCats()
+                if not cats_status:
+                    self.widget.setCursor(Qt.ArrowCursor)
+                    return
                 self.saveDistancesCostedEquation("distances0_costed")
                 self.createCumulativeArea()
             else:
@@ -110,6 +114,10 @@ class Area(object):
                 for feature in features:
                     self.generateRadialOnPoint(feature)
                     self.findAreaWithRadial(feature, i)
+                    cats_status = self.checkCats()
+                    if not cats_status:
+                        self.widget.setCursor(Qt.ArrowCursor)
+                        return
                     cur_weight = "1"
                     if str(feature["vaha"]) != "NULL":
                         cur_weight = str(feature["vaha"])
@@ -128,10 +136,14 @@ class Area(object):
             self.generateRadialOnPoint(features[0])
             self.writeAzimuthReclass(0, 0, 0)
             self.findAreaWithRadial(features[0], 0)
+            cats_status = self.checkCats()
+            if not cats_status:
+                self.widget.setCursor(Qt.ArrowCursor)
+                return
             self.saveDistancesCostedEquation("distances0_costed")
             self.createCumulativeArea()
         self.widget.setCursor(Qt.ArrowCursor)
-        return
+        return "CALCULATED"
 
     def saveDistancesCostedEquation(self, distances_costed_cum):
         prjfi = QFileInfo(QgsProject.instance().fileName())
@@ -218,6 +230,27 @@ class Area(object):
                  , str(self.widget.personType)))
             p.wait()
         return
+
+    def checkCats(self):
+        rules_percentage_path = self.pluginPath + "/grass/rules_percentage.txt"
+        if os.path.exists(rules_percentage_path):
+            try:
+                cats = ["= 10", "= 20", "= 30", "= 40", "= 50", "= 60", "= 70", "= 80", "= 95"]
+                cats_count = 0
+                with open() as f:
+                    lines = f.readlines(rules_percentage_path)
+                    for line in lines:
+                        for cat in cats:
+                            if cat in line:
+                                cats_count += 1
+                if cats_count != len(cats):
+                    return False
+                else:
+                    return True
+            except:
+                return False
+        else:
+            return False
 
     def azimuth(self, point1, point2):
         '''azimuth between 2 QGIS points ->must be adapted to 0-360°'''

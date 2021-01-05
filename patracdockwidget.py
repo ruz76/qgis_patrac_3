@@ -513,16 +513,20 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if not layer is None:
 
             self.setCursor(Qt.WaitCursor)
-            self.Area.getArea()
+            area = self.Area.getArea()
             self.setCursor(Qt.ArrowCursor)
 
-            # set spin to 70%
-            self.__updateSliderEnd(70)
-            self.updatePatrac()
+            if area is not None:
+                # set spin to 70%
+                self.__updateSliderEnd(70)
+                self.updatePatrac()
 
-            # move to next tab (tab 4)
-            self.tabGuideSteps.setCurrentIndex(3)
-            self.currentStep = 4
+                # move to next tab (tab 4)
+                self.tabGuideSteps.setCurrentIndex(3)
+                self.currentStep = 4
+            else:
+                QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None) + ":",
+                                        QApplication.translate("Patrac", "Can not calculate the area. Check the inputs.", None))
 
     def runGuideStep4Next(self):
         if not self.checkStep(5):
@@ -582,11 +586,15 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         layer = self.saveMistaLayer()
         if not layer is None:
             self.updateUnitsGuide()
-            self.Area.getArea()
-            self.runGuideGetSectors()
-            self.Sectors.reportExportSectors(False, False)
-            self.showReport()
-            self.updatePatrac()
+            area = self.Area.getArea()
+            if area is not None:
+                self.runGuideGetSectors()
+                self.Sectors.reportExportSectors(False, False)
+                self.showReport()
+                self.updatePatrac()
+            else:
+                QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None) + ":",
+                                        QApplication.translate("Patrac", "Can not calculate the area. Check the inputs.", None))
 
     def setPercent(self, percent):
         self.spinStart.setValue(0)
@@ -958,7 +966,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def runExpertGetArea(self):
         self.personType = self.comboPerson.currentIndex() + 1
-        self.Area.getArea()
+        area = self.Area.getArea()
+        if area is None:
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None) + ":",
+                                    QApplication.translate("Patrac", "Can not calculate the area. Check the inputs.", None))
 
     def runExpertGetSectors(self):
         self.Sectors.getSectors(self.sliderStart.value(), self.sliderEnd.value())

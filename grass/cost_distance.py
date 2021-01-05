@@ -74,8 +74,15 @@ try:
     print(gscript.read_command('r.mask', flags="r"))
 except:
     print("NO MASK")
-    
+
+#Removes reclass rules
+rules_percentage_path = PLUGIN_PATH + '/grass/rules_percentage.txt'
+if os.path.exists(rules_percentage_path):
+    os.remove(rules_percentage_path)
+
 #Reads coords from coords.txt written by patracdockwidget.getArea
+print(gscript.read_command('g.remove', type='vector', name='coords'))
+print(gscript.read_command('g.remove', type='raster', name='coords'))
 print(gscript.read_command('v.in.ascii', input=PLUGIN_PATH + '/grass/coords.txt', output='coords', separator='comma' , overwrite=True))
 #Converts to the raster
 print(gscript.read_command('v.to.rast', input='coords', output='coords', use='cat' , overwrite=True))
@@ -142,10 +149,6 @@ print(gscript.read_command('r.buffer', input='coords', output='distances' + PLAC
 #Friction methodology
 print(gscript.read_command('r.walk', friction='friction_radial' + PLACE_ID, elevation='dem', output='cost' + PLACE_ID, start_points='coords' , overwrite=True))
 
-#Removes reclass rules
-rules_percentage_path = PLUGIN_PATH + '/grass/rules_percentage.txt'
-if os.path.exists(rules_percentage_path):
-    os.remove(rules_percentage_path)
 #Creates new reclass rules
 rules_percentage_f = open(rules_percentage_path, 'w')
 #Creates empty raster with zero values
@@ -179,14 +182,16 @@ for i in variables:
         print(str(MAX))
         #Minimum value and maximum value is used as extent for relass of the whole cost layer
         #rules_percentage_f.write(str(MIN) + ' thru ' + str(MAX) + ' = ' + str(i) + '\n')
-        rules_percentage_f.write(str(PREVMIN) + ' thru ' + str(MIN) + ' = ' + str(i) + '\n')
+        if str(PREVMIN) != 'nan' and str(MIN) != 'nan':
+            rules_percentage_f.write(str(PREVMIN) + ' thru ' + str(MIN) + ' = ' + str(i) + '\n')
         PREVMIN = MIN
     except:
         print("Problem with category " + str(cat) + " " + str(i) + "%")
     cat = cat + 1
 
 #Add 95% category
-rules_percentage_f.write(str(PREVMIN) + ' thru ' + str(MAX) + ' = 95\n')
+if str(PREVMIN) != 'nan' and str(MAX) != 'nan':
+    rules_percentage_f.write(str(PREVMIN) + ' thru ' + str(MAX) + ' = 95\n')
 
 #Finish reclass rules
 rules_percentage_f.write('end')
