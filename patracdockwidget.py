@@ -67,6 +67,7 @@ from time import gmtime, strftime
 import csv, io, webbrowser, filecmp, uuid, random, getpass, json
 
 from .connect.connect import *
+import unicodedata
 
 win32api_exists = False
 
@@ -80,6 +81,36 @@ except:
     else:
         QgsMessageLog.logMessage("Linux - no win api", "Patrac")
 
+def strip_accents(s):
+    return ''.join(c for c in unicodedata.normalize('NFD', s)
+                   if unicodedata.category(c) != 'Mn')
+
+class DiacriticFreeCompleter(QCompleter):
+
+    def splitPath(self, path):
+        return [strip_accents(path).lower()]
+
+    def pathFromIndex(self, index):
+        return index.data()
+
+class DiactricFreeStringListModel(QStringListModel):
+
+    def __init__(self, *args, **kwargs):
+        super(DiactricFreeStringListModel, self).__init__(*args, **kwargs)
+        self.setDiactricFreeRole(Qt.UserRole+10)
+
+    def data(self, index, role):
+        if role == self.diactricFreeRole():
+            value = super(DiactricFreeStringListModel, self).data(index, Qt.DisplayRole)
+            return strip_accents(value).lower()
+        else:
+            return super(DiactricFreeStringListModel, self).data(index, role)
+
+    def setDiactricFreeRole(self, role):
+        self.mDiactricFreeRole = role
+
+    def diactricFreeRole(self):
+        return self.mDiactricFreeRole;
 
 class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def __init__(self, plugin):
@@ -734,11 +765,12 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def setCompleter(self, textBox):
         """Sets the autocompleter for municipalitities."""
-        completer = QCompleter()
+        completer = DiacriticFreeCompleter()
         completer.setCaseSensitivity(Qt.CaseInsensitive)
         textBox.setCompleter(completer)
-        model = QStringListModel()
+        model = DiactricFreeStringListModel()
         completer.setModel(model)
+        completer.setCompletionRole(model.diactricFreeRole())
         # sets arrays of municipalities names and coords
         self.municipalities_names = []
         self.municipalities_coords = []
