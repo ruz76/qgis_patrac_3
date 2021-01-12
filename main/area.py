@@ -237,8 +237,8 @@ class Area(object):
             try:
                 cats = ["= 10", "= 20", "= 30", "= 40", "= 50", "= 60", "= 70", "= 80", "= 95"]
                 cats_count = 0
-                with open() as f:
-                    lines = f.readlines(rules_percentage_path)
+                with open(rules_percentage_path) as f:
+                    lines = f.readlines()
                     for line in lines:
                         for cat in cats:
                             if cat in line:
