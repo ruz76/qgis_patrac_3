@@ -39,16 +39,19 @@
           <a class="page-scroll" href="#intro">Úvod</a>
         </li>
         <li>
-          <a class="page-scroll" href="#guide">Průvodce</a>
+          <a class="page-scroll" href="#guide">Plán</a>
         </li>
         <li>
-          <a class="page-scroll" href="#zobrazeni">Zobrazení</a>
+          <a class="page-scroll" href="#rizeni">Řízení</a>
         </li>
         <li>
-          <a class="page-scroll" href="#prubeh">Průběh</a>
+          <a class="page-scroll" href="#akce">Pátrací akce</a>
         </li>
         <li>
-          <a class="page-scroll" href="#expert">Expert</a>
+          <a class="page-scroll" href="#psovodi">Psovodi</a>
+        </li>
+        <li>
+          <a class="page-scroll" href="#analyza">Analýza</a>
         </li>
         <li>
           <a class="page-scroll" href="#settings">Nastavení</a>
@@ -156,7 +159,7 @@
         <p><img src="images/load.png"/></p>
 
         <h2>Použití zásuvného modulu</h2>
-        <p>V panelu modulu využijeme nejdříve <a href="#guide">Průvodce</a>. Ten mimo jiné pomůže vytvořit projekt pátrání.</p>
+        <p>V panelu modulu využijeme nejdříve <a href="#guide">Plán</a>. Ten mimo jiné pomůže vytvořit projekt pátrání.</p>
       </div>
     </div>
   </div>
@@ -166,37 +169,66 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-12 text-left">
-        <h1>Průvodce</h1>
-        <p>Průvodce umožní zahájit pátrání, od zadání vstupů až po tisk mapy.</p>
-        <h2>Zadání obce</h2>
+        <h1>Plán</h1>
+        <p>Plán umožní zahájit pátrání, od zadání vstupů až po tisk mapy.</p>
+        <h2>Zadání místa</h2>
         <p><img src="images/guide1.png"/></p>
-        <p>Z našeptávače se vybere obec, kde bude pátrání probíhat. Našeptávač obashuje aktuálně pouze obce z roku 2018, neobsahuje místní části. Po dohodě není žádný problém doplnit další prvky.
+        <p>Z našeptávače se vybere obec (nebo část obce), kde bude pátrání probíhat. Našeptávač obsahuje aktuálně pouze obce a místní části z RÚIAN 2019. Po dohodě není žádný problém doplnit další prvky.
           Případně můžete prvky doplnit sami, zvládne to i mírně pokročilý uživatel.</p>
-        <p>Generování projektu trvá poměrně dlouho, může se jednat o minutu nebo i dvě minuty. Výhodou jsou pak rychlejší výpočty v další fázi.
-          Aktuálně trvá neúměrně dlouho pro Středočeský kraj (kolem 5 minut), pravděpodobně bychom tedy rozdělili kraj na západ a východ, případně sever, východ, jih a západ.</p>
-        <h2>Zadání míst posledního spatření</h2>
+        <p>Uživatel musí zvolit typ pátrání (zda se jedná o ostré nasazení nebo o výuku nebo testování). Volitelně je vhodné vložit popis pátrání.</p>
+        <p>Generování projektu trvá poměrně dlouho, může se jednat o minutu nebo i dvě minuty. Výhodou jsou pak rychlejší výpočty v další fázi.</p>
+        <h2>Výběr typu osoby</h2>
         <p><img src="images/guide2.png"/></p>
+        <p>Výběrem ze seznamu určíme typ osoby (dítě, osoba v depresi (sebevrah), osoba s alzhaimerem, apod.). V budoucnu mohou pribýt např. i údaje o kondici nebo znalosti terénu.</p>
+        <h2>Zadání míst posledního spatření</h2>
+        <p><img src="images/guide3.png"/></p>
         <p>Kliknutím do mapy se zadávají místa posledního spatření.</p>
         <p>V dialogu není nutno vyplnit žádné údaje. Pokud ale chcete využít funkci pracující se směrem pohybu je nutné zadat buď čas nebo zadat body v pořadí od nejstaršího po nejnovější.</p>
         <p>Ke každému místu je možno v dialogovém okně zvolit čas od do a váhu, kterou určení přikládáme. Větší číslo = větší váha (0-9).
           Hodnota 0 znamená vyloučení bodu z výpočtu. V případě zadání min. dvou bodů je výpočet ovlivněn i pravděpodobným směrem pohybu.
           Identifikátor je možné mít pro přehlednost očíslovaný dle času spatření: 1 = nejstarší.
         </p>
-        <h2>Výběr typu osoby</h2>
-        <p><img src="images/guide3.png"/></p>
-        <p>Výběrem ze seznamu určíme typ osoby (dítě, osoba v depresi (sebevrah), osoba s alzhaimerem, apod.). V budoucnu mohou pribýt např. i údaje o kondici nebo znalosti terénu.</p>
+
         <h2>Omezení území</h2>
         <p><img src="images/guide4.png"/></p>
-        <p>Vypočítaná pravděpodobnostní mapa je automaticky omezena na vhodná procenta. Zvýšením procenta se zvyšuje pravděpodobnost nálezu, ale také rozsah území, které je nutno prohledat. Procento
+        <p>Vypočítaná pravděpodobnostní mapa je automaticky omezena na vhodná procenta. Zvýšením procenta se zvyšuje pravděpodobnost nálezu, ale také rozsah území, které je nutno propátrat. Procento
           proto nedoporučujeme měnit, zejména v případě začínajících pátračů. </p>
+
         <h2>Určení prostředků</h2>
         <p><img src="images/guide5.png"/></p>
-        <p>V tomto okně je možno definovat, pokud je známe, počty prostředků. Výsledný report pak obsahuje i kalkulace doby pátrání.</p>
+        <p>V tomto okně je možno definovat, pokud je známe, počty prostředků. Výsledný report pak obsahuje i kalkulace doby pátrání.
+          Pomocí tlačítka Další prostředky můžete zadat i jiné než obvyklé prostředky (např. vrtulník nebo čtyřkolku).</p>
         <h2>Zahájení pátrání</h2>
-        <p><img src="images/guide6.png"/></p>
         <p>Pátrání je možno začít. Soubory GPX jsou připraveny. Report je k dispozici. Pokud chceme mapu pro tisk, můžeme ji vygenerovat zaškrtnutím políčka (Vygenerovat PDF pro tisk) a generování
           spustit zobrazením reportu.</p>
+        <p>Na tomoto okně je také možné přepnout zobrazení sektorů (více možností je pak na kartě Řízení).</p>
+        <p><img src="images/guide6.png"/></p>
         <p><img src="images/sectors_export_report_output.png"/></p>
+
+        <h2>Změny plánu</h2>
+        <p>V průběhu pátrání může být potřeba provádět změny plánu. K tomu slouží karta Změny plánu.</p>
+        <p>První funkcí je rozšíření oblasti. Tuto funkci nedoporučuji používat, pokud k tomu není dobrý důvod.
+          Oblast projektu má rozměry cca 10x10 km a tedy by měla dostačovat. Může se však stát, že se pátrání posune mimo toto území.
+          Pokud je to posun úplně mimo (např. další vesnice), pak je lepší založit nový projekt pro novou oblast.
+          Rozšíření oblasti zvyšuje výpočetní nároky a doba výpočtu se značně zpomaluje.
+        </p>
+        <p>
+          Druhou funkcí je manipulace s místy spatření. Pomocí tohoto nástroje můžete např. přesunout bod na přesně dané souřadnice (v GPS, UTM, JTSK).
+        </p>
+        <p>
+          Třetí funkcí je přidání dalšího místa spatření.
+        </p>
+        <p>
+          Další funkcí je změna omezení území dle procent pravděpodobnosti.
+        </p>
+        <p>
+          Další funkcí je změna nastavení počtů sil a prostředků.
+        </p>
+        <p>
+          Při jakékoli změně, je nutné nechat vše přepočítat. Pokud máte na kartě 6 zatrženo generování PDF, počítejte s tím, že i ty se vypočítají znovu.
+        </p>
+        <p><img src="images/guide7.png"/></p>
+
         <h2>Ukončení pátrání</h2>
         <p>V případě nálezu osoby je velmi užitečné pro další pátrání evidovat informace o nálezu. K tomuto slouží tlačítko Zadat výsledek <img src="images/smile.png" alt="Zada výsledek"/>. Po
           kliknutí na tlačítko je očekáváno od uživatele kliknutí
@@ -209,27 +241,59 @@
   </div>
 </section>
 
-<section id="zobrazeni">
+<section id="rizeni">
   <div class="container">
     <div class="row">
       <div class="col-lg-12 text-left">
-        <h1>Zobrazení</h1>
-        <p>Karta zobrazení umožňuje přepínat mezi základními pohledy na mapu.</p>
-        <p><img src="images/zobrazeni.png"/></p>
+        <h1>Řízení</h1>
+        <p>Karta řízení umožňuje:</p>
+          <ul>
+          <li>
+            přepínat mezi základními pohledy na mapu,
+          </li>
+            <li>
+              zaznamenávat průběh pátrání,
+            </li>
+            <li>
+              exportovat sektory na GPS,
+            </li>
+            <li>
+              importovat stopy z GPS,
+            </li>
+            <li>
+              zobrazit pozice on-line,
+            </li>
+            <li>
+              zobrazit stopy on-line,
+            </li>
+          </ul>
+        <p><img src="images/rizeni.png"/></p>
+        <h2>Přepínání pohledů</h2>
+        <p>K přepínání pohledů slouží pět prvních tlačítek</p>
+        <p>
+          <img src="images/zobrazeni.png" alt="Tlačítka pro zobrazení"/>
+        </p>
         <ul>
+          <li><p>Sektory dle doporučených prostředků barevně odliší sektory dle prostředků, které jsou doporučeny pro daný typ povrchu.
+            Zelenou barvou je zobrazena rojnice (nebo jednotlivci/skupiny bez psa), hnědou barvou psovod, žlutou vrtulník (dron), modrou potápěč,
+            růžovou pak ostatní sektory, kde nemáme doporučení.</p>
+            <p>
+              <img src="images/style_rec_units.png" alt="Doporučené prostředky legenda"/>
+            </p>
+          </li>
+          <li>
+            <p>Sektory dle použitých prostředků odliší sektory dle prostředků použitých pro pátrání. Sektory bez výplně nemají přiřazen žádný prostředek (výchozí stav).</p>
+            <p>
+              <img src="images/style_units.png" alt="Použité prostředky legenda"/>
+            </p>
+          </li>
           <li>
             <p>Sektory dle typu barevně odliší typy povrchů, jakou jsou les, louka, intravilán, apod.</p>
             <p>
               <img src="images/style_unique.png" alt="Typy povrchů legenda"/>
             </p>
           </li>
-          <li><p>Sektory dle doporučených prostředků barevně odliší sektory dle prostředků, které jsou doporučeny pro daný typ povrchu.
-            Zelenou barvou je zobrazena rojnice (nebo jednotlivci/skupiny bez psa), hnědou barvou psovod, fialovou vrtulník (dron), modrou potápěč,
-            růžovou pak ostatní sektory, kde nemáme doporučení.</p>
-            <p>
-              <img src="images/style_units.png" alt="Prostředky legenda"/>
-            </p>
-          </li>
+
           <li>
             <p>Sektory dle stavu barevně odliší sektory dle stavu pátrání, tedy zda již bylo pátrání zahájeno, případně dokončeno.
               Červeně nezahájeno (nebo nutné opakovat), zeleně dokončeno, žlutě probíhá, bez barvy - bez udání stavu.
@@ -238,31 +302,76 @@
               <img src="images/style_stav.png" alt="Stav legenda"/>
             </p>
           </li>
-          <li>
-            <p>Sektory dle prostředků odliší sektory dle prostředkůpoužitých pro pátrání.</p>
-            <p>
-              <img src="images/style_rec_units.png" alt="Doporučené prostředky legenda"/>
-            </p>
-          </li>
           <li><p>Odbarvit sektory odstraní barvu pro sektory.</p></li>
-          <li><p>Zobrazit popisky sektorů ovládá zobrazení popisků pro sektory.</p></li>
         </ul>
+        <p>Zaškrtávací tlačítko Zobrazit popisky sektorů ovládá zobrazení popisků pro sektory.</p>
         <p>Do barev se promítá podkladová Základní policejní mapa, to může někdy působit zmatky v interpretaci mapy.
           Pokud s tímto máte problém, můžete si Základní policejní mapu vypnout v seznamu vrstev.</p>
+
+        <h2>Tisk map</h2>
+        <p>Pro tisk je možné využít poslední dvě tlačítka v první řadě.</p>
+        <p>
+          <img src="images/print_tools.png" alt="Tlačítka pro tisk"/>
+        </p>
+        <p>První pouze zobrazí report vytvořený v rámci plánování. Pokud obsahuje mapy, pak jsou součástí.</p>
+        <p>Druhé spustí správce tisku, kde je možné vytvořit vlastní kompozici nebo modifikovat existující.</p>
+
+        <h2>Stav pátrání</h2>
+        <p>Stav pátrání se nastavuje pomocí přepínacích tlačítek uprostřed okna.</p>
+        <p>
+          <img src="images/prubeh.png" alt="Tlačítka pro průběh"/>
+        </p>
+        <p>Nastavuje se stav pátrání v sektoru. Vybereme stav, případně typ prostředku. Pak klikneme do sektoru, u kterého chceme změnit stav.</p>
+
+        <h2>GPS</h2>
+        <p>K práci s GPS slouží dvě tlačíka ve spodní části okna.</p>
+        <p>
+          <img src="images/gps.png" alt="Tlačítka pro průběh"/>
+        </p>
+        <p>První slouží k nahrání sektorů na připojenou GPS.</p>
+        <p>Druhé slouží k nahrání stop z připojené GPS. Funkce aktuálně podporuje pouze nové přijímače, které připojují GPS jako USB zařízení. Do budoucna se
+          nepředpokládá podpora starších zařízení.</p>
+        <p>Import dat je možný buď výběrem stop ze seznamu všech stop nebo ořezáním stop dle zadaného časového okna.</p>
+
+        <h2>On-line pozice</h2>
+        <p>Pomocí tlačítka <img src="images/patraci_points.png"/> je možné zobrazit poslední pozice pátračů, kteří jsou připojeni on-line. Tato funkce vyžaduje připojení k internetu.</p>
+        <p>Po zmáčknutí tlačítka je vrstva patraci aktualizována daty ze serveru. Zelenou ikonou jsou zobrazeni aktivní pátrači (log v posledních 5-ti minutách), bílou ikonou jsou zobrazeni neaktivní
+          pátrači.</p>
+
+        <h2>On-line stopy</h2>
+        <p>Pomocí tlačítka <img src="images/patraci_lines.png"/> je možné zobrazit stopy pátračů, kteří jsou připojeni on-line. Tato funkce vyžaduje připojení k internetu.</p>
+        <p>Po zmáčknutí tlačítka je vrstva patraci_lines aktualizována daty ze serveru.</p>
+
       </div>
     </div>
   </div>
 </section>
 
-<section id="prubeh">
+<section id="akce">
   <div class="container">
     <div class="row">
       <div class="col-lg-12 text-left">
-        <h1>Průběh</h1>
-        <p>Karta průběh umožňuje evidovat stav pátrání. Nabízí v zásadě dvě funkce.</p>
-        <p><img src="images/prubeh.png"/></p>
-        <p>První nastavuje stav pátrání v sektoru. Vybereme stav, případně typ prostředku, aktivujeme pomocí tlačítka Aktivovat. Pak klikneme do sektoru, u kterého chceme změnit stav.</p>
-        <p>Druhá umožňuje analýzu propátrání. V seznamu vrstev vybereme stopu pátrače, pak klikneme do sektoru a dostaneme výsledek, který může ukázat místa, která nebyla pravděpodobně propátrána.</p>
+        <h1>Pátrací akce</h1>
+        <p>Karta Pátrací akce umožňuje nastavit údaje pro pátrací akci. Tyto je nutné nastavit pokud chcete svolávat atestované psovody.</p>
+        <p><img src="images/akce.png"/></p>
+        <p>První položka se týká pohřešované osoby. Ta má samostatný dialog.</p>
+        <p><img src="images/person.png"/></p>
+        <p>Další položky se týkají kontaktů na velitele zásahu a místa setkání.</p>
+        <p>Místa setkání je buď možno popsat slovně, nebo pomocí tlačítka a následného kliknutí v mapě vložit GPS souřadnice do popisu.</p>
+        <p>Údaje je nutno zapsat pomocí tlačítka Aktualizovat.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="analyza">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-left">
+        <h1>Analýza</h1>
+        <p>Karta Analýza umožňuje analýzu propátrání.</p>
+        <p><img src="images/analyza.png"/></p>
+        <p>V seznamu vrstev vybereme stopu pátrače, vybereme typ pátrače ze seznamu a pak klikneme do sektoru a dostaneme výsledek, který může ukázat místa, která nebyla pravděpodobně propátrána.</p>
         <p><img src="images/propatrani.png"/></p>
         <p>Světlá tečkovaná místa v sektoru QC82 zobrazují místa, kde mohlo na základě analýzy stopy pátrače, nedojít k propátrání.</p>
       </div>
@@ -270,85 +379,21 @@
   </div>
 </section>
 
-<section id="expert">
+<section id="psovodi">
   <div class="container">
     <div class="row">
       <div class="col-lg-12 text-left">
-        <h1>Expert</h1>
-        <p>Karta expert nabízí stejné možnosti jako průvodce, jen je možné kroky libovolně přeskakovat, ale je nutné vědět v jakém pořadí je možno postupovat.</p>
-        <p>Navíc nabízí některé funkce</p>
-        <ul>
-          <li>Nastavení minimální hodnoty pravděpodobnosti pro výběr sektorů. Může se hodit, v případě, že chceme ignorovat blízká místa.</li>
-          <li>Rozšíření oblasti v případě, že se pátrání dostane mimo původně vytvořený rozsah (jiná vesnice)</li>
-          <li>Načtení pozic pátračů - je nutno, aby byli vybaveni zařízením, které odesílá pozici - např. GINA tracker.</li>
-          <li>Načtení stop pátračů - je nutno, aby byli vybaveni zařízením, které odesílá pozici - např. GINA tracker.</li>
-          <li>Odesílání a čtení zpráv. Aktuálně funguje pouze ve spojení s prototypem Pátrač Monitor, který se již dále nebude vyvíjet.
-            V budoucnosti plánujeme komunikaci s HS messengerem, případně pokud to bude organizačně možné (technic jistě je) tak s MBP.
-          </li>
-        </ul>
-        <h2>Stanovení míst</h2>
-        <p>Prvním krokem je stanovení míst posledního spatření.</p>
-        <p>K tomuto slouží vrstvy mista, mista_linie, mista_polygon. Obvykle se místa budou zadávat jako body, tedy do vrstvy mista. Zadání jako linie nebo polygon (plocha) je možné také, ale vyžaduje
-          následný krok převodu na body, protože výpočetní modul pracuje pouze s body.</p>
-        <h3>Editace vrstvy mista</h3>
-        <p>Editace se provádí v minimálně čtyřech krocích</p>
-        <ul>
-          <li>Výběr vrstvy ze seznamu vrstev, kliknutím na vrstvu mista. <br/><img src="images/select_mista.png"/></li>
-          <li>Zapnutí editace pomocí tlačítka Editace <img src="images/edit.png"/>.</li>
-          <li>Vložení bodu pomocí tlačítka Vložení <img src="images/insert.png"/> kliknutí do mapy na místo spatření a vyplnění údajů o bodu <br/><img src="images/insert_attributes.png"/>. <br/>V
-            atributech se vyplňuje identifikátor místa, datum a čas spatření (pokud není přesné, pak rozsahem od do (např. spatřen mezi 10 a 12 hod.) a váhou bodu. Váha bodu udává jak moc se dá danému
-            svědectví důvěřovat. Váhy jsou od 0 do 9. 0 znamená, že se bod vůbec nepoužije. 9 znamená nejvyšší váhu. Pokud si nejste jisti, zadávejte všem bodům číslo 1. Po vložení bodu se bod objeví
-            v mapě jako červená hvězdička.
-          </li>
-          <li>Uložení editace se realizuje opět pomocí tlačítka Editace <img src="images/edit.png"/>, kdy aplikace vyzve k uložení dat.</li>
-        </ul>
-
-        <p>Místa je možno vkládat ještě jinými způsoby, což je popsáno v části <a href="advanced.html">Další funkce</a>.</p>
-
-        <h2>Určení pravděpodobnosti výskytu</h2>
-        <p>K tomuto slouží rozbalovací seznam s typem osoby a tlačítko Určit prostor <br/>
-          <img src="images/determine_area.png"/>.</p>
-        <p>Výpočet chvíli trvá (v závislosti na počtu bodů, velikosti oblasti a rychlosti počítače), ale na běžném notebooku by pro oblast do 10x10 km a 2 body neměl přesáhnout 5 minut.</p>
-        <p>Pravděpodobnost je následně zobrazena do vrstvy procenta. <br/><img src="images/area.png"/></p>
-
-        <h2>Omezení rozsahu pátrání</h2>
-        <p>Propátrání oblasti, kde by byla až 95% šance osobu nalézt je nereálné, proto je nutné oblast omezit. K tomu slouží posuvník, kde se stanovují procenta. např. 45% u Hodnoty max/min znamenají
-          oblast, kde je šance až 45%. <br/><img src="images/area_45.png"/></p>
-
-        <h2>Výběr sektorů</h2>
-        <p>Sektory, které zasahují do vybrané oblasti je možno následně vybrat pomocí tlačítka <img src="images/sectors_select.png"/>.</p>
-        <p><img src="images/sectors_select_output.png"/></p>
-
-        <h2>Export sektorů</h2>
-        <p>Sektory, které byly vybrány je možné exportovat do GPX souborů pro GPS přijímače pomocí tlačítka <img src="images/sectors_export.png"/>.</p>
-        <p><img src="images/sectors_export_output.png"/></p>
-        <p>Vyexportované soubory jsou uloženy do adresáře projektu do složky sektory/gpx. Cesta k projektu je zobrazena v <a href="settings.html">nastavení</a>.</p>
-
-        <h2>Export sektorů s reportem</h2>
-        <p>Export je možné doplnit reportem o sektorech. Report obsahuje informace o typech povrchu, odhadech o potřebě počtu pátračů a času pro prohledání dle stavu jednotek, které jsou k dispozici.
-          Export s reportem se realizuje pomocí tlačítka <img src="images/sectors_export_report.png"/>.</p>
-        <p><img src="images/sectors_export_report_output.png"/></p>
-        <p>Vyexportované soubory jsou uloženy do adresáře projektu do složky sektory/gpx. Cesta k projektu je zobrazena v <a href="settings.html">nastavení</a>.</p>
-
-        <h2>Tisk</h2>
-        <p>Mapu pro tisk je možno vytvořit ve tvůrci map. Ten je k dispozici přes tlačíko v hlavní nástrojové listě. <img src="images/print.png"/></p>
-        <p>Po spuštění se objeví dialogové okno kde je již kompozice připravena. Jmenuje se Basic. Je vhodné si udělat duplikát (kopii) této kompozice.
-          Kompozici je možno snadno poškodit a pokud by se poškodila kompozice Basic přestal by fungovat automatizovaný export map v průvodci.
-        </p>
-        <p><img src="images/print_duplicate.png"/></p>
-        <p>Po otevření tvůrce mapy je obvykle mapa prázdná, případně posunutá mimo oblast. Je nutné nejdříve vybrat v seznamu prvků mapu a následně se pomocí tlačítka přiblížit na rozsah aktuálně prohlížené mapy.</p>
-        <p><img src="images/map2.png"/></p>
-        <p>Mapu je pak možné přesouvat pomocí tlačítka na levé nástrojové liště.</p>
-        <p><img src="images/map3.png"/></p>
-        <p>Případně je možné ještě následně upravit měřítko</p>
-        <p><img src="images/map4.png"/></p>
-        <p>Mapu je možné exportovat do PDF pro tisk pomocí tlačítka <img src="images/pdf.png"/>.</p>
-
-        <h2>Nalezení osoby</h2>
-        <p>V případě nálezu osoby je velmi užitečné pro další pátrání evidovat informace o nálezu. K tomuto slouží ikona <img src="images/smile.png"/>. Po kliknutí na ikonu je očekáváno od uživatele
-          kliknutí do mapy do místa nálezu. Po kliknutí do mapy se zobrazí okno pro zadání informací o nálezu.</p>
-        <p><img src="images/found.png"/></p>
-        <p>Takto zaznamenaný nález bude následně využit k vylepšení stávající aplikace, zejména v oblasti predicke pravděpdobnosti výskytu.</p>
+        <h1>Psovodi</h1>
+        <p>Okno se vyvolá talčítkem ve spodní části panelu Pátrač</p>
+        <p><img src="images/psovodi.png"/></p>
+        <p>Okno Psovodi je nový způsob svolávání. Vyžaduje od psovodů instalaci aplikace HS Messenger a pro operátora přístup do systému Horské služby, která systém provozuje.</p>
+        <p><img src="images/psovodi_hs.png"/></p>
+        <p>Tlačítko Zobrazit psovody v pohotovosti dle vzdálenosti zobrazí seznam všech psovodů k dispozici.</p>
+        <p><img src="images/psovodi_hs2.png"/></p>
+        <p>Zobrazené psovody je možno vybrat zaškrtnutím a následně pomocí tlačítka Vyzvat psovody vyzvat k akci. Psovodům začne telefon houkat a mohou reagovat na výzvu.</p>
+        <p>Psovody je možno vyzvat opakovaně.</p>
+        <p>Tlačítko Zobrazit psovody zařazené do pátrací akce zobrazí psovody, kteří byli do akce zařazeni i s jejich stavem (tedy zda potvrdili nebo nepotvrdili účast).</p>
+        <p>Pokud svolání končí chybou, že není dostupný Access Key, pak může ve vaší aplikaci chybět. Ten získáte kontaktováním Horské služby a vložíte v okně Nastavení celé aplikace (popsáno dále).</p>
       </div>
     </div>
   </div>
@@ -359,7 +404,20 @@
     <div class="row">
       <div class="col-lg-12 text-left">
         <h1>Nastavení</h1>
-        <p>Aplikace má celou řadu nastavení. Nastavení se zobrazí pomocí ikony <img src="images/settings.png"/></p>
+        <p>Aplikace má celou řadu nastavení. Nastavení se zobrazí pomocí ikony <img src="images/settings.png"/> ve spodní části panelu pátrač.</p>
+
+        <h2>Vzdálenost</h2>
+        <p>Karta Vzdálenost obsahuje tabulky výše popsaných studií. Řádky představují typ osoby. Sloupce pak vzdálenosti (v metrech) do kterých bylo určité procento pohřešovaných nalezeno.</p>
+        <p><img src="images/distance.png"/></p>
+        <p>Tabulku na kartě Vlastní je možno editovat a nastavit tak vzdálenosti dle jiné studie, nebo vlastních zkušeností.</p>
+        <p>V přípravě je studie pro ČR. Jakmile bude zpracována, bude do aplikace doplněna.</p>
+
+        <h2>Tření</h2>
+        <p>Karta Tření obsahuje popis parametrů aktuálně používaného algoritmu pro třecí povrch. Třecí povrch vychází z digitálního modelu térénu a typů povrchu. Pro každý typ povrchu je určena
+          obtížnost pohybu resp. náklady na překonání určité vzdálenosti (aktuálně se jedná o čas na překonání 10 m). Např. pro silnice je tření (náklady) nižší než pro pole, a tedy pohyb rychlejší.
+          Podobně pohyb do kopce je pomalejší než po rovině. Pokud je u nákladu uvedena hodnota null, znamené to, že není možno daným prostorem se pohybovat a jedná se o neprostupnou překážku (např.
+          vodní plocha, oplocenka, vojenská základna).</p>
+        <p><img src="images/cost.png"/></p>
 
         <h2>Metody a volby</h2>
         <p><img src="images/methods.png"/></p>
@@ -385,35 +443,18 @@
 
         <p>Cesta k projektu ukazuje kam se ukládají všechna data. Tedy např. i GPX soubory pro GPS přijímače.</p>
 
-        <h2>Vzdálenost</h2>
-        <p>Karta Vzdálenost obsahuje tabulky výše popsaných studií. Řádky představují typ osoby. Sloupce pak vzdálenosti (v metrech) do kterých bylo určité procento pohřešovaných nalezeno.</p>
-        <p><img src="images/distance.png"/></p>
-        <p>Tabulku na kartě Vlastní je možno editovat a nastavit tak vzdálenosti dle jiné studie, nebo vlastních zkušeností.</p>
-        <p>V přípravě je studie pro ČR. Jakmile bude zpracována, bude do aplikace doplněna.</p>
+        <h2>Pátrači ha</h2>
+        <p>Karta Pátračí ha umožňuje nstavit rychlost pátrání pro druhy pátracích prostředků a terén.</p>
+        <p><img src="images/patraci_ha.png"/></p>
 
-        <h2>Tření</h2>
-        <p>Karta Tření obsahuje popis parametrů aktuálně používaného algoritmu pro třecí povrch. Třecí povrch vychází z digitálního modelu térénu a typů povrchu. Pro každý typ povrchu je určena
-          obtížnost pohybu resp. náklady na překonání určité vzdálenosti (aktuálně se jedná o čas na překonání 10 m). Např. pro silnice je tření (náklady) nižší než pro pole, a tedy pohyb rychlejší.
-          Podobně pohyb do kopce je pomalejší než po rovině. Pokud je u nákladu uvedena hodnota null, znamené to, že není možno daným prostorem se pohybovat a jedná se o neprostupnou překážku (např.
-          vodní plocha, oplocenka, vojenská základna).</p>
-        <p><img src="images/cost.png"/></p>
+        <h2>HS Messenger</h2>
+        <p>Na kartě je možno nastavit přístupový kód k systému Horské služby (pokud jej nemáte, kontaktujte Horskou službu).</p>
+        <p><img src="images/hsmessenger.png"/></p>
+        <p>Dále je zde možné, a pro svolávání psovodů nutné, nastavit e-mailové adresy.</p>
+        <p>První adresa je adresa, která bude uvedena u odesílatele seznamu psovodů zařazených do akce. Vyplňte tedy svoji služební adresu.</p>
+        <p>Druhá je adresa na KOPIS, pod který spadáte.</p>
+        <p>Třetí je další adresa, kam by měl seznam odejít (např. operační středisko).</p>
 
-        <h2>Pátrači</h2>
-        <p>Karta Pátračí obsahuje seznam jednotek, které jsou k dispozici. Seznam je možné editovat a ovlivňovat tak výsledky algoritmu pro export sektorů s reportem..</p>
-        <p><img src="images/patraci.png"/></p>
-
-        <h2>Psovodi</h2>
-        <p>Svolávání psovodů je k dispozici na dvou kartách. Karta Psovodi sloužila pro testování principů svolávání a vyžaduje, aby měli psovodi nainstalovánu mobilní aplikaci Pátrač Monitor. V plánu
-          však již není tuto mobilní aplikaci dále rozvíjet, proto bude v budoucnosti tato karta nahrazena kartou Psovodi HS.</p>
-        <p><img src="images/psovodi.png"/></p>
-        <p>Přes tlačítko je možné získat přehled všech psovodů registrovaných v systému. U těch je možné přes tlačítko Oslovit zjistit dostupnost. Následně je možné přes tlačítko Vyzvat je vyzvat k
-          příjezdu.</p>
-
-        <h2>Psovodi HS</h2>
-        <p>Karta Psovodi HS je nový způsob svolávání. Vyžaduje od psovodů instalaci aplikace GINA a pro operátora přístup do systému Horské služby, která systém provozuje.</p>
-        <p><img src="images/psovodi_hs.png"/></p>
-        <p>Po zadání Access Key je možno v systému vytvořit novou událost a vyhledat dostupné psovody. Přes zadání uživatelského jména a hesla je možné se přihlásit do aplikace pro správu
-          událostí.</p>
       </div>
     </div>
   </div>
@@ -427,23 +468,9 @@
         <h1>Další funkce</h1>
         <p>Aplikace má celou řadu dalších funkcí.</p>
 
-        <h2>Import dat z GPS</h2>
-        <p>Pomocí tlačítka <img src="images/gps.png"/> je možné importovat data z GPS přijímače. Funkce aktuálně podporuje pouze nové přijímače, které připojují GPS jako USB zařízení. Do budoucna se
-          nepředpokládá podpora starších zařízení.</p>
-        <p>Import dat je možný buď výběrem stop ze seznamu všech stop nebo ořezáním stop dle zadaného časového okna.</p>
-
-        <h2>Zobrazení pozic pátračů</h2>
-        <p>Pomocí tlačítka <img src="images/patraci_points.png"/> je možné zobrazit poslední pozice pátračů, kteří jsou připojeni on-line. Tato funkce vyžaduje připojení k internetu.</p>
-        <p>Po zmáčknutí tlačítka je vrstva patraci aktualizována daty ze serveru. Zelenou ikonou jsou zobrazeni aktivní pátrači (log v posledních 5-ti minutách), bílou ikonou jsou zobrazeni neaktivní
-          pátrači.</p>
-
-        <h2>Zobrazení stop pátračů</h2>
-        <p>Pomocí tlačítka <img src="images/patraci_lines.png"/> je možné zobrazit stopy pátračů, kteří jsou připojeni on-line. Tato funkce vyžaduje připojení k internetu.</p>
-        <p>Po zmáčknutí tlačítka je vrstva patraci_lines aktualizována daty ze serveru.</p>
-
-        <h2>Zaslání zprávy</h2>
-        <p>Pomocí tlačítka <img src="images/message.png"/> je možné pátračům, kteří jsou připojeni on-line zaslat zprávu. Tato funkce vyžaduje připojení k internetu.</p>
-        <p><img src="images/chat.png"/></p>
+<!--        <h2>Zaslání zprávy</h2>-->
+<!--        <p>Pomocí tlačítka <img src="images/message.png"/> je možné pátračům, kteří jsou připojeni on-line zaslat zprávu. Tato funkce vyžaduje připojení k internetu.</p>-->
+<!--        <p><img src="images/chat.png"/></p>-->
 
         <h2>Zadání bodů</h2>
         <p>Pomocí tlačítka <img src="images/places.png"/> je možné upravovat body pozorování.</p>
