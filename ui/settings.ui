@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>4</number>
    </property>
    <widget class="QWidget" name="tab_3">
     <attribute name="title">
@@ -609,7 +609,7 @@
       <rect>
        <x>20</x>
        <y>30</y>
-       <width>91</width>
+       <width>191</width>
        <height>21</height>
       </rect>
      </property>
@@ -620,7 +620,7 @@
     <widget class="QLineEdit" name="lineEditAccessKey">
      <property name="geometry">
       <rect>
-       <x>120</x>
+       <x>230</x>
        <y>30</y>
        <width>461</width>
        <height>31</height>
@@ -638,7 +638,7 @@
       <rect>
        <x>20</x>
        <y>80</y>
-       <width>91</width>
+       <width>201</width>
        <height>21</height>
       </rect>
      </property>
@@ -649,7 +649,7 @@
     <widget class="QLineEdit" name="lineEditEmailFrom">
      <property name="geometry">
       <rect>
-       <x>120</x>
+       <x>230</x>
        <y>80</y>
        <width>461</width>
        <height>31</height>
@@ -667,7 +667,7 @@
       <rect>
        <x>20</x>
        <y>130</y>
-       <width>91</width>
+       <width>201</width>
        <height>21</height>
       </rect>
      </property>
@@ -678,7 +678,7 @@
     <widget class="QLineEdit" name="lineEditEmailTo1">
      <property name="geometry">
       <rect>
-       <x>120</x>
+       <x>230</x>
        <y>130</y>
        <width>461</width>
        <height>31</height>
@@ -694,7 +694,7 @@
     <widget class="QLineEdit" name="lineEditEmailTo2">
      <property name="geometry">
       <rect>
-       <x>120</x>
+       <x>230</x>
        <y>180</y>
        <width>461</width>
        <height>31</height>
@@ -712,7 +712,7 @@
       <rect>
        <x>20</x>
        <y>180</y>
-       <width>91</width>
+       <width>201</width>
        <height>21</height>
       </rect>
      </property>

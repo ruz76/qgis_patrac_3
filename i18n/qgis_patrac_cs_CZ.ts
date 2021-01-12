@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="cs" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.1" language="cs">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -143,7 +144,7 @@
     </message>
     <message>
         <location filename="../ui/settings.ui" line="231"/>
-        <source>Uk&#xc3;&#xa1;zat QR</source>
+        <source>UkÃ¡zat QR</source>
         <translation type="obsolete">Ukázat QR</translation>
     </message>
     <message>
@@ -910,7 +911,7 @@
     <message>
         <location filename="../patracdockwidget.py" line="429"/>
         <source>You have to select type of the search</source>
-        <translation>Musíte zadat typ pátrání (výuka a testování nbeo reálná pátrací akce).</translation>
+        <translation>Musíte zadat typ pátrání (výuka a testování nebo reálná pátrací akce).</translation>
     </message>
     <message>
         <location filename="../patracdockwidget.py" line="1413"/>
@@ -925,7 +926,7 @@
     <message>
         <location filename="../patracdockwidget.py" line="974"/>
         <source>Can not calculate the area. Check the inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nemohu vypočítat plochu pravděpodobnosti. ZKontrolujte proísm vstupy. Např. zda není bod na ostrově.</translation>
     </message>
 </context>
 <context>
