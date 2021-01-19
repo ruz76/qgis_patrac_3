@@ -579,7 +579,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                     self.guidePersonCount.setText(unicode_row[0])
                 # diver
                 if i == 5:
-                    self.guideDiverCount.setText(unicode_row[0])
+                    self.guideDroneCount.setText(unicode_row[0])
                 i=i+1
 
     def recalculateAll(self):
@@ -743,7 +743,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                     unicode_row[0] = self.guidePersonCount.text()
                 # diver
                 if i == 5:
-                    unicode_row[0] = self.guideDiverCount.text()
+                    unicode_row[0] = self.guideDroneCount.text()
                 j = 0
                 for field in unicode_row:
                     if j == 0:

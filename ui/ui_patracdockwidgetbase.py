@@ -802,6 +802,7 @@ class Ui_PatracDockWidget(object):
     def setAvailableUnitsItems(self):
         self.guideDogCountLabel = QLabel(self.dockWidgetContents)
         self.guideDogCountLabel.setText(QApplication.translate("PatracDockWidget", "Handler", None))
+        self.guideDogCountLabel.setFixedWidth(100)
         self.guideDogCount = QLineEdit()
         self.horizontalDogCountLayout = QHBoxLayout(self.tabGuideStep5)
         self.horizontalDogCountLayout.addWidget(self.guideDogCountLabel)
@@ -810,19 +811,21 @@ class Ui_PatracDockWidget(object):
 
         self.guidePersonCountLabel = QLabel(self.dockWidgetContents)
         self.guidePersonCountLabel.setText(QApplication.translate("PatracDockWidget", "Person", None))
+        self.guidePersonCountLabel.setFixedWidth(100)
         self.guidePersonCount = QLineEdit()
         self.horizontalPersonCountLayout = QHBoxLayout(self.tabGuideStep5)
         self.horizontalPersonCountLayout.addWidget(self.guidePersonCountLabel)
         self.horizontalPersonCountLayout.addWidget(self.guidePersonCount)
         self.verticalGuideLayoutStep5.addLayout(self.horizontalPersonCountLayout)
 
-        self.guideDiverCountLabel = QLabel(self.dockWidgetContents)
-        self.guideDiverCountLabel.setText(QApplication.translate("PatracDockWidget", "Diver", None))
-        self.guideDiverCount = QLineEdit()
-        self.horizontalDiverCountLayout = QHBoxLayout(self.tabGuideStep5)
-        self.horizontalDiverCountLayout.addWidget(self.guideDiverCountLabel)
-        self.horizontalDiverCountLayout.addWidget(self.guideDiverCount)
-        self.verticalGuideLayoutStep5.addLayout(self.horizontalDiverCountLayout)
+        self.guideDroneCountLabel = QLabel(self.dockWidgetContents)
+        self.guideDroneCountLabel.setText(QApplication.translate("PatracDockWidget", "Drone", None))
+        self.guideDroneCountLabel.setFixedWidth(100)
+        self.guideDroneCount = QLineEdit()
+        self.horizontalDroneCountLayout = QHBoxLayout(self.tabGuideStep5)
+        self.horizontalDroneCountLayout.addWidget(self.guideDroneCountLabel)
+        self.horizontalDroneCountLayout.addWidget(self.guideDroneCount)
+        self.verticalGuideLayoutStep5.addLayout(self.horizontalDroneCountLayout)
 
     def loadAvailableUnits(self):
         self.setAvailableUnitsItems()
@@ -839,7 +842,7 @@ class Ui_PatracDockWidget(object):
                     self.guidePersonCount.setText(unicode_row[0])
                 # diver
                 if i == 5:
-                    self.guideDiverCount.setText(unicode_row[0])
+                    self.guideDroneCount.setText(unicode_row[0])
                 i=i+1
 
     def retranslateUi(self, PatracDockWidget):
