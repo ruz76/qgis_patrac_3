@@ -2796,12 +2796,12 @@
     <message>
         <location filename="../ui/ui_settings.py" line="850"/>
         <source>Recalculated</source>
-        <translation type="unfinished"></translation>
+        <translation>Přepočítáno</translation>
     </message>
     <message>
         <location filename="../ui/ui_settings.py" line="850"/>
         <source>The friction has been recalculated</source>
-        <translation type="unfinished"></translation>
+        <translation>Třecí povrch byl přepočítán</translation>
     </message>
 </context>
 <context>
