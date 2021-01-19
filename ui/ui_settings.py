@@ -31,7 +31,7 @@ import subprocess
 import shutil
 import csv
 import io
-from qgis.PyQt import QtWidgets,QtGui, uic
+from qgis.PyQt import QtWidgets, QtGui, uic
 from qgis.core import *
 from qgis.gui import *
 from qgis import utils
@@ -41,9 +41,10 @@ from qgis.PyQt.QtGui import *
 import webbrowser
 import urllib.request, urllib.error, urllib.parse
 import requests, json
-from .. connect.connect import *
+from ..connect.connect import *
 from string import ascii_uppercase
 import urllib3
+
 # import qrcode
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -106,6 +107,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.pushButtonShowQrCode.clicked.connect(self.showQrCode)
 
         self.pushButtonSaveStyle.clicked.connect(self.saveStyle)
+        self.pushButtonRecalculateFriction.clicked.connect(self.recalculateFriction)
 
     def downloadStats(self):
         # localPath = "/tmp/ka/stats.db"
@@ -214,7 +216,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
     def refreshSystemUsersSetSheduler(self):
         QMessageBox.information(None, self.tr("Not available"), self.tr("The function is not implemented"))
-
 
     def incidentEdit(self):
         if self.incidentId is None:
@@ -436,7 +437,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         ids = self.removeSleepingSystemUsers(idsSelected, statuses)
         if len(ids) != len(idsSelected):
             QMessageBox.information(None, self.tr("INFO"),
-                                                  self.tr("Some of the selected handlersare in sleeping or released state. You have to wait for their wakeup."))
+                                    self.tr("Some of the selected handlersare in sleeping or released state. You have to wait for their wakeup."))
         if ids == "":
             QMessageBox.information(None, self.tr("INFO"), self.tr("You did not select handler that can be called."))
             return
@@ -593,15 +594,15 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         """Fills table with units"""
         tableWidget.setVerticalHeaderLabels(
             [self.tr("empty easy no cover"),
-                     self.tr("empty easy with cover"),
-                             self.tr("empty difficult"),
-                                     self.tr("cover easy to pass"),
-                                             self.tr("cover difficult to pass"),
-                                                     self.tr("intravilan"),
-                                                             self.tr("parks and playgrounds with people"),
-                                                                     self.tr("parks and playgrounds without people"),
-                                                                             self.tr("water body"),
-                                                                                     self.tr("other")])
+             self.tr("empty easy with cover"),
+             self.tr("empty difficult"),
+             self.tr("cover easy to pass"),
+             self.tr("cover difficult to pass"),
+             self.tr("intravilan"),
+             self.tr("parks and playgrounds with people"),
+             self.tr("parks and playgrounds without people"),
+             self.tr("water body"),
+             self.tr("other")])
         tableWidget.setHorizontalHeaderLabels(self.unitsLabels)
         settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
         # Reads CSV and populate the table
@@ -814,5 +815,33 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         if hasattr(self, 'searchID') and self.searchID != "":
             url = "https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=" + self.searchID
             webbrowser.get().open(url)
-            #webbrowser.open(url)
+            # webbrowser.open(url)
 
+    def recalculateFriction(self):
+        f = open(self.pluginPath + '/grass/friction_user.rules', 'w')
+        for i in range(0, 56):
+            cat = self.tableWidgetFriction.item(i, 0).text()
+            value = self.tableWidgetFriction.item(i, 1).text()
+            if value == '':
+                value = 'null'
+            f.write(cat + " = " + value + "\n")
+        f.write("* = null\n")
+        f.write("end\n")
+        f.close()
+
+        self.parent.setCursor(Qt.WaitCursor)
+        self.setCursor(Qt.WaitCursor)
+
+        prjfi = QFileInfo(QgsProject.instance().fileName())
+        DATAPATH = prjfi.absolutePath()
+        if sys.platform.startswith('win'):
+            p = subprocess.Popen((self.pluginPath + "/grass/run_friction.bat", DATAPATH, self.pluginPath))
+            p.wait()
+        else:
+            p = subprocess.Popen(
+                ('bash', self.pluginPath + "/grass/run_friction.sh", DATAPATH, self.pluginPath))
+            p.wait()
+
+        QMessageBox.information(None, self.tr("Recalculated"), self.tr("The friction has been recalculated"))
+        self.setCursor(Qt.ArrowCursor)
+        self.parent.setCursor(Qt.ArrowCursor)
