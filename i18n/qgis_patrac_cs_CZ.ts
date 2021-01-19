@@ -1689,32 +1689,32 @@
 <context>
     <name>Ui_Handlers</name>
     <message>
-        <location filename="../ui/ui_handlers.py" line="134"/>
+        <location filename="../ui/ui_handlers.py" line="135"/>
         <source>ERROR</source>
         <translation>CHYBA</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="95"/>
+        <location filename="../ui/ui_handlers.py" line="96"/>
         <source>Not yet implemented</source>
         <translation>Zatím nebylo implementováno</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="149"/>
+        <location filename="../ui/ui_handlers.py" line="150"/>
         <source>Wrong project</source>
         <translation>Chybný projekt</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="149"/>
+        <location filename="../ui/ui_handlers.py" line="150"/>
         <source>This function is avaialble from projects created in at least version 3.12.22</source>
         <translation>Tato funkce je dostupná pouze pro projekty vytvořené ve verzi 3.12.22 a vyšší</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="169"/>
+        <location filename="../ui/ui_handlers.py" line="170"/>
         <source>Wrong input</source>
         <translation>Chybný vstup</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="152"/>
+        <location filename="../ui/ui_handlers.py" line="153"/>
         <source>Missing Title</source>
         <translation>Chybí název</translation>
     </message>
@@ -1724,129 +1724,139 @@
         <translation type="obsolete">Chybí popis</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="159"/>
+        <location filename="../ui/ui_handlers.py" line="160"/>
         <source>Missing API Key</source>
         <translation>Chybí API key. Zadejte v Nastavení.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="162"/>
+        <location filename="../ui/ui_handlers.py" line="163"/>
         <source>Missing Phone</source>
         <translation>Chybí telefon. Zadejte na kartě Pátrací akce.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="169"/>
+        <location filename="../ui/ui_handlers.py" line="170"/>
         <source>Enter distance in km</source>
         <translation>Zadejte vzdálenost v kilometrech</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="395"/>
+        <location filename="../ui/ui_handlers.py" line="401"/>
         <source>Error</source>
         <translation>CHYBA</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="206"/>
+        <location filename="../ui/ui_handlers.py" line="207"/>
         <source>Can not create incident</source>
         <translation>Nemohu vyzvat psovody.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="300"/>
+        <location filename="../ui/ui_handlers.py" line="301"/>
         <source>Can not connect to the server.</source>
         <translation>Nemohu se spojit se serverem. Zkontrolujte připojení k Internetu.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="354"/>
+        <location filename="../ui/ui_handlers.py" line="360"/>
         <source>Can not read data</source>
         <translation>Nepodařilo se načíst data o psovodech</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="365"/>
+        <location filename="../ui/ui_handlers.py" line="371"/>
         <source>Success</source>
         <translation>Úspěch</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="365"/>
+        <location filename="../ui/ui_handlers.py" line="371"/>
         <source>Connected</source>
         <translation>Připojeno</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="375"/>
+        <location filename="../ui/ui_handlers.py" line="381"/>
         <source>Name</source>
         <translation>Jméno</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="375"/>
+        <location filename="../ui/ui_handlers.py" line="381"/>
         <source>Phone</source>
         <translation>Telefon</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="375"/>
+        <location filename="../ui/ui_handlers.py" line="381"/>
         <source>Distance</source>
         <translation>Vzdálenost</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="155"/>
+        <location filename="../ui/ui_handlers.py" line="156"/>
         <source>No description</source>
         <translation>Bez popisu</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="246"/>
+        <location filename="../ui/ui_handlers.py" line="247"/>
         <source>Can not call handlers. Some error occured.</source>
         <translation>Nemohu vyzvat psovody. Nastala neočákavná chyba.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="221"/>
+        <location filename="../ui/ui_handlers.py" line="222"/>
         <source>Notified</source>
         <translation>Informován</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="240"/>
+        <location filename="../ui/ui_handlers.py" line="241"/>
         <source>You have to check the handlers.</source>
         <translation>Musíte vybrat psovody.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="255"/>
+        <location filename="../ui/ui_handlers.py" line="256"/>
         <source>Can not show handlers in action. Action was not created yet.</source>
         <translation>Nemohu ukázat psovody v akci. Akce ještě nebyla vytvořena.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="280"/>
+        <location filename="../ui/ui_handlers.py" line="281"/>
         <source>Can not notify handlers. Action was not created yet.</source>
         <translation>Nemohu informovat psovody. Akce ještě nebyla vytvořena.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="375"/>
+        <location filename="../ui/ui_handlers.py" line="381"/>
         <source>Selected</source>
         <translation>Vybráni</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="375"/>
+        <location filename="../ui/ui_handlers.py" line="381"/>
         <source>State</source>
         <translation>Stav</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="390"/>
+        <location filename="../ui/ui_handlers.py" line="396"/>
         <source>Available</source>
         <translation>Dostupný</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="109"/>
+        <location filename="../ui/ui_handlers.py" line="110"/>
         <source>Emails in settings has to be set. Go to the settings dialog.</source>
         <translation>E-mailové adresy musí být nastaveny. Nastavte v dialogu Nastavení.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="132"/>
+        <location filename="../ui/ui_handlers.py" line="133"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="132"/>
+        <location filename="../ui/ui_handlers.py" line="133"/>
         <source>Email with list of selected handlers has been sent</source>
         <translation>E-maily se seznamem vybraných psovodů byly rozeslány</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="134"/>
+        <location filename="../ui/ui_handlers.py" line="135"/>
         <source>Email with list of selected handlers can not be sent</source>
         <translation>E-maily se seznamem vybraných psovodů nemohly být rozeslány</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_handlers.py" line="344"/>
+        <source>Accepted</source>
+        <translation>Řeší</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_handlers.py" line="346"/>
+        <source>Not accepted</source>
+        <translation>Neřeší</translation>
     </message>
 </context>
 <context>

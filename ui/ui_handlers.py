@@ -336,9 +336,14 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
                 if user_from_calls is not None:
                     self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(str(user_from_calls["name"])))
                     self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(str(user_from_calls["phone"])))
+                    if user["vyzvaPotvrzena"]:
+                        if user["lastReactionType"] == "accepted":
+                            user_from_calls["state"] = self.tr("Accepted")
+                        else:
+                            user_from_calls["state"] = self.tr("Not accepted")
                     self.tableWidgetSystemUsersHS.setItem(i, 3, QTableWidgetItem(str(user_from_calls["state"])))
                 else:
-                    print("TADY")
+                    # print("TADY")
                     QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), msg)
                 i += 1
                 hsusersids += "hs" + str(user["userId"]) + ";"

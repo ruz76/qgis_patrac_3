@@ -1661,32 +1661,32 @@
 <context>
     <name>Ui_Handlers</name>
     <message>
-        <location filename="../ui/ui_handlers.py" line="134"/>
+        <location filename="../ui/ui_handlers.py" line="135"/>
         <source>ERROR</source>
         <translation>ERROR</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="95"/>
+        <location filename="../ui/ui_handlers.py" line="96"/>
         <source>Not yet implemented</source>
         <translation>Not yet implemented</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="149"/>
+        <location filename="../ui/ui_handlers.py" line="150"/>
         <source>Wrong project</source>
         <translation>Wrong project</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="149"/>
+        <location filename="../ui/ui_handlers.py" line="150"/>
         <source>This function is avaialble from projects created in at least version 3.12.22</source>
         <translation>This function is avaialble from projects created in at least version 3.12.22</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="169"/>
+        <location filename="../ui/ui_handlers.py" line="170"/>
         <source>Wrong input</source>
         <translation>Wrong input</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="152"/>
+        <location filename="../ui/ui_handlers.py" line="153"/>
         <source>Missing Title</source>
         <translation>Missing Title</translation>
     </message>
@@ -1696,129 +1696,139 @@
         <translation type="obsolete">Missing Description</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="159"/>
+        <location filename="../ui/ui_handlers.py" line="160"/>
         <source>Missing API Key</source>
         <translation>Missing API Key</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="162"/>
+        <location filename="../ui/ui_handlers.py" line="163"/>
         <source>Missing Phone</source>
         <translation>Missing Phone</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="169"/>
+        <location filename="../ui/ui_handlers.py" line="170"/>
         <source>Enter distance in km</source>
         <translation>Enter distance in km</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="395"/>
+        <location filename="../ui/ui_handlers.py" line="401"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="206"/>
+        <location filename="../ui/ui_handlers.py" line="207"/>
         <source>Can not create incident</source>
         <translation>Can not create incident</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="300"/>
+        <location filename="../ui/ui_handlers.py" line="301"/>
         <source>Can not connect to the server.</source>
         <translation>Can not connect to the server.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="354"/>
+        <location filename="../ui/ui_handlers.py" line="360"/>
         <source>Can not read data</source>
         <translation>Can not read data</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="365"/>
+        <location filename="../ui/ui_handlers.py" line="371"/>
         <source>Success</source>
         <translation>Success</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="365"/>
+        <location filename="../ui/ui_handlers.py" line="371"/>
         <source>Connected</source>
         <translation>Connected</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="375"/>
+        <location filename="../ui/ui_handlers.py" line="381"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="375"/>
+        <location filename="../ui/ui_handlers.py" line="381"/>
         <source>Phone</source>
         <translation>Phone</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="375"/>
+        <location filename="../ui/ui_handlers.py" line="381"/>
         <source>Distance</source>
         <translation>Distance</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="155"/>
+        <location filename="../ui/ui_handlers.py" line="156"/>
         <source>No description</source>
         <translation>No description</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="246"/>
+        <location filename="../ui/ui_handlers.py" line="247"/>
         <source>Can not call handlers. Some error occured.</source>
         <translation>Can not call handlers. Some error occured.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="221"/>
+        <location filename="../ui/ui_handlers.py" line="222"/>
         <source>Notified</source>
         <translation>Notified</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="240"/>
+        <location filename="../ui/ui_handlers.py" line="241"/>
         <source>You have to check the handlers.</source>
         <translation>You have to check the handlers.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="255"/>
+        <location filename="../ui/ui_handlers.py" line="256"/>
         <source>Can not show handlers in action. Action was not created yet.</source>
         <translation>Can not show handlers in action. Action was not created yet.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="280"/>
+        <location filename="../ui/ui_handlers.py" line="281"/>
         <source>Can not notify handlers. Action was not created yet.</source>
         <translation>Can not notify handlers. Action was not created yet.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="375"/>
+        <location filename="../ui/ui_handlers.py" line="381"/>
         <source>Selected</source>
         <translation>Selected</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="375"/>
+        <location filename="../ui/ui_handlers.py" line="381"/>
         <source>State</source>
         <translation>State</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="390"/>
+        <location filename="../ui/ui_handlers.py" line="396"/>
         <source>Available</source>
         <translation>Available</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="109"/>
+        <location filename="../ui/ui_handlers.py" line="110"/>
         <source>Emails in settings has to be set. Go to the settings dialog.</source>
         <translation>Emails in settings has to be set. Go to the settings dialog.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="132"/>
+        <location filename="../ui/ui_handlers.py" line="133"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="132"/>
+        <location filename="../ui/ui_handlers.py" line="133"/>
         <source>Email with list of selected handlers has been sent</source>
         <translation>Email with list of selected handlers has been sent</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="134"/>
+        <location filename="../ui/ui_handlers.py" line="135"/>
         <source>Email with list of selected handlers can not be sent</source>
         <translation>Email with list of selected handlers can not be sent</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_handlers.py" line="344"/>
+        <source>Accepted</source>
+        <translation>Accepted</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_handlers.py" line="346"/>
+        <source>Not accepted</source>
+        <translation>Not accepted</translation>
     </message>
 </context>
 <context>
