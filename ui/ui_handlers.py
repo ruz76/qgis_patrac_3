@@ -82,6 +82,7 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
 
     def updateSettings(self):
         self.project_settings = self.Utils.getProjectInfo()
+        self.readConfig()
         self.readUsersInCall()
 
     def accept(self):
