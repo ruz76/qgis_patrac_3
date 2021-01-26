@@ -42,6 +42,26 @@ class Utils(object):
         self.iface = self.widget.plugin.iface
         self.canvas = self.widget.canvas
 
+    def loadRemovedNecessaryLayers(self):
+        layers = ["patraci.shp", "sektory_group.shp", "mista.shp", "mista_linie.shp", "mista_polygon.shp"]
+        layers_titles = ["patraci", "sektory", "mista", "mista_linie", "mista_polygon"]
+        id = 0
+        for layer in layers:
+            layerExists = self.checkLayer(layer)
+            if not layerExists:
+                self.addVectorLayer(self.getDataPath() + "/pracovni/" + layer, layers_titles[id])
+            id += 1
+
+        layer = "distances_costed_cum.tif"
+        layerExists = self.checkLayer(layer)
+        if not layerExists:
+            self.addRasterLayer(self.getDataPath() + "/pracovni/" + layer, "procenta")
+
+        layer = "zpm.mbtiles"
+        layerExists = self.checkLayer(layer)
+        if not layerExists:
+            self.addRasterLayer(self.getDataPath() + "/../../../" + layer, "zpm")
+
     def checkLayer(self, name):
         layerExists = False
         for lyr in list(QgsProject.instance().mapLayers().values()):

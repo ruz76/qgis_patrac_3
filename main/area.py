@@ -53,6 +53,8 @@ class Area(object):
     def getArea(self):
         """Runs main search for suitable area"""
 
+        self.Utils.loadRemovedNecessaryLayers()
+
         # Check if the project has mista.shp
         if not self.Utils.checkLayer("/pracovni/mista.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None) + ":",

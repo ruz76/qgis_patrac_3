@@ -51,6 +51,8 @@ class Sectors(object):
     def getSectors(self, min, max):
         """Selects sectors from grass database based on filtered raster"""
 
+        self.Utils.loadRemovedNecessaryLayers()
+
         # Check if the project has sektory_group.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None),
@@ -127,6 +129,9 @@ class Sectors(object):
         layer.setSubsetString(filter)
 
     def extendRegion(self):
+
+        self.Utils.loadRemovedNecessaryLayers()
+
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None),
@@ -280,6 +285,8 @@ class Sectors(object):
     def recalculateSectors(self, setLabels, setIds):
         """Recalculate areas of sectors and identifiers"""
 
+        self.Utils.loadRemovedNecessaryLayers()
+
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None),
@@ -376,6 +383,8 @@ class Sectors(object):
 
     def exportSectors(self):
         """Exports sectors to SHP and GPX without creating report. It is much faster and allows to use only selected sectors."""
+
+        self.Utils.loadRemovedNecessaryLayers()
 
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
@@ -682,6 +691,8 @@ class Sectors(object):
 
     def reportExportSectors(self, openReport, exportPDF):
         """Creates report and exports sectors to SHP and GPX"""
+
+        self.Utils.loadRemovedNecessaryLayers()
 
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):

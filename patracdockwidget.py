@@ -352,6 +352,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.Utils.createProjectInfo(self.projectname, self.projectdesc, version)
 
     def updateActionSettings(self):
+
+        self.Utils.loadRemovedNecessaryLayers()
+
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
                             QApplication.translate("Patrac", "Wrong project.", None))
@@ -1001,6 +1004,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.settingsdlg.show()
 
     def showPersonInfo(self):
+
+        self.Utils.loadRemovedNecessaryLayers()
+
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
                                     QApplication.translate("Patrac", "Wrong project.", None))
@@ -1011,6 +1017,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def showHandlersDialog(self):
         """Shows the settings dialog"""
+
+        self.Utils.loadRemovedNecessaryLayers()
+
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
                                     QApplication.translate("Patrac", "Wrong project.", None))
@@ -1021,6 +1030,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def showMessage(self):
         """Show the dialog for sending messages"""
+
+        self.Utils.loadRemovedNecessaryLayers()
+
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
@@ -1036,6 +1048,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def showImportGpx(self):
         """Shows the dialog for import of GPX tracks"""
+
+        self.Utils.loadRemovedNecessaryLayers()
+
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
@@ -1071,6 +1086,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         """Sets tool to pointtool to be able handle from click to map.
             It is used at the time when the search is finished.
         """
+
+        self.Utils.loadRemovedNecessaryLayers()
+
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
@@ -1089,6 +1107,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Info", None), QApplication.translate("Patrac", "Click into the map at the place of finding. If you finishing without finding, click anywhere into map.", None), level=Qgis.Warning, duration=-1)
 
     def setSectorsProgress(self):
+
+        self.Utils.loadRemovedNecessaryLayers()
+
         layer = self.setSectorsProgressPrepare()
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
@@ -1123,6 +1144,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.plugin.iface.mapCanvas().setMapTool(self.progresstool)
 
     def setSectorsProgressPrepare(self):
+
+        self.Utils.loadRemovedNecessaryLayers()
+
         # Check if the project has sektory_group_selected.shp
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
@@ -1143,6 +1167,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         return layer
 
     def switchToAnalyse(self):
+
+        self.Utils.loadRemovedNecessaryLayers()
+
         layer = self.setSectorsProgressPrepare()
         if not self.Utils.checkLayer("/pracovni/sektory_group.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
@@ -1174,6 +1201,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             Or converts lines to points
             Or converts polygons to points
         """
+
+        self.Utils.loadRemovedNecessaryLayers()
+
         # Check if the project has mista.shp
         if not self.Utils.checkLayer("/pracovni/mista.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
@@ -1368,6 +1398,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def showPeopleTracks(self):
         """Shows tracks of logged positions in map"""
+
+        self.Utils.loadRemovedNecessaryLayers()
+
         # Check if the project has patraci_lines.shp
         if not self.Utils.checkLayer("/pracovni/patraci.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
@@ -1488,6 +1521,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def showPeople(self):
         """Shows location of logged positions in map"""
 
+        self.Utils.loadRemovedNecessaryLayers()
+
         # Check if the project has patraci.shp
         if not self.Utils.checkLayer("/pracovni/patraci.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
@@ -1553,6 +1588,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def showPeopleSimulation(self):
         """Shows location of logged positions in map"""
+
+        self.Utils.loadRemovedNecessaryLayers()
 
         # Check if the project has patraci.shp
         if not self.Utils.checkLayer("/pracovni/patraci.shp"):
