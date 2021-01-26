@@ -228,8 +228,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         self.tbtnPercent.clicked.connect(self.showPercentDialog)
         self.tbtnUnits.clicked.connect(self.showUnitsDialog)
-        self.showHandlers.clicked.connect(self.showHandlersDialog)
+        self.tbtnSwitchSectorsType.clicked.connect(self.Utils.createUTMSectors)
         self.tbtnRecalculate.clicked.connect(self.recalculateAll)
+
+        self.showHandlers.clicked.connect(self.showHandlersDialog)
         self.printPrepared.clicked.connect(self.showReport)
         self.printUserDefined.clicked.connect(self.actionShowLayoutManager)
 

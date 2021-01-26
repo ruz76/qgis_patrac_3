@@ -241,3 +241,85 @@ class Utils(object):
 
         with open(self.getDataPath() + "/pracovni/project.json", 'w') as outfile:
             json.dump(project_info, outfile)
+
+    def createUTMSectors(self):
+        with open(self.getDataPath() + '/config/extent.txt') as f:
+            lines = f.readlines()
+            parts = lines[0].split(' ')
+
+        source_crs = QgsCoordinateReferenceSystem(5514)
+        dest_crs = QgsCoordinateReferenceSystem(32633)
+        transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
+        minXY_UTM = transform.transform(int(parts[0]), int(parts[1]))
+        maxXY_UTM = transform.transform(int(parts[2]), int(parts[3]))
+
+        cellsize = 1000
+        print(minXY_UTM)
+        print(maxXY_UTM)
+
+        minx = int(minXY_UTM.x() / cellsize) * cellsize - cellsize
+        miny = int(minXY_UTM.y() / cellsize) * cellsize - cellsize
+        maxx = int(maxXY_UTM.x() / cellsize) * cellsize + cellsize
+        maxy = int(maxXY_UTM.y() / cellsize) * cellsize + cellsize
+
+        print(minx, miny, maxx, maxy)
+
+        self.createUTMSectorsGrid([minx, miny, maxx, maxy], cellsize)
+
+    def createUTMSectorsGrid(self, extent, cellsize):
+        layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if self.getDataPath() + "/pracovni/sektory_group.shp" in lyr.source():
+                layer = lyr
+                break
+        if layer is not None:
+            provider = layer.dataProvider()
+            listOfIds = [feat.id() for feat in layer.getFeatures()]
+            # Deletes all features in layer patraci.shp
+            layer.startEditing()
+            layer.deleteFeatures(listOfIds)
+            layer.commitChanges()
+        else:
+            return
+
+        cols = int((extent[2] - extent[0]) / cellsize)
+        rows = int((extent[3] - extent[1]) / cellsize)
+        minx = extent[0]
+        miny = extent[1]
+        ch = 'A'
+        for col in range(cols):
+            for row in range(rows):
+                geom = self.getUTMGridPolygon(minx, miny, cellsize)
+                cols = [str(ch) + "" + str(row), str(ch) + "" + str(row), 'MIX', None, None, 0, str(ch) + "" + str(row), None, None, None]
+                self.saveUTMGridPolygon(provider, geom, cols)
+                miny = miny + cellsize
+            minx = minx + cellsize
+            miny = extent[1]
+            ch = chr(ord(ch) + 1)
+
+        layer.commitChanges()
+        # layer.stopEditing()
+
+    def getUTMGridPolygon(self, minx, miny, cellsize):
+        maxx = minx + cellsize
+        maxy = miny + cellsize
+        wkt = "POLYGON((" + str(minx) + " " + str(miny)\
+              + ", " + str(maxx) + " " + str(miny)\
+              + ", " + str(maxx) + " " + str(maxy)\
+              + ", " + str(minx) + " " + str(maxy)\
+              + ", " + str(minx) + " " + str(miny) + "))"
+
+        source_crs = QgsCoordinateReferenceSystem(32633)
+        dest_crs = QgsCoordinateReferenceSystem(5514)
+        tr = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
+        geom = QgsGeometry.fromWkt(wkt)
+        geom.transform(tr)
+        # print(geom.asWkt())
+        return geom
+
+    def saveUTMGridPolygon(self, provider, geom, cols):
+        fet = QgsFeature()
+        # Name and sessionid are on first and second place
+        fet.setAttributes(cols)
+        fet.setGeometry(geom)
+        provider.addFeatures([fet])

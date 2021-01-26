@@ -789,6 +789,14 @@ class Ui_PatracDockWidget(object):
         self.horizontalLayoutToolbarGuideLayoutStep7.addWidget(self.tbtnUnits)
         self.tbtnUnits.setToolTip(QApplication.translate("PatracDockWidget", "Set units", None))
 
+        self.tbtnSwitchSectorsType = QPushButton(self.dockWidgetContents)
+        self.tbtnSwitchSectorsType.setObjectName(_fromUtf8("tbtnSwitchSectorsType"))
+        self.tbtnSwitchSectorsType.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "switch_sectors_type.png")));
+        self.tbtnSwitchSectorsType.setIconSize(QSize(24,24));
+        self.tbtnSwitchSectorsType.setFixedSize(QSize(32,32));
+        self.horizontalLayoutToolbarGuideLayoutStep7.addWidget(self.tbtnSwitchSectorsType)
+        self.tbtnSwitchSectorsType.setToolTip(QApplication.translate("PatracDockWidget", "Switch sectors type", None))
+
         self.verticalGuideLayoutStep7.addLayout(self.horizontalLayoutToolbarGuideLayoutStep7)
 
         self.tbtnRecalculate = QPushButton(self.dockWidgetContents)
