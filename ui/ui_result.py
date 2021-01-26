@@ -279,7 +279,8 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         self.searchid = searchid
 
     def closeSearch(self):
-        url = self.serverUrl + 'search.php?operation=closesearch&id=' + self.systemid + '&searchid=' + self.searchid
+        accessKey = self.getAccessKey()
+        url = self.serverUrl + 'search.php?operation=closesearch&id=' + self.systemid + '&searchid=' + self.searchid + '&accesskey=' + accessKey
         self.closeSearchConnect = Connect()
         self.closeSearchConnect.setUrl(url)
         self.closeSearchConnect.statusChanged.connect(self.onCloseSearchServerResponse)
@@ -295,15 +296,19 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
 
     def closeHSSearch(self):
         GinaGUID = self.Utils.getProjectInfo()['gina_guid']
-        with open(self.widget.getPluginPath() + "/../../../qgis_patrac_settings" + "/config/config.json") as json_file:
-            config = json.load(json_file)
-            accessKey = config['hsapikey']
+        accessKey = self.getAccessKey()
 
         url = 'https://www.horskasluzba.cz/cz/app-patrac-close-incident?accessKey=' + accessKey + '&GinaGUID=' + GinaGUID
         self.closeHSSearchConnect = Connect()
         self.closeHSSearchConnect.setUrl(url)
         self.closeHSSearchConnect.statusChanged.connect(self.onCloseHSSearchServerResponse)
         self.closeHSSearchConnect.start()
+
+    def getAccessKey(self):
+        with open(self.widget.getPluginPath() + "/../../../qgis_patrac_settings" + "/config/config.json") as json_file:
+            config = json.load(json_file)
+            accessKey = config['hsapikey']
+        return accessKey
 
     def onCloseHSSearchServerResponse(self, response):
         if response.status == 200:
