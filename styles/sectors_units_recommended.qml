@@ -11,21 +11,22 @@
       <category label="Pátrací tým" value="INTRAV" render="true" symbol="1"/>
       <category label="Pátrací tým" value="KOLEJI" render="true" symbol="2"/>
       <category label="Pátrací tým" value="LETISTE" render="true" symbol="3"/>
+      <category label="Pátrací tým" value="ODPOCI" render="true" symbol="7"/>
+      <category label="Pátrací tým" value="PRSTPR" render="true" symbol="10"/>
+            <category label="Pátrací tým" value="ROZTRA" render="true" symbol="11"/>
+            <category label="Pátrací tým" value="ROZZRI" render="true" symbol="12"/>
+            <category label="Pátrací tým" value="SKLADK" render="true" symbol="13"/>
+      <category label="Pátrací tým" value="ULOMIS" render="true" symbol="15"/>
       <category label="Pes" value="LPKOSO" render="true" symbol="4"/>
       <category label="Pes" value="LPKROV" render="true" symbol="5"/>
       <category label="Pes" value="LPSTROM" render="true" symbol="6"/>
-      <category label="Pátrací tým" value="ODPOCI" render="true" symbol="7"/>
+      <category label="Pes" value="MAZCHU" render="true" symbol="18"/>
       <category label="Vzdušný tým" value="ORNAPU" render="true" symbol="8"/>
       <category label="Vzdušný tým" value="POTELO" render="true" symbol="9"/>
-      <category label="Pátrací tým" value="PRSTPR" render="true" symbol="10"/>
-      <category label="Pátrací tým" value="ROZTRA" render="true" symbol="11"/>
-      <category label="Pátrací tým" value="ROZZRI" render="true" symbol="12"/>
-      <category label="Pátrací tým" value="SKLADK" render="true" symbol="13"/>
       <category label="Vzdušný tým" value="TRTRPO" render="true" symbol="14"/>
-      <category label="Pátrací tým" value="ULOMIS" render="true" symbol="15"/>
       <category label="Vzdušný tým" value="VINICE" render="true" symbol="16"/>
       <category label="Potápěč" value="VODPLO" render="true" symbol="17"/>
-      <category label="" value="" render="true" symbol="18"/>
+      <category label="" value="" render="true" symbol="19"/>
     </categories>
     <symbols>
       <symbol type="fill" name="0" alpha="1" force_rhr="0" clip_to_extent="1">
@@ -248,7 +249,7 @@
           </data_defined_properties>
         </layer>
       </symbol>
-      <symbol type="fill" name="18" alpha="1" force_rhr="0" clip_to_extent="1">
+      <symbol type="fill" name="19" alpha="1" force_rhr="0" clip_to_extent="1">
         <layer enabled="1" pass="0" class="SimpleFill" locked="0">
           <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
           <prop v="240,119,179,255" k="color"/>
@@ -380,6 +381,28 @@
           </data_defined_properties>
         </layer>
       </symbol>
+      <symbol type="fill" name="18" alpha="1" force_rhr="0" clip_to_extent="1">
+              <layer enabled="1" pass="0" class="SimpleFill" locked="0">
+                <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
+                <prop v="148,70,39,255" k="color"/>
+                <prop v="bevel" k="joinstyle"/>
+                <prop v="0,0" k="offset"/>
+                <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+                <prop v="MM" k="offset_unit"/>
+                <prop v="255,1,255,38" k="outline_color"/>
+                <prop v="solid" k="outline_style"/>
+                <prop v="2" k="outline_width"/>
+                <prop v="MM" k="outline_width_unit"/>
+                <prop v="solid" k="style"/>
+                <data_defined_properties>
+                  <Option type="Map">
+                    <Option type="QString" name="name" value=""/>
+                    <Option name="properties"/>
+                    <Option type="QString" name="type" value="collection"/>
+                  </Option>
+                </data_defined_properties>
+              </layer>
+            </symbol>
       <symbol type="fill" name="7" alpha="1" force_rhr="0" clip_to_extent="1">
         <layer enabled="1" pass="0" class="SimpleFill" locked="0">
           <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
