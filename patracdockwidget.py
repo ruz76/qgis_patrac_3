@@ -452,12 +452,18 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def runGuideMunicipalitySearch(self):
         if not self.ok_to_close():
-            QMessageBox.warning(None, QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "You did not enter the result of the search. Use smile button, please.", None))
-            return
+            reply = QMessageBox.question(self, QApplication.translate("Patrac", 'Step', None),
+                                         QApplication.translate("Patrac", 'You did not enter the result of the previous search. Do you want to continue?', None),
+                                         QMessageBox.Yes, QMessageBox.No)
+
+            if reply == QMessageBox.No:
+                return
 
         if not self.guideTestSearch.isChecked() and not self.guideRealSearch.isChecked():
             QMessageBox.information(self.iface.mainWindow(), QApplication.translate("Patrac", "Missing input", None), QApplication.translate("Patrac", "You have to select type of the search", None))
             return
+
+        self.setCursor(Qt.WaitCursor)
 
         municipalityindex = self.municipalitySearch(self.guideMunicipalitySearch)
 
@@ -475,6 +481,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.iface.actionPan().trigger()
 
         self.Styles.setSectorsStyle('single')
+
+        self.setCursor(Qt.ArrowCursor)
 
     def checkStep(self, nextStep):
         if self.currentStep == nextStep - 1:

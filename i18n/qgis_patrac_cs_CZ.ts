@@ -599,7 +599,7 @@
         <translation>Chybný projekt. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="771"/>
+        <location filename="../patracdockwidget.py" line="779"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
@@ -664,12 +664,12 @@
         <translation>Pro daný kraj nemám k dispozici data. Nemám data nemohu pokračovat.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1631"/>
+        <location filename="../patracdockwidget.py" line="1639"/>
         <source>Can not connect to the server.</source>
         <translation>Nemohu se spojit se serverem.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1640"/>
+        <location filename="../patracdockwidget.py" line="1648"/>
         <source>Wrong project.</source>
         <translation>Chybný projekt. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.</translation>
     </message>
@@ -699,7 +699,7 @@
         <translation type="obsolete">J-V</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1631"/>
+        <location filename="../patracdockwidget.py" line="1639"/>
         <source>Error</source>
         <translation>CHYBA</translation>
     </message>
@@ -719,52 +719,52 @@
         <translation>Obec nebyla nalezena</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="486"/>
+        <location filename="../patracdockwidget.py" line="494"/>
         <source>Step</source>
         <translation>Krok</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="486"/>
+        <location filename="../patracdockwidget.py" line="494"/>
         <source>You skipped the step. Do you want to continue?</source>
         <translation>Přeskočili jste krok v průvodci. Chcete pokračovat?</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="692"/>
+        <location filename="../patracdockwidget.py" line="700"/>
         <source>No probability layer. Can not continue.</source>
         <translation>Nemohu najít vrstvu pravděpodobnosti. Nemohu pokračovat.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="723"/>
+        <location filename="../patracdockwidget.py" line="731"/>
         <source>Can not find web browser to open report</source>
         <translation>Nemohu otevřít WWW prohlížeč k načtení reportu</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="753"/>
+        <location filename="../patracdockwidget.py" line="761"/>
         <source>Did not find GPS. You have to copy GPX manually from the report.</source>
         <translation>Nenašel jsem připojenou GPS. Soubor musite uložit z reportu ručně.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="757"/>
+        <location filename="../patracdockwidget.py" line="765"/>
         <source>select input dialog</source>
         <translation>Vyberte</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="757"/>
+        <location filename="../patracdockwidget.py" line="765"/>
         <source>list of drives</source>
         <translation>Seznam disků</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="771"/>
+        <location filename="../patracdockwidget.py" line="779"/>
         <source>The sectors has been copied into the device: </source>
         <translation>Sektory byly zkopírovány do zařízení</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="773"/>
+        <location filename="../patracdockwidget.py" line="781"/>
         <source>Can not copy. You have copy it manually from the path: </source>
         <translation>Při kopírování sektorů došlo k chybě. Zkopírujte přes správce souborů z cesty:</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="910"/>
+        <location filename="../patracdockwidget.py" line="918"/>
         <source>No probability layer. Please try step 3 again.</source>
         <translation>Projekt neobsahuje vrstvu pravděpodobnosti. Zkuste prosím znovu použít krok 3 v průvodci.</translation>
     </message>
@@ -779,22 +779,22 @@
         <translation type="obsolete">Nedostupné</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1514"/>
+        <location filename="../patracdockwidget.py" line="1522"/>
         <source>Tracks are empty.</source>
         <translation>Stopy jsou prázdné.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1624"/>
+        <location filename="../patracdockwidget.py" line="1632"/>
         <source>Problem to read data from: </source>
         <translation>Problém s načtením dat z databáze</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1605"/>
+        <location filename="../patracdockwidget.py" line="1613"/>
         <source>Positions are empty.</source>
         <translation>Pozice jsou prázdné.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1640"/>
+        <location filename="../patracdockwidget.py" line="1648"/>
         <source>CHYBA:</source>
         <translation>CHYBA:</translation>
     </message>
@@ -849,12 +849,12 @@
         <translation>DATA TEST DOKONČEN</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1150"/>
+        <location filename="../patracdockwidget.py" line="1158"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1150"/>
+        <location filename="../patracdockwidget.py" line="1158"/>
         <source>Click into the map at the place of finding. If you finishing without finding, click anywhere into map.</source>
         <translation>Klikněte do mapy na místo nálzeu. Pokud ukončujete bez nálezu, klikněte na libovolné místo v mapě.</translation>
     </message>
@@ -924,17 +924,17 @@
         <translation>Pokud nevidíte odkazy na PDF soubory, znamená to, že ještě nebyly vygenerovány. Použijte zaškrrtávací tlačítko na posledním kroku průvodce a zobrazte reprt znovu.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="462"/>
+        <location filename="../patracdockwidget.py" line="466"/>
         <source>Missing input</source>
         <translation>Chybějící vstup</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="462"/>
+        <location filename="../patracdockwidget.py" line="466"/>
         <source>You have to select type of the search</source>
         <translation>Musíte zadat typ pátrání (výuka a testování nebo reálná pátrací akce).</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1486"/>
+        <location filename="../patracdockwidget.py" line="1494"/>
         <source>Online tracks</source>
         <translation>Online stopy</translation>
     </message>
@@ -944,9 +944,14 @@
         <translation>Informace aktualizovány</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1017"/>
+        <location filename="../patracdockwidget.py" line="1025"/>
         <source>Can not calculate the area. Check the inputs.</source>
         <translation>Nemohu vypočítat plochu pravděpodobnosti. ZKontrolujte proísm vstupy. Např. zda není bod na ostrově.</translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="458"/>
+        <source>You did not enter the result of the previous search. Do you want to continue?</source>
+        <translation>Nezadali jste výsledek předchozího pátrání. Opravdu chcete pokračovat?</translation>
     </message>
 </context>
 <context>
