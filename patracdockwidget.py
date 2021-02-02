@@ -43,6 +43,7 @@ from .ui.ui_point_tool import PointMapTool
 from .ui.ui_point_tool_lat_lon import PointMapToolLatLon
 from .ui.ui_progress_tool import ProgressMapTool
 from .ui.ui_percent import Ui_Percent
+from .ui.ui_grid import Ui_Grid
 from .ui.ui_units import Ui_Units
 from .ui.ui_handlers import Ui_Handlers
 from .ui.ui_person import Ui_Person
@@ -124,6 +125,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.currentStep = 1
         self.projectname = ""
         self.projectdesc = ""
+        self.gridsize = 0
 
         userPluginPath = QFileInfo(QgsApplication.qgisUserDatabaseFilePath()).path() + "/python/plugins/qgis_patrac"
         systemPluginPath = QgsApplication.prefixPath() + "/python/plugins/qgis_patrac"
@@ -193,6 +195,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.pointtoollatlon = PointMapToolLatLon(self.plugin.iface.mapCanvas(), self)
         self.progresstool = ProgressMapTool(self.plugin.iface.mapCanvas(), self.plugin.iface)
         self.percentdlg = Ui_Percent()
+        self.griddlg = Ui_Grid()
         self.unitsdlg = Ui_Units(self.pluginPath, self)
         self.handlersdlg = Ui_Handlers(self.pluginPath, self)
         self.persondlg = Ui_Person(self.pluginPath, self)
@@ -228,7 +231,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         self.tbtnPercent.clicked.connect(self.showPercentDialog)
         self.tbtnUnits.clicked.connect(self.showUnitsDialog)
-        self.tbtnSwitchSectorsType.clicked.connect(self.Utils.createUTMSectors)
+        self.tbtnSwitchSectorsType.clicked.connect(self.switchSectorsType)
         self.tbtnRecalculate.clicked.connect(self.recalculateAll)
 
         self.showHandlers.clicked.connect(self.showHandlersDialog)
@@ -251,6 +254,31 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def sayHello(self):
         print("HELLO")
+
+    def switchSectorsType(self):
+        projectinfo = self.Utils.getProjectInfo()
+        sectors_type = projectinfo['sectors_type']
+        # print(sectors_type)
+        if sectors_type == 0:
+            self.gridsize = 0
+            self.showGridDialog()
+            if self.gridsize == 0:
+                return
+            self.Utils.backupSectors('natural')
+            stored_gridsize = 0
+            if "grid_size" in projectinfo:
+                stored_gridsize = projectinfo['grid_size']
+            if os.path.exists(self.Utils.getDataPath() + "/pracovni/sektory_group_grid.shp") and stored_gridsize == self.gridsize:
+                self.Utils.restoreSectors('grid')
+            else:
+                self.Utils.createUTMSectors(self.gridsize)
+            self.Utils.updateProjectInfo('sectors_type', 1)
+            self.Utils.updateProjectInfo('grid_size', self.gridsize)
+
+        if sectors_type == 1:
+            self.Utils.backupSectors('grid')
+            self.Utils.restoreSectors('natural')
+            self.Utils.updateProjectInfo('sectors_type', 0)
 
     def setMouseHandler(self):
         self.emitPoint = QgsMapToolEmitPoint(self.canvas)
@@ -593,6 +621,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             self.updateUnitsGuide()
             area = self.Area.getArea()
             if area is not None:
+                self.spinStart.setValue(0)
+                self.spinEnd.setValue(self.guideSpinEnd.value())
+                self.updatePatrac()
                 self.runGuideGetSectors()
                 self.Sectors.reportExportSectors(False, False)
                 self.showReport()
@@ -607,9 +638,16 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.guideSpinEnd.setValue(percent)
         self.updatePatrac()
 
+    def setGridSize(self, gridsize):
+        self.gridsize = gridsize
+
     def showPercentDialog(self):
         self.percentdlg.setParent(self)
         self.percentdlg.exec_()
+
+    def showGridDialog(self):
+        self.griddlg.setParent(self)
+        self.griddlg.exec_()
 
     def showUnitsDialog(self):
         self.unitsdlg.updateTable()

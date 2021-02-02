@@ -76,7 +76,7 @@ class Utils(object):
         """Removes layer based on path to file"""
         layer = None
         for lyr in list(QgsProject.instance().mapLayers().values()):
-            if lyr.source() == path:
+            if path in lyr.source():
                 layer = lyr
                 break
         if layer is not None:
@@ -123,6 +123,17 @@ class Utils(object):
         else:
             vector.loadNamedStyle(self.pluginPath + '/styles/' + style + '.qml')
             QgsProject.instance().addMapLayer(vector)
+
+    def setLayerCrs(self, path, code):
+        crs = QgsCoordinateReferenceSystem(code)
+        layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if lyr.source() == path:
+                layer = lyr
+                break
+        if layer is not None:
+            if layer.isValid():
+                layer.setCrs(crs)
 
     def getProcessRadial(self):
         prjfi = QFileInfo(QgsProject.instance().fileName())
@@ -217,7 +228,8 @@ class Utils(object):
             "lost_hair_color": 0,
             "lost_clothes": "",
             "hs_incidentid": "0",
-            "gina_guid": ""
+            "gina_guid": "",
+            "sectors_type": 0
         }
 
         with open(self.getDataPath() + "/pracovni/project.json", 'w') as outfile:
@@ -242,7 +254,25 @@ class Utils(object):
         with open(self.getDataPath() + "/pracovni/project.json", 'w') as outfile:
             json.dump(project_info, outfile)
 
-    def createUTMSectors(self):
+    def backupSectors(self, type):
+        copy(self.getDataPath() + "/pracovni/sektory_group.shp", self.getDataPath() + "/pracovni/sektory_group_" + type + ".shp")
+        copy(self.getDataPath() + "/pracovni/sektory_group.shx", self.getDataPath() + "/pracovni/sektory_group_" + type + ".shx")
+        copy(self.getDataPath() + "/pracovni/sektory_group.dbf", self.getDataPath() + "/pracovni/sektory_group_" + type + ".dbf")
+        copy(self.getDataPath() + "/pracovni/sektory_group.prj", self.getDataPath() + "/pracovni/sektory_group_" + type + ".prj")
+
+    def restoreSectors(self, type):
+        if not os.path.exists(self.getDataPath() + "/pracovni/sektory_group_" + type + ".shp"):
+            QgsMessageLog.logMessage("Vrstvu " + self.getDataPath() + "/pracovni/sektory_group_" + type + ".shp" + " se nepodařilo najít", "Patrac")
+            return
+        self.removeLayer(self.getDataPath() + "/pracovni/sektory_group.shp")
+        copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".shp", self.getDataPath() + "/pracovni/sektory_group.shp")
+        copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".shx", self.getDataPath() + "/pracovni/sektory_group.shx")
+        copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".dbf", self.getDataPath() + "/pracovni/sektory_group.dbf")
+        copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".prj", self.getDataPath() + "/pracovni/sektory_group.prj")
+        self.addVectorLayerWithStyle(self.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "sectors_single")
+        self.setLayerCrs(self.getDataPath() + "/pracovni/sektory_group.shp", "EPSG:5514")
+
+    def createUTMSectors(self, cellsize):
         with open(self.getDataPath() + '/config/extent.txt') as f:
             lines = f.readlines()
             parts = lines[0].split(' ')
@@ -253,9 +283,9 @@ class Utils(object):
         minXY_UTM = transform.transform(int(parts[0]), int(parts[1]))
         maxXY_UTM = transform.transform(int(parts[2]), int(parts[3]))
 
-        cellsize = 1000
-        print(minXY_UTM)
-        print(maxXY_UTM)
+        # cellsize = 1000
+        # print(minXY_UTM)
+        # print(maxXY_UTM)
 
         minx = int(minXY_UTM.x() / cellsize) * cellsize - cellsize
         miny = int(minXY_UTM.y() / cellsize) * cellsize - cellsize
@@ -273,6 +303,7 @@ class Utils(object):
                 layer = lyr
                 break
         if layer is not None:
+            layer.setSubsetString("")
             provider = layer.dataProvider()
             listOfIds = [feat.id() for feat in layer.getFeatures()]
             # Deletes all features in layer patraci.shp

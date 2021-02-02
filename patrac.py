@@ -126,6 +126,7 @@ class PatracPlugin(object):
 
         self.saveProject = SaveProject()
         self.saveProject.start()
+        self.iface.actionMapTips().setChecked(True)
 
     def checkSettings(self):
         pluginPath = path.dirname(__file__)
