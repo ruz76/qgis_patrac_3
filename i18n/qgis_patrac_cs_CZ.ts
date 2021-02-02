@@ -1224,7 +1224,7 @@
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="696"/>
         <source>Or maximum time for search</source>
-        <translation>Pozn.:  maximální doba pátrání je čistá doba práce pátracích týmů v terénu, tzn., že celková doba pátrací akce bude zhruba dvojnásobná</translation>
+        <translation>Pozn.:  maximální doba pátrání je čistá doba práce.</translation>
     </message>
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="687"/>

@@ -1196,7 +1196,7 @@
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="696"/>
         <source>Or maximum time for search</source>
-        <translation>Note: Maximum time is time spent in terrain the real time will be about twice bigger</translation>
+        <translation>Note: Maximum time is time spent in terrain.</translation>
     </message>
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="687"/>
