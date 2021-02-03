@@ -217,6 +217,9 @@ class PatracPlugin(object):
         self.createToolbar()
         self.hideToolbars()
 
+    def runHDS(self):
+        self.dockWidget.testHds(None)
+
     def exiting(self):
         print("EXITING")
 
