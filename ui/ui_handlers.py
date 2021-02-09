@@ -182,7 +182,8 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
         url += "&lat=" + str(lat)
         url += "&lng=" + str(lon)
         url += "&title=" + urllib.parse.quote(self.project_settings['projectname'])
-        url += "&text=" + urllib.parse.quote(self.project_settings['projectdesc'])
+        desc = self.project_settings['projectdesc'] + " " + self.Utils.getLostInfo(self.project_settings)
+        url += "&text=" + urllib.parse.quote(desc)
         if self.hsCallType == 0:
             url += "&searchRadius=" + str(distance)
         else:

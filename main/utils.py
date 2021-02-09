@@ -354,3 +354,20 @@ class Utils(object):
         fet.setAttributes(cols)
         fet.setGeometry(geom)
         provider.addFeatures([fet])
+
+    def getLostInfo(self, project_settings):
+        lost_info = "Pohřešovaná osoba: "
+        if project_settings["lost_name"] != "":
+            lost_info += project_settings["lost_name"]
+            if project_settings["lost_sex"] == 0:
+                lost_info += ", Muž"
+            if project_settings["lost_sex"] == 1:
+                lost_info += ", Žena"
+            lost_info += ", Věk: " + str(project_settings["lost_age"])
+            if project_settings["lost_clothes"] != "":
+                lost_info += ", Oblečení: " + project_settings["lost_clothes"]
+
+        if lost_info == "Pohřešovaná osoba: ":
+            lost_info += "neuvedeno"
+
+        return lost_info
