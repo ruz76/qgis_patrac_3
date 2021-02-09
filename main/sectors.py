@@ -662,7 +662,7 @@ class Sectors(object):
         scale = 10
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
-        with open(DATAPATH + '/sektory/html/' + feature['id'] + '.html', 'w+') as f:
+        with open(DATAPATH + '/sektory/html/' + str(feature['id']) + '.html', 'w+') as f:
             # print('*****' + feature['id'] + '*****')
             f.write('<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"></head><body>')
             f.write("<h1>" + QApplication.translate("Patrac", "SECTOR", None) + " " + feature['label'] + " (" + str(feature['area_ha']) + " ha)</h1>" + "\n")
