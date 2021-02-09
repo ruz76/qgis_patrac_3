@@ -109,6 +109,38 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.pushButtonSaveStyle.clicked.connect(self.saveStyle)
         self.pushButtonRecalculateFriction.clicked.connect(self.recalculateFriction)
 
+        self.lineEditAccessKey.editingFinished.connect(self.lineEditAccessKeyEditingFinished)
+
+    def lineEditAccessKeyEditingFinished(self):
+        print(self.lineEditAccessKey.text())
+        if len(self.lineEditAccessKey.text()) < 24:
+            QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("You have to enter valid key of 24 characters."))
+            return
+
+        # TODO do it via POST and HTTPS
+        url = "http://sarops.info/patrac/kopis.php?"
+        url += "ack=" + self.lineEditAccessKey.text()
+
+        self.getemails = Connect()
+        self.getemails.setUrl(url)
+        self.getemails.statusChanged.connect(self.onGetEmails)
+        self.getemails.start()
+
+    def onGetEmails(self, response):
+        if response.status == 200:
+            data = response.data.read().decode('utf-8')
+            emails = json.loads(data)
+            if len(emails) < 3:
+                QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("Can not find key in the database."))
+            else:
+                if emails[0] == 'ERROR':
+                    QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("Can not find key in the database."))
+                else:
+                    self.lineEditEmailTo1.setText(emails[0])
+                    self.lineEditEmailTo2.setText(emails[1])
+        else:
+            self.parent.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
+
     def downloadStats(self):
         # localPath = "/tmp/ka/stats.db"
         localPath = self.drive + ":/patracdata/kraje/" + self.comboBoxDataFix.currentText() + "/vektor/ZABAGED/line_x/stats.db"
