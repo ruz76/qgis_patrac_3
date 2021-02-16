@@ -78,6 +78,9 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
         self.DATAPATH = DATAPATH
         self.buttonBoxAll.accepted.connect(self.acceptAll)
         self.buttonBoxLast.accepted.connect(self.acceptLast)
+        self.buttonBoxAll.rejected.connect(self.rejectAll)
+        self.buttonBoxLast.rejected.connect(self.rejectLast)
+        self.status = 'EMPTY'
         self.fillListViewTracks()
         today = datetime.today()
         #Set name for output file when groupped GPX together
@@ -191,7 +194,7 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
                 i=i+1
 
         self.fillGpxTracksList()
-
+        self.status = 'FILLED'
 
     def fillGpxTracksList(self):
         #if some GPX were found
@@ -308,3 +311,9 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
         if not hasattr(self, 'listViewModelLast'):
             return
         self.processTracks(self.lineEditNameLast, self.listViewModelLast)
+
+    def rejectAll(self):
+        self.close()
+
+    def rejectLast(self):
+        self.close()

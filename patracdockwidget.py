@@ -1106,7 +1106,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             return
 
         self.importgpxdlg = Ui_Gpx(self.pluginPath)
-        self.importgpxdlg.show()
+        if self.importgpxdlg.status == 'FILLED':
+            self.importgpxdlg.show()
+
 
     def setPointLatLon(self, point, type):
         if type == 0:
