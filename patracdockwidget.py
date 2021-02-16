@@ -289,7 +289,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def onTabChanged(self, index):
         # If the tab is activated we activate the tool
-        print("onTabChanged" + str(index))
+        # print("onTabChanged" + str(index))
         if index == 1:
             self.setSectorsProgress()
         if index == 3:
