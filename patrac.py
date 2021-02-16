@@ -67,9 +67,13 @@ class NoClose(QObject):
         # print("CLOSE FILTER")
         if isinstance(event, QCloseEvent):
             if not self.ok_to_close():
-                QMessageBox.warning(None, QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "You did not enter the result of the search. Use smile button, please.", None))
-                event.ignore()
-                return True
+                reply = QMessageBox.question(None,
+                                             QApplication.translate("Patrac", 'Step', None), QApplication.translate("Patrac", 'You did not enter the result of the previous search. Do you want to close app?', None),
+                                             QMessageBox.Yes, QMessageBox.No)
+
+                if reply == QMessageBox.No:
+                    event.ignore()
+                    return True
 
         return super().eventFilter( object, event )
 
