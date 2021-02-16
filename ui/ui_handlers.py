@@ -58,6 +58,7 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
         # Psovodi HS
         self.hsCallType = 0
         self.hs_users_in_call = []
+        self.hsusersids = ''
         self.pushButtonCheckAvailability.clicked.connect(self.checkIncidentHandlers)
         self.pushButtonCreateIncident.clicked.connect(self.callHandlers)
         self.pushButtonShowInAction.clicked.connect(self.showInAction)
@@ -109,11 +110,16 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             QMessageBox.infor-mation(self.parent.iface.mainWindow(), self.tr("ERROR"), self.tr("Emails in settings has to be set. Go to the settings dialog."))
             return
 
+        emailto1 = 'jan.ruzicka.vsb@gmail.com'
+        emailto2 = 'karelpatrac@gmail.com'
+        if self.project_settings["projectversion"] == 1:
+            emailto1 = self.config["emailto1"]
+            emailto2 = self.config["emailto2"]
         url = "http://sarops.info/smpatrac.php?"
         url += "apikey=" + self.config["hsapikey"]
         url += "&from=" + self.config["emailfrom"]
-        url += "&to1=" + self.config["emailto1"]
-        url += "&to2=" + self.config["emailto2"]
+        url += "&to1=" + emailto1
+        url += "&to2=" + emailto2
         url += "&subject=Patraci+akce"
         body = "Pátrací akce: " + self.project_settings['projectname'] + "\n"
         body += "Popis: " + self.project_settings['projectdesc'] + "\n"
@@ -228,13 +234,13 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             url += "&GinaGUID=" + self.project_settings["gina_guid"]
             url += "&users=" + hsusersids[:-1]
 
+            self.hsusersids = hsusersids
+            # print("addUsersIntoCall: " + url)
+
             self.adduserstocall = Connect()
             self.adduserstocall.setUrl(url)
             self.adduserstocall.statusChanged.connect(self.onAddUsersIntoCallResponse)
             self.adduserstocall.start()
-
-            self.sendNotification(hsusersids[:-1])
-            self.sendEmail()
 
         else:
             QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("You have to check the handlers."))
@@ -247,6 +253,8 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             else:
                 self.getUsersStatus()
                 self.saveUsersInCall()
+                self.sendNotification(self.hsusersids[:-1])
+                self.sendEmail()
         else:
             self.parent.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
@@ -300,16 +308,23 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             self.parent.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
     def getUserFromCalls(self, user_in_action):
-        print(user_in_action)
-        print(self.hs_users_in_call)
+        # print(user_in_action)
+        # print(self.hs_users_in_call)
         for user in self.hs_users_in_call:
             if user["id"] == str(user_in_action["userId"]):
                 return user
         return None
 
+    def setUserFromCallsState(self, user_in_action, state):
+        i = 0
+        for user in self.hs_users_in_call:
+            if user["id"] == str(user_in_action["userId"]):
+                self.hs_users_in_call[i]['state'] = state
+            i += 1
+
     def fillUsersInAction(self, data):
-        print("fillUsersInAction")
-        print(data)
+        # print("fillUsersInAction")
+        # print(data)
         msg = self.tr("Can not read data")
         hsdata = None
         hsusersids = ""
@@ -323,7 +338,7 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             self.parent.iface.messageBar().pushMessage(self.tr("Success"), self.tr("Connected"), level=Qgis.Info)
             self.tableWidgetSystemUsersHS.setColumnCount(4)
             self.tableWidgetSystemUsersHS.setHorizontalHeaderLabels([self.tr("Selected"), self.tr("Name"), self.tr("Phone"), self.tr("State")])
-            self.tableWidgetSystemUsersHS.setColumnWidth(1, 300);
+            self.tableWidgetSystemUsersHS.setColumnWidth(1, 300)
             self.tableWidgetSystemUsersHS.setRowCount(len(hsdata["incident"]["users"]))
             hs_users = hsdata["incident"]["users"]
             hs_users.sort(key = lambda json : json['userId'])
@@ -340,8 +355,10 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
                     if user["vyzvaPotvrzena"]:
                         if user["lastReactionType"] == "accepted":
                             user_from_calls["state"] = self.tr("Accepted")
+                            self.setUserFromCallsState(user, self.tr("Accepted"))
                         else:
                             user_from_calls["state"] = self.tr("Not accepted")
+                            self.setUserFromCallsState(user, self.tr("Not accepted"))
                     self.tableWidgetSystemUsersHS.setItem(i, 3, QTableWidgetItem(str(user_from_calls["state"])))
                 else:
                     # print("TADY")
@@ -349,12 +366,13 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
                 i += 1
                 hsusersids += "hs" + str(user["userId"]) + ";"
             self.setSystemUsersHSStatus(hsusersids, "onduty")
+            self.saveUsersInCall()
         else:
             QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), msg)
 
     def fillSystemUsersHS(self, data):
-        print("fillSystemUsersHS")
-        print(data)
+        # print("fillSystemUsersHS")
+        # print(data)
         msg = self.tr("Can not read data")
         hsdata = None
         hsusersids = ""
@@ -376,7 +394,8 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             if self.hsCallType == 0:
                 self.tableWidgetSystemUsersHS.setColumnCount(5)
                 self.tableWidgetSystemUsersHS.setHorizontalHeaderLabels([self.tr("Selected"), self.tr("Distance"), self.tr("Name"), self.tr("Phone"), self.tr("State")])
-                self.tableWidgetSystemUsersHS.setColumnWidth(2, 300);
+                self.tableWidgetSystemUsersHS.setColumnWidth(1, 100)
+                self.tableWidgetSystemUsersHS.setColumnWidth(2, 300)
                 self.tableWidgetSystemUsersHS.setRowCount(len(hsdata["users"]))
                 self.hs_users_available = []
                 self.hs_users_available_checkboxes = []
@@ -391,11 +410,17 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
                     self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(user["name"]))
                     self.tableWidgetSystemUsersHS.setItem(i, 3, QTableWidgetItem(user["phone"]))
                     user["state"] = self.tr("Available")
-                    self.tableWidgetSystemUsersHS.setItem(i, 4, QTableWidgetItem(user["state"]))
+                    self.tableWidgetSystemUsersHS.setItem(i, 4, QTableWidgetItem(self.checkUserState(user)))
                     self.hs_users_available.append(user)
                     i += 1
         else:
             QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), msg)
+
+    def checkUserState(self, user):
+        for userincall in self.hs_users_in_call:
+            if userincall['id'] == user['id']:
+                return userincall['state']
+        return user['state']
 
     def setSystemUsersHSStatus(self, hsusersids, status):
         # print(hsusersids)
