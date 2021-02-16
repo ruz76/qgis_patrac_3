@@ -4,7 +4,6 @@ import os
 import sys
 import subprocess
 from grass_config import *
-import time
 
 # DATA
 # define GRASS DATABASE
@@ -65,22 +64,12 @@ import grass.script.setup as gsetup
 # launch session
 gsetup.init(gisbase,
             gisdb, location, mapset)
- 
-#gscript.message('Current GRASS GIS 7 environment:')
-#print gscript.gisenv()
 
-MIN=str(sys.argv[3])
-MAX=str(sys.argv[4])
-print("MIN/MAX:" +  MIN + " " + MAX)
+PLUGIN_PATH=str(sys.argv[2]) 
 
-print(gscript.read_command('v.in.ogr', output='sectors_group_modified', input=DATAPATH +'/pracovni', layer='sektory_group', snap=0.01, overwrite=True, flags="o"))
-print(gscript.read_command('r.mapcalc', expression='distances_costed_cum_selected = if(distances_costed_cum<='+MIN+'||distances_costed_cum>='+MAX+', null(), 1)', overwrite=True))
-print(gscript.read_command('r.to.vect', input='distances_costed_cum_selected',  output='distances_costed_cum_selected', type='area', overwrite=True))
-print(gscript.read_command('v.select', ainput='sectors_group_modified', binput='distances_costed_cum_selected', output='sektory_group_selected', overwrite=True))
-#Linux
-#print gscript.read_command('v.out.ogr', input='sektory_group_selected', output=DATAPATH +'/pracovni/', overwrite=True)
-#Windows
-print(gscript.read_command('v.out.ogr', format='ESRI_Shapefile', input='sektory_group_selected', output=DATAPATH +'/pracovni/sektory_group_selected.shp', overwrite=True))
-print(gscript.read_command('v.out.ogr', format='CSV', input='sektory_group_selected', output=DATAPATH +'/pracovni/sektory_group_selected.csv', overwrite=True))
+#If the data are from OSM
+if os.path.isfile(DATAPATH+'/pracovni/sektory_group.shp'):
+    print(gscript.read_command('v.in.ogr', output='sectors_group', input=DATAPATH+'/pracovni', snap=0.01, layer='sektory_group', overwrite=True, flags="o"))
 
-# time.sleep(30)
+#Remove not necessary column
+print(gscript.read_command('v.db.dropcolumn', map='sectors_group', layer='1', columns='cat_', overwrite=True))

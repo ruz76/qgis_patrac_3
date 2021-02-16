@@ -271,6 +271,11 @@ class Utils(object):
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".prj", self.getDataPath() + "/pracovni/sektory_group.prj")
         self.addVectorLayerWithStyle(self.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "sectors_single")
         self.setLayerCrs(self.getDataPath() + "/pracovni/sektory_group.shp", "EPSG:5514")
+        copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".shp", self.getDataPath() + "/pracovni/sektory_group_selected.shp")
+        copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".shx", self.getDataPath() + "/pracovni/sektory_group_selected.shx")
+        copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".dbf", self.getDataPath() + "/pracovni/sektory_group_selected.dbf")
+        copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".prj", self.getDataPath() + "/pracovni/sektory_group_selected.prj")
+        self.importSwitchedSectorsToDatastore()
 
     def createUTMSectors(self, cellsize):
         with open(self.getDataPath() + '/config/extent.txt') as f:
@@ -295,6 +300,15 @@ class Utils(object):
         print(minx, miny, maxx, maxy)
 
         self.createUTMSectorsGrid([minx, miny, maxx, maxy], cellsize)
+
+    def importSwitchedSectorsToDatastore(self):
+        if sys.platform.startswith('win'):
+            p = subprocess.Popen(
+                (self.pluginPath + "/grass/run_import_after_switch_type.bat", self.getDataPath(), self.pluginPath))
+            p.wait()
+        else:
+            p = subprocess.Popen(('bash', self.pluginPath + "/grass/run_import_after_switch_type.sh", self.getDataPath(), self.pluginPath))
+            p.wait()
 
     def createUTMSectorsGrid(self, extent, cellsize):
         layer = None
@@ -329,6 +343,12 @@ class Utils(object):
             ch = chr(ord(ch) + 1)
 
         layer.commitChanges()
+
+        copy(self.getDataPath() + "/pracovni/sektory_group.shp", self.getDataPath() + "/pracovni/sektory_group_selected.shp")
+        copy(self.getDataPath() + "/pracovni/sektory_group.shx", self.getDataPath() + "/pracovni/sektory_group_selected.shx")
+        copy(self.getDataPath() + "/pracovni/sektory_group.dbf", self.getDataPath() + "/pracovni/sektory_group_selected.dbf")
+        copy(self.getDataPath() + "/pracovni/sektory_group.prj", self.getDataPath() + "/pracovni/sektory_group_selected.prj")
+        self.importSwitchedSectorsToDatastore()
         # layer.stopEditing()
 
     def getUTMGridPolygon(self, minx, miny, cellsize):

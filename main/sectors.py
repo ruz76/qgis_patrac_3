@@ -37,7 +37,7 @@ from qgis.PyQt.QtWidgets import *
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import *
 
-import processing
+import processing, time
 
 class Sectors(object):
     def __init__(self, widget):
@@ -64,7 +64,7 @@ class Sectors(object):
         # Removes layer
         # self.removeLayer(DATAPATH + '/pracovni/sektory_group.shp')
 
-        QgsMessageLog.logMessage("Spoustim python " + self.pluginPath + "/grass/sectors.py", "Patrac")
+        QgsMessageLog.logMessage("Spoustim python " + self.pluginPath + "/grass/sectors.py" + " MIN: " + str(min) + " MAX:" + str(max), "Patrac")
         self.widget.setCursor(Qt.WaitCursor)
         if sys.platform.startswith('win'):
             p = subprocess.Popen((self.pluginPath + "/grass/run_sectors.bat", DATAPATH, self.pluginPath,
@@ -103,6 +103,9 @@ class Sectors(object):
             f.write(str(feature['id']) + "\n")
             filter += "'" + str(feature['id']) + "', "
         filter = filter[:-2] + ")"
+        # print("FILTERING")
+        # print(filter)
+        # time.sleep(30)
         f.close()
 
         # remove layer we do not need it
@@ -117,6 +120,9 @@ class Sectors(object):
         layer.commitChanges()
 
         self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sektory_group_selected.shp")
+        self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sektory_group.shp")
+        self.Utils.addVectorLayerWithStyle(self.Utils.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "sectors_single")
+        self.Utils.setLayerCrs(self.Utils.getDataPath() + "/pracovni/sektory_group.shp", 5514)
 
         layer = None
         for lyr in list(QgsProject.instance().mapLayers().values()):
@@ -125,8 +131,17 @@ class Sectors(object):
                 break
 
         # Filter the layer
+        layer.setSubsetString('')
         QgsMessageLog.logMessage("Filtruji " + filter, "Patrac")
         layer.setSubsetString(filter)
+        layer.triggerRepaint()
+
+        # provider = layer.dataProvider()
+        # features = provider.getFeatures()
+        # for feature in features:
+        #     print(str(feature['id']))
+        #
+        # time.sleep(5)
 
     def extendRegion(self):
 
@@ -700,10 +715,16 @@ class Sectors(object):
                                                                  QApplication.translate("Patrac", "Wrong project.", None))
             return
 
+        # print("Before recalculateSectors")
+        # time.sleep(30)
+
         sectorid = self.recalculateSectors(False, False)
 
         self.widget.setCursor(Qt.WaitCursor)
         # exports curent layer to selected layer for GRASS GIS import
+
+        # print("Before rewriteSelectedSectors")
+        # time.sleep(30)
         self.rewriteSelectedSectors()
 
         prjfi = QFileInfo(QgsProject.instance().fileName())
