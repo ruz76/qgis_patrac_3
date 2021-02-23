@@ -191,6 +191,10 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.config["emailfrom"] = self.lineEditEmailFrom.text()
         self.config["emailto1"] = self.lineEditEmailTo1.text()
         self.config["emailto2"] = self.lineEditEmailTo2.text()
+        if self.checkBoxCleanGPS.isChecked():
+            self.config["cleangps"] = 1
+        else:
+            self.config["cleangps"] = 0
         with open(self.settingsPath + "/config/config.json", "w") as outfile:
             json.dump(self.config, outfile)
 

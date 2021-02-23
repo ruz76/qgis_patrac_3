@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tab_3">
     <attribute name="title">
@@ -422,7 +422,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>120</y>
+       <y>110</y>
        <width>861</width>
        <height>16</height>
       </rect>
@@ -507,7 +507,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>150</y>
+       <y>140</y>
        <width>381</width>
        <height>19</height>
       </rect>
@@ -523,7 +523,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>330</y>
+       <y>410</y>
        <width>851</width>
        <height>21</height>
       </rect>
@@ -536,7 +536,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>300</y>
+       <y>380</y>
        <width>861</width>
        <height>16</height>
       </rect>
@@ -556,6 +556,35 @@
      </property>
      <property name="text">
       <string>Show QR</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBoxCleanGPS">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>340</y>
+       <width>851</width>
+       <height>19</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Delete all GPX files from GPS before uploading sectors</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="Line" name="line_5">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>310</y>
+       <width>861</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </widget>

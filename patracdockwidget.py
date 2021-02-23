@@ -764,11 +764,21 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             if ok and item:
                 self.copyGpxToPath(item + 'Garmin/GPX')
 
+    def cleanGps(self, path):
+        with open(self.settingsPath + "/config/config.json") as json_file:
+            config = json.load(json_file)
+            if "cleangps" in config and config["cleangps"] == 1:
+                list_of_files = os.listdir(path)
+                for item in list_of_files:
+                    if item.endswith(".gpx"):
+                        os.remove(os.path.join(path, item))
+
     def copyGpxToPath(self, path):
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
         time = strftime("%Y-%m-%d_%H-%M-%S", gmtime())
         try:
+            self.cleanGps(path)
             copy(DATAPATH + '/sektory/gpx/all.gpx', path + "/sektory_" + time + ".gpx")
         except:
             QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
