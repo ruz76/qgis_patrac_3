@@ -54,7 +54,11 @@ class Ui_Grid(QtWidgets.QDialog, FORM_CLASS):
 
     def accept(self):
         try:
-            gridsize = int(self.spinBoxGridSize.value())
+            gridsize = 100
+            if self.radioButtonGridSize10m.isChecked():
+                gridsize = 10
+            if self.radioButtonGridSize1000m.isChecked():
+                gridsize = 1000
             self.parent.setGridSize(gridsize)
             self.close()
         except:

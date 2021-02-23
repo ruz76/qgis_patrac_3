@@ -310,6 +310,19 @@ class Utils(object):
             p = subprocess.Popen(('bash', self.pluginPath + "/grass/run_import_after_switch_type.sh", self.getDataPath(), self.pluginPath))
             p.wait()
 
+    def getGridSectorLabel(self, minx, miny, cellsize):
+        kmstrx = str(minx)[-5:]
+        kmstry = str(miny)[-5:]
+        x = kmstrx[0:3]
+        y = kmstry[0:3]
+        if cellsize == 10:
+            x = kmstrx[0:4]
+            y = kmstry[0:4]
+        if cellsize == 1000:
+            x = kmstrx[0:2]
+            y = kmstry[0:2]
+        return x + "-" + y
+
     def createUTMSectorsGrid(self, extent, cellsize):
         layer = None
         for lyr in list(QgsProject.instance().mapLayers().values()):
@@ -331,16 +344,17 @@ class Utils(object):
         rows = int((extent[3] - extent[1]) / cellsize)
         minx = extent[0]
         miny = extent[1]
-        ch = 'A'
+        # ch = 'A'
         for col in range(cols):
             for row in range(rows):
                 geom = self.getUTMGridPolygon(minx, miny, cellsize)
-                cols = [str(ch) + "" + str(row), str(ch) + "" + str(row), 'MIX', None, None, 0, str(ch) + "" + str(row), None, None, None]
+                label = self.getGridSectorLabel(minx, miny, cellsize)
+                cols = [label, label, 'MIX', None, None, 0, label, None, None, None]
                 self.saveUTMGridPolygon(provider, geom, cols)
                 miny = miny + cellsize
             minx = minx + cellsize
             miny = extent[1]
-            ch = chr(ord(ch) + 1)
+            # ch = chr(ord(ch) + 1)
 
         layer.commitChanges()
 
