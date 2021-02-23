@@ -409,17 +409,31 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
                     self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(str(round(float(user["distance"])))))
                     self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(user["name"]))
                     self.tableWidgetSystemUsersHS.setItem(i, 3, QTableWidgetItem(user["phone"]))
-                    user["state"] = self.tr("Available")
-                    self.tableWidgetSystemUsersHS.setItem(i, 4, QTableWidgetItem(self.checkUserState(user)))
+                    # user["state"] = self.tr("Available")
+                    curent_state_text = self.checkUserState(user)
+                    self.tableWidgetSystemUsersHS.setItem(i, 4, QTableWidgetItem(curent_state_text))
+                    self.setStateColor(self.tableWidgetSystemUsersHS, i, 4, curent_state_text)
                     self.hs_users_available.append(user)
                     i += 1
         else:
             QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), msg)
 
+    def setStateColor(self, widget, i, j, text):
+        if text == self.tr("Not Available") or text == self.tr("Accepted") or text == self.tr("Not Accepted"):
+            widget.item(i, j).setBackground(QtGui.QColor(236,192,192))
+        if text == self.tr("Available"):
+            widget.item(i, j).setBackground(QtGui.QColor(192,236,192))
+        if text == self.tr("Notified"):
+            widget.item(i, j).setBackground(QtGui.QColor(255,250,192))
+
     def checkUserState(self, user):
         for userincall in self.hs_users_in_call:
             if userincall['id'] == user['id']:
                 return userincall['state']
+        if user["status"] in ['na_stanici', 'ostatni_oblast', 'pohotovost', 'v_oblasti']:
+            user["state"] = self.tr("Available")
+        if user["status"] in ['v_terenu', 'na_sjezdovce', 'ostatni_mimo', 'mimo_oblast']:
+            user["state"] = self.tr("Not Available")
         return user['state']
 
     def setSystemUsersHSStatus(self, hsusersids, status):
