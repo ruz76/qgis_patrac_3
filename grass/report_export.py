@@ -54,7 +54,8 @@ if sys.platform.startswith('linux'):
         print("ERROR: Cannot find GRASS GIS 7 start script (%s)" % startcmd)
         sys.exit(-1)
     # print(out)
-    gisbase = out.strip('\n\r')
+    # gisbase = out.strip('\n\r')
+    gisbase = out.decode('utf-8').strip('\n\r')
 elif sys.platform.startswith('win'):
     system = 'win'
     grass7bin = grass7bin_win
