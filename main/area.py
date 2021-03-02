@@ -199,13 +199,18 @@ class Area(object):
 
         # Adds exported raster to map
         self.Utils.addRasterLayer(DATAPATH + '/pracovni/distances_costed_cum.tif', 'procenta')
+        layer = None
         for lyr in list(QgsProject.instance().mapLayers().values()):
             if lyr.source() == DATAPATH + "/pracovni/distances_costed_cum.tif":
                 layer = lyr
                 break
-        layer.triggerRepaint()
-        # Sets the added layer as sctive
-        self.plugin.iface.setActiveLayer(layer)
+        if layer is not None:
+            layer.triggerRepaint()
+            # Sets the added layer as sctive
+            self.plugin.iface.setActiveLayer(layer)
+        else:
+            QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
+                                 QApplication.translate("Patrac", "Wrong installation. Call you administrator.", None))
 
     def findAreaWithRadial(self, feature, id):
         prjfi = QFileInfo(QgsProject.instance().fileName())

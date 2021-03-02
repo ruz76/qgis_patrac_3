@@ -99,9 +99,15 @@ class Sectors(object):
         # save ids of selected sectors into file for future usage
         f = open(self.Utils.getDataPath() + '/pracovni/selectedSectors.txt', 'w')
         filter = "id IN ("
-        for feature in features:
-            f.write(str(feature['id']) + "\n")
-            filter += "'" + str(feature['id']) + "', "
+        try:
+            for feature in features:
+                f.write(str(feature['id']) + "\n")
+                filter += "'" + str(feature['id']) + "', "
+        except:
+            QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
+                             QApplication.translate("Patrac", "Wrong installation. Call you administrator.", None))
+            return
+
         filter = filter[:-2] + ")"
         # print("FILTERING")
         # print(filter)
@@ -342,32 +348,36 @@ class Sectors(object):
         layer.startEditing()
         features = provider.getFeatures()
         newIds = ""
-        for feature in features:
-            sectorid = sectorid + 1
-            # Label is set to A and sequential number
-            # Labels must be stable for whole search area, so only at the beginning are sectors labeled
-            if setLabels:
-            	#feature['label'] = 'A' + str(sectorid)
-                feature['label'] = str(feature['id'])
-
-            # print("SET IDS" + str(setIds))
-            if setIds:
-                if feature['id'] in duplicities:
-                    current_duplicity = feature['id']
-                    feature['id'] = str(feature['id']) + "_" + str(duplicities[feature['id']])
-                    newIds += "'" + feature['id'] + "', "
+        try:
+            for feature in features:
+                sectorid = sectorid + 1
+                # Label is set to A and sequential number
+                # Labels must be stable for whole search area, so only at the beginning are sectors labeled
+                if setLabels:
+                    #feature['label'] = 'A' + str(sectorid)
                     feature['label'] = str(feature['id'])
-                    order = duplicities[current_duplicity]
-                    order = chr(ord(str(order)) + 1)
-                    duplicities.update({current_duplicity:order})
-                    print(feature['id'])
 
-            # Area in hectares
-            feature['area_ha'] = round(feature.geometry().area() / 10000)
-            #print(str(feature['id']))
-            if setLabels:
-                f.write(str(feature['id']) + "\n")
-            layer.updateFeature(feature)
+                # print("SET IDS" + str(setIds))
+                if setIds:
+                    if feature['id'] in duplicities:
+                        current_duplicity = feature['id']
+                        feature['id'] = str(feature['id']) + "_" + str(duplicities[feature['id']])
+                        newIds += "'" + feature['id'] + "', "
+                        feature['label'] = str(feature['id'])
+                        order = duplicities[current_duplicity]
+                        order = chr(ord(str(order)) + 1)
+                        duplicities.update({current_duplicity:order})
+                        print(feature['id'])
+
+                # Area in hectares
+                feature['area_ha'] = round(feature.geometry().area() / 10000)
+                #print(str(feature['id']))
+                if setLabels:
+                    f.write(str(feature['id']) + "\n")
+                layer.updateFeature(feature)
+        except:
+            QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
+                                    QApplication.translate("Patrac", "Wrong installation. Call you administrator.", None))
         layer.commitChanges()
         if layer.subsetString() != "" and newIds != "":
             layer.setSubsetString(layer.subsetString()[:-1] + ", " + newIds[:-2] + ")")
@@ -800,8 +810,13 @@ class Sectors(object):
         f.write('</div>\n')
 
         # Reads units report
-        report_units = io.open(DATAPATH + '/pracovni/report.html.units', encoding='utf-8', mode='r').read()
-        f.write(report_units)
+        try:
+            report_units = io.open(DATAPATH + '/pracovni/report.html.units', encoding='utf-8', mode='r').read()
+            f.write(report_units)
+        except:
+            QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
+                                 QApplication.translate("Patrac", "Wrong installation. Call you administrator.", None))
+            return
 
         #styles
         styles = ""
