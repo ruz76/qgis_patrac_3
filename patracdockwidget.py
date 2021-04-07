@@ -1604,6 +1604,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                         self.addFeaturePolyLineFromPoints(points, cols, end_time, provider)
                         layer.commitChanges()
                         layer.triggerRepaint()
+                        self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Success", None), QApplication.translate("Patrac", "Tracks were loaded.", None), level=Qgis.Info)
         else:
             self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
 
