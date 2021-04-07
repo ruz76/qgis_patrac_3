@@ -104,10 +104,10 @@ class Utils(object):
             QgsMessageLog.logMessage("Can not read layer: " + path, "Patrac")
         else:
             ##            crs = QgsCoordinateReferenceSystem("EPSG:4326")
-            if placement == -1:
+            if placement < 0:
                 root = QgsProject.instance().layerTreeRoot()
                 QgsProject.instance().addMapLayer(raster, False)
-                root.insertLayer(len(root.children()) - 1, raster)
+                root.insertLayer(len(root.children()) - placement, raster)
             else:
                 QgsProject.instance().addMapLayer(raster)
 

@@ -198,7 +198,7 @@ class Area(object):
             p.wait()
 
         # Adds exported raster to map
-        self.Utils.addRasterLayer(DATAPATH + '/pracovni/distances_costed_cum.tif', 'procenta', -1)
+        self.Utils.addRasterLayer(DATAPATH + '/pracovni/distances_costed_cum.tif', 'procenta', -2)
         layer = None
         for lyr in list(QgsProject.instance().mapLayers().values()):
             if lyr.source() == DATAPATH + "/pracovni/distances_costed_cum.tif":
