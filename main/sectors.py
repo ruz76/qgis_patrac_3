@@ -40,7 +40,7 @@ from qgis.PyQt.QtGui import *
 import processing, time
 
 def get_label(f):
-    if len(f['label']) == 5:
+    if len(f['label']) >= 5:
         return f['label']
     if len(f['label']) == 4:
         return f['label'][:2] + "0" + f['label'][2:4]
