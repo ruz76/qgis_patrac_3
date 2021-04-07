@@ -87,6 +87,7 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
         #name is based on day and time
         self.lineEditNameAll.setText(today.strftime('den%d_cas%H_%M'))
         self.lineEditNameLast.setText(today.strftime('den%d_cas%H_%M'))
+        self.Utils = parent.Utils
 
     def fillTableWidgetSectors(self, fileName, tableWidget):
         """Fills table with search sectors
@@ -289,7 +290,8 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
             return False
         else:
             if vector.featureCount() > 0:
-                vector.loadNamedStyle(self.DATAPATH + '/search/shp/style.qml')
+                print(self.Utils.getSettingsPath())
+                vector.loadNamedStyle(self.Utils.getSettingsPath() + '/styles/patraci_lines.qml')
                 QgsProject.instance().addMapLayer(vector, False)
                 root = QgsProject.instance().layerTreeRoot()
                 sektory_current_gpx = root.findGroup(dir_name)

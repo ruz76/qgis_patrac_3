@@ -35,12 +35,21 @@ from shutil import copy
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import *
 
+from os import path
+
 class Utils(object):
     def __init__(self, widget):
         self.widget = widget
         self.pluginPath = self.widget.pluginPath
         self.iface = self.widget.plugin.iface
         self.canvas = self.widget.canvas
+
+    def getPluginPath(self):
+        return path.dirname(__file__) + "/.."
+
+    def getSettingsPath(self):
+        pluginPath = self.getPluginPath()
+        return pluginPath + "/../../../qgis_patrac_settings"
 
     def loadRemovedNecessaryLayers(self):
         layers = ["patraci.shp", "sektory_group.shp", "mista.shp", "mista_linie.shp", "mista_polygon.shp"]

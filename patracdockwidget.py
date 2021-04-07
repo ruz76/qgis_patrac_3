@@ -1131,7 +1131,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                                                                  QApplication.translate("Patrac", "Wrong project.", None))
             return
 
-        self.importgpxdlg = Ui_Gpx(self.pluginPath)
+        self.importgpxdlg = Ui_Gpx(self.pluginPath, self)
         if self.importgpxdlg.status == 'FILLED':
             self.importgpxdlg.show()
 
@@ -1527,7 +1527,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 crs = QgsCoordinateReferenceSystem("EPSG:4326")
                 layer.setCrs(crs)
                 QgsProject.instance().addMapLayer(layer, False)
-                layer.loadNamedStyle(DATAPATH + '/search/shp/style.qml')
+                layer.loadNamedStyle(self.settingsPath + '/styles/patraci_lines.qml')
                 root = QgsProject.instance().layerTreeRoot()
                 group_name = QApplication.translate("Patrac", "Online tracks", None)
                 sektory_current_gpx = root.findGroup(group_name)
