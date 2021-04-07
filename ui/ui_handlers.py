@@ -189,6 +189,13 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
         url += "&lng=" + str(lon)
         url += "&title=" + urllib.parse.quote(self.project_settings['projectname'])
         desc = self.project_settings['projectdesc'] + " " + self.Utils.getLostInfo(self.project_settings)
+        if 'pcrkrid' in self.project_settings.keys():
+            desc += ' Kraj: ' + self.project_settings['pcrkrid']
+        if 'coordinatorname' in self.project_settings.keys():
+            desc += ' Koordinator: ' + self.project_settings['coordinatorname'] + ' ' + self.project_settings['coordinatortel']
+        else:
+            desc += ' Koordinator: ' + self.project_settings['coordinatortel']
+
         url += "&text=" + urllib.parse.quote(desc)
         if self.hsCallType == 0:
             url += "&searchRadius=" + str(distance)

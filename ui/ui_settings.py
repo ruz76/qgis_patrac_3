@@ -138,6 +138,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                 else:
                     self.lineEditEmailTo1.setText(emails[0])
                     self.lineEditEmailTo2.setText(emails[1])
+                    self.config["pcrkrid"] = emails[2]
+
         else:
             self.parent.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
