@@ -765,6 +765,20 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 self.copyGpxToPath(item + 'Garmin/GPX')
 
     def cleanGps(self, path):
+        reply = QMessageBox.question(self, QApplication.translate("Patrac", 'Clean GPS', None),
+                                     QApplication.translate("Patrac", 'Do you want to clean the GPS data before export?', None),
+                                     QMessageBox.Yes, QMessageBox.No)
+
+        if reply == QMessageBox.No:
+            return
+
+        reply = QMessageBox.question(self, QApplication.translate("Patrac", 'Clean GPS', None),
+                                     QApplication.translate("Patrac", 'Are you sure that you want to clean the GPS data before export?', None),
+                                     QMessageBox.Yes, QMessageBox.No)
+
+        if reply == QMessageBox.No:
+            return
+
         with open(self.settingsPath + "/config/config.json") as json_file:
             config = json.load(json_file)
             if "cleangps" in config and config["cleangps"] == 1:
