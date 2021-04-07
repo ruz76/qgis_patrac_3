@@ -39,6 +39,14 @@ from qgis.PyQt.QtGui import *
 
 import processing, time
 
+def get_label(f):
+    if len(f['label']) == 5:
+        return f['label']
+    if len(f['label']) == 4:
+        return f['label'][:2] + "0" + f['label'][2:4]
+    if len(f['label']) == 3:
+        return f['label'][:2] + "00" + f['label'][2:3]
+
 class Sectors(object):
     def __init__(self, widget):
         self.widget = widget
@@ -826,6 +834,7 @@ class Sectors(object):
 
         # Loop via features in sektory_group_selected
         features = provider.getFeatures()
+        features = sorted(features, key=get_label)
         i = 1
         for feature in features:
 
