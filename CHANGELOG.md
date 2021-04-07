@@ -1,12 +1,17 @@
 # Changelog 
 
-## Version 3.12.22 (2020-11-18)
+## Version 3.12.22 (2021-03-15)
 
 #### Bug Fixes
-
+* 76, 78, 80, 81, 86, 87, 90, 92, 94
 
 #### Improvements
 * Changed GUI
+* Added support for grid search
+* Added support for setting friction
+* User may close QGIS - it is asked if to dod
+* Clean GPS before copy sectors on it - question for user
+* Improved handlers calls
 
 ## Version 3.12.21 (2020-11-08)
 
