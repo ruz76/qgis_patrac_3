@@ -97,14 +97,19 @@ class Utils(object):
         copy(DATAPATH + "/sektory/shp/template.qml", DATAPATH + "/sektory/shp/" + name + ".qml")
         # copy(DATAPATH + "/sektory/shp/template.qpj", DATAPATH + "/sektory/shp/" + name + ".qpj")
 
-    def addRasterLayer(self, path, label):
+    def addRasterLayer(self, path, label, placement=0):
         """Adds raster layer to map"""
         raster = QgsRasterLayer(path, label, "gdal")
         if not raster.isValid():
             QgsMessageLog.logMessage("Can not read layer: " + path, "Patrac")
         else:
             ##            crs = QgsCoordinateReferenceSystem("EPSG:4326")
-            QgsProject.instance().addMapLayer(raster)
+            if placement == -1:
+                root = QgsProject.instance().layerTreeRoot()
+                QgsProject.instance().addMapLayer(raster, False)
+                root.insertLayer(len(root.children()) - 1, raster)
+            else:
+                QgsProject.instance().addMapLayer(raster)
 
     def addVectorLayer(self, path, label):
         """Adds raster layer to map"""
