@@ -1672,6 +1672,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 i+=1
             layer.commitChanges()
             layer.triggerRepaint()
+            self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Success", None), QApplication.translate("Patrac", "Positions were loaded.", None), level=Qgis.Info)
         else:
             self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
 
