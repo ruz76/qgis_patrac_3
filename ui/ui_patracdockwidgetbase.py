@@ -287,6 +287,14 @@ class Ui_PatracDockWidget(object):
         self.printUserDefined.setToolTip(QApplication.translate("PatracDockWidget", "Create own map", None))
         self.horizontalLayoutStyles.addWidget(self.printUserDefined)
 
+        self.exportToCSV = QPushButton(self.dockWidgetContents)
+        self.exportToCSV.setObjectName(_fromUtf8("exportToCSV"))
+        self.exportToCSV.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "export_to_csv.png")));
+        self.exportToCSV.setIconSize(QSize(24,24));
+        self.exportToCSV.setFixedSize(QSize(32,32));
+        self.exportToCSV.setToolTip(QApplication.translate("PatracDockWidget", "Export to CSV", None))
+        self.horizontalLayoutStyles.addWidget(self.exportToCSV)
+
         self.verticalLayoutManagement.addLayout(self.horizontalLayoutStyles)
 
         self.chkShowLabels = QCheckBox(self.dockWidgetContents)

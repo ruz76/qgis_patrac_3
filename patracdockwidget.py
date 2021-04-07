@@ -237,6 +237,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.showHandlers.clicked.connect(self.showHandlersDialog)
         self.printPrepared.clicked.connect(self.showReport)
         self.printUserDefined.clicked.connect(self.actionShowLayoutManager)
+        self.exportToCSV.clicked.connect(self.showExportToCSV)
 
         self.tbtnSetPlaceHandlers.clicked.connect(self.insertPlaceHandlers)
         self.tbtnSetPlaceOther.clicked.connect(self.insertPlaceOther)
@@ -1267,6 +1268,19 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def actionShowLayoutManager(self):
         self.iface.actionShowLayoutManager().trigger()
+
+    def showExportToCSV(self):
+        options = QFileDialog.Options()
+        # options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","All Files (*);;CSV Files (*.csv)", options=options)
+        if fileName:
+            print(fileName)
+            crs = QgsCoordinateReferenceSystem("EPSG:5514")
+            layer = self.Utils.getLayer("/pracovni/sektory_group.shp")
+            # QgsVectorFileWriter.writeAsVectorFormat(layer, self.Utils.getDataPath() + "/pracovni/sektory_group.csv",
+            #                                     "utf-8", crs, "CSV")
+            QgsVectorFileWriter.writeAsVectorFormat(layer, fileName,
+                                                "utf-8", crs, "CSV")
 
     def actionAddFeature(self):
         self.iface.actionAddFeature().trigger()

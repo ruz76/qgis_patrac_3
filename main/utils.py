@@ -62,6 +62,14 @@ class Utils(object):
         if not layerExists:
             self.addRasterLayer(self.getDataPath() + "/../../../" + layer, "zpm")
 
+    def getLayer(self, name):
+        layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if name in lyr.source():
+                layer = lyr
+                return layer
+        return layer
+
     def checkLayer(self, name):
         layerExists = False
         for lyr in list(QgsProject.instance().mapLayers().values()):
