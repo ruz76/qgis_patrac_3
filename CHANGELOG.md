@@ -1,5 +1,13 @@
 # Changelog 
 
+## Version 3.12.23 (2021-0?-??)
+
+#### Bug Fixes
+* 100
+
+#### Improvements
+* 99, 102, 104, 105, 106, 107
+
 ## Version 3.12.22 (2021-03-15)
 
 #### Bug Fixes

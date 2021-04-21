@@ -39,6 +39,8 @@ from qgis.PyQt.QtGui import *
 
 import processing, time
 
+from shutil import copy
+
 def get_label(f):
     if len(f['label']) >= 5:
         return f['label']
@@ -836,6 +838,9 @@ class Sectors(object):
         features = provider.getFeatures()
         features = sorted(features, key=get_label)
         i = 1
+
+        copy(self.pluginPath + "/templates/projekt/sektory/shp/sectors.gpkg", DATAPATH + "/sektory/shp/sectors.gpkg")
+
         for feature in features:
 
             styles += "#a" + str(i) + "s {display: none;}\n"
@@ -854,17 +859,25 @@ class Sectors(object):
             f.write(report)
             self.writeSectorHtml(report, feature, layer.extent())
 
-            self.Utils.copyLayer(DATAPATH, feature['label'])
-            sector = QgsVectorLayer(DATAPATH + "/sektory/shp/" + feature['label'] + ".shp", feature['label'], "ogr")
+            sector = QgsVectorLayer("LineString?crs=epsg:5514", feature['label'], "memory")
+
+            # self.Utils.copyLayer(DATAPATH, feature['label'])
+            # sector = QgsVectorLayer(DATAPATH + "/sektory/shp/" + feature['label'] + ".shp", feature['label'], "ogr")
             providerSector = sector.dataProvider()
             sector.startEditing()
             fet = QgsFeature()
 
-            fList = list()
-            fList.append(0)
-            sector.dataProvider().deleteAttributes(fList)
-            sector.renameAttribute(0, 'name')
-            sector.renameAttribute(1, 'desc')
+            # fList = list()
+            # fList.append(0)
+            # sector.dataProvider().deleteAttributes(fList)
+
+            nameField = QgsField('name', QVariant.String)
+            descField = QgsField('desc', QVariant.String)
+            sector.dataProvider().addAttributes([nameField, descField])
+            sector.updateFields()
+
+            # sector.renameAttribute(0, 'name')
+            # sector.renameAttribute(1, 'desc')
             fet.setAttributes([feature['label'], str(feature['area_ha']) + ' ha '])
 
             polygon = feature.geometry()
@@ -885,12 +898,25 @@ class Sectors(object):
                 QgsVectorFileWriter.writeAsVectorFormat(sector, DATAPATH + "/sektory/gpx/" + feature['label'] + ".gpx",
                                                         "utf-8", crs, "GPX",
                                                         layerOptions=['FORCE_GPX_TRACK=YES'])
-                QgsProject.instance().addMapLayer(sector, False)
+
+
+                gpkgPath = DATAPATH + "/sektory/shp/sectors.gpkg"
+                options = QgsVectorFileWriter.SaveVectorOptions()
+                options.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteLayer
+                options.layerName = feature['label']
+                options.fileEncoding="UTF-8"
+                options.destCRS=sector.crs()
+                options.driverName="GPKG"
+                QgsVectorFileWriter.writeAsVectorFormat(sector, gpkgPath, options)
+                sector_from_gpkg = QgsVectorLayer(DATAPATH + "/sektory/shp/sectors.gpkg|layername=" + feature['label'], feature['label'], "ogr")
+                sector_from_gpkg.loadNamedStyle(self.pluginPath + "/templates/projekt/sektory/shp/style.qml")
+
+                QgsProject.instance().addMapLayer(sector_from_gpkg, False)
                 root = QgsProject.instance().layerTreeRoot()
                 sektorygroup = root.findGroup("sektory")
                 if sektorygroup is None:
                     sektorygroup = root.insertGroup(0, "sektory")
-                sektorygroup.addLayer(sector)
+                sektorygroup.addLayer(sector_from_gpkg)
                 sektorygroup.setExpanded(False)
 
             # Writes link to PDF and GPX
