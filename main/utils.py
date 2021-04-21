@@ -124,7 +124,7 @@ class Utils(object):
             if placement < 0:
                 root = QgsProject.instance().layerTreeRoot()
                 QgsProject.instance().addMapLayer(raster, False)
-                root.insertLayer(len(root.children()) - placement, raster)
+                root.insertLayer(len(root.children()) + placement, raster)
             else:
                 QgsProject.instance().addMapLayer(raster)
 
