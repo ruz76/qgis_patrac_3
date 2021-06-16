@@ -360,7 +360,7 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
                     self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(str(user_from_calls["name"])))
                     self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(str(user_from_calls["phone"])))
                     if user["vyzvaPotvrzena"]:
-                        if user["lastReactionType"] == "accepted":
+                        if "lastReactionType" in user and user["lastReactionType"] == "accepted":
                             user_from_calls["state"] = self.tr("Accepted")
                             self.setUserFromCallsState(user, self.tr("Accepted"))
                         else:
