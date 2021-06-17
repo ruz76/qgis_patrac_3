@@ -410,18 +410,20 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
                 hs_users.sort(key = lambda json : json['distance'])
                 i = 0
                 for user in hs_users:
-                    row_checkbox = QCheckBox()
-                    self.hs_users_available_checkboxes.append(row_checkbox)
-                    self.tableWidgetSystemUsersHS.setCellWidget(i, 0, row_checkbox)
-                    self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(str(round(float(user["distance"])))))
-                    self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(user["name"]))
-                    self.tableWidgetSystemUsersHS.setItem(i, 3, QTableWidgetItem(user["phone"]))
-                    # user["state"] = self.tr("Available")
-                    curent_state_text = self.checkUserState(user)
-                    self.tableWidgetSystemUsersHS.setItem(i, 4, QTableWidgetItem(curent_state_text))
-                    self.setStateColor(self.tableWidgetSystemUsersHS, i, 4, curent_state_text)
-                    self.hs_users_available.append(user)
-                    i += 1
+                    if user["status"] in ['na_stanici', 'ostatni_oblast', 'pohotovost', 'v_oblasti']:
+                        row_checkbox = QCheckBox()
+                        self.hs_users_available_checkboxes.append(row_checkbox)
+                        self.tableWidgetSystemUsersHS.setCellWidget(i, 0, row_checkbox)
+                        self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(str(round(float(user["distance"])))))
+                        self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(user["name"]))
+                        self.tableWidgetSystemUsersHS.setItem(i, 3, QTableWidgetItem(user["phone"]))
+                        # user["state"] = self.tr("Available")
+                        curent_state_text = self.checkUserState(user)
+                        self.tableWidgetSystemUsersHS.setItem(i, 4, QTableWidgetItem(curent_state_text))
+                        self.setStateColor(self.tableWidgetSystemUsersHS, i, 4, curent_state_text)
+                        self.hs_users_available.append(user)
+                        i += 1
+                self.labelCount.setText(str(i))
         else:
             QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), msg)
 

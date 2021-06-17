@@ -126,6 +126,19 @@
     <string>Messages</string>
    </property>
   </widget>
+  <widget class="QLabel" name="labelCount">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>510</y>
+     <width>54</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>
