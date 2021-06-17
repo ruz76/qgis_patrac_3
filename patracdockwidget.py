@@ -780,13 +780,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if reply == QMessageBox.No:
             return
 
-        with open(self.settingsPath + "/config/config.json") as json_file:
-            config = json.load(json_file)
-            if "cleangps" in config and config["cleangps"] == 1:
-                list_of_files = os.listdir(path)
-                for item in list_of_files:
-                    if item.endswith(".gpx"):
-                        os.remove(os.path.join(path, item))
+        list_of_files = os.listdir(path)
+        for item in list_of_files:
+            if item.endswith(".gpx"):
+                os.remove(os.path.join(path, item))
 
     def copyGpxToPath(self, path):
         prjfi = QFileInfo(QgsProject.instance().fileName())
