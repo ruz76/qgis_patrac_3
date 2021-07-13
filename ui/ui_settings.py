@@ -320,14 +320,14 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.labelPath.setText(self.tr("Path to the project") + ": " + prjfi.absolutePath())
 
     def testHds(self):
-        msg = self.tr("Function is temporarily unavailable. Use data test, please.")
-        QMessageBox.information(self.main.iface.mainWindow(), self.tr("Not available"), msg)
-        return
-        # self.parent.setCursor(Qt.WaitCursor)
-        # self.setCursor(Qt.WaitCursor)
-        # self.main.testHds(self.textEditHds)
-        # self.setCursor(Qt.ArrowCursor)
-        # self.parent.setCursor(Qt.ArrowCursor)
+        # msg = self.tr("Function is temporarily unavailable. Use data test, please.")
+        # QMessageBox.information(self.main.iface.mainWindow(), self.tr("Not available"), msg)
+        # return
+        self.parent.setCursor(Qt.WaitCursor)
+        self.setCursor(Qt.WaitCursor)
+        self.main.testHds(self.textEditHds)
+        self.setCursor(Qt.ArrowCursor)
+        self.parent.setCursor(Qt.ArrowCursor)
 
     def updateData(self):
         msg = self.tr("Function is not supported")

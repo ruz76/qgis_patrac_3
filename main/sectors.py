@@ -721,7 +721,7 @@ class Sectors(object):
                         f.write('<a href="../' + str(scale) + '_report_' + str(row) + '_' + str(col) + '.pdf">' + str(row) + '-' + str(col) + '.pdf</a>\n')
 
             f.write("<h2>" + QApplication.translate("Patrac", "GPS file with drawn sector", None) + "</h2>")
-            f.write('<a href="../gpx/' + feature['id'] + '.gpx">' + feature['id'] + '.gpx</a>\n')
+            f.write('<a href="../gpx/' + str(feature['id']) + '.gpx">' + str(feature['id']) + '.gpx</a>\n')
             f.write("</body></html>")
 
     def reportExportSectors(self, openReport, exportPDF):
