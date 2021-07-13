@@ -483,6 +483,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.iface.actionPan().trigger()
 
         self.Styles.setSectorsStyle('single')
+        self.Utils.setUTFToAllLayers()
 
         self.setCursor(Qt.ArrowCursor)
 
@@ -1277,7 +1278,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             # QgsVectorFileWriter.writeAsVectorFormat(layer, self.Utils.getDataPath() + "/pracovni/sektory_group.csv",
             #                                     "utf-8", crs, "CSV")
             QgsVectorFileWriter.writeAsVectorFormat(layer, fileName,
-                                                "utf-8", crs, "CSV")
+                                                "utf-8", crs, "CSV", layerOptions=["SEPARATOR=SEMICOLON"])
 
     def actionAddFeature(self):
         self.iface.actionAddFeature().trigger()

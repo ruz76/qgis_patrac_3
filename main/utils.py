@@ -51,6 +51,12 @@ class Utils(object):
         pluginPath = self.getPluginPath()
         return pluginPath + "/../../../qgis_patrac_settings"
 
+    def setUTFToAllLayers(self):
+        for layer in QgsProject.instance().mapLayers().values():
+            if layer.type() == QgsMapLayer.VectorLayer:
+                layer.setProviderEncoding(u'UTF-8')
+                layer.dataProvider().setEncoding(u'UTF-8')
+
     def loadRemovedNecessaryLayers(self):
         layers = ["patraci.shp", "sektory_group.shp", "mista.shp", "mista_linie.shp", "mista_polygon.shp"]
         layers_titles = ["patraci", "sektory", "mista", "mista_linie", "mista_polygon"]
@@ -135,6 +141,8 @@ class Utils(object):
             QgsMessageLog.logMessage("Vrstvu " + path + " se nepodařilo načíst", "Patrac")
         else:
             ##            crs = QgsCoordinateReferenceSystem("EPSG:4326")
+            vector.setProviderEncoding(u'UTF-8')
+            vector.dataProvider().setEncoding(u'UTF-8')
             QgsProject.instance().addMapLayer(vector)
 
     def addVectorLayerWithStyle(self, path, label, style):
@@ -143,6 +151,8 @@ class Utils(object):
         if not vector.isValid():
             QgsMessageLog.logMessage("Vrstvu " + path + " se nepodařilo načíst", "Patrac")
         else:
+            vector.setProviderEncoding(u'UTF-8')
+            vector.dataProvider().setEncoding(u'UTF-8')
             vector.loadNamedStyle(self.pluginPath + '/styles/' + style + '.qml')
             QgsProject.instance().addMapLayer(vector)
 
