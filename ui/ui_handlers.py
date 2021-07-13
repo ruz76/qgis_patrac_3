@@ -360,12 +360,15 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
                     self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(str(user_from_calls["name"])))
                     self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(str(user_from_calls["phone"])))
                     if user["vyzvaPotvrzena"]:
-                        if "lastReactionType" in user and user["lastReactionType"] == "accepted":
-                            user_from_calls["state"] = self.tr("Accepted")
-                            self.setUserFromCallsState(user, self.tr("Accepted"))
-                        else:
-                            user_from_calls["state"] = self.tr("Not accepted")
-                            self.setUserFromCallsState(user, self.tr("Not accepted"))
+                        # TODO consult this with SIMOPT - does not seem to be stable behaviour
+                        user_from_calls["state"] = self.tr("Accepted")
+                        self.setUserFromCallsState(user, self.tr("Accepted"))
+                        # if "lastReactionType" in user and user["lastReactionType"] == "accepted":
+                        #     user_from_calls["state"] = self.tr("Accepted")
+                        #     self.setUserFromCallsState(user, self.tr("Accepted"))
+                        # else:
+                        #     user_from_calls["state"] = self.tr("Not accepted")
+                        #     self.setUserFromCallsState(user, self.tr("Not accepted"))
                     self.tableWidgetSystemUsersHS.setItem(i, 3, QTableWidgetItem(str(user_from_calls["state"])))
                 else:
                     # print("TADY")
