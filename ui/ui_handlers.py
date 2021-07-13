@@ -107,7 +107,7 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
 
     def sendEmail(self):
         if self.config["emailfrom"] == "" or self.config["emailto1"] == "" and self.config["emailto2"] == "":
-            QMessageBox.infor-mation(self.parent.iface.mainWindow(), self.tr("ERROR"), self.tr("Emails in settings has to be set. Go to the settings dialog."))
+            QMessageBox.information(self.parent.iface.mainWindow(), self.tr("ERROR"), self.tr("Emails in settings has to be set. Go to the settings dialog."))
             return
 
         emailto1 = 'jan.ruzicka.vsb@gmail.com'
@@ -377,6 +377,11 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
         else:
             QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), msg)
 
+    def isTestingUser(self, name):
+        if name.strip().lower()[:6] == 'psovod':
+            return True
+        return False
+
     def fillSystemUsersHS(self, data):
         # print("fillSystemUsersHS")
         # print(data)
@@ -411,18 +416,20 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
                 i = 0
                 for user in hs_users:
                     if user["status"] in ['na_stanici', 'ostatni_oblast', 'pohotovost', 'v_oblasti']:
-                        row_checkbox = QCheckBox()
-                        self.hs_users_available_checkboxes.append(row_checkbox)
-                        self.tableWidgetSystemUsersHS.setCellWidget(i, 0, row_checkbox)
-                        self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(str(round(float(user["distance"])))))
-                        self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(user["name"]))
-                        self.tableWidgetSystemUsersHS.setItem(i, 3, QTableWidgetItem(user["phone"]))
-                        # user["state"] = self.tr("Available")
-                        curent_state_text = self.checkUserState(user)
-                        self.tableWidgetSystemUsersHS.setItem(i, 4, QTableWidgetItem(curent_state_text))
-                        self.setStateColor(self.tableWidgetSystemUsersHS, i, 4, curent_state_text)
-                        self.hs_users_available.append(user)
-                        i += 1
+                        # Remove testing users in a case when real action appears
+                        if self.project_settings["projectversion"] == 0 or (self.project_settings["projectversion"] == 1 and not self.isTestingUser(user["name"])):
+                            row_checkbox = QCheckBox()
+                            self.hs_users_available_checkboxes.append(row_checkbox)
+                            self.tableWidgetSystemUsersHS.setCellWidget(i, 0, row_checkbox)
+                            self.tableWidgetSystemUsersHS.setItem(i, 1, QTableWidgetItem(str(round(float(user["distance"])))))
+                            self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(user["name"]))
+                            self.tableWidgetSystemUsersHS.setItem(i, 3, QTableWidgetItem(user["phone"]))
+                            # user["state"] = self.tr("Available")
+                            curent_state_text = self.checkUserState(user)
+                            self.tableWidgetSystemUsersHS.setItem(i, 4, QTableWidgetItem(curent_state_text))
+                            self.setStateColor(self.tableWidgetSystemUsersHS, i, 4, curent_state_text)
+                            self.hs_users_available.append(user)
+                            i += 1
                 self.labelCount.setText(str(i))
         else:
             QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), msg)
