@@ -187,10 +187,13 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
         url += "accessKey=" + self.config["hsapikey"]
         url += "&lat=" + str(lat)
         url += "&lng=" + str(lon)
-        url += "&title=" + urllib.parse.quote(self.project_settings['projectname'])
+        if self.project_settings["projectversion"] == 0:
+            url += "&title=" + urllib.parse.quote('!!! TEST ' + self.project_settings['projectname'])
+        else:
+            url += "&title=" + urllib.parse.quote(self.project_settings['projectname'])
         desc = self.project_settings['projectdesc'] + " " + self.Utils.getLostInfo(self.project_settings)
-        if 'pcrkrid' in self.project_settings.keys():
-            desc += ' Kraj: ' + self.project_settings['pcrkrid']
+        if 'pcrkrid' in self.config.keys():
+            desc += ' Kraj: ' + self.config['pcrkrid']
         if 'coordinatorname' in self.project_settings.keys():
             desc += ' Koordinator: ' + self.project_settings['coordinatorname'] + ' ' + self.project_settings['coordinatortel']
         else:
@@ -203,6 +206,10 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             url += "&searchRadius=0"
         url += "&userPhone=" + urllib.parse.quote(self.project_settings['coordinatortel'])
         url += "&createIncident=1"
+
+        # print(url)
+        # print(self.project_settings)
+        # print(self.config)
 
         self.incident = Connect()
         self.incident.setUrl(url)

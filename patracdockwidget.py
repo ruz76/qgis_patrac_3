@@ -249,12 +249,21 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         self.loadActionSettings()
 
+        self.guideRealSearch.clicked.connect(self.clearDescription)
+        self.guideTestSearch.clicked.connect(self.setTestDescription)
+
     def on_project_change(self):
         # print("PROJECT CHANGE")
         self.loadActionSettings()
 
     def sayHello(self):
         print("HELLO")
+
+    def clearDescription(self):
+        self.guideSearchDescription.setText('')
+
+    def setTestDescription(self):
+        self.guideSearchDescription.setText('!!! TEST')
 
     def switchSectorsType(self):
         projectinfo = self.Utils.getProjectInfo()
