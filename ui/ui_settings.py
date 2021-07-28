@@ -852,6 +852,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             # webbrowser.open(url)
 
     def recalculateFriction(self):
+        QMessageBox.information(None, self.tr("Not available"), self.tr("The function is not implemented"))
+        return
         f = open(self.pluginPath + '/grass/friction_user.rules', 'w')
         for i in range(0, 56):
             cat = self.tableWidgetFriction.item(i, 0).text()
