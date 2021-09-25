@@ -262,7 +262,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong input"), self.tr("Enter password"))
             return
 
-        url = "https://www.horskasluzba.cz/cz/hscr-sbook-login?"
+        url = "https://api.hscr.cz/cz/hscr-sbook-login?"
         url += "L=" + urllib.parse.quote(self.lineEditUsername.text())
         url += "&H=" + urllib.parse.quote(self.lineEditPassword.text())
 
@@ -283,7 +283,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                     QMessageBox.information(self.main.iface.mainWindow(), self.tr("Error"), msg)
                     return
                 if hsdata["ok"] == 1:
-                    urlToOpen = "https://www.horskasluzba.cz/cz/kniha-sluzeb/vyzvy?"
+                    urlToOpen = "https://api.hscr.cz/cz/kniha-sluzeb/vyzvy?"
                     urlToOpen += "action=show-record"
                     urlToOpen += "&record_id=" + str(self.incidentId)
                     urlToOpen += "&t=" + hsdata["token"]

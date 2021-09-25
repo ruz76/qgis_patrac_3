@@ -298,7 +298,7 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         GinaGUID = self.Utils.getProjectInfo()['gina_guid']
         accessKey = self.getAccessKey()
 
-        url = 'https://www.horskasluzba.cz/cz/app-patrac-close-incident?accessKey=' + accessKey + '&GinaGUID=' + GinaGUID
+        url = 'https://api.hscr.cz/cz/app-patrac-close-incident?accessKey=' + accessKey + '&GinaGUID=' + GinaGUID
         self.closeHSSearchConnect = Connect()
         self.closeHSSearchConnect.setUrl(url)
         self.closeHSSearchConnect.statusChanged.connect(self.onCloseHSSearchServerResponse)

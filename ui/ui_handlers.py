@@ -141,12 +141,12 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
 
     def checkIncidentHandlers(self):
         self.hsCallType = 0
-        self.createIncident("https://www.horskasluzba.cz/cz/app-patrac-new-incident-test")
+        self.createIncident("https://api.hscr.cz/cz/app-patrac-new-incident-test")
 
     def callHandlers(self):
         self.hsCallType = 1
         if self.project_settings["gina_guid"] == "":
-            self.createIncident("https://www.horskasluzba.cz/cz/app-patrac-new-incident")
+            self.createIncident("https://api.hscr.cz/cz/app-patrac-new-incident")
         else:
             self.addUsersIntoCall()
 
@@ -243,7 +243,7 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             i += 1
 
         if hsusersids != "":
-            url = "https://www.horskasluzba.cz/cz/app-patrac-add-users-to-incident?"
+            url = "https://api.hscr.cz/cz/app-patrac-add-users-to-incident?"
             url += "accessKey=" + self.config["hsapikey"]
             url += "&GinaGUID=" + self.project_settings["gina_guid"]
             url += "&users=" + hsusersids[:-1]
@@ -277,7 +277,7 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("Can not show handlers in action. Action was not created yet."))
             return
 
-        url = "https://www.horskasluzba.cz/cz/app-patrac-incident-info?"
+        url = "https://api.hscr.cz/cz/app-patrac-incident-info?"
         url += "accessKey=" + self.config["hsapikey"]
         url += "&GinaGUID=" + self.project_settings["gina_guid"]
 
@@ -302,7 +302,7 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("Can not notify handlers. Action was not created yet."))
             return
 
-        url = "https://www.horskasluzba.cz/cz/app-patrac-send-notifications?"
+        url = "https://api.hscr.cz/cz/app-patrac-send-notifications?"
         url += "accessKey=" + self.config["hsapikey"]
         url += "&GinaGUID=" + self.project_settings["gina_guid"]
         url += "&notifyUsersType=list"
