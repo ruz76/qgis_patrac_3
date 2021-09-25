@@ -48,6 +48,10 @@ def get_label(f):
         return f['label'][:2] + "0" + f['label'][2:4]
     if len(f['label']) == 3:
         return f['label'][:2] + "00" + f['label'][2:3]
+    if len(f['label']) == 2:
+        return f['label'][:1] + "000" + f['label'][1:2]
+    if len(f['label']) == 1:
+        return f['label'] + "0000"
 
 class Sectors(object):
     def __init__(self, widget):
