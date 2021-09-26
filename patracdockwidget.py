@@ -252,6 +252,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.guideRealSearch.clicked.connect(self.clearDescription)
         self.guideTestSearch.clicked.connect(self.setTestDescription)
 
+    def readConfig(self):
+        with open(self.settingsPath + "/config/config.json") as json_file:
+            self.config = json.load(json_file)
+
     def on_project_change(self):
         # print("PROJECT CHANGE")
         self.loadActionSettings()
@@ -1503,9 +1507,11 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                                                                  QApplication.translate("Patrac", "Wrong project.", None))
             return
 
+        self.readConfig()
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
         url = self.serverUrl + 'track.php?searchid=' + self.getSearchID()
+        url += "&accessKey=" + self.config["hsapikey"]
         if os.path.exists(DATAPATH + "/pracovni/lasttrackcheck.txt"):
             with open(DATAPATH + "/pracovni/lasttrackcheck.txt", "r") as f:
                 start_from = f.read()
@@ -1618,6 +1624,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def showPeople(self):
         """Shows location of logged positions in map"""
 
+        self.readConfig()
         self.Utils.loadRemovedNecessaryLayers()
 
         # Check if the project has patraci.shp
@@ -1627,7 +1634,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             return
 
         self.positions = Connect()
-        self.positions.setUrl(self.serverUrl + 'loc.php?searchid=' + self.getSearchID())
+        url = self.serverUrl + 'loc.php?searchid=' + self.getSearchID()
+        url += "&accessKey=" + self.config["hsapikey"]
+        self.positions.setUrl(url)
         self.positions.statusChanged.connect(self.onShowPeopleResponse)
         self.positions.start()
 
