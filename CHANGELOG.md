@@ -1,5 +1,16 @@
 # Changelog 
 
+## Version 3.12.25 (2021-09-26)
+
+#### Bug Fixes
+* 
+
+#### Improvements
+* Changed API point for HS
+* Appended access key for server calls
+
+# Changelog 
+
 ## Version 3.12.24 (2021-07-28)
 
 #### Bug Fixes
