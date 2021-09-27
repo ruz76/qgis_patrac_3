@@ -3,7 +3,7 @@
 ## Version 3.12.25 (2021-09-26)
 
 #### Bug Fixes
-* 
+* Fixed short label issue
 
 #### Improvements
 * Changed API point for HS
