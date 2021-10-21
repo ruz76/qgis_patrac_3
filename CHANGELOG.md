@@ -1,5 +1,10 @@
 # Changelog 
 
+## Version 3.12.26 (2021-10-21)
+
+#### Bug Fixes
+* 121 - Extend the area
+
 ## Version 3.12.25 (2021-09-26)
 
 #### Bug Fixes
