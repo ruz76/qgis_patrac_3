@@ -163,6 +163,10 @@ class ConnectPost(QThread):
     data = None
     filename = None
     timeout = 5
+    type = "data"
+
+    def setType(self, type):
+        self.type = type
 
     def setUrl(self, url):
         self.url = url
@@ -183,14 +187,20 @@ class ConnectPost(QThread):
             if self.filename is not None:
                 if os.path.isfile(self.filename):
                     with open(self.filename, 'rb') as f:
-                        r = requests.post(self.url, data=self.data, files={'fileToUpload': f})
+                        if self.type == "data":
+                            r = requests.post(self.url, data=self.data, files={'fileToUpload': f})
+                        if self.type == "json":
+                            r = requests.post(self.url, json=self.data, files={'fileToUpload': f})
                         responseToReturn.status = r.status_code
                         responseToReturn.data = r.text
                 else:
                     responseToReturn.status = 500
                     responseToReturn.data = ""
             else:
-                requests.post(self.url, data=self.data)
+                if self.type == "data":
+                    requests.post(self.url, data=self.data)
+                if self.type == "json":
+                    requests.post(self.url, json=self.data)
             responseToReturn.status = 200
         except urllib.error.URLError:
             responseToReturn.status = 500

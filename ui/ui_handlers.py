@@ -336,6 +336,22 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
                 self.hs_users_in_call[i]['state'] = state
             i += 1
 
+    def getUserInCallState(self, user):
+        if user["lastReactionType"] is not None and user["lastReactionType"] != '':
+            if user["lastReactionType"] == "notified":
+                return self.tr("Notified")
+            if user["lastReactionType"] == "accepted":
+                return self.tr("Accepted")
+            if user["lastReactionType"] == "action":
+                return self.tr("Action")
+            if user["lastReactionType"] == "on_the_spot":
+                return self.tr("On the spot")
+            if user["lastReactionType"] == "closed":
+                return self.tr("Closed")
+        else:
+            return self.tr("Unknown")
+
+
     def fillUsersInAction(self, data):
         # print("fillUsersInAction")
         # print(data)
@@ -350,8 +366,8 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
 
         if hsdata["ok"] == 1:
             self.parent.iface.messageBar().pushMessage(self.tr("Success"), self.tr("Connected"), level=Qgis.Info)
-            self.tableWidgetSystemUsersHS.setColumnCount(4)
-            self.tableWidgetSystemUsersHS.setHorizontalHeaderLabels([self.tr("Selected"), self.tr("Name"), self.tr("Phone"), self.tr("State")])
+            self.tableWidgetSystemUsersHS.setColumnCount(6)
+            self.tableWidgetSystemUsersHS.setHorizontalHeaderLabels([self.tr("Selected"), self.tr("Name"), self.tr("Phone"), self.tr("State"), self.tr("Expected"), self.tr("Note")])
             self.tableWidgetSystemUsersHS.setColumnWidth(1, 300)
             self.tableWidgetSystemUsersHS.setRowCount(len(hsdata["incident"]["users"]))
             hs_users = hsdata["incident"]["users"]
@@ -368,15 +384,13 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
                     self.tableWidgetSystemUsersHS.setItem(i, 2, QTableWidgetItem(str(user_from_calls["phone"])))
                     if user["vyzvaPotvrzena"]:
                         # TODO consult this with SIMOPT - does not seem to be stable behaviour
-                        user_from_calls["state"] = self.tr("Accepted")
-                        self.setUserFromCallsState(user, self.tr("Accepted"))
-                        # if "lastReactionType" in user and user["lastReactionType"] == "accepted":
-                        #     user_from_calls["state"] = self.tr("Accepted")
-                        #     self.setUserFromCallsState(user, self.tr("Accepted"))
-                        # else:
-                        #     user_from_calls["state"] = self.tr("Not accepted")
-                        #     self.setUserFromCallsState(user, self.tr("Not accepted"))
+                        user_from_calls["state"] = self.getUserInCallState(user)
+                        self.setUserFromCallsState(user, self.getUserInCallState(user))
                     self.tableWidgetSystemUsersHS.setItem(i, 3, QTableWidgetItem(str(user_from_calls["state"])))
+                    if user["arrivalTime"] is not None:
+                        self.tableWidgetSystemUsersHS.setItem(i, 4, QTableWidgetItem(str(user["arrivalTime"])))
+                    if user["note"] is not None:
+                        self.tableWidgetSystemUsersHS.setItem(i, 5, QTableWidgetItem(str(user["note"])))
                 else:
                     # print("TADY")
                     QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), msg)
@@ -391,6 +405,30 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
         if name.strip().lower()[:6] == 'psovod':
             return True
         return False
+
+    def saveIncidentOnServer(self):
+        type = "test"
+        if self.project_settings["projectversion"] == 1:
+            type = "real"
+        incident = {
+            "accessKey": self.config["hsapikey"],
+            "GinaGUID": self.project_settings["gina_guid"],
+            "type": type,
+            "operation": "create"
+        }
+        self.manageincident = ConnectPost()
+        self.manageincident.setUrl("https://pbbgcapdm7.execute-api.eu-central-1.amazonaws.com/test/dynamo/manageincident")
+        self.manageincident.statusChanged.connect(self.onManageIncidentResponse)
+        self.manageincident.setData(incident)
+        self.manageincident.setType("json")
+        self.manageincident.start()
+
+    def onManageIncidentResponse(self, response):
+        if response.status == 200:
+            print(response.data)
+            self.parent.iface.messageBar().pushMessage(self.tr("Success"), self.tr("Incident saved on server."), level=Qgis.Info)
+        else:
+            self.parent.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
     def fillSystemUsersHS(self, data):
         # print("fillSystemUsersHS")
@@ -412,6 +450,7 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
                 self.project_settings["gina_guid"] = hsdata["GinaGUID"]
                 self.Utils.updateProjectInfo("hs_incidentid", self.project_settings["hs_incidentid"])
                 self.Utils.updateProjectInfo("gina_guid", self.project_settings["gina_guid"])
+                self.saveIncidentOnServer()
                 self.addUsersIntoCall()
             if self.hsCallType == 0:
                 self.tableWidgetSystemUsersHS.setColumnCount(5)
