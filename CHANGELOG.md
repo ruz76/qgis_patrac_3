@@ -1,5 +1,13 @@
 # Changelog 
 
+## Version 3.12.27 (2022-06-10)
+
+#### Improvements
+* Person information is cleaned after the search is closed.
+
+#### Bug Fixes
+* 
+
 ## Version 3.12.26 (2021-10-21)
 
 #### Bug Fixes
