@@ -140,16 +140,16 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
     def accept(self):
         self.saveXML()
         self.saveHTML()
-        self.closeSearch()
-        self.closeHSSearch()
-        self.zipDir()
-        self.zipForServer()
-        self.close()
+        self.acceptNoDiff()
 
     def acceptNotFound(self):
         self.saveXMLNoResult()
+        self.acceptNoDiff()
+
+    def acceptNoDiff(self):
         self.closeSearch()
         self.closeHSSearch()
+        self.removePersonInfo()
         self.zipDir()
         self.zipForServer()
         self.close()
@@ -303,6 +303,19 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         self.closeHSSearchConnect.setUrl(url)
         self.closeHSSearchConnect.statusChanged.connect(self.onCloseHSSearchServerResponse)
         self.closeHSSearchConnect.start()
+
+    def removePersonInfo(self):
+        self.Utils.updateProjectInfo("lost_name", "")
+        self.Utils.updateProjectInfo("lost_age", 0)
+        self.Utils.updateProjectInfo("lost_sex", 0)
+        self.Utils.updateProjectInfo("lost_from_date_time", "")
+        self.Utils.updateProjectInfo("lost_time_from_info", "")
+        self.Utils.updateProjectInfo("lost_physical_condition", 0)
+        self.Utils.updateProjectInfo("lost_health", 0)
+        self.Utils.updateProjectInfo("lost_height", 0)
+        self.Utils.updateProjectInfo("lost_body_type", 0)
+        self.Utils.updateProjectInfo("lost_hair_color", 0)
+        self.Utils.updateProjectInfo("lost_clothes", "")
 
     def getAccessKey(self):
         with open(self.widget.getPluginPath() + "/../../../qgis_patrac_settings" + "/config/config.json") as json_file:
