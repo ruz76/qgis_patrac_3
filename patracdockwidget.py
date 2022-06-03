@@ -490,6 +490,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if self.guideRealSearch.isChecked():
             version = 1
         self.runCreateProjectGuide(municipalityindex, version)
+
         self.handlersdlg.clearUsersInCall()
 
         self.tabGuideSteps.setCurrentIndex(1)
