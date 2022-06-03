@@ -37,6 +37,8 @@ from qgis.PyQt.QtGui import *
 
 from os import path
 
+from datetime import datetime
+
 class Utils(object):
     def __init__(self, widget):
         self.widget = widget
@@ -437,3 +439,12 @@ class Utils(object):
             lost_info += "neuvedeno"
 
         return lost_info
+
+    def getDateTimeFromTimestamp(self, ts):
+        dt_object = datetime.fromtimestamp(ts)
+        return str(dt_object)
+
+    def getDiffOfTimestampFromNow(self, ts):
+        now = datetime.now()
+        timestamp = datetime.timestamp(now)
+        return timestamp - ts

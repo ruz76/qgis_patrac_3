@@ -167,7 +167,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.tbtnExtendRegion.clicked.connect(self.extendRegion)
         self.tbtnImportPaths.clicked.connect(self.showImportGpx)
         # self.tbtnShowSearchers.clicked.connect(self.showPeopleSimulation)
-        self.tbtnShowSearchers.clicked.connect(self.showPeople)
+        # self.tbtnShowSearchers.clicked.connect(self.showPeople)
         self.tbtnShowSearchersTracks.clicked.connect(self.showPeopleTracks)
         self.tbtnShowMessage.clicked.connect(self.showMessage)
 
@@ -489,6 +489,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         version = 0
         if self.guideRealSearch.isChecked():
             version = 1
+        self.runCreateProjectGuide(municipalityindex, version)
         self.runCreateProjectGuide(municipalityindex, version)
 
         self.handlersdlg.clearUsersInCall()
@@ -1488,15 +1489,19 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             searchid = f.read()
         return searchid
 
-    def addFeaturePolyLineFromPoints(self, points, cols, end_time, provider):
+    def addFeaturePolyLineFromPoints(self, points, id, name, status, end_time, provider):
         fet = QgsFeature()
         # Name and sessionid are on first and second place
-        fet.setAttributes([str(cols[0]), str(end_time), str(cols[2]), str(cols[3])])
+        fet.setAttributes([str(id), str(end_time), str(status), str(name)])
         # Geometry is on third and fourth places
         if len(points) > 1:
             line = QgsGeometry.fromPolylineXY(points)
             fet.setGeometry(line)
             provider.addFeatures([fet])
+
+    def noHandlersMessage(self):
+        QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                QApplication.translate("Patrac", "No handlers in action yet. Call them first.", None))
 
     def showPeopleTracks(self):
         """Shows tracks of logged positions in map"""
@@ -1506,24 +1511,37 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         # Check if the project has patraci_lines.shp
         if not self.Utils.checkLayer("/pracovni/patraci.shp"):
             QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
-                                                                 QApplication.translate("Patrac", "Wrong project.", None))
+                                    QApplication.translate("Patrac", "Wrong project.", None))
             return
 
         self.readConfig()
-        prjfi = QFileInfo(QgsProject.instance().fileName())
-        DATAPATH = prjfi.absolutePath()
-        url = self.serverUrl + 'track.php?searchid=' + self.getSearchID()
-        url += "&accessKey=" + self.config["hsapikey"]
-        if os.path.exists(DATAPATH + "/pracovni/lasttrackcheck.txt"):
-            with open(DATAPATH + "/pracovni/lasttrackcheck.txt", "r") as f:
-                start_from = f.read()
-                url += "&start_from=" + urllib.parse.quote(start_from)
+        path = self.Utils.getDataPath() + "/pracovni/users_in_call.json"
+        if os.path.exists(path):
+            with open(path, "r") as json_file:
+                hs_users_in_call = json.load(json_file)
+        else:
+            self.noHandlersMessage()
+            return
+        if len(hs_users_in_call) < 1:
+            self.noHandlersMessage()
+            return
 
-        self.tracks = Connect()
-        self.tracks.setUrl(url)
-        self.tracks.setTimeout(20)
-        self.tracks.statusChanged.connect(self.onShowPeopleTractResponse)
-        self.tracks.start()
+        hsusersids = ""
+        for hsuser in hs_users_in_call:
+            hsusersids += hsuser["id"] + ","
+
+        if hsusersids != "":
+            url = "https://api.hscr.cz/cz/app-patrac-get-users-history?"
+            url += "accessKey=" + self.config["hsapikey"]
+            url += "&users=" + hsusersids[:-1]
+
+            self.tracks = Connect()
+            self.tracks.setUrl(url)
+            self.tracks.setTimeout(20)
+            self.tracks.statusChanged.connect(self.onShowPeopleTrackResponse)
+            self.tracks.start()
+        else:
+            self.noHandlersMessage()
 
     def getProviderAndLayerForTrack(self, DATAPATH, sessionid, username):
         layer = None
@@ -1557,143 +1575,103 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         else:
             return []
 
-    def onShowPeopleTractResponse(self, response):
+    def getUserOnPosition(self, point, id, name, status, end_time_string):
+        return {
+            "lon": point.x(),
+            "lat": point.y(),
+            "id": id,
+            "name": name,
+            "status": status,
+            "ts": end_time_string
+        }
+
+    def onShowPeopleTrackResponse(self, response):
         if response.status == 200:
-            locations = response.data.read().decode("utf-8")
             prjfi = QFileInfo(QgsProject.instance().fileName())
             DATAPATH = prjfi.absolutePath()
+            data = response.data.read().decode('utf-8')
+            locations = json.loads(data)
             # print(locations)
-            if "Error" in locations:
+            users = []
+            if locations["ok"] == 0:
                 self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
-                # QMessageBox.information(None, "INFO:", "Nepodařilo se spojit se serverem.")
                 return
-            # listOfIds = [feat.id() for feat in layer.getFeatures()]
-            # Splits to lines
-            lines = locations.split("\n")
-            if len(lines) < 2 or len(lines[1]) < 10:
-                # Wrong response
+            if len(locations["users"]) < 1:
                 self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Tracks are empty.", None), level=Qgis.Warning)
                 return
-            # Deletes all features in layer patraci.shp
-            # layer.deleteFeatures(listOfIds)
-            # layer.commitChanges()
-            # Loops the lines
-            firstLine = True
-            end_time = ""
-            for line in lines:
-                if firstLine and len(line) > 18:
-                    with open(DATAPATH + "/pracovni/lasttrackcheck.txt", "w") as f:
-                        f.write(line[:19])
-                        end_time = line[:19]
-                    firstLine = False
-                if line != "":  # add other needed checks to skip titles
-                    # Splits based on semicolon
-                    # TODO - add time
-                    cols = line.split(";")
-                    if len(cols) < 5:
-                        # Wrong line, skip it
-                        continue
-                    points = []
-                    position = 0
-                    # print "COLS: " + str(len(cols))
-                    for col in cols:
-                        if position > 3:
-                            try:
-                                xy = str(col).split(" ")
-                                point = QgsPointXY(float(xy[0]), float(xy[1]))
-                                points.append(point)
-                            except:
-                                QgsMessageLog.logMessage(QApplication.translate("Patrac", "Problem to read data from" + ": ", None) + line, "Patrac")
-                                pass
-                        position = position + 1
-                    if len(points) > 1:
-                        print("*****" + cols[0])
-                        print(points)
-                        provider_layer = self.getProviderAndLayerForTrack(DATAPATH, cols[0], cols[3])
-                        if len(provider_layer) < 2:
-                            # some error occured
-                            continue
-                        provider = provider_layer[0]
-                        layer = provider_layer[1]
-                        layer.startEditing()
-                        self.addFeaturePolyLineFromPoints(points, cols, end_time, provider)
-                        layer.commitChanges()
-                        layer.triggerRepaint()
-                        self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Success", None), QApplication.translate("Patrac", "Tracks were loaded.", None), level=Qgis.Info)
-        else:
-            self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
-
-    def showPeople(self):
-        """Shows location of logged positions in map"""
-
-        self.readConfig()
-        self.Utils.loadRemovedNecessaryLayers()
-
-        # Check if the project has patraci.shp
-        if not self.Utils.checkLayer("/pracovni/patraci.shp"):
-            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
-                                                                 QApplication.translate("Patrac", "Wrong project.", None))
-            return
-
-        self.positions = Connect()
-        url = self.serverUrl + 'loc.php?searchid=' + self.getSearchID()
-        url += "&accessKey=" + self.config["hsapikey"]
-        self.positions.setUrl(url)
-        self.positions.statusChanged.connect(self.onShowPeopleResponse)
-        self.positions.start()
-
-    def onShowPeopleResponse(self, response):
-        if response.status == 200:
-            prjfi = QFileInfo(QgsProject.instance().fileName())
-            DATAPATH = prjfi.absolutePath()
-            layer = None
-            for lyr in list(QgsProject.instance().mapLayers().values()):
-                if DATAPATH + "/pracovni/patraci.shp" in lyr.source():
-                    layer = lyr
-                    break
-            provider = layer.dataProvider()
-            features = provider.getFeatures()
-            sectorid = 0
-            listOfIds = [feat.id() for feat in layer.getFeatures()]
-            # Deletes all features in layer patraci.shp
-            layer.startEditing()
-            layer.deleteFeatures(listOfIds)
-            layer.commitChanges()
-            # Reads locations from response
-            locations = response.data.read().decode("utf-8")
-            # locations = locations.decode("utf-8")
-            # print("LOCATIONS: " + locations)
-            # Splits to lines
-            lines = locations.split("\n")
-            if len(lines) < 2 or len(lines[1]) < 20:
-                self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Positions are empty.", None), level=Qgis.Warning)
-                return
-            # Loops the lines
-            i = 0
-            for line in lines:
-                if line != "" and i > 0:  # add other needed checks to skip titles
-                    # Splits based on semicolon
-                    # TODO - add time
-                    # print(line)
-                    cols = line.split(";")
-                    fet = QgsFeature()
-                    # Geometry is on last place
+            for user in locations["users"]:
+                points = []
+                end_time = ""
+                for point_in_history in user["history"]:
                     try:
-                        xy = str(cols[4]).split(" ")
-                        fet.setGeometry(QgsGeometry.fromPointXY(QgsPointXY(float(xy[0]), float(xy[1]))))
-                        # Name and sessionid are on first and second place
-                        fet.setAttributes([str(cols[0]), str(cols[1]), str(cols[2]), str(cols[3])])
-                        provider.addFeatures([fet])
-                    except Exception as e:
-                        self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Problem to read data from" + ": ", None) + line, level=Qgis.Warning)
-                        # print(e)
+                        point = QgsPointXY(float(point_in_history[1]), float(point_in_history[0]))
+                        points.append(point)
+                        end_time = point_in_history[2]
+                    except:
+                        QgsMessageLog.logMessage(QApplication.translate("Patrac", "Problem to read data for user" + ": ", None) + user["name"], "Patrac")
                         pass
-                i+=1
-            layer.commitChanges()
-            layer.triggerRepaint()
-            self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Success", None), QApplication.translate("Patrac", "Positions were loaded.", None), level=Qgis.Info)
+
+                end_time_string = self.Utils.getDateTimeFromTimestamp(end_time)
+                diff = self.Utils.getDiffOfTimestampFromNow(end_time)
+                status = "D"
+                if diff < 300:
+                    status = "A"
+
+                if len(points) > 1:
+                    # print(points)
+                    provider_layer = self.getProviderAndLayerForTrack(DATAPATH, user["id"], user["name"])
+                    if len(provider_layer) < 2:
+                        # some error occured
+                        continue
+                    provider = provider_layer[0]
+                    layer = provider_layer[1]
+                    layer.startEditing()
+
+                    self.addFeaturePolyLineFromPoints(points, user["id"], user["name"], status, end_time_string, provider)
+                    layer.commitChanges()
+                    layer.triggerRepaint()
+                    self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Success", None), QApplication.translate("Patrac", "Tracks were loaded.", None), level=Qgis.Info)
+
+                if len(points) > 0:
+                    users.append(self.getUserOnPosition(points[len(points) - 1], user["id"], user["name"], status, end_time_string))
+            self.showUsersPosition(users)
         else:
             self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
+
+    def showUsersPosition(self, users):
+
+        prjfi = QFileInfo(QgsProject.instance().fileName())
+        DATAPATH = prjfi.absolutePath()
+        layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if DATAPATH + "/pracovni/patraci.shp" in lyr.source():
+                layer = lyr
+                break
+        provider = layer.dataProvider()
+        listOfIds = [feat.id() for feat in layer.getFeatures()]
+        # Deletes all features in layer patraci.shp
+        layer.startEditing()
+        layer.deleteFeatures(listOfIds)
+        layer.commitChanges()
+        # Reads locations from response
+        i = 0
+        for user in users:
+            print(user)
+            fet = QgsFeature()
+            # Geometry is on last place
+            try:
+                fet.setGeometry(QgsGeometry.fromPointXY(QgsPointXY(user["lon"], user["lat"])))
+                # Name and sessionid are on first and second place
+                fet.setAttributes([str(user["id"]), str(user["ts"]), str(user["status"]), str(user["name"])])
+                provider.addFeatures([fet])
+            except Exception as e:
+                print(e)
+                self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Problem to read data from" + ": ", None) + user["name"], level=Qgis.Warning)
+                pass
+            i+=1
+        layer.commitChanges()
+        layer.triggerRepaint()
+        self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Success", None), QApplication.translate("Patrac", "Positions were loaded.", None), level=Qgis.Info)
 
     def showPeopleSimulation(self):
         """Shows location of logged positions in map"""

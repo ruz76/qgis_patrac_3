@@ -367,14 +367,14 @@ class Ui_PatracDockWidget(object):
         self.tbtnImportPaths.setToolTip(QApplication.translate("PatracDockWidget", "Import from GPS", None))
         self.horizontalLayoutTracks.addWidget(self.tbtnImportPaths)
 
-        self.tbtnShowSearchers = QPushButton(self.dockWidgetContents)
-        self.tbtnShowSearchers.setObjectName(_fromUtf8("tbtnShowSearchers"))
-        self.tbtnShowSearchers.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "show_searchers.png")))
-        self.tbtnShowSearchers.setIconSize(QSize(24, 24))
-        self.tbtnShowSearchers.setFixedSize(QSize(32, 32))
-        self.horizontalLayoutTracks.addWidget(self.tbtnShowSearchers)
-        self.tbtnShowSearchers.setToolTip(
-            QApplication.translate("PatracDockWidget", "Show searchers (points)", None))
+        # self.tbtnShowSearchers = QPushButton(self.dockWidgetContents)
+        # self.tbtnShowSearchers.setObjectName(_fromUtf8("tbtnShowSearchers"))
+        # self.tbtnShowSearchers.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "show_searchers.png")))
+        # self.tbtnShowSearchers.setIconSize(QSize(24, 24))
+        # self.tbtnShowSearchers.setFixedSize(QSize(32, 32))
+        # self.horizontalLayoutTracks.addWidget(self.tbtnShowSearchers)
+        # self.tbtnShowSearchers.setToolTip(
+        #     QApplication.translate("PatracDockWidget", "Show searchers (points)", None))
 
         self.tbtnShowSearchersTracks = QPushButton(self.dockWidgetContents)
         self.tbtnShowSearchersTracks.setObjectName(_fromUtf8("tbtnShowSearchersTracks"))
