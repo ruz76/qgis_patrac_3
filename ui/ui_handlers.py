@@ -228,6 +228,9 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
         else:
             self.parent.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
+    def clearUsersInCall(self):
+        self.hs_users_in_call = []
+
     def addUsersIntoCall(self):
         if self.project_settings["gina_guid"] == "":
             QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), self.tr("Can not call handlers. Some error occured."))
@@ -369,6 +372,10 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
             self.tableWidgetSystemUsersHS.setColumnCount(6)
             self.tableWidgetSystemUsersHS.setHorizontalHeaderLabels([self.tr("Selected"), self.tr("Name"), self.tr("Phone"), self.tr("State"), self.tr("Expected"), self.tr("Note")])
             self.tableWidgetSystemUsersHS.setColumnWidth(1, 300)
+            self.tableWidgetSystemUsersHS.setColumnWidth(2, 100)
+            self.tableWidgetSystemUsersHS.setColumnWidth(3, 100)
+            self.tableWidgetSystemUsersHS.setColumnWidth(4, 200)
+            self.tableWidgetSystemUsersHS.setColumnWidth(5, 200)
             self.tableWidgetSystemUsersHS.setRowCount(len(hsdata["incident"]["users"]))
             hs_users = hsdata["incident"]["users"]
             hs_users.sort(key = lambda json : json['userId'])
