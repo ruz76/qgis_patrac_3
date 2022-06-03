@@ -4,9 +4,11 @@
 
 #### Improvements
 * Person information is cleaned after the search is closed.
+* New states changes based on HS Messenger
+* Positions are now loaded directly from HS server
 
 #### Bug Fixes
-* 
+* 124 - Users in action are not cleaned when new project is created
 
 ## Version 3.12.26 (2021-10-21)
 
