@@ -229,8 +229,11 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
 
     def zipForServer(self):
         self.setCursor(Qt.WaitCursor)
+        project_settings = self.Utils.getProjectInfo()
         parts = self.DATAPATH.split('/')
         filename = parts[len(parts)-1] + "_" + strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + "_export.zip"
+        if project_settings["projectversion"] == 0:
+            filename = "TEST_" + filename
         zipf = zipfile.ZipFile(self.DATAPATH + '/../' + filename, 'w', zipfile.ZIP_DEFLATED)
         for root, dirs, files in os.walk(self.DATAPATH + '/search/gpx'):
             for file in files:
