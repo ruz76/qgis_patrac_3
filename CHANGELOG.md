@@ -6,6 +6,8 @@
 * Person information is cleaned after the search is closed.
 * New states changes based on HS Messenger
 * Positions are now loaded directly from HS server
+* Handlers information is cleaned after the search is closed.
+* Setting sector state is now on right click and settings are part of the dialog not the main panel
 
 #### Bug Fixes
 * 124 - Users in action are not cleaned when new project is created
