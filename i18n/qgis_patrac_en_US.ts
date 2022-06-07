@@ -1126,7 +1126,7 @@
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="349"/>
         <source>Show searchers (lines)</source>
-        <translation>Show searchers (lines)</translation>
+        <translation>Show searchers</translation>
     </message>
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="176"/>

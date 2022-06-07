@@ -360,7 +360,6 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
         # print(data)
         msg = self.tr("Can not read data")
         hsdata = None
-        hsusersids = ""
         try:
             hsdata = json.loads(data)
         except:
@@ -402,8 +401,6 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
                     # print("TADY")
                     QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), msg)
                 i += 1
-                hsusersids += "hs" + str(user["userId"]) + ";"
-            self.setSystemUsersHSStatus(hsusersids, "onduty")
             self.saveUsersInCall()
         else:
             QMessageBox.information(self.parent.iface.mainWindow(), self.tr("Error"), msg)
@@ -507,15 +504,6 @@ class Ui_Handlers(QtWidgets.QDialog, FORM_CLASS):
         if user["status"] in ['v_terenu', 'na_sjezdovce', 'ostatni_mimo', 'mimo_oblast']:
             user["state"] = self.tr("Not Available")
         return user['state']
-
-    def setSystemUsersHSStatus(self, hsusersids, status):
-        # print(hsusersids)
-        # Connects to the server to call the selected users on duty
-        if hasattr(self, 'searchID') and self.searchID != "":
-            self.connect = Connect()
-            self.connect.setUrl(self.serverUrl + 'users.php?operation=changestatushs&id=' + self.systemid + '&status_to=' + status + '&ids=' + hsusersids + "hs0" + "&searchid=" + self.searchID)
-            self.connect.statusChanged.connect(self.onStatusChanged)
-            self.connect.start()
 
     def getCentroid(self):
         center = self.parent.iface.mapCanvas().center()
