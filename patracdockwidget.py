@@ -210,13 +210,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.sectorsUnitsRecommendedStyle.clicked.connect(self.setSectorsUnitsRecommendedStyle)
         self.guideStep6ShowSectorsBySuggestedUnits.clicked.connect(self.setSectorsUnitsRecommendedStyle)
 
-        # self.sectorsProgress.clicked.connect(self.setSectorsProgress)
-        self.sectorsProgressStateNotStarted.clicked.connect(self.setSectorsProgress)
-        self.sectorsProgressStateStarted.clicked.connect(self.setSectorsProgress)
-        self.sectorsProgressType.activated.connect(self.setSectorsProgress)
-        self.sectorsProgressStateFinished.clicked.connect(self.setSectorsProgress)
-        self.sectorsProgressStateRisk.clicked.connect(self.setSectorsProgress)
-
         self.sectorsProgressAnalyzeType.currentIndexChanged.connect(self.sectorsProgressAnalyzeTypeChanged)
         self.sectorsProgressAnalyzeValue.textChanged.connect(self.sectorsProgressAnalyzeValueChanged)
         self.sectorsProgressAnalyzeNumberOfPersons.textChanged.connect(self.sectorsProgressAnalyzeNumberOfPersonsChanged)
@@ -1211,19 +1204,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         unit = 0
         value = 50
         numberOfSearchers = 10
-        if self.sectorsProgressStateNotStarted.isChecked() == True:
-            attribute = 3
-            type = None
-        if self.sectorsProgressStateStarted.isChecked() == True:
-            attribute = 3
-            type = 1
-            unit = self.sectorsProgressType.currentIndex()
-        if self.sectorsProgressStateFinished.isChecked() == True:
-            attribute = 3
-            type = 2
-        if self.sectorsProgressStateRisk.isChecked() == True:
-            attribute = 3
-            type = 0
 
         self.progresstool.setAttribute(attribute)
         self.progresstool.setUnit(unit)

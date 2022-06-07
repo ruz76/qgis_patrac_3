@@ -305,45 +305,9 @@ class Ui_PatracDockWidget(object):
     def setUpProgress(self):
         self.sectorsProgressStateLabel = QLabel(self.dockWidgetContents)
         self.sectorsProgressStateLabel.setObjectName(_fromUtf8("sectorsProgressStateLabel"))
-        self.sectorsProgressStateLabel.setText(QApplication.translate("PatracDockWidget", "Select type of operation. Click into the sector. For search analyze select the track.", None))
+        self.sectorsProgressStateLabel.setText(QApplication.translate("PatracDockWidget", "Click with right mouse button into the sector to set it state or analyze. For search analyze select the track.", None))
         self.sectorsProgressStateLabel.setWordWrap(True)
         self.verticalLayoutManagement.addWidget(self.sectorsProgressStateLabel)
-
-        self.sectorsProgressStateNotStarted = QRadioButton(self.dockWidgetContents)
-        self.sectorsProgressStateNotStarted.setObjectName(_fromUtf8("sectorsProgressStateNotStarted"))
-        self.sectorsProgressStateNotStarted.setText(QApplication.translate("PatracDockWidget", "Search not started", None))
-        self.verticalLayoutManagement.addWidget(self.sectorsProgressStateNotStarted)
-
-        self.horizontalSectorsProgressStateStarted = QHBoxLayout()
-        self.horizontalSectorsProgressStateStarted.setObjectName(_fromUtf8("horizontalSectorsProgressStateStarted"))
-
-        self.sectorsProgressStateStarted = QRadioButton(self.dockWidgetContents)
-        self.sectorsProgressStateStarted.setObjectName(_fromUtf8("sectorsProgressStateStarted"))
-        self.sectorsProgressStateStarted.setChecked(True)
-        self.sectorsProgressStateStarted.setText(QApplication.translate("PatracDockWidget", "Search started", None))
-        self.sectorsProgressType = QComboBox(self.dockWidgetContents)
-        self.sectorsProgressType.setObjectName(_fromUtf8("sectorsProgressType"))
-        self.sectorsProgressType.addItem(QApplication.translate("PatracDockWidget", "Handler", None))
-        self.sectorsProgressType.addItem(QApplication.translate("PatracDockWidget", "Person", None))
-        self.sectorsProgressType.addItem(QApplication.translate("PatracDockWidget", "Drone", None))
-        self.sectorsProgressType.addItem(QApplication.translate("PatracDockWidget", "Other", None))
-
-        self.horizontalSectorsProgressStateStarted.addWidget(self.sectorsProgressStateStarted)
-        self.horizontalSectorsProgressStateStarted.addWidget(self.sectorsProgressType)
-        self.verticalLayoutManagement.addLayout(self.horizontalSectorsProgressStateStarted)
-
-        self.sectorsProgressStateFinished = QRadioButton(self.dockWidgetContents)
-        self.sectorsProgressStateFinished.setObjectName(_fromUtf8("sectorsProgressStateFinished"))
-        self.sectorsProgressStateFinished.setText(QApplication.translate("PatracDockWidget", "Search finished", None))
-        self.verticalLayoutManagement.addWidget(self.sectorsProgressStateFinished)
-
-        self.sectorsProgressStateRisk = QRadioButton(self.dockWidgetContents)
-        self.sectorsProgressStateRisk.setObjectName(_fromUtf8("sectorsProgressStateFinished"))
-        self.sectorsProgressStateRisk.setText(QApplication.translate("PatracDockWidget", "Risk sector", None))
-        self.verticalLayoutManagement.addWidget(self.sectorsProgressStateRisk)
-
-        self.horizontalSectorsAnalyzeTrackSeparator = QHBoxLayout()
-        self.verticalLayoutManagement.addLayout(self.horizontalSectorsAnalyzeTrackSeparator)
 
         self.setUpTracks()
 

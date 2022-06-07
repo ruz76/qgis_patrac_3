@@ -64,15 +64,17 @@ class ProgressMapTool(QgsMapTool):
         self.attribute = attribute
 
     def canvasPressEvent(self, e):
-        self.point = self.toMapCoordinates(e.pos())
-        srs = self.canvas.mapSettings().destinationCrs()
-        current_crs = srs.authid()
-        if current_crs != "EPSG:5514":
+        # Right click
+        if e.button() == 2:
+            self.point = self.toMapCoordinates(e.pos())
             srs = self.canvas.mapSettings().destinationCrs()
-            crs_src = QgsCoordinateReferenceSystem(srs)
-            crs_dest = QgsCoordinateReferenceSystem(5514)
-            xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
-            self.point = xform.transform(self.point)
+            current_crs = srs.authid()
+            if current_crs != "EPSG:5514":
+                srs = self.canvas.mapSettings().destinationCrs()
+                crs_src = QgsCoordinateReferenceSystem(srs)
+                crs_dest = QgsCoordinateReferenceSystem(5514)
+                xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
+                self.point = xform.transform(self.point)
 
     def transformTrack(self, layer):
         params = {
@@ -251,7 +253,12 @@ class ProgressMapTool(QgsMapTool):
         QgsProject.instance().addMapLayer(layer)
 
     def canvasReleaseEvent(self, e):
-        if self.point is not None and self.layer is not None:
+        # Right click
+        print(e.button())
+        print(self.point)
+        print(self.layer)
+        print(self.attribute)
+        if e.button() == 2 and self.point is not None and self.layer is not None:
             provider = self.layer.dataProvider()
             features = provider.getFeatures()
             if self.attribute > -1:
@@ -260,18 +267,20 @@ class ProgressMapTool(QgsMapTool):
                 self.layer.startEditing()
             try:
                 for feature in features:
+                    # print(feature.geometry())
                     if feature.geometry().contains(self.point):
                         QgsMessageLog.logMessage("RE 5", "Patrac")
                         if self.attribute > -1:
                             # print(self.type)
-                            feature.setAttribute(self.attribute, self.type)
-                            if self.type == 1:
-                                feature.setAttribute(self.attribute + 1, self.unit)
-                            self.dialog.setFeature(feature, self.type)
+                            # feature.setAttribute(self.attribute, self.type)
+                            # if self.type == 1:
+                            #     feature.setAttribute(self.attribute + 1, self.unit)
+                            self.dialog.setFeature(feature)
                             self.dialog.exec_()
-                            self.layer.updateFeature(feature)
-                            self.layer.commitChanges()
-                            self.layer.setSubsetString(subsetString)
+                            if self.dialog.getAccepted():
+                                self.layer.updateFeature(feature)
+                                self.layer.commitChanges()
+                                self.layer.setSubsetString(subsetString)
                         else:
                             self.analyzeTrack(feature)
                         break

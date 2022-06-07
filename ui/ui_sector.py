@@ -48,21 +48,69 @@ class Ui_Sector(QtWidgets.QDialog, FORM_CLASS):
         super(Ui_Sector, self).__init__()
         self.setupUi(self)
         self.feature = None
-        self.type = 0
+        self.type = None
+        self.unit = 0
+        self.accepted = False
+        self.sectorsProgressType.addItem(QApplication.translate("PatracDockWidget", "Handler", None))
+        self.sectorsProgressType.addItem(QApplication.translate("PatracDockWidget", "Person", None))
+        self.sectorsProgressType.addItem(QApplication.translate("PatracDockWidget", "Drone", None))
+        self.sectorsProgressType.addItem(QApplication.translate("PatracDockWidget", "Other", None))
 
-    def setFeature(self, feature, type):
+    def setFeature(self, feature):
         self.feature = feature
-        self.type = type
         self.mDateTimeEditChange.setDateTime(QDateTime.currentDateTime())
         if isinstance(feature.attributes()[7], str):
             self.lineEditComment.setText(feature.attributes()[7])
+        else:
+            self.lineEditComment.setText("")
+        if not isinstance(feature.attributes()[3], int):
+            self.sectorsProgressType.setCurrentIndex(self.unit)
+            if self.type is not None:
+                if self.type == 0:
+                    self.sectorsProgressStateRisk.setChecked(True)
+                if self.type == 1:
+                    self.sectorsProgressStateStarted.setChecked(True)
+                if self.type == 2:
+                    self.sectorsProgressStateFinished.setChecked(True)
+        if isinstance(feature.attributes()[3], int):
+            if isinstance(feature.attributes()[4], str):
+                self.sectorsProgressType.setCurrentIndex(int(feature.attributes()[4]))
+            if feature.attributes()[3] == 0:
+                self.sectorsProgressStateStarted.setChecked(True)
+            if feature.attributes()[3] == 1:
+                self.sectorsProgressStateFinished.setChecked(True)
+            if feature.attributes()[3] == 2:
+                self.sectorsProgressStateRisk.setChecked(True)
+        self.accepted = False
+
+    def getAccepted(self):
+        return self.accepted
 
     def accept(self):
         if self.feature is not None:
             self.feature.setAttribute(7, self.lineEditComment.text())
-            print(str(self.mDateTimeEditChange.dateTime()))
-            if self.type == 1 or self.type == 0:
+            attribute = 3
+            if self.sectorsProgressStateNotStarted.isChecked() == True:
+                type = None
+            if self.sectorsProgressStateStarted.isChecked() == True:
+                type = 1
+                unit = self.sectorsProgressType.currentIndex()
+                self.unit = unit
+            if self.sectorsProgressStateFinished.isChecked() == True:
+                type = 2
+            if self.sectorsProgressStateRisk.isChecked() == True:
+                type = 0
+            self.type = type
+            self.feature.setAttribute(attribute, type)
+            if type is None:
+                self.feature.setAttribute(attribute + 1, None)
+                self.feature.setAttribute(8, None)
+                self.feature.setAttribute(9, None)
+            if type == 1:
+                self.feature.setAttribute(attribute + 1, unit)
+            if type == 1 or type == 0:
                 self.feature.setAttribute(8, self.mDateTimeEditChange.dateTime().toString('dd.MM.yyyy hh:mm:ss'))
-            if self.type == 2:
+            if type == 2:
                 self.feature.setAttribute(9, self.mDateTimeEditChange.dateTime().toString('dd.MM.yyyy hh:mm:ss'))
+            self.accepted = True
         self.close()
