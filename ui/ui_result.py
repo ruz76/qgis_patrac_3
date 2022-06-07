@@ -149,9 +149,15 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
     def acceptNoDiff(self):
         self.closeHSSearch()
         self.removePersonInfo()
+        self.clearUsersInCall()
         self.zipDir()
         self.zipForServer()
         self.close()
+
+    def clearUsersInCall(self):
+        path = self.Utils.getDataPath() + "/pracovni/users_in_call.json"
+        with open(path, "w") as outfile:
+            json.dump([], outfile)
 
     def saveHTML(self):
         html = io.open(self.DATAPATH + "/search/result.html", encoding='utf-8', mode="w")
