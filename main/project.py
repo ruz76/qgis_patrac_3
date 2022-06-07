@@ -302,7 +302,6 @@ class Project(object):
     def createNewSearch(self, name, desc, region, version):
         QgsMessageLog.logMessage("Vytvářím nové pátrání: " + name + " " + region, "Patrac")
         searchid = self.createSearchId(name)
-        self.createSearchOnServer(searchid, name, desc, region, version)
 
     def createSearchId(self, name):
         dirname = self.getSafeDirectoryName(name.split(" ")[0])
@@ -315,21 +314,3 @@ class Project(object):
         f.write(searchid20)
         f.close()
         return searchid20
-
-    def createSearchOnServer(self, searchid, name, desc, region, version):
-        escaped_name = quote(name.encode('utf-8'))
-        escaped_desc = quote(desc.encode('utf-8'))
-        url = self.serverUrl + 'search.php?operation=createnewsearch&id=' + self.systemid + '&searchid=' \
-              + searchid + '&name=' + escaped_name + '&desc=' + escaped_desc + '&region=' + region + '&version=' + str(version)
-        self.createSearch = Connect()
-        self.createSearch.setUrl(url)
-        self.createSearch.statusChanged.connect(self.onCreateSearchOnServerResponse)
-        self.createSearch.start()
-
-    def onCreateSearchOnServerResponse(self, response):
-        if response.status == 200:
-            searchStatus = response.data.read()
-        else:
-            self.database = Database(self.widget.pluginPath + "/settings.db")
-            self.database.insertRequest(self.createSearch.url, None, None)
-            self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
