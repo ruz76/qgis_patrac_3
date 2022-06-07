@@ -147,7 +147,6 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         self.acceptNoDiff()
 
     def acceptNoDiff(self):
-        self.closeSearch()
         self.closeHSSearch()
         self.removePersonInfo()
         self.zipDir()
@@ -280,22 +279,6 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
 
     def setSearchid(self, searchid):
         self.searchid = searchid
-
-    def closeSearch(self):
-        accessKey = self.getAccessKey()
-        url = self.serverUrl + 'search.php?operation=closesearch&id=' + self.systemid + '&searchid=' + self.searchid + '&accesskey=' + accessKey
-        self.closeSearchConnect = Connect()
-        self.closeSearchConnect.setUrl(url)
-        self.closeSearchConnect.statusChanged.connect(self.onCloseSearchServerResponse)
-        self.closeSearchConnect.start()
-
-    def onCloseSearchServerResponse(self, response):
-        if response.status == 200:
-            searchStatus = response.data.read()
-        else:
-            self.database = Database(self.widget.pluginPath + "/settings.db")
-            self.database.insertRequest(self.closeSearchConnect.url, None, None)
-            self.widget.iface.messageBar().pushMessage(QApplication.translate("Patrac", "ERROR", None), QApplication.translate("Patrac", "Can not connect to the server.", None), level=Qgis.Warning)
 
     def closeHSSearch(self):
         GinaGUID = self.Utils.getProjectInfo()['gina_guid']
