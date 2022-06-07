@@ -441,10 +441,17 @@ class Utils(object):
         return lost_info
 
     def getDateTimeFromTimestamp(self, ts):
-        dt_object = datetime.fromtimestamp(ts)
-        return str(dt_object)
+        try:
+            dt_object = datetime.fromtimestamp(int(ts))
+            return str(dt_object)
+        except:
+            return ""
 
     def getDiffOfTimestampFromNow(self, ts):
         now = datetime.now()
         timestamp = datetime.timestamp(now)
-        return timestamp - ts
+        try:
+            diff = timestamp - int(ts)
+            return diff
+        except:
+            return 100000
