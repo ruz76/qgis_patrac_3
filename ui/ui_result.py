@@ -185,14 +185,23 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         html.write("</html>\n")
         html.close()
 
+    def getPersonType(self):
+        project_settings = self.Utils.getProjectInfo()
+        person_types_text = [self.tr("Child 1-3"), self.tr("Child 3-6"), self.tr("Child 7-12"), self.tr("Child 13-15"), self.tr("Despondent"), self.tr("Psychical ilness"), self.tr("Retarded"), self.tr("Alzheimer"), self.tr("Turist"), self.tr("Demention")]
+        return [project_settings["persontype"], person_types_text[project_settings["persontype"] - 1]]
+
     def saveXMLNoResult(self):
-        # TODO maybe save at least input
+        person_type = self.getPersonType()
         xml = io.open(self.DATAPATH + "/search/result.xml", encoding='utf-8', mode='w')
         xml.write('<?xml version="1.0"?>\n')
-        xml.write("<result/>\n")
+        xml.write("<result>\n")
+        xml.write("<person_type>" + str(person_type[0]) + "</person_type>\n")
+        xml.write("<!--" + person_type[1] + "-->\n")
+        xml.write("</result>\n")
         xml.close()
 
     def saveXML(self):
+        person_type = self.getPersonType()
         xml = io.open(self.DATAPATH + "/search/result.xml", encoding='utf-8', mode='w')
         xml.write('<?xml version="1.0"?>\n')
         xml.write("<result>\n")
@@ -218,6 +227,8 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         xml.write("<health2>" + str(self.comboBoxHealth2.currentIndex()) + "</health2>\n")
         xml.write("<!--" + self.comboBoxHealth2.currentText() + "-->\n")
         xml.write("<note>" + self.plainTextEditNote.toPlainText() + "</note>\n")
+        xml.write("<person_type>" + str(person_type[0]) + "</person_type>\n")
+        xml.write("<!--" + person_type[1] + "-->\n")
         xml.write("</result>\n")
         xml.close()
 

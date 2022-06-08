@@ -531,6 +531,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         # run area determination computation
         self.personType = self.guideComboPerson.currentIndex() + 1
+        self.Utils.updateProjectInfo("persontype", self.guideComboPerson.currentIndex() + 1)
 
         # set mista to editing mode
         self.currentTool = self.iface.mapCanvas().mapTool()

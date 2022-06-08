@@ -639,7 +639,7 @@
 <context>
     <name>Patrac</name>
     <message>
-        <location filename="../patracdockwidget.py" line="1055"/>
+        <location filename="../patracdockwidget.py" line="1056"/>
         <source>ERROR</source>
         <translation>CHYBA</translation>
     </message>
@@ -649,7 +649,7 @@
         <translation>Chybný projekt. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="809"/>
+        <location filename="../patracdockwidget.py" line="810"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
@@ -714,12 +714,12 @@
         <translation>Pro daný kraj nemám k dispozici data. Nemám data nemohu pokračovat.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1619"/>
+        <location filename="../patracdockwidget.py" line="1620"/>
         <source>Can not connect to the server.</source>
         <translation>Nemohu se spojit se serverem.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1663"/>
+        <location filename="../patracdockwidget.py" line="1664"/>
         <source>Wrong project.</source>
         <translation>Chybný projekt. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.</translation>
     </message>
@@ -749,7 +749,7 @@
         <translation type="obsolete">J-V</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1649"/>
+        <location filename="../patracdockwidget.py" line="1650"/>
         <source>Error</source>
         <translation>CHYBA</translation>
     </message>
@@ -779,47 +779,47 @@
         <translation>Přeskočili jste krok v průvodci. Chcete pokračovat?</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="709"/>
+        <location filename="../patracdockwidget.py" line="710"/>
         <source>No probability layer. Can not continue.</source>
         <translation>Nemohu najít vrstvu pravděpodobnosti. Nemohu pokračovat.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="740"/>
+        <location filename="../patracdockwidget.py" line="741"/>
         <source>Can not find web browser to open report</source>
         <translation>Nemohu otevřít WWW prohlížeč k načtení reportu</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="770"/>
+        <location filename="../patracdockwidget.py" line="771"/>
         <source>Did not find GPS. You have to copy GPX manually from the report.</source>
         <translation>Nenašel jsem připojenou GPS. Soubor musite uložit z reportu ručně.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="774"/>
+        <location filename="../patracdockwidget.py" line="775"/>
         <source>select input dialog</source>
         <translation>Vyberte</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="774"/>
+        <location filename="../patracdockwidget.py" line="775"/>
         <source>list of drives</source>
         <translation>Seznam disků</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="809"/>
+        <location filename="../patracdockwidget.py" line="810"/>
         <source>The sectors has been copied into the device: </source>
         <translation>Sektory byly zkopírovány do zařízení</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="811"/>
+        <location filename="../patracdockwidget.py" line="812"/>
         <source>Can not copy. You have copy it manually from the path: </source>
         <translation>Při kopírování sektorů došlo k chybě. Zkopírujte přes správce souborů z cesty:</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="948"/>
+        <location filename="../patracdockwidget.py" line="949"/>
         <source>No probability layer. Please try step 3 again.</source>
         <translation>Projekt neobsahuje vrstvu pravděpodobnosti. Zkuste prosím znovu použít krok 3 v průvodci.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="779"/>
+        <location filename="../patracdockwidget.py" line="780"/>
         <source>Do you want to clean the GPS data before export?</source>
         <translation>Chcete před exportem vyčistit GPS?</translation>
     </message>
@@ -829,12 +829,12 @@
         <translation type="obsolete">Nedostupné</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1580"/>
+        <location filename="../patracdockwidget.py" line="1581"/>
         <source>Tracks are empty.</source>
         <translation>Stopy jsou prázdné.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1649"/>
+        <location filename="../patracdockwidget.py" line="1650"/>
         <source>Problem to read data from: </source>
         <translation>Problém s načtením dat z databáze</translation>
     </message>
@@ -844,7 +844,7 @@
         <translation type="obsolete">Pozice jsou prázdné.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1663"/>
+        <location filename="../patracdockwidget.py" line="1664"/>
         <source>CHYBA:</source>
         <translation>CHYBA:</translation>
     </message>
@@ -899,12 +899,12 @@
         <translation>DATA TEST DOKONČEN</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1190"/>
+        <location filename="../patracdockwidget.py" line="1191"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1190"/>
+        <location filename="../patracdockwidget.py" line="1191"/>
         <source>Click into the map at the place of finding. If you finishing without finding, click anywhere into map.</source>
         <translation>Klikněte do mapy na místo nálzeu. Pokud ukončujete bez nálezu, klikněte na libovolné místo v mapě.</translation>
     </message>
@@ -984,7 +984,7 @@
         <translation>Musíte zadat typ pátrání (výuka a testování nebo reálná pátrací akce).</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1545"/>
+        <location filename="../patracdockwidget.py" line="1546"/>
         <source>Online tracks</source>
         <translation>Online stopy</translation>
     </message>
@@ -994,7 +994,7 @@
         <translation>Informace aktualizovány</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1055"/>
+        <location filename="../patracdockwidget.py" line="1056"/>
         <source>Can not calculate the area. Check the inputs.</source>
         <translation>Nemohu vypočítat plochu pravděpodobnosti. ZKontrolujte proísm vstupy. Např. zda není bod na ostrově.</translation>
     </message>
@@ -1014,37 +1014,37 @@
         <translation>Chybná instalace. Kontaktujte administrátora.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="786"/>
+        <location filename="../patracdockwidget.py" line="787"/>
         <source>Clean GPS</source>
         <translation>Vyčistit GPS</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="786"/>
+        <location filename="../patracdockwidget.py" line="787"/>
         <source>Are you sure that you want to clean the GPS data before export?</source>
         <translation>Jste si opravdu jistí, že chcete před exportem vyčistit GPS?</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1654"/>
+        <location filename="../patracdockwidget.py" line="1655"/>
         <source>Success</source>
         <translation>Úspěch</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1613"/>
+        <location filename="../patracdockwidget.py" line="1614"/>
         <source>Tracks were loaded.</source>
         <translation>Stopy bylky nahrány.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1654"/>
+        <location filename="../patracdockwidget.py" line="1655"/>
         <source>Positions were loaded.</source>
         <translation>Pozice bylu načteny.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1483"/>
+        <location filename="../patracdockwidget.py" line="1484"/>
         <source>No handlers in action yet. Call them first.</source>
         <translation>Žádní psovodi zatím nebyli vyzváni. Vytvořte výzvu.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1591"/>
+        <location filename="../patracdockwidget.py" line="1592"/>
         <source>Problem to read data for user: </source>
         <translation>Problém při načtení dat uživatele: </translation>
     </message>
@@ -2209,27 +2209,27 @@
         <translation>Částečně</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="81"/>
+        <location filename="../ui/ui_result.py" line="190"/>
         <source>Alzheimer</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="82"/>
+        <location filename="../ui/ui_result.py" line="190"/>
         <source>Demention</source>
         <translation>Demence</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="83"/>
+        <location filename="../ui/ui_result.py" line="190"/>
         <source>Despondent</source>
         <translation>Deprese</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="84"/>
+        <location filename="../ui/ui_result.py" line="190"/>
         <source>Retarded</source>
         <translation>Retardovaný</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="85"/>
+        <location filename="../ui/ui_result.py" line="190"/>
         <source>Psychical ilness</source>
         <translation>Psychická nemoc</translation>
     </message>
@@ -2504,27 +2504,27 @@
         <translation type="obsolete">INFO</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="273"/>
+        <location filename="../ui/ui_result.py" line="284"/>
         <source>Can not connect to the server.</source>
         <translation>Nepodařilo se spojit se serverem.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="277"/>
+        <location filename="../ui/ui_result.py" line="288"/>
         <source>Error</source>
         <translation>CHYBA</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="277"/>
+        <location filename="../ui/ui_result.py" line="288"/>
         <source>Can not upload result to the server.</source>
         <translation>Nemohu nahrát výsledek na server.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="281"/>
+        <location filename="../ui/ui_result.py" line="292"/>
         <source>Success</source>
         <translation>Úspěch</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="281"/>
+        <location filename="../ui/ui_result.py" line="292"/>
         <source>Result uploaded to the server.</source>
         <translation>Výsledek byl nahrán na server.</translation>
     </message>
@@ -2532,6 +2532,31 @@
         <location filename="../ui/ui_result.py" line="107"/>
         <source>Forest</source>
         <translation>Les</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_result.py" line="190"/>
+        <source>Child 1-3</source>
+        <translation>Dítě 1-3</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_result.py" line="190"/>
+        <source>Child 3-6</source>
+        <translation>Dítě 3-6</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_result.py" line="190"/>
+        <source>Child 7-12</source>
+        <translation>Dítě 7-12</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_result.py" line="190"/>
+        <source>Child 13-15</source>
+        <translation>Dítě 13-15</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_result.py" line="190"/>
+        <source>Turist</source>
+        <translation>Turista</translation>
     </message>
 </context>
 <context>
