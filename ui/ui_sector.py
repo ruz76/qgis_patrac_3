@@ -51,13 +51,15 @@ class Ui_Sector(QtWidgets.QDialog, FORM_CLASS):
         self.type = None
         self.unit = 0
         self.accepted = False
-        self.sectorsProgressType.addItem(QApplication.translate("PatracDockWidget", "Handler", None))
-        self.sectorsProgressType.addItem(QApplication.translate("PatracDockWidget", "Person", None))
-        self.sectorsProgressType.addItem(QApplication.translate("PatracDockWidget", "Drone", None))
-        self.sectorsProgressType.addItem(QApplication.translate("PatracDockWidget", "Other", None))
+        self.sectorsProgressType.addItem(self.tr("Handler"))
+        self.sectorsProgressType.addItem(self.tr("Person"))
+        self.sectorsProgressType.addItem(self.tr("Drone"))
+        self.sectorsProgressType.addItem(self.tr("Other"))
 
     def setFeature(self, feature):
         self.feature = feature
+        if isinstance(feature.attributes()[1], str):
+            self.labelSectorId.setText(self.tr("SECTOR") + ": " + feature.attributes()[1])
         self.mDateTimeEditChange.setDateTime(QDateTime.currentDateTime())
         if isinstance(feature.attributes()[7], str):
             self.lineEditComment.setText(feature.attributes()[7])

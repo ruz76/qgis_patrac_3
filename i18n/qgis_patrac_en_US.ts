@@ -569,6 +569,11 @@
         <source>Search type</source>
         <translation>Search unit</translation>
     </message>
+    <message>
+        <location filename="../ui/sector.ui" line="169"/>
+        <source>SECTOR:</source>
+        <translation>SECTOR:</translation>
+    </message>
 </context>
 <context>
     <name>MessageDialog</name>
@@ -1849,7 +1854,7 @@
         <translation>Enter distance in km</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="491"/>
+        <location filename="../ui/ui_handlers.py" line="488"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -1859,37 +1864,37 @@
         <translation>Can not create incident</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="438"/>
+        <location filename="../ui/ui_handlers.py" line="435"/>
         <source>Can not connect to the server.</source>
         <translation>Can not connect to the server.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="443"/>
+        <location filename="../ui/ui_handlers.py" line="440"/>
         <source>Can not read data</source>
         <translation>Can not read data</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="453"/>
+        <location filename="../ui/ui_handlers.py" line="450"/>
         <source>Success</source>
         <translation>Success</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="453"/>
+        <location filename="../ui/ui_handlers.py" line="450"/>
         <source>Connected</source>
         <translation>Connected</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="464"/>
+        <location filename="../ui/ui_handlers.py" line="461"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="464"/>
+        <location filename="../ui/ui_handlers.py" line="461"/>
         <source>Phone</source>
         <translation>Phone</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="464"/>
+        <location filename="../ui/ui_handlers.py" line="461"/>
         <source>Distance</source>
         <translation>Distance</translation>
     </message>
@@ -1904,7 +1909,7 @@
         <translation>Can not call handlers. Some error occured.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="498"/>
+        <location filename="../ui/ui_handlers.py" line="495"/>
         <source>Notified</source>
         <translation>Notified</translation>
     </message>
@@ -1924,17 +1929,17 @@
         <translation>Can not notify handlers. Action was not created yet.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="464"/>
+        <location filename="../ui/ui_handlers.py" line="461"/>
         <source>Selected</source>
         <translation>Selected</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="464"/>
+        <location filename="../ui/ui_handlers.py" line="461"/>
         <source>State</source>
         <translation>State</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="506"/>
+        <location filename="../ui/ui_handlers.py" line="503"/>
         <source>Available</source>
         <translation>Available</translation>
     </message>
@@ -1959,7 +1964,7 @@
         <translation>Email with list of selected handlers can not be sent</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="494"/>
+        <location filename="../ui/ui_handlers.py" line="491"/>
         <source>Accepted</source>
         <translation>Accepted</translation>
     </message>
@@ -1969,12 +1974,12 @@
         <translation type="obsolete">Not accepted</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="508"/>
+        <location filename="../ui/ui_handlers.py" line="505"/>
         <source>Not Available</source>
         <translation>Not Available</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="494"/>
+        <location filename="../ui/ui_handlers.py" line="491"/>
         <source>Not Accepted</source>
         <translation>Not Accepted</translation>
     </message>
@@ -1999,17 +2004,17 @@
         <translation>Unknown</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="373"/>
+        <location filename="../ui/ui_handlers.py" line="372"/>
         <source>Expected</source>
         <translation>Expected arrival</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="373"/>
+        <location filename="../ui/ui_handlers.py" line="372"/>
         <source>Note</source>
         <translation>Note</translation>
     </message>
     <message>
-        <location filename="../ui/ui_handlers.py" line="436"/>
+        <location filename="../ui/ui_handlers.py" line="433"/>
         <source>Incident saved on server.</source>
         <translation>Incident saved on server.</translation>
     </message>
@@ -2391,77 +2396,77 @@
         <translation>Fractures</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="164"/>
+        <location filename="../ui/ui_result.py" line="169"/>
         <source>Result</source>
         <translation>Result</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="165"/>
+        <location filename="../ui/ui_result.py" line="170"/>
         <source>Position from map (S-JTSK)</source>
         <translation>Position from map (S-JTSK)</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="166"/>
+        <location filename="../ui/ui_result.py" line="171"/>
         <source>Missing from</source>
         <translation>Missing from</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="167"/>
+        <location filename="../ui/ui_result.py" line="172"/>
         <source>Reported after missing (h)</source>
         <translation>Reported after missing (h)</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="168"/>
+        <location filename="../ui/ui_result.py" line="173"/>
         <source>Sex</source>
         <translation>Sex</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="169"/>
+        <location filename="../ui/ui_result.py" line="174"/>
         <source>Age</source>
         <translation>Age</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="170"/>
+        <location filename="../ui/ui_result.py" line="175"/>
         <source>Known terrain</source>
         <translation>Known terrain</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="171"/>
+        <location filename="../ui/ui_result.py" line="176"/>
         <source>Purpose</source>
         <translation>Purpose</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="172"/>
+        <location filename="../ui/ui_result.py" line="177"/>
         <source>Condition</source>
         <translation>Physical condition</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="173"/>
+        <location filename="../ui/ui_result.py" line="178"/>
         <source>Known health state</source>
         <translation>Known health state</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="174"/>
+        <location filename="../ui/ui_result.py" line="179"/>
         <source>Hours from report</source>
         <translation>Hours from report</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="175"/>
+        <location filename="../ui/ui_result.py" line="180"/>
         <source>Place</source>
         <translation>Place</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="176"/>
+        <location filename="../ui/ui_result.py" line="181"/>
         <source>Detail information about place</source>
         <translation>Detail information about place</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="177"/>
+        <location filename="../ui/ui_result.py" line="182"/>
         <source>Current health state</source>
         <translation>Current health state</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="178"/>
+        <location filename="../ui/ui_result.py" line="183"/>
         <source>Note</source>
         <translation>Note</translation>
     </message>
@@ -2471,27 +2476,27 @@
         <translation type="obsolete">INFO</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="268"/>
+        <location filename="../ui/ui_result.py" line="273"/>
         <source>Can not connect to the server.</source>
         <translation>Can not connect to the server.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="272"/>
+        <location filename="../ui/ui_result.py" line="277"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="272"/>
+        <location filename="../ui/ui_result.py" line="277"/>
         <source>Can not upload result to the server.</source>
         <translation>Can not upload result to the server.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="276"/>
+        <location filename="../ui/ui_result.py" line="281"/>
         <source>Success</source>
         <translation>Success</translation>
     </message>
     <message>
-        <location filename="../ui/ui_result.py" line="276"/>
+        <location filename="../ui/ui_result.py" line="281"/>
         <source>Result uploaded to the server.</source>
         <translation>Result uploaded to the server.</translation>
     </message>
@@ -2499,6 +2504,34 @@
         <location filename="../ui/ui_result.py" line="107"/>
         <source>Forest</source>
         <translation>Forest</translation>
+    </message>
+</context>
+<context>
+    <name>Ui_Sector</name>
+    <message>
+        <location filename="../ui/ui_sector.py" line="54"/>
+        <source>Handler</source>
+        <translation>Handler</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_sector.py" line="55"/>
+        <source>Person</source>
+        <translation>Person</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_sector.py" line="56"/>
+        <source>Drone</source>
+        <translation>Drone</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_sector.py" line="57"/>
+        <source>Other</source>
+        <translation>Other</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_sector.py" line="62"/>
+        <source>SECTOR</source>
+        <translation>SECTOR</translation>
     </message>
 </context>
 <context>

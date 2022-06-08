@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>368</width>
-    <height>338</height>
+    <height>369</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>290</y>
+     <y>320</y>
      <width>251</width>
      <height>32</height>
     </rect>
@@ -36,7 +36,7 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>200</y>
+     <y>230</y>
      <width>191</width>
      <height>27</height>
     </rect>
@@ -46,7 +46,7 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>240</y>
+     <y>270</y>
      <width>191</width>
      <height>25</height>
     </rect>
@@ -56,7 +56,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>210</y>
+     <y>240</y>
      <width>111</width>
      <height>17</height>
     </rect>
@@ -69,7 +69,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>250</y>
+     <y>280</y>
      <width>111</width>
      <height>17</height>
     </rect>
@@ -82,7 +82,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>20</y>
+     <y>50</y>
      <width>181</width>
      <height>23</height>
     </rect>
@@ -95,7 +95,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>50</y>
+     <y>80</y>
      <width>171</width>
      <height>23</height>
     </rect>
@@ -111,7 +111,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>80</y>
+     <y>110</y>
      <width>171</width>
      <height>23</height>
     </rect>
@@ -124,8 +124,8 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>110</y>
-     <width>96</width>
+     <y>140</y>
+     <width>141</width>
      <height>23</height>
     </rect>
    </property>
@@ -137,7 +137,7 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>160</y>
+     <y>190</y>
      <width>191</width>
      <height>25</height>
     </rect>
@@ -147,13 +147,29 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>170</y>
+     <y>200</y>
      <width>121</width>
      <height>17</height>
     </rect>
    </property>
    <property name="text">
     <string>Search type</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelSectorId">
+   <property name="geometry">
+    <rect>
+     <x>13</x>
+     <y>10</y>
+     <width>341</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>SECTOR:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>
