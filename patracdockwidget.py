@@ -69,6 +69,7 @@ import csv, io, webbrowser, filecmp, uuid, random, getpass, json
 
 from .connect.connect import *
 import unicodedata
+import processing
 
 win32api_exists = False
 
@@ -227,6 +228,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.tbtnSwitchSectorsType.clicked.connect(self.switchSectorsType)
         self.tbtnRecalculate.clicked.connect(self.recalculateAll)
 
+        self.testProcessing.clicked.connect(self.runTestProcessing)
         self.showHandlers.clicked.connect(self.showHandlersDialog)
         self.printPrepared.clicked.connect(self.showReport)
         self.printUserDefined.clicked.connect(self.actionShowLayoutManager)
@@ -1096,6 +1098,45 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         """Shows the person info dialog"""
         self.persondlg.setItems()
         self.persondlg.show()
+
+    def runTestProcessing(self):
+        #https://gis-ops.com/qgis-3-plugin-tutorial-background-processing/
+        processing.run("gdal:cliprasterbyextent", {'INPUT':'/data/patracdata/kraje/ka/raster/dem_5514.tif','PROJWIN':'-857031.912000000,-849227.571900000,-1028202.161000000,-1021136.837500000 [EPSG:5514]','OVERCRS':False,'NODATA':None,'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9','DATA_TYPE':0,'EXTRA':'','OUTPUT':'/data/patracdata/kraje/ka/raster/dem_5514_current.tif'})
+        processing.run("gdal:cliprasterbyextent", {'INPUT':'/data/patracdata/kraje/ka/raster/friction_5514.tif','PROJWIN':'-857031.912000000,-849227.571900000,-1028202.161000000,-1021136.837500000 [EPSG:5514]','OVERCRS':False,'NODATA':None,'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9','DATA_TYPE':0,'EXTRA':'','OUTPUT':'/data/patracdata/kraje/ka/raster/friction_5514_current.tif'})
+        processing.run("native:extractbyextent", {'INPUT':'/data/patracdata/kraje/ka/vektor/ZABAGED/sectors_export_ka.shp','EXTENT':'-860629.542200000,-845020.862000000,-1031686.096400000,-1017555.449400000 [EPSG:5514]','CLIP':False,'OUTPUT':'/data/patracdata/kraje/ka/raster/sectors.shp'})
+        processing.run("grass7:r.walk.coords", {'elevation':'/data/patracdata/kraje/ka/raster/dem_5514_current.tif','friction':'/data/patracdata/kraje/ka/raster/friction_5514_current.tif','start_coordinates':'-852612,-1025091','stop_coordinates':'','walk_coeff':'0.72,6.0,1.9998,-1.9998','lambda':1,'slope_factor':-0.2125,'max_cost':0,'null_cost':None,'memory':300,'-k':False,'-n':False,'output':'/data/patracdata/kraje/ka/raster/cumulative.tif','outdir':'TEMPORARY_OUTPUT','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+        processing.run("gdal:rasterize", {'INPUT':'/data/patracdata/kraje/ka/raster/coords_vector.shp','FIELD':'','BURN':1,'USE_Z':False,'UNITS':1,'WIDTH':5,'HEIGHT':5,'EXTENT':'-870888.866500000,-834372.789100000,-1044166.135100000,-1011525.172000000 [EPSG:5514]','NODATA':0,'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9','DATA_TYPE':0,'INIT':None,'INVERT':False,'EXTRA':'','OUTPUT':'/data/patracdata/kraje/ka/raster/coords_rast.tif'})
+        processing.run("grass7:r.buffer", {'input':'/data/patracdata/kraje/ka/raster/coords_rast.tif','distances':'190,390,640,970,1280,1900,2530,3200,10320','units':0,'-z':False,'output':'TEMPORARY_OUTPUT','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+        # we have to start on cat 3, so on min of the ring for 20%
+        cat=3
+        variables = [10, 20, 30, 40, 50, 60, 70, 80]
+        rules_global = ''
+        PREVMIN = 0
+        for i in variables:
+            rules = str(cat) + ' = 1\n'
+            rules += 'end'
+            processing.run("grass7:r.reclass", {'input':'/data/patracdata/kraje/ka/raster/buffers.tif','rules':'','txtrules': rules,'output':'/data/patracdata/kraje/ka/raster/distances_' + str(i) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+            processing.run("grass7:r.mapcalc.simple", {'a':'/data/patracdata/kraje/ka/raster/distances_' + str(i) + '.tif','b':'/data/patracdata/kraje/ka/raster/cumulative.tif','c':None,'d':None,'e':None,'f':None,'expression':'A*B','output':'/data/patracdata/kraje/ka/raster/cost_distances_' + str(i) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+            stats = processing.run("native:rasterlayerstatistics", {'INPUT':'/data/patracdata/kraje/ka/raster/cost_distances_' + str(i) + '.tif','BAND':1,'OUTPUT_HTML_FILE':'TEMPORARY_OUTPUT'})
+            print(stats)
+            if stats['MIN'] is not None and stats['MAX'] is not None:
+                try:
+                    #Reads min value
+                    MIN = float(stats['MIN'])
+                    print(str(MIN))
+                    #Reads max value
+                    MAX = float(stats['MAX'])
+                    print(str(MAX))
+                    #Minimum value and maximum value is used as extent for relass of the whole cost layer
+                    #rules_percentage_f.write(str(MIN) + ' thru ' + str(MAX) + ' = ' + str(i) + '\n')
+                    if str(PREVMIN) != 'nan' and str(MIN) != 'nan':
+                        rules_global += str(PREVMIN) + ' thru ' + str(MIN) + ' = ' + str(i) + '\n'
+                    PREVMIN = MIN
+                except:
+                    print("Problem with category " + str(cat) + " " + str(i) + "%")
+            cat += 1
+        processing.run("grass7:r.reclass", {'input':'/data/patracdata/kraje/ka/raster/cumulative.tif','rules':'','txtrules': rules_global,'output':'/data/patracdata/kraje/ka/raster/distances_costed.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+        processing.run("native:zonalstatisticsfb", {'INPUT':'/data/patracdata/kraje/ka/raster/sectors.shp','INPUT_RASTER':'/data/patracdata/kraje/ka/raster/distances_costed.tif','RASTER_BAND':1,'COLUMN_PREFIX':'stats_','STATISTICS':[5],'OUTPUT':'/data/patracdata/kraje/ka/raster/sectors_zoned.shp'})
 
     def showHandlersDialog(self):
         """Shows the settings dialog"""

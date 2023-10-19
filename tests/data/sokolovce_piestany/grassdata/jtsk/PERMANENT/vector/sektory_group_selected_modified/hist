@@ -1,12 +1,8 @@
 COMMAND: v.in.ogr --overwrite input="/home/jencek/qgis3_profiles/profiles/default/python/plugins/qgis_patrac/tests/data/sokolovce_piestany/pracovni/sektory_group_selected.shp" layer="sektory_group_selected" output="sektory_group_selected_modified" min_area=0.0001 type="" snap=-1
 GISDBASE: /home/jencek/qgis3_profiles/profiles/default/python/plugins/qgis_patrac/tests/data/sokolovce_piestany/grassdata
-LOCATION: temp_import_location_3083 MAPSET: PERMANENT USER: root DATE: Tue Mar 10 07:43:12 2020
+LOCATION: jtsk MAPSET: PERMANENT USER: jencek DATE: Tue Jul 13 20:07:50 2021
 -----------------------------------------------------
 8 input polygons
 Total area: 3.25254E+06 (9 areas)
 Overlapping area: 0 (0 areas)
 Area without category: 30504.3 (1 areas)
----------------------------------------------------------------------------------
-COMMAND: v.proj --overwrite location="temp_import_location_3083" mapset="PERMANENT" input="sektory_group_selected_modified" smax=10000
-GISDBASE: /home/jencek/qgis3_profiles/profiles/default/python/plugins/qgis_patrac/tests/data/sokolovce_piestany/grassdata
-LOCATION: jtsk MAPSET: PERMANENT USER: root DATE: Tue Mar 10 07:43:12 2020
