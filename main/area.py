@@ -40,6 +40,68 @@ from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import *
 from qgis.PyQt.QtWidgets import *
 
+import processing
+
+class CalculateAreaTask(QgsTask):
+    def __init__(self, widget, params):
+        super().__init__("Patrac task", QgsTask.CanCancel)
+        self.widget = widget
+        self.data_path = params["data_path"]
+        self.exception: Optional[Exception] = None
+
+    def run(self):
+        try:
+            processing.run("grass7:r.walk.coords", {'elevation': self.data_path + 'raster/dem.tif','friction':self.data_path + 'raster/friction.tif','start_coordinates':'-852612,-1025091','stop_coordinates':'','walk_coeff':'0.72,6.0,1.9998,-1.9998','lambda':1,'slope_factor':-0.2125,'max_cost':0,'null_cost':None,'memory':300,'-k':False,'-n':False,'output':self.data_path + 'raster/cumulative.tif','outdir':'TEMPORARY_OUTPUT','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+            self.setProgress(5)
+            processing.run("gdal:rasterize", {'INPUT':self.data_path + 'pracovni/coords_vector.shp','FIELD':'','BURN':1,'USE_Z':False,'UNITS':1,'WIDTH':5,'HEIGHT':5,'EXTENT':'-870888.866500000,-834372.789100000,-1044166.135100000,-1011525.172000000 [EPSG:5514]','NODATA':0,'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9','DATA_TYPE':0,'INIT':None,'INVERT':False,'EXTRA':'','OUTPUT':self.data_path + 'raster/coords_rast.tif'})
+            self.setProgress(10)
+            processing.run("grass7:r.buffer", {'input': self.data_path + 'raster/coords_rast.tif','distances':'190,390,640,970,1280,1900,2530,3200,10320','units':0,'-z':False,'output': self.data_path + 'raster/buffers.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+            self.setProgress(15)
+            # we have to start on cat 3, so on min of the ring for 20%
+            cat=3
+            variables = [10, 20, 30, 40, 50, 60, 70, 80]
+            rules_global = ''
+            PREVMIN = 0
+            progress = 15
+            for i in variables:
+                rules = str(cat) + ' = 1\n'
+                rules += 'end'
+                processing.run("grass7:r.reclass", {'input': self.data_path + 'raster/buffers.tif','rules':'','txtrules': rules,'output': self.data_path + 'raster/distances_' + str(i) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+                processing.run("grass7:r.mapcalc.simple", {'a': self.data_path + 'raster/distances_' + str(i) + '.tif','b':self.data_path + 'raster/cumulative.tif','c':None,'d':None,'e':None,'f':None,'expression':'A*B','output':self.data_path + 'raster/cost_distances_' + str(i) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+                stats = processing.run("native:rasterlayerstatistics", {'INPUT':self.data_path + 'raster/cost_distances_' + str(i) + '.tif','BAND':1,'OUTPUT_HTML_FILE':'TEMPORARY_OUTPUT'})
+                print(stats)
+                if stats['MIN'] is not None and stats['MAX'] is not None:
+                    try:
+                        #Reads min value
+                        MIN = float(stats['MIN'])
+                        print(str(MIN))
+                        #Reads max value
+                        MAX = float(stats['MAX'])
+                        print(str(MAX))
+                        #Minimum value and maximum value is used as extent for relass of the whole cost layer
+                        #rules_percentage_f.write(str(MIN) + ' thru ' + str(MAX) + ' = ' + str(i) + '\n')
+                        if str(PREVMIN) != 'nan' and str(MIN) != 'nan':
+                            rules_global += str(PREVMIN) + ' thru ' + str(MIN) + ' = ' + str(i) + '\n'
+                        PREVMIN = MIN
+                    except:
+                        print("Problem with category " + str(cat) + " " + str(i) + "%")
+                cat += 1
+                progress += 10
+                self.setProgress(progress)
+            processing.run("grass7:r.reclass", {'input':self.data_path + 'raster/cumulative.tif','rules':'','txtrules': rules_global,'output':self.data_path + 'raster/distances_costed.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+            progress = 95
+            self.setProgress(progress)
+            processing.run("native:zonalstatisticsfb", {'INPUT':self.data_path + 'pracovni/sektory_group.shp','INPUT_RASTER':self.data_path + 'raster/distances_costed.tif','RASTER_BAND':1,'COLUMN_PREFIX':'stats_','STATISTICS':[5],'OUTPUT':self.data_path + 'pracovni/sectors_zoned.shp'})
+            progress = 100
+            self.setProgress(progress)
+            return True
+        except Exception as e:
+            self.exception = e
+            return False
+
+    def finished(self, result):
+        print("FINISHED")
+        self.widget.finishStep3()
 
 class Area(object):
     def __init__(self, widget):
@@ -92,60 +154,71 @@ class Area(object):
             self.addPlaceToTheCenter()
             features = self.filterAndSortFeatures(layer.getFeatures())
 
-        # If there is just one point - impossible to define direction
-        # TODO - think more about this check - should be more than two, probably and in some shape as well
-        if len(features) > 1:
-            azimuth = self.getRadial(features)
-            useAzimuth = self.Utils.getProcessRadial()
-            # difficult to set azimuth (for example wrong shape of the path (e.q. close to  circle))
-            if azimuth <= 360 and useAzimuth:
-                self.generateRadialOnPoint(features[len(features) - 1])
-                self.writeAzimuthReclass(azimuth, 30, 100)
-                self.findAreaWithRadial(features[len(features) - 1], 0)
-                cats_status = self.checkCats()
-                if not cats_status:
-                    self.widget.setCursor(Qt.ArrowCursor)
-                    return
-                self.saveDistancesCostedEquation("distances0_costed")
-                self.createCumulativeArea()
-            else:
-                self.writeAzimuthReclass(0, 0, 0)
-                i = 0
-                distances_costed_cum = ""
-                max_weight = 1
-                for feature in features:
-                    self.generateRadialOnPoint(feature)
-                    self.findAreaWithRadial(feature, i)
-                    cats_status = self.checkCats()
-                    if not cats_status:
-                        self.widget.setCursor(Qt.ArrowCursor)
-                        return
-                    cur_weight = "1"
-                    if str(feature["vaha"]) != "NULL":
-                        cur_weight = str(feature["vaha"])
-                    if str(feature["vaha"]) != "NULL" and feature["vaha"] > max_weight:
-                        max_weight = feature["vaha"]
-                    if (i == 0):
-                        distances_costed_cum = "(distances0_costed/" + cur_weight + ")"
-                    else:
-                        distances_costed_cum = distances_costed_cum + ",(distances" + str(
-                            i) + "_costed/" + cur_weight + ")"
-                    i += 1
-                # print "DC: min(" + distances_costed_cum + ")*" + str(max_weight)
-                self.saveDistancesCostedEquation("min(" + distances_costed_cum + ")*" + str(max_weight))
-                self.createCumulativeArea()
-        else:
-            self.generateRadialOnPoint(features[0])
-            self.writeAzimuthReclass(0, 0, 0)
-            self.findAreaWithRadial(features[0], 0)
-            cats_status = self.checkCats()
-            if not cats_status:
-                self.widget.setCursor(Qt.ArrowCursor)
-                return
-            self.saveDistancesCostedEquation("distances0_costed")
-            self.createCumulativeArea()
-        self.widget.setCursor(Qt.ArrowCursor)
-        return "CALCULATED"
+        # TODO use sorted data
+        crs = QgsCoordinateReferenceSystem("EPSG:5514")
+        QgsVectorFileWriter.writeAsVectorFormat(layer, DATAPATH + "/pracovni/coords_vector.shp",
+                                                "utf-8", crs, "ESRI Shapefile")
+
+        params = {
+            "data_path": DATAPATH + "/"
+        }
+        self.widget.runTask(CalculateAreaTask(self.widget, params), "Calculating area: ")
+        print("TASK STARTED")
+
+        # # If there is just one point - impossible to define direction
+        # # TODO - think more about this check - should be more than two, probably and in some shape as well
+        # if len(features) > 1:
+        #     azimuth = self.getRadial(features)
+        #     useAzimuth = self.Utils.getProcessRadial()
+        #     # difficult to set azimuth (for example wrong shape of the path (e.q. close to  circle))
+        #     if azimuth <= 360 and useAzimuth:
+        #         self.generateRadialOnPoint(features[len(features) - 1])
+        #         self.writeAzimuthReclass(azimuth, 30, 100)
+        #         self.findAreaWithRadial(features[len(features) - 1], 0)
+        #         cats_status = self.checkCats()
+        #         if not cats_status:
+        #             self.widget.setCursor(Qt.ArrowCursor)
+        #             return
+        #         self.saveDistancesCostedEquation("distances0_costed")
+        #         self.createCumulativeArea()
+        #     else:
+        #         self.writeAzimuthReclass(0, 0, 0)
+        #         i = 0
+        #         distances_costed_cum = ""
+        #         max_weight = 1
+        #         for feature in features:
+        #             self.generateRadialOnPoint(feature)
+        #             self.findAreaWithRadial(feature, i)
+        #             cats_status = self.checkCats()
+        #             if not cats_status:
+        #                 self.widget.setCursor(Qt.ArrowCursor)
+        #                 return
+        #             cur_weight = "1"
+        #             if str(feature["vaha"]) != "NULL":
+        #                 cur_weight = str(feature["vaha"])
+        #             if str(feature["vaha"]) != "NULL" and feature["vaha"] > max_weight:
+        #                 max_weight = feature["vaha"]
+        #             if (i == 0):
+        #                 distances_costed_cum = "(distances0_costed/" + cur_weight + ")"
+        #             else:
+        #                 distances_costed_cum = distances_costed_cum + ",(distances" + str(
+        #                     i) + "_costed/" + cur_weight + ")"
+        #             i += 1
+        #         # print "DC: min(" + distances_costed_cum + ")*" + str(max_weight)
+        #         self.saveDistancesCostedEquation("min(" + distances_costed_cum + ")*" + str(max_weight))
+        #         self.createCumulativeArea()
+        # else:
+        #     self.generateRadialOnPoint(features[0])
+        #     self.writeAzimuthReclass(0, 0, 0)
+        #     self.findAreaWithRadial(features[0], 0)
+        #     cats_status = self.checkCats()
+        #     if not cats_status:
+        #         self.widget.setCursor(Qt.ArrowCursor)
+        #         return
+        #     self.saveDistancesCostedEquation("distances0_costed")
+        #     self.createCumulativeArea()
+        # self.widget.setCursor(Qt.ArrowCursor)
+        # return "CALCULATED"
 
     def saveDistancesCostedEquation(self, distances_costed_cum):
         prjfi = QFileInfo(QgsProject.instance().fileName())

@@ -26,7 +26,7 @@
 # The sliders and layer transparency are based on https://github.com/alexbruy/raster-transparency
 # ******************************************************************************
 
-import csv, io, math, urllib.request, urllib.error, urllib.parse, socket, subprocess, os, sys, uuid
+import csv, io, math, urllib.request, urllib.error, urllib.parse, socket, subprocess, os, sys, uuid, json
 
 from qgis.core import *
 from qgis.gui import *
@@ -41,16 +41,81 @@ from qgis.PyQt.QtWidgets import *
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import *
 
+import processing
+
 from .. connect.connect import *
 
-class ZPM_Raster():
-    def __init__(self, name, distance, xmin, ymin, xmax, ymax):
-        self.name = name
-        self.distance = distance
-        self.xmin = xmin
-        self.ymin = ymin
-        self.xmax = xmax
-        self.ymax = ymax
+class ClipSourceDataTask(QgsTask):
+    def __init__(self, widget, params):
+        super().__init__("Patrac task", QgsTask.CanCancel)
+        self.widget = widget
+        self.exception: Optional[Exception] = None
+        # self.source_path = "/data/patracdata/kraje/ka/"
+        # self.target_path = "/data/patracdata/kraje/ka/projekty/testing/"
+        # self.minx = -857031.912000000
+        # self.maxx = -849227.571900000
+        # self.miny = -1028202.161000000
+        # self.maxy = -1021136.837500000
+        # self.epsg = 5514
+        self.source_path = params["source_path"]
+        self.target_path = params["target_path"]
+        self.minx = params["minx"]
+        self.maxx = params["maxx"]
+        self.miny = params["miny"]
+        self.maxy = params["maxy"]
+        self.epsg = params["epsg"]
+
+    def get_proj_win(self):
+        return str(self.minx) + ',' + str(self.maxx) + ',' + str(self.miny) + ',' + str(self.maxy) + ' [EPSG:' + str(self.epsg) + ']'
+
+    def run(self):
+        try:
+            processing.run(
+                "gdal:cliprasterbyextent",
+                {
+                    'INPUT': self.source_path + 'raster/dem_5514.tif',
+                    'PROJWIN': self.get_proj_win(),
+                    'OVERCRS':False,
+                    'NODATA':None,
+                    'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9',
+                    'DATA_TYPE':0,
+                    'EXTRA':'',
+                    'OUTPUT': self.target_path + 'raster/dem.tif'
+                }
+            )
+            self.setProgress(30)
+            processing.run(
+                "gdal:cliprasterbyextent",
+                {
+                    'INPUT': self.source_path + 'raster/friction_5514.tif',
+                    'PROJWIN':self.get_proj_win(),
+                    'OVERCRS':False,
+                    'NODATA':None,
+                    'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9',
+                    'DATA_TYPE':0,
+                    'EXTRA':'',
+                    'OUTPUT': self.target_path + 'raster/friction.tif'
+                }
+            )
+            self.setProgress(60)
+            processing.run(
+                "native:extractbyextent",
+                {
+                    'INPUT':self.source_path + 'vektor/ZABAGED/sectors.shp',
+                    'EXTENT':self.get_proj_win(),
+                    'CLIP':False,
+                    'OUTPUT':self.target_path + 'pracovni/sektory_group.shp'
+                }
+            )
+            self.setProgress(100)
+            return True
+        except Exception as e:
+            self.exception = e
+            return False
+
+    def finished(self, result):
+        print("FINISHED")
+        self.widget.finishStep1()
 
 class Project(object):
     def __init__(self, widget):
@@ -60,6 +125,8 @@ class Project(object):
         self.canvas = self.widget.canvas
         self.serverUrl = self.widget.serverUrl
         self.settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+        with open(self.settingsPath + "/config.json") as c:
+            self.config = json.load(c)
         self.systemid = open(self.settingsPath + "/config/systemid.txt", 'r').read().rstrip("\n")
 
     def copyTemplate(self, NEW_PROJECT_PATH, TEMPLATES_PATH, NAMESAFE):
@@ -68,10 +135,9 @@ class Project(object):
 
             # sets the settings to zero, so no radial and no weight limit is used
             os.mkdir(NEW_PROJECT_PATH + "/config")
-            settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
-            copy(settingsPath + "/grass/" + "weightlimit.txt", NEW_PROJECT_PATH + '/config/weightlimit.txt')
-            copy(settingsPath + "/grass/" + "maxtime.txt", NEW_PROJECT_PATH + '/config/maxtime.txt')
-            copy(settingsPath + "/grass/" + "radialsettings.txt", NEW_PROJECT_PATH + '/config/radialsettings.txt')
+            copy(self.settingsPath + "/grass/" + "weightlimit.txt", NEW_PROJECT_PATH + '/config/weightlimit.txt')
+            copy(self.settingsPath + "/grass/" + "maxtime.txt", NEW_PROJECT_PATH + '/config/maxtime.txt')
+            copy(self.settingsPath + "/grass/" + "radialsettings.txt", NEW_PROJECT_PATH + '/config/radialsettings.txt')
 
             copy(TEMPLATES_PATH + "/projekt/clean_v3.qgs", NEW_PROJECT_PATH + "/" + NAMESAFE + ".qgs")
             os.mkdir(NEW_PROJECT_PATH + "/pracovni")
@@ -101,18 +167,8 @@ class Project(object):
                 copy(file, NEW_PROJECT_PATH + "/sektory/shp/")
             for file in glob(TEMPLATES_PATH + "/projekt/sektory/styles/*"):
                 copy(file, NEW_PROJECT_PATH + "/sektory/styles/")
-            # copy(TEMPLATES_PATH + "/projekt/sektory/shp/style.qml", NEW_PROJECT_PATH + "/sektory/shp/")
-            os.mkdir(NEW_PROJECT_PATH + "/grassdata")
-            os.mkdir(NEW_PROJECT_PATH + "/grassdata/jtsk")
-            os.mkdir(NEW_PROJECT_PATH + "/grassdata/jtsk/PERMANENT")
-            # print TEMPLATES_PATH + '/grassdata/jtsk/PERMANENT'
-            for file in glob(TEMPLATES_PATH + '/grassdata/jtsk/PERMANENT/*'):
-                # print file
-                copy(file, NEW_PROJECT_PATH + "/grassdata/jtsk/PERMANENT/")
-            os.mkdir(NEW_PROJECT_PATH + "/grassdata/wgs84")
-            os.mkdir(NEW_PROJECT_PATH + "/grassdata/wgs84/PERMANENT")
-            for file in glob(TEMPLATES_PATH + '/grassdata/wgs84/PERMANENT/*'):
-                copy(file, NEW_PROJECT_PATH + "/grassdata/wgs84/PERMANENT/")
+            os.mkdir(NEW_PROJECT_PATH + "/raster")
+            os.mkdir(NEW_PROJECT_PATH + "/vektor")
 
     def getSafeDirectoryName(self, name):
         name = name.lower()
@@ -124,20 +180,20 @@ class Project(object):
             position = position + 1
         return name
 
-    def getRegion(self):
-        layer = None
-        for lyr in list(QgsMapLayerRegistry.instance().mapLayers().values()):
-            if "okresy_pseudo.shp" in lyr.source():
-                layer = lyr
-                break
-
-        for feature in layer.getFeatures():
-            if (feature.geometry().contains(self.canvas.extent().center())):
-                return feature["nk"]
-
-        return None
-
     def getSimpleProjectDataPath(self):
+        DATAPATH = ''
+        letters = "CDEFGHIJKLMNOPQRSTUVWXYZ"
+        drives = [letters[i] + ":/" for i in range(len(letters))]
+        for drive in drives:
+            if os.path.isfile(drive + 'patracdata/cr/projekty/simple/simple.qgs'):
+                DATAPATH = drive + 'patracdata/cr/projekty/simple/'
+                break
+        if os.path.isfile('/data/patracdata/cr/projekty/simple/simple.qgs'):
+            DATAPATH = '/data/patracdata/cr/projekty/simple/'
+
+        return DATAPATH
+
+    def getRegionDataPath(self):
         DATAPATH = ''
         letters = "CDEFGHIJKLMNOPQRSTUVWXYZ"
         drives = [letters[i] + ":/" for i in range(len(letters))]
@@ -158,19 +214,12 @@ class Project(object):
                                                                  QApplication.translate("Patrac", "Out of Czech Republic. Can not continue.", None))
             return None
 
-        DATAPATH = self.getSimpleProjectDataPath()
-
-        if DATAPATH == '':
-            QMessageBox.information(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
-                                                                 QApplication.translate("Patrac", "No data. Can not continue.", None))
-            return None
-
         regionOut = None
         QgsMessageLog.logMessage("Region: " + region, "Patrac")
-        if os.path.isfile(DATAPATH + '/../../../kraje/' + region + '/vektor/OSM/line_x/merged_polygons_groupped.shp'):
+        QgsMessageLog.logMessage("Datapath: " + self.config['datapath'], "Patrac")
+        if os.path.isfile(self.config['datapath'] + 'kraje/' + region + '/vektor/OSM/sectors.shp'):
             regionOut = region
-        if os.path.isfile(
-                DATAPATH + '/../../../kraje/' + region + '/vektor/ZABAGED/line_x/merged_polygons_groupped.shp'):
+        if os.path.isfile(self.config['datapath'] + 'kraje/' + region + '/vektor/ZABAGED/sectors.shp'):
             regionOut = region
 
         return regionOut
@@ -195,19 +244,12 @@ class Project(object):
 
         name = self.widget.municipalities_names[index]
         region = self.widget.municipalities_regions[index]
-
-        #region = self.getRegion()
         region = self.checkRegion(region)
 
         if region is None:
             QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None),
                                                                  QApplication.translate("Patrac", "Do not have data for seleted region. Can not continue.", None))
             return
-
-        # if not self.checkRegionExtent():
-        #     QMessageBox.information(None, "INFO:",
-        #                             u"Ukončuji generování.")
-        #     return
 
         self.widget.setCursor(Qt.WaitCursor)
         if name == '':
@@ -228,48 +270,57 @@ class Project(object):
         QgsMessageLog.logMessage("g.region e=" + XMAX + " w=" + XMIN + " n=" + YMAX + " s=" + YMIN, "Patrac")
         QgsMessageLog.logMessage("Název: " + NAMESAFE, "Patrac")
 
-        DATAPATH = self.getSimpleProjectDataPath()
+        DATAPATH = self.config["datapath"]
 
-        NEW_PROJECT_PATH = DATAPATH + "/../../../kraje/" + region + "/projekty/" + NAMESAFE
+        NEW_PROJECT_PATH = DATAPATH + "kraje/" + region + "/projekty/" + NAMESAFE
         # set working dir to new path
-        QSettings().setValue("UI/lastProjectDir", DATAPATH + "/../../../kraje/" + region + "/projekty/" + NAMESAFE)
+        QSettings().setValue("UI/lastProjectDir", DATAPATH + "kraje/" + region + "/projekty/" + NAMESAFE)
 
         TEMPLATES_PATH = self.pluginPath + "/templates"
-        KRAJ_DATA_PATH = DATAPATH + "/../../../kraje/" + region
         self.copyTemplate(NEW_PROJECT_PATH, TEMPLATES_PATH, NAMESAFE)
 
-        if sys.platform.startswith('win'):
-            p = subprocess.Popen((
-                                 self.pluginPath + "/grass/run_export.bat", KRAJ_DATA_PATH, self.pluginPath, XMIN, YMIN,
-                                 XMAX, YMAX, NEW_PROJECT_PATH))
-            p.wait()
-            p = subprocess.Popen((self.pluginPath + "/grass/run_import.bat", NEW_PROJECT_PATH, self.pluginPath, XMIN,
-                                  YMIN, XMAX, YMAX, KRAJ_DATA_PATH))
-            p.wait()
-        else:
-            p = subprocess.Popen(('bash', self.pluginPath + "/grass/run_export.sh", KRAJ_DATA_PATH, self.pluginPath,
-                                  XMIN, YMIN, XMAX, YMAX, NEW_PROJECT_PATH))
-            p.wait()
-            p = subprocess.Popen(('bash', self.pluginPath + "/grass/run_import.sh", NEW_PROJECT_PATH, self.pluginPath,
-                                  XMIN, YMIN, XMAX, YMAX, KRAJ_DATA_PATH))
-            p.wait()
+        params = {
+            "source_path": DATAPATH + "kraje/" + region + "/",
+            "target_path": DATAPATH + "kraje/" + region + "/projekty/" + NAMESAFE + "/",
+            "minx": XMIN,
+            "maxx": XMAX,
+            "miny": YMIN,
+            "maxy": YMAX,
+            "epsg": 5514
+        }
 
+        self.widget.runTask(ClipSourceDataTask(self.widget, params), "Loading data: ")
+        print("TASK STARTED")
 
+        return {
+            "name": name,
+            "desc": desc,
+            "region": region,
+            "version": version,
+            "NEW_PROJECT_PATH": NEW_PROJECT_PATH,
+            "NAMESAFE": NAMESAFE,
+            "XMIN": XMIN,
+            "YMIN": YMIN,
+            "XMAX": XMAX,
+            "YMAX": YMAX
+        }
+
+    def finishCreateProject(self, params):
         project = QgsProject.instance()
-        QgsMessageLog.logMessage(NEW_PROJECT_PATH + '/' + NAMESAFE + '.qgs', "Patrac")
-        project.read(NEW_PROJECT_PATH + '/' + NAMESAFE + '.qgs')
+        QgsMessageLog.logMessage(params["NEW_PROJECT_PATH"] + '/' + params["NAMESAFE"] + '.qgs', "Patrac")
+        project.read(params["NEW_PROJECT_PATH"] + '/' + params["NAMESAFE"] + '.qgs')
 
         with open(self.pluginPath + "/config/lastprojectpath.txt", "w") as f:
-            f.write(NEW_PROJECT_PATH)
+            f.write(params["NEW_PROJECT_PATH"])
 
         # self.do_msearch()
-        self.zoomToExtent(XMIN, YMIN, XMAX, YMAX)
+        self.zoomToExtent(params["XMIN"], params["YMIN"], params["XMAX"], params["YMAX"])
 
-        self.widget.Sectors.recalculateSectors(True, False)
-        self.createNewSearch(name, desc, region, version)
+        # self.widget.Sectors.recalculateSectors(True, False)
+        self.createNewSearch(params["name"], params["desc"], params["region"], params["version"])
         self.widget.settingsdlg.updateSettings()
-        self.saveRegion(region, NEW_PROJECT_PATH)
-        self.saveExtent(XMIN, YMIN, XMAX, YMAX, NEW_PROJECT_PATH)
+        self.saveRegion(params["region"], params["NEW_PROJECT_PATH"])
+        self.saveExtent(params["XMIN"], params["YMIN"], params["XMAX"], params["YMAX"], params["NEW_PROJECT_PATH"])
         self.widget.setCursor(Qt.ArrowCursor)
 
     def saveRegion(self, region, DATAPATH):
