@@ -455,3 +455,25 @@ class Utils(object):
             return diff
         except:
             return 100000
+
+    def savePointFeaturesToFile(self, features, epsg, file_path):
+        # Create layer with result
+        uri = "Point?crs=epsg:" + str(epsg) + "&field=id:integer""&index=yes"
+
+        mem_layer = QgsVectorLayer(uri,
+                                   'points',
+                                   'memory')
+
+        prov = mem_layer.dataProvider()
+
+        feats = [ QgsFeature() for i in range(len(features)) ]
+
+        for i, feat in enumerate(feats):
+            feat.setAttributes([i])
+            feat.setGeometry(features[i])
+
+        prov.addFeatures(feats)
+
+        crs = QgsCoordinateReferenceSystem("EPSG:" + str(epsg))
+        QgsVectorFileWriter.writeAsVectorFormat(mem_layer, file_path,
+                                                "utf-8", crs, "ESRI Shapefile")
