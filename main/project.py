@@ -279,6 +279,9 @@ class Project(object):
         TEMPLATES_PATH = self.pluginPath + "/templates"
         self.copyTemplate(NEW_PROJECT_PATH, TEMPLATES_PATH, NAMESAFE)
 
+        # TODO make it globally
+        epsg = 5514
+
         params = {
             "source_path": DATAPATH + "kraje/" + region + "/",
             "target_path": DATAPATH + "kraje/" + region + "/projekty/" + NAMESAFE + "/",
@@ -286,7 +289,7 @@ class Project(object):
             "maxx": XMAX,
             "miny": YMIN,
             "maxy": YMAX,
-            "epsg": 5514
+            "epsg": epsg
         }
 
         self.widget.runTask(ClipSourceDataTask(self.widget, params), "Loading data: ")
@@ -302,7 +305,8 @@ class Project(object):
             "XMIN": XMIN,
             "YMIN": YMIN,
             "XMAX": XMAX,
-            "YMAX": YMAX
+            "YMAX": YMAX,
+            "epsg": epsg
         }
 
     def finishCreateProject(self, params):

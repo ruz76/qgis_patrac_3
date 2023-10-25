@@ -458,7 +458,7 @@ class Utils(object):
 
     def savePointFeaturesToFile(self, features, epsg, file_path):
         # Create layer with result
-        uri = "Point?crs=epsg:" + str(epsg) + "&field=id:integer""&index=yes"
+        uri = "Point?crs=epsg:" + str(epsg) + "&index=yes"
 
         mem_layer = QgsVectorLayer(uri,
                                    'points',
@@ -466,13 +466,13 @@ class Utils(object):
 
         prov = mem_layer.dataProvider()
 
-        feats = [ QgsFeature() for i in range(len(features)) ]
+        # feats = [ QgsFeature() for i in range(len(features)) ]
+        #
+        # for i, feat in enumerate(feats):
+        #     feat.setAttributes([i])
+        #     feat.setGeometry(features[i])
 
-        for i, feat in enumerate(feats):
-            feat.setAttributes([i])
-            feat.setGeometry(features[i])
-
-        prov.addFeatures(feats)
+        prov.addFeatures(features)
 
         crs = QgsCoordinateReferenceSystem("EPSG:" + str(epsg))
         QgsVectorFileWriter.writeAsVectorFormat(mem_layer, file_path,

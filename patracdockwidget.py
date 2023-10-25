@@ -662,9 +662,22 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         layer = self.saveMistaLayer()
 
         if not layer is None:
-            # self.setCursor(Qt.WaitCursor)
+            self.setCursor(Qt.WaitCursor)
+
+            params = {
+                "persontype": self.personType,
+                "minx": self.createProjectResult["XMIN"],
+                "maxx": self.createProjectResult["XMAX"],
+                "miny": self.createProjectResult["YMIN"],
+                "maxy": self.createProjectResult["YMAX"],
+                "epsg": self.createProjectResult["epsg"]
+            }
+
+            self.Area.setParams(params)
             self.Area.getArea()
-            # self.setCursor(Qt.ArrowCursor)
+
+            self.setCursor(Qt.ArrowCursor)
+
             #
             # if area is not None:
             #     # set spin to 70%

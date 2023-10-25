@@ -42,10 +42,71 @@ from qgis.PyQt.QtWidgets import *
 
 import processing
 
-class CalculateAreaTask(QgsTask):
-    def __init__(self, widget, params):
-        super().__init__("Patrac task", QgsTask.CanCancel)
+class CalculateDistanceCostedCumulativeTask(QgsTask):
+    def __init__(self, widget, parent, params):
+        super().__init__("Calculate DistanceCostedCumulative Task", QgsTask.CanCancel)
         self.widget = widget
+        self.parent = parent
+        self.data_path = params["data_path"]
+        self.exception: Optional[Exception] = None
+
+    def run(self):
+        try:
+            progress = 5
+            self.setProgress(progress)
+
+            params = {
+                'a': self.data_path + 'pracovni/' + self.parent.cumulativeEquationInputs[0] + '.tif' if len(self.parent.cumulativeEquationInputs) > 0 else None,
+                'b': self.data_path + 'pracovni/' + self.parent.cumulativeEquationInputs[1] + '.tif' if len(self.parent.cumulativeEquationInputs) > 1 else None,
+                'c': self.data_path + 'pracovni/' + self.parent.cumulativeEquationInputs[2] + '.tif' if len(self.parent.cumulativeEquationInputs) > 2 else None,
+                'd': self.data_path + 'pracovni/' + self.parent.cumulativeEquationInputs[3] + '.tif' if len(self.parent.cumulativeEquationInputs) > 3 else None,
+                'e': self.data_path + 'pracovni/' + self.parent.cumulativeEquationInputs[4] + '.tif' if len(self.parent.cumulativeEquationInputs) > 4 else None,
+                'f': self.data_path + 'pracovni/' + self.parent.cumulativeEquationInputs[5] + '.tif' if len(self.parent.cumulativeEquationInputs) > 5 else None,
+                'expression':'distances_costed_cum = ' + self.parent.cumulativeEquation,
+                'output':self.data_path + 'pracovni/distances_costed_cum.tif',
+                'GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''
+            }
+
+            print(params)
+
+            processing.run("grass7:r.mapcalc.simple", params)
+            progress = 50
+            self.setProgress(progress)
+
+            processing.run("native:zonalstatisticsfb", {'INPUT':self.data_path + 'pracovni/sektory_group.shp','INPUT_RASTER':self.data_path + 'pracovni/distances_costed_cum.tif','RASTER_BAND':1,'COLUMN_PREFIX':'stats_','STATISTICS':[5],'OUTPUT':self.data_path + 'pracovni/sectors_zoned.shp'})
+            progress = 100
+            self.setProgress(progress)
+
+            return True
+        except Exception as e:
+            print(e)
+            self.exception = e
+            return False
+
+    def finished(self, result):
+        print("FINISHED")
+        DATAPATH = self.parent.Utils.getDataPath()
+        self.parent.Utils.addRasterLayer(DATAPATH + '/pracovni/distances_costed_cum.tif', 'procenta', -2)
+        layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if lyr.source() == DATAPATH + "/pracovni/distances_costed_cum.tif":
+                layer = lyr
+                break
+        if layer is not None:
+            layer.triggerRepaint()
+            # Sets the added layer as sctive
+            self.parent.plugin.iface.setActiveLayer(layer)
+        else:
+            QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
+                                 QApplication.translate("Patrac", "Wrong installation. Call you administrator.", None))
+        self.widget.finishStep3()
+
+
+class CalculateCostDistanceTask(QgsTask):
+    def __init__(self, widget, parent, params):
+        super().__init__("Calculate CostDistance Task", QgsTask.CanCancel)
+        self.widget = widget
+        self.parent = parent
         self.data_path = params["data_path"]
         self.pointid = params["pointid"]
         self.persontype = params["persontype"]
@@ -60,27 +121,33 @@ class CalculateAreaTask(QgsTask):
 
     def run(self):
         try:
-            processing.run("gdal:rasterize", {'INPUT': self.data_path + 'pracovni/radial' + str(self.pointid) + '.csv','FIELD':'id','BURN':0,'USE_Z':False,'UNITS':1,'WIDTH':5,'HEIGHT':5,'EXTENT': self.get_proj_win(),'NODATA':0,'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9','DATA_TYPE':5,'INIT':None,'INVERT':False,'EXTRA':'','OUTPUT': self.data_path + 'pracovni/radial' + str(self.pointid) + '.tif'})
-            processing.run("grass7:r.reclass", {'input': self.data_path + 'pracovni/radial' + str(self.pointid) + '.tif','rules': self.data_path + 'pracovni/azimuth_reclass.rules','txtrules': '','output': self.data_path + 'pracovni/radial_reclassed_' + str(self.pointid) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
-            processing.run("grass7:r.mapcalc.simple", {'a': self.data_path + 'raster/friction.tif','b':self.data_path + 'pracovni/radial_reclassed_' + str(self.pointid) + '.tif','c':None,'d':None,'e':None,'f':None,'expression':'A+B','output':self.data_path + 'pracovni/friction_radial_' + str(i) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
-            processing.run("grass7:r.walk.coords", {'elevation': self.data_path + 'raster/dem.tif','friction':self.data_path + 'pracovni/friction_radial_' + str(i) + '.tif','start_coordinates': str(self.x) + ',' + str(self.y),'stop_coordinates':'','walk_coeff':'0.72,6.0,1.9998,-1.9998','lambda':1,'slope_factor':-0.2125,'max_cost':0,'null_cost':None,'memory':300,'-k':False,'-n':False,'output':self.data_path + 'pracovni/cost_' + str(self.pointid) + '.tif','outdir':'TEMPORARY_OUTPUT','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
             self.setProgress(5)
-            processing.run("gdal:rasterize", {'INPUT':self.data_path + 'pracovni/coords_vector_' + str(self.pointid) + '.shp','FIELD':'','BURN':1,'USE_Z':False,'UNITS':1,'WIDTH':5,'HEIGHT':5,'EXTENT':'-870888.866500000,-834372.789100000,-1044166.135100000,-1011525.172000000 [EPSG:5514]','NODATA':0,'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9','DATA_TYPE':0,'INIT':None,'INVERT':False,'EXTRA':'','OUTPUT':self.data_path + 'pracovni/coords_rast_' + str(self.pointid) + '.tif'})
+            processing.run("gdal:rasterize", {'INPUT': self.data_path + 'pracovni/radial' + str(self.pointid) + '.csv','FIELD':'id','BURN':0,'USE_Z':False,'UNITS':1,'WIDTH':5,'HEIGHT':5,'EXTENT': self.get_proj_win(),'NODATA':0,'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9','DATA_TYPE':5,'INIT':None,'INVERT':False,'EXTRA':'','OUTPUT': self.data_path + 'pracovni/radial' + str(self.pointid) + '.tif'})
             self.setProgress(10)
-            processing.run("grass7:r.buffer", {'input': self.data_path + 'pracovni/coords_rast_' + str(self.pointid) + '.tif','distances':'190,390,640,970,1280,1900,2530,3200,10320','units':0,'-z':False,'output': self.data_path + 'pracovni/buffers_' + str(self.pointid) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+            processing.run("grass7:r.reclass", {'input': self.data_path + 'pracovni/radial' + str(self.pointid) + '.tif','rules': self.data_path + 'pracovni/azimuth_reclass.rules','txtrules': '','output': self.data_path + 'pracovni/radial_reclassed_' + str(self.pointid) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+            print("grass7:r.mapcalc.simple")
             self.setProgress(15)
+            processing.run("grass7:r.mapcalc.simple", {'a': self.data_path + 'raster/friction.tif','b':self.data_path + 'pracovni/radial_reclassed_' + str(self.pointid) + '.tif','c':None,'d':None,'e':None,'f':None,'expression':'A+B','output':self.data_path + 'pracovni/friction_radial_' + str(self.pointid) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+            self.setProgress(20)
+            processing.run("grass7:r.walk.coords", {'elevation': self.data_path + 'raster/dem.tif','friction':self.data_path + 'pracovni/friction_radial_' + str(self.pointid) + '.tif','start_coordinates': str(self.x) + ',' + str(self.y),'stop_coordinates':'','walk_coeff':'0.72,6.0,1.9998,-1.9998','lambda':1,'slope_factor':-0.2125,'max_cost':0,'null_cost':None,'memory':300,'-k':False,'-n':False,'output':self.data_path + 'pracovni/cost_' + str(self.pointid) + '.tif','outdir':'TEMPORARY_OUTPUT','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+            self.setProgress(25)
+            processing.run("gdal:rasterize", {'INPUT':self.data_path + 'pracovni/coords_vector_' + str(self.pointid) + '.shp','FIELD':'','BURN':1,'USE_Z':False,'UNITS':1,'WIDTH':5,'HEIGHT':5,'EXTENT':'-870888.866500000,-834372.789100000,-1044166.135100000,-1011525.172000000 [EPSG:5514]','NODATA':0,'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9','DATA_TYPE':0,'INIT':None,'INVERT':False,'EXTRA':'','OUTPUT':self.data_path + 'pracovni/coords_rast_' + str(self.pointid) + '.tif'})
+            self.setProgress(30)
+            # TODO load distances
+            processing.run("grass7:r.buffer", {'input': self.data_path + 'pracovni/coords_rast_' + str(self.pointid) + '.tif','distances':'190,390,640,970,1280,1900,2530,3200,10320','units':0,'-z':False,'output': self.data_path + 'pracovni/buffers_' + str(self.pointid) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+            self.setProgress(35)
             # we have to start on cat 3, so on min of the ring for 20%
             cat=3
             variables = [10, 20, 30, 40, 50, 60, 70, 80]
             rules_global = ''
             PREVMIN = 0
-            progress = 15
+            progress = 35
             for i in variables:
                 rules = str(cat) + ' = 1\n'
                 rules += 'end'
                 processing.run("grass7:r.reclass", {'input': self.data_path + 'pracovni/buffers_' + str(self.pointid) + '.tif','rules':'','txtrules': rules,'output': self.data_path + 'pracovni/distances_' + str(self.pointid) + '_' + str(i) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
                 processing.run("grass7:r.mapcalc.simple", {'a': self.data_path + 'pracovni/distances_' + str(self.pointid) + '_' + str(i) + '.tif','b':self.data_path + 'pracovni/cost_' + str(self.pointid) + '.tif','c':None,'d':None,'e':None,'f':None,'expression':'A*B','output':self.data_path + 'pracovni/cost_' + str(self.pointid) + '_distances_' + str(i) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
-                stats = processing.run("native:rasterlayerstatistics", {'INPUT':self.data_path + 'raster/cost_distances_' + str(i) + '.tif','BAND':1,'OUTPUT_HTML_FILE':'TEMPORARY_OUTPUT'})
+                stats = processing.run("native:rasterlayerstatistics", {'INPUT':self.data_path + 'pracovni/cost_' + str(self.pointid) + '_distances_' + str(i) + '.tif','BAND':1,'OUTPUT_HTML_FILE':'TEMPORARY_OUTPUT'})
                 print(stats)
                 if stats['MIN'] is not None and stats['MAX'] is not None:
                     try:
@@ -98,22 +165,20 @@ class CalculateAreaTask(QgsTask):
                     except:
                         print("Problem with category " + str(cat) + " " + str(i) + "%")
                 cat += 1
-                progress += 10
+                progress += 7
                 self.setProgress(progress)
-            processing.run("grass7:r.reclass", {'input':self.data_path + 'raster/cumulative.tif','rules':'','txtrules': rules_global,'output':self.data_path + 'raster/distances_costed.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
-            progress = 95
-            self.setProgress(progress)
-            processing.run("native:zonalstatisticsfb", {'INPUT':self.data_path + 'pracovni/sektory_group.shp','INPUT_RASTER':self.data_path + 'raster/distances_costed.tif','RASTER_BAND':1,'COLUMN_PREFIX':'stats_','STATISTICS':[5],'OUTPUT':self.data_path + 'pracovni/sectors_zoned.shp'})
+            processing.run("grass7:r.reclass", {'input':self.data_path + 'pracovni/cost_' + str(self.pointid) + '.tif','rules':'','txtrules': rules_global,'output':self.data_path + 'pracovni/distances_' + str(self.pointid) + '_costed.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
             progress = 100
             self.setProgress(progress)
             return True
         except Exception as e:
+            print(e)
             self.exception = e
             return False
 
     def finished(self, result):
-        print("FINISHED")
-        self.widget.finishStep3()
+        print("FINISHED Calculate CostDistance Task for Point: " + str(self.pointid))
+        self.parent.finishedCalculateCostDistanceTask(self.pointid)
 
     def get_proj_win(self):
         return str(self.minx) + ',' + str(self.maxx) + ',' + str(self.miny) + ',' + str(self.maxy) + ' [EPSG:' + str(self.epsg) + ']'
@@ -126,6 +191,33 @@ class Area(object):
         self.iface = self.widget.plugin.iface
         self.canvas = self.widget.canvas
         self.Utils = self.widget.Utils
+        self.calculatedPoints = []
+        self.pointsToCalculate = []
+        self.cumulativeEquation = ''
+        self.cumulativeEquationInputs = []
+        self.params = None
+
+    def setParams(self, params):
+        self.params = params
+
+    def finishedCalculateCostDistanceTask(self, pointid):
+        self.calculatedPoints.append(pointid)
+        if len(self.calculatedPoints) == len(self.pointsToCalculate):
+            print("Start Cumulative using self.cumulativeEquation")
+            # Start Cumulative using self.cumulativeEquation
+            DATAPATH = self.Utils.getDataPath()
+            params = {
+                "data_path": DATAPATH + "/"
+            }
+            self.widget.runTask(CalculateDistanceCostedCumulativeTask(self.widget, self, params), "Calculating cumulative: ")
+
+        # print("Start Cumulative using self.cumulativeEquation")
+        # # Start Cumulative using self.cumulativeEquation
+        # DATAPATH = self.Utils.getDataPath()
+        # params = {
+        #     "data_path": DATAPATH + "/"
+        # }
+        # self.widget.runTask(CalculateDistanceCostedCumulativeTask(self.widget, self, params), "Calculating cumulative: ")
 
     def getArea(self):
         """Runs main search for suitable area"""
@@ -169,6 +261,8 @@ class Area(object):
             self.addPlaceToTheCenter()
             features = self.filterAndSortFeatures(layer.getFeatures())
 
+        self.pointsToCalculate = features
+
         # # TODO use sorted data
         # crs = QgsCoordinateReferenceSystem("EPSG:5514")
         # QgsVectorFileWriter.writeAsVectorFormat(layer, DATAPATH + "/pracovni/coords_vector.shp",
@@ -189,12 +283,13 @@ class Area(object):
             if azimuth <= 360 and useAzimuth:
                 self.generateRadialOnPoint(features[len(features) - 1], 0)
                 self.writeAzimuthReclass(azimuth, 30, 100)
-                # self.findAreaWithRadial(features[len(features) - 1], 0)
+                self.findAreaWithRadial(features[len(features) - 1], 0)
                 # cats_status = self.checkCats()
                 # if not cats_status:
                 #     self.widget.setCursor(Qt.ArrowCursor)
                 #     return
-                # self.saveDistancesCostedEquation("distances0_costed")
+                self.cumulativeEquation = "A"
+                self.cumulativeEquationInputs = ['distances_0_costed']
                 # self.createCumulativeArea()
             else:
                 self.writeAzimuthReclass(0, 0, 0)
@@ -204,34 +299,37 @@ class Area(object):
                 for feature in features:
                     self.generateRadialOnPoint(feature, i)
                     self.findAreaWithRadial(feature, i)
-                    cats_status = self.checkCats()
-                    if not cats_status:
-                        self.widget.setCursor(Qt.ArrowCursor)
-                        return
+                    # cats_status = self.checkCats()
+                    # if not cats_status:
+                    #     self.widget.setCursor(Qt.ArrowCursor)
+                    #     return
                     cur_weight = "1"
                     if str(feature["vaha"]) != "NULL":
                         cur_weight = str(feature["vaha"])
                     if str(feature["vaha"]) != "NULL" and feature["vaha"] > max_weight:
                         max_weight = feature["vaha"]
                     if (i == 0):
-                        distances_costed_cum = "(distances0_costed/" + cur_weight + ")"
+                        distances_costed_cum = "(" + str(chr(65 + i)) + "/" + cur_weight + ")"
+                        self.cumulativeEquationInputs.append('distances_0_costed')
+
                     else:
-                        distances_costed_cum = distances_costed_cum + ",(distances" + str(
-                            i) + "_costed/" + cur_weight + ")"
+                        distances_costed_cum = distances_costed_cum + ",(" + str(chr(65 + i)) + "/" + cur_weight + ")"
+                        self.cumulativeEquationInputs.append("distances_" + str(i) + "_costed")
                     i += 1
                 # print "DC: min(" + distances_costed_cum + ")*" + str(max_weight)
-                self.saveDistancesCostedEquation("min(" + distances_costed_cum + ")*" + str(max_weight))
-                self.createCumulativeArea()
+                self.cumulativeEquation = ("min(" + distances_costed_cum + ")*" + str(max_weight))
+                # self.createCumulativeArea()
         else:
-            self.generateRadialOnPoint(features[0])
+            self.generateRadialOnPoint(features[0], 0)
             self.writeAzimuthReclass(0, 0, 0)
             self.findAreaWithRadial(features[0], 0)
-            cats_status = self.checkCats()
-            if not cats_status:
-                self.widget.setCursor(Qt.ArrowCursor)
-                return
-            self.saveDistancesCostedEquation("distances0_costed")
-            self.createCumulativeArea()
+            # cats_status = self.checkCats()
+            # if not cats_status:
+            #     self.widget.setCursor(Qt.ArrowCursor)
+            #     return
+            self.cumulativeEquation = "A"
+            self.cumulativeEquationInputs = ['distances_0_costed']
+            # self.createCumulativeArea()
         self.widget.setCursor(Qt.ArrowCursor)
         return "CALCULATED"
 
@@ -306,9 +404,21 @@ class Area(object):
         pt = geom.asPoint()
         coords = str(pt.x()) + ',' + str(pt.y())
         # writes coord to file
-        self.Utils.savePointFeaturesToFile([feature], 5514, DATAPATH + "/pracovni/coords_vector_" + str(id) + ".shp")
-        QgsMessageLog.logMessage("Coordinates of point " + str(i) + ": " + coords, "Patrac")
-
+        self.Utils.savePointFeaturesToFile([feature], self.params["epsg"], DATAPATH + "/pracovni/coords_vector_" + str(id) + ".shp")
+        QgsMessageLog.logMessage("Coordinates of point " + str(id) + ": " + coords, "Patrac")
+        params = {
+            "data_path": DATAPATH + "/",
+            "pointid": id,
+            "persontype": self.params["persontype"],
+            "minx": self.params["minx"],
+            "maxx": self.params["maxx"],
+            "miny": self.params["miny"],
+            "maxy": self.params["maxy"],
+            "epsg": self.params["epsg"],
+            "x": pt.x(),
+            "y": pt.y()
+        }
+        self.widget.runTask(CalculateCostDistanceTask(self.widget, self, params), "Calculating area: ")
 
     def checkCats(self):
         rules_percentage_path = self.pluginPath + "/grass/rules_percentage.txt"
