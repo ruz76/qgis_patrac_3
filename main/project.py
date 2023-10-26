@@ -107,10 +107,35 @@ class ClipSourceDataTask(QgsTask):
                     'OUTPUT':self.target_path + 'pracovni/sektory_group.shp'
                 }
             )
+            self.setProgress(90)
+            layer = QgsVectorLayer(self.target_path + 'pracovni/sektory_group.shp', "mylayer", "ogr")
+            layer.startEditing()
+            print("ADDING fields")
+            stavField = QgsField('stav', QVariant.Int)
+            prostredkyField = QgsField('prostredky', QVariant.String)
+            area_haField = QgsField('area_ha', QVariant.Double)
+            poznamkaField = QgsField('poznamka', QVariant.String)
+            od_casField = QgsField('od_cas', QVariant.String)
+            do_casField = QgsField('do_cas', QVariant.String)
+            layer.dataProvider().addAttributes([stavField, prostredkyField, area_haField, poznamkaField, od_casField, do_casField])
+            layer.updateFields()
+            layer.commitChanges()
+            layer.startEditing()
+            features = layer.dataProvider().getFeatures()
+            # index = layer.fieldNameIndex('area_ha')
+            # index2 = layer.fieldNameIndex('poznamka')
+            for feature in features:
+                # layer.changeAttributeValue(feature.id(), index, round(feature.geometry().area() / 10000))
+                # layer.changeAttributeValue(feature.id(), index2, str(round(feature.geometry().area() / 10000)))
+                feature['area_ha'] = round(feature.geometry().area() / 10000)
+                layer.updateFeature(feature)
+            layer.commitChanges()
             self.setProgress(100)
+
             return True
         except Exception as e:
             self.exception = e
+            print(e)
             return False
 
     def finished(self, result):

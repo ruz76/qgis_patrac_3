@@ -75,36 +75,23 @@ class Sectors(object):
 
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
-        # Removes layer
-        # self.removeLayer(DATAPATH + '/pracovni/sektory_group.shp')
-
-        QgsMessageLog.logMessage("Spoustim python " + self.pluginPath + "/grass/sectors.py" + " MIN: " + str(min) + " MAX:" + str(max), "Patrac")
-        self.widget.setCursor(Qt.WaitCursor)
-        if sys.platform.startswith('win'):
-            p = subprocess.Popen((self.pluginPath + "/grass/run_sectors.bat", DATAPATH, self.pluginPath,
-                                  str(min), str(max)))
-            p.wait()
-            # os.system(self.pluginPath + "/grass/run_sectors.bat " + DATAPATH + " " + self.pluginPath + " " + str(self.sliderStart.value()) + " " + str(self.sliderEnd.value()))
-        else:
-            p = subprocess.Popen(('bash', self.pluginPath + "/grass/run_sectors.sh", DATAPATH, self.pluginPath,
-                                  str(min), str(max)))
-            p.wait()
-            # os.system("bash " + self.pluginPath + "/grass/run_sectors.sh " + DATAPATH + " " + self.pluginPath + " " + str(self.sliderStart.value()) + " " + str(self.sliderEnd.value()))
 
         # Adds newly created layer with sectors to map
-        self.Utils.addVectorLayer(DATAPATH + '/pracovni/sektory_group_selected.shp', 'sektory vybrané')
+        self.Utils.addVectorLayer(DATAPATH + '/pracovni/sectors_zoned.shp', 'sektory zoned')
 
         #layer.dataProvider().forceReload()
         # layer.triggerRepaint()
-        self.filterSectors()
+        self.filterSectors(min, max)
         self.widget.setCursor(Qt.ArrowCursor)
         # self.recalculateSectors(False)
         return
 
-    def filterSectors(self):
+    def filterSectors(self, min, max):
+        QgsMessageLog.logMessage("Filtruji pro " + str(min) + " " + str(max), "Patrac")
+
         layer = None
         for lyr in list(QgsProject.instance().mapLayers().values()):
-            if self.Utils.getDataPath() + "/pracovni/sektory_group_selected.shp" in lyr.source():
+            if self.Utils.getDataPath() + "/pracovni/sectors_zoned.shp" in lyr.source():
                 layer = lyr
                 break
 
@@ -115,31 +102,26 @@ class Sectors(object):
         filter = "id IN ("
         try:
             for feature in features:
-                f.write(str(feature['id']) + "\n")
-                filter += "'" + str(feature['id']) + "', "
-        except:
+                if min == 0 and max > 80:
+                    f.write(str(feature['id']) + "\n")
+                    filter += "'" + str(feature['id']) + "', "
+                else:
+                    if str(feature['stats_min']) != 'NULL':
+                        QgsMessageLog.logMessage("Filtruji pro " + str(feature['stats_min']) + " " + str(feature['id']), "Patrac")
+                        if min <= feature['stats_min'] and max >= feature['stats_min']:
+                            QgsMessageLog.logMessage("Filtruji pro " + str(feature['stats_min']) + " " + str(feature['id']), "Patrac")
+                            f.write(str(feature['id']) + "\n")
+                            filter += "'" + str(feature['id']) + "', "
+        except Exception as e:
+            print(e)
             QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
                              QApplication.translate("Patrac", "Wrong installation. Call you administrator.", None))
             return
 
         filter = filter[:-2] + ")"
-        # print("FILTERING")
-        # print(filter)
-        # time.sleep(30)
         f.close()
 
-        # remove layer we do not need it
-        # Removes first two attrbutes from added layer
-        # Attributes are something like cat_
-        # Attributes cat and cat_ are identical
-        fList = list()
-        fList.append(0)
-        fList.append(1)
-        layer.startEditing()
-        layer.dataProvider().deleteAttributes(fList)
-        layer.commitChanges()
-
-        self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sektory_group_selected.shp")
+        self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sectors_zoned.shp")
         self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sektory_group.shp")
         self.Utils.addVectorLayerWithStyle(self.Utils.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "sectors_single")
         self.Utils.setLayerCrs(self.Utils.getDataPath() + "/pracovni/sektory_group.shp", 5514)
@@ -155,13 +137,6 @@ class Sectors(object):
         QgsMessageLog.logMessage("Filtruji " + filter, "Patrac")
         layer.setSubsetString(filter)
         layer.triggerRepaint()
-
-        # provider = layer.dataProvider()
-        # features = provider.getFeatures()
-        # for feature in features:
-        #     print(str(feature['id']))
-        #
-        # time.sleep(5)
 
     def extendRegion(self):
 

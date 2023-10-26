@@ -61,8 +61,8 @@ class Ui_Sector(QtWidgets.QDialog, FORM_CLASS):
         if isinstance(feature.attributes()[1], str):
             self.labelSectorId.setText(self.tr("SECTOR") + ": " + feature.attributes()[1])
         self.mDateTimeEditChange.setDateTime(QDateTime.currentDateTime())
-        if isinstance(feature.attributes()[7], str):
-            self.lineEditComment.setText(feature.attributes()[7])
+        if isinstance(feature.attributes()[6], str):
+            self.lineEditComment.setText(feature.attributes()[6])
         else:
             self.lineEditComment.setText("")
         if not isinstance(feature.attributes()[3], int):
@@ -89,8 +89,10 @@ class Ui_Sector(QtWidgets.QDialog, FORM_CLASS):
         return self.accepted
 
     def accept(self):
+        # TODO fix based on new structure
         if self.feature is not None:
-            self.feature.setAttribute(7, self.lineEditComment.text())
+            self.feature.setAttribute(6, self.lineEditComment.text())
+            # Attribute position in the list
             attribute = 3
             if self.sectorsProgressStateNotStarted.isChecked() == True:
                 type = None
@@ -106,13 +108,13 @@ class Ui_Sector(QtWidgets.QDialog, FORM_CLASS):
             self.feature.setAttribute(attribute, type)
             if type is None:
                 self.feature.setAttribute(attribute + 1, None)
+                self.feature.setAttribute(7, None)
                 self.feature.setAttribute(8, None)
-                self.feature.setAttribute(9, None)
             if type == 1:
                 self.feature.setAttribute(attribute + 1, unit)
             if type == 1 or type == 0:
-                self.feature.setAttribute(8, self.mDateTimeEditChange.dateTime().toString('dd.MM.yyyy hh:mm:ss'))
+                self.feature.setAttribute(7, self.mDateTimeEditChange.dateTime().toString('dd.MM.yyyy hh:mm:ss'))
             if type == 2:
-                self.feature.setAttribute(9, self.mDateTimeEditChange.dateTime().toString('dd.MM.yyyy hh:mm:ss'))
+                self.feature.setAttribute(8, self.mDateTimeEditChange.dateTime().toString('dd.MM.yyyy hh:mm:ss'))
             self.accepted = True
         self.close()
