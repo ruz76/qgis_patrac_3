@@ -732,7 +732,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.runGuideGetSectors()
 
         # run sectors selection and exports
-        # self.Sectors.reportExportSectors(False, False)
+        self.Sectors.reportExportSectors(False, False)
 
         # move to next tab (tab 6)
         self.tabGuideSteps.setCurrentIndex(5)
