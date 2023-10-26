@@ -48,6 +48,7 @@ class CalculateDistanceCostedCumulativeTask(QgsTask):
         self.widget = widget
         self.parent = parent
         self.data_path = params["data_path"]
+        self.finish_steps = params["finish_steps"]
         self.exception: Optional[Exception] = None
 
     def run(self):
@@ -99,7 +100,11 @@ class CalculateDistanceCostedCumulativeTask(QgsTask):
         else:
             QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
                                  QApplication.translate("Patrac", "Wrong installation. Call you administrator.", None))
-        self.widget.finishStep3()
+
+        if self.finish_steps:
+            self.widget.finishRecalculateAll()
+        else:
+            self.widget.finishStep3()
 
 
 class CalculateCostDistanceTask(QgsTask):
@@ -117,6 +122,7 @@ class CalculateCostDistanceTask(QgsTask):
         self.epsg = params["epsg"]
         self.x = params["x"]
         self.y = params["y"]
+        self.finish_steps = params["finish_steps"]
         self.exception: Optional[Exception] = None
 
     def run(self):
@@ -178,7 +184,7 @@ class CalculateCostDistanceTask(QgsTask):
 
     def finished(self, result):
         print("FINISHED Calculate CostDistance Task for Point: " + str(self.pointid))
-        self.parent.finishedCalculateCostDistanceTask(self.pointid)
+        self.parent.finishedCalculateCostDistanceTask(self.pointid, self.finish_steps)
 
     def get_proj_win(self):
         return str(self.minx) + ',' + str(self.maxx) + ',' + str(self.miny) + ',' + str(self.maxy) + ' [EPSG:' + str(self.epsg) + ']'
@@ -205,27 +211,33 @@ class Area(object):
     def setParams(self, params):
         self.params = params
 
-    def finishedCalculateCostDistanceTask(self, pointid):
+    def finishedCalculateCostDistanceTask(self, pointid, finish_steps):
         self.calculatedPoints.append(pointid)
         if len(self.calculatedPoints) == len(self.pointsToCalculate):
             print("Start Cumulative using self.cumulativeEquation")
             # Start Cumulative using self.cumulativeEquation
             DATAPATH = self.Utils.getDataPath()
             params = {
-                "data_path": DATAPATH + "/"
+                "data_path": DATAPATH + "/",
+                "finish_steps": finish_steps
             }
             self.widget.runTask(CalculateDistanceCostedCumulativeTask(self.widget, self, params), "Calculating cumulative: ")
 
-        # print("Start Cumulative using self.cumulativeEquation")
-        # # Start Cumulative using self.cumulativeEquation
-        # DATAPATH = self.Utils.getDataPath()
-        # params = {
-        #     "data_path": DATAPATH + "/"
-        # }
-        # self.widget.runTask(CalculateDistanceCostedCumulativeTask(self.widget, self, params), "Calculating cumulative: ")
-
-    def getArea(self):
+    def getArea(self, finish_steps=False):
         """Runs main search for suitable area"""
+
+
+        if self.params is None:
+            projectinfo = self.Utils.getProjectInfo()
+            params = {
+                "persontype": projectinfo['persontype'],
+                "minx": projectinfo['minx'],
+                "maxx": projectinfo['maxx'],
+                "miny": projectinfo['miny'],
+                "maxy": projectinfo['maxy'],
+                "epsg": projectinfo['epsg']
+            }
+            self.params = params
 
         self.Utils.loadRemovedNecessaryLayers()
 
@@ -267,17 +279,7 @@ class Area(object):
             features = self.filterAndSortFeatures(layer.getFeatures())
 
         self.pointsToCalculate = features
-
-        # # TODO use sorted data
-        # crs = QgsCoordinateReferenceSystem("EPSG:5514")
-        # QgsVectorFileWriter.writeAsVectorFormat(layer, DATAPATH + "/pracovni/coords_vector.shp",
-        #                                         "utf-8", crs, "ESRI Shapefile")
-        #
-        # params = {
-        #     "data_path": DATAPATH + "/"
-        # }
-        # self.widget.runTask(CalculateAreaTask(self.widget, params), "Calculating area: ")
-        # print("TASK STARTED")
+        self.calculatedPoints = []
 
         # If there is just one point - impossible to define direction
         # TODO - think more about this check - should be more than two, probably and in some shape as well
@@ -288,7 +290,7 @@ class Area(object):
             if azimuth <= 360 and useAzimuth:
                 self.generateRadialOnPoint(features[len(features) - 1], 0)
                 self.writeAzimuthReclass(azimuth, 30, 100)
-                self.findAreaWithRadial(features[len(features) - 1], 0)
+                self.findAreaWithRadial(features[len(features) - 1], 0, finish_steps)
                 # cats_status = self.checkCats()
                 # if not cats_status:
                 #     self.widget.setCursor(Qt.ArrowCursor)
@@ -303,7 +305,7 @@ class Area(object):
                 max_weight = 1
                 for feature in features:
                     self.generateRadialOnPoint(feature, i)
-                    self.findAreaWithRadial(feature, i)
+                    self.findAreaWithRadial(feature, i, finish_steps)
                     # cats_status = self.checkCats()
                     # if not cats_status:
                     #     self.widget.setCursor(Qt.ArrowCursor)
@@ -327,7 +329,7 @@ class Area(object):
         else:
             self.generateRadialOnPoint(features[0], 0)
             self.writeAzimuthReclass(0, 0, 0)
-            self.findAreaWithRadial(features[0], 0)
+            self.findAreaWithRadial(features[0], 0, finish_steps)
             # cats_status = self.checkCats()
             # if not cats_status:
             #     self.widget.setCursor(Qt.ArrowCursor)
@@ -403,7 +405,7 @@ class Area(object):
             QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
                                  QApplication.translate("Patrac", "Wrong installation. Call you administrator.", None))
 
-    def findAreaWithRadial(self, feature, id):
+    def findAreaWithRadial(self, feature, id, finish_steps):
         DATAPATH = self.Utils.getDataPath()
         geom = feature.geometry()
         pt = geom.asPoint()
@@ -421,7 +423,8 @@ class Area(object):
             "maxy": self.params["maxy"],
             "epsg": self.params["epsg"],
             "x": pt.x(),
-            "y": pt.y()
+            "y": pt.y(),
+            "finish_steps": finish_steps
         }
         self.widget.runTask(CalculateCostDistanceTask(self.widget, self, params), "Calculating area: ")
 

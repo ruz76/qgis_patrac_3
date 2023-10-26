@@ -739,7 +739,7 @@ class Sectors(object):
             ['KOLEJI', 'POTELO', 'SKLADK'],
             ['LPSTROM', 'VINICE', 'CHMELN'],
             ['LPKOSO', 'LPKROV', 'MAZCHU'],
-            ['AREZAS', 'ARUCZA', 'HRBITO', 'PRSTPR', 'ROZTRA', 'ROZZRI', 'ULOMIS', 'USNAOD'],
+            ['AREZAS', 'ARUCZA', 'HRBITO', 'PRSTPR', 'ROZTRA', 'ROZZRI', 'ULOMIS', 'USNAOD', 'INTRAV'],
             ['ZAHPAR'],
             [],
             ['VODPLO'],

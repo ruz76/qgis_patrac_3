@@ -237,7 +237,7 @@ class Utils(object):
         letters = "CDEFGHIJKLMNOPQRSTUVWXYZ"
         return [letters[i] + ":/" for i in range(len(letters))]
 
-    def createProjectInfo(self, projectname, projectdesc, version):
+    def createProjectInfo(self, projectname, projectdesc, version, minx, maxx, miny, maxy, epsg):
         project_info = {
             "projectname": projectname,
             "projectdesc": projectdesc,
@@ -263,7 +263,12 @@ class Utils(object):
             "lost_clothes": "",
             "hs_incidentid": "0",
             "gina_guid": "",
-            "sectors_type": 0
+            "sectors_type": 0,
+            "epsg": epsg,
+            "minx": minx,
+            "maxx": maxx,
+            "miny": miny,
+            "maxy": maxy
         }
 
         with open(self.getDataPath() + "/pracovni/project.json", 'w') as outfile:

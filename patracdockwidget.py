@@ -589,7 +589,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         version = 0
         if self.guideRealSearch.isChecked():
             version = 1
-        self.Utils.createProjectInfo(self.projectname, self.projectdesc, version)
+        self.Utils.createProjectInfo(self.projectname, self.projectdesc, version, self.createProjectResult['XMIN'], self.createProjectResult['XMAX'], self.createProjectResult['YMIN'], self.createProjectResult['YMAX'], self.createProjectResult['epsg'])
 
         self.setCursor(Qt.ArrowCursor)
 
@@ -758,18 +758,16 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         layer = self.saveMistaLayer()
         if not layer is None:
             self.updateUnitsGuide()
-            area = self.Area.getArea()
-            if area is not None:
-                self.spinStart.setValue(0)
-                self.spinEnd.setValue(self.guideSpinEnd.value())
-                self.updatePatrac()
-                self.runGuideGetSectors()
-                self.Sectors.reportExportSectors(False, False)
-                self.showReport()
-                self.updatePatrac()
-            else:
-                QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None) + ":",
-                                        QApplication.translate("Patrac", "Can not calculate the area. Check the inputs.", None))
+            self.Area.getArea(True)
+
+    def finishRecalculateAll(self):
+        self.spinStart.setValue(0)
+        self.spinEnd.setValue(self.guideSpinEnd.value())
+        self.updatePatrac()
+        self.runGuideGetSectors()
+        self.Sectors.reportExportSectors(False, False)
+        self.showReport()
+        self.updatePatrac()
 
     def setPercent(self, percent):
         self.spinStart.setValue(0)
@@ -1230,7 +1228,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         # create the task and connect its signals
         self.task = task
         self.task.progressChanged.connect(self.progress_bar.setValue)
-        self.task.taskCompleted.connect(self.iface.messageBar().clearWidgets)
+        # self.task.taskCompleted.connect(self.iface.messageBar().clearWidgets)
 
         # start the task and close the dialog
         QgsApplication.taskManager().addTask(self.task)
