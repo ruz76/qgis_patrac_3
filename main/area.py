@@ -134,7 +134,7 @@ class CalculateCostDistanceTask(QgsTask):
             processing.run("gdal:rasterize", {'INPUT':self.data_path + 'pracovni/coords_vector_' + str(self.pointid) + '.shp','FIELD':'','BURN':1,'USE_Z':False,'UNITS':1,'WIDTH':5,'HEIGHT':5,'EXTENT':'-870888.866500000,-834372.789100000,-1044166.135100000,-1011525.172000000 [EPSG:5514]','NODATA':0,'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9','DATA_TYPE':0,'INIT':None,'INVERT':False,'EXTRA':'','OUTPUT':self.data_path + 'pracovni/coords_rast_' + str(self.pointid) + '.tif'})
             self.setProgress(30)
             # TODO load distances
-            processing.run("grass7:r.buffer", {'input': self.data_path + 'pracovni/coords_rast_' + str(self.pointid) + '.tif','distances':'190,390,640,970,1280,1900,2530,3200,10320','units':0,'-z':False,'output': self.data_path + 'pracovni/buffers_' + str(self.pointid) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+            processing.run("grass7:r.buffer", {'input': self.data_path + 'pracovni/coords_rast_' + str(self.pointid) + '.tif','distances': self.get_distances(),'units':0,'-z':False,'output': self.data_path + 'pracovni/buffers_' + str(self.pointid) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
             self.setProgress(35)
             # we have to start on cat 3, so on min of the ring for 20%
             cat=3
@@ -182,6 +182,11 @@ class CalculateCostDistanceTask(QgsTask):
 
     def get_proj_win(self):
         return str(self.minx) + ',' + str(self.maxx) + ',' + str(self.miny) + ',' + str(self.maxy) + ' [EPSG:' + str(self.epsg) + ']'
+
+    def get_distances(self):
+        with open(self.parent.pluginPath + "/grass/distances.txt") as d:
+            lines = d.readlines()
+            return lines[self.persontype].rstrip()
 
 class Area(object):
     def __init__(self, widget):

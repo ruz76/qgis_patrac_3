@@ -706,7 +706,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         # set percent of visibility
         self.spinStart.setValue(0)
-        self.spinEnd.setValue(self.guideSpinEnd.value())
+        self.spinEnd.setValue(self.guideSpinEnd.value() + 10)
         self.updatePatrac()
 
         # move to next tab (tab 5)

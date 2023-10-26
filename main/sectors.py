@@ -107,9 +107,9 @@ class Sectors(object):
                     filter += "'" + str(feature['id']) + "', "
                 else:
                     if str(feature['stats_min']) != 'NULL':
-                        QgsMessageLog.logMessage("Filtruji pro " + str(feature['stats_min']) + " " + str(feature['id']), "Patrac")
+                        # QgsMessageLog.logMessage("Filtruji pro " + str(feature['stats_min']) + " " + str(feature['id']), "Patrac")
                         if min <= feature['stats_min'] and max >= feature['stats_min']:
-                            QgsMessageLog.logMessage("Filtruji pro " + str(feature['stats_min']) + " " + str(feature['id']), "Patrac")
+                            # QgsMessageLog.logMessage("Filtruji pro " + str(feature['stats_min']) + " " + str(feature['id']), "Patrac")
                             f.write(str(feature['id']) + "\n")
                             filter += "'" + str(feature['id']) + "', "
         except Exception as e:
