@@ -53,7 +53,7 @@ class CalculateDistanceCostedCumulativeTask(QgsTask):
 
     def run(self):
         try:
-            progress = 5
+            progress = 85
             self.setProgress(progress)
 
             params = {
@@ -71,7 +71,7 @@ class CalculateDistanceCostedCumulativeTask(QgsTask):
             print(params)
 
             processing.run("grass7:r.mapcalc.simple", params)
-            progress = 50
+            progress = 90
             self.setProgress(progress)
 
             processing.run("native:zonalstatisticsfb", {'INPUT':self.data_path + 'pracovni/sektory_group.shp','INPUT_RASTER':self.data_path + 'pracovni/distances_costed_cum.tif','RASTER_BAND':1,'COLUMN_PREFIX':'stats_','STATISTICS':[5],'OUTPUT':self.data_path + 'pracovni/sectors_zoned.shp'})
@@ -80,7 +80,7 @@ class CalculateDistanceCostedCumulativeTask(QgsTask):
 
             return True
         except Exception as e:
-            print(e)
+            QgsMessageLog.logMessage("Chyba v CalculateDistanceCostedCumulativeTask: " + str(e), "Patrac")
             self.exception = e
             return False
 
@@ -106,6 +106,7 @@ class CalculateDistanceCostedCumulativeTask(QgsTask):
         else:
             self.widget.finishStep3()
 
+        self.widget.clearMessageBar()
 
 class CalculateCostDistanceTask(QgsTask):
     def __init__(self, widget, parent, params):
@@ -128,18 +129,18 @@ class CalculateCostDistanceTask(QgsTask):
     def run(self):
         try:
             self.setProgress(5)
+            QgsMessageLog.logMessage("CWD " + str(os.getcwd()), "Patrac Info")
             processing.run("gdal:rasterize", {'INPUT': self.data_path + 'pracovni/radial' + str(self.pointid) + '.csv','FIELD':'id','BURN':0,'USE_Z':False,'UNITS':1,'WIDTH':5,'HEIGHT':5,'EXTENT': self.get_proj_win(),'NODATA':0,'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9','DATA_TYPE':5,'INIT':None,'INVERT':False,'EXTRA':'','OUTPUT': self.data_path + 'pracovni/radial' + str(self.pointid) + '.tif'})
             self.setProgress(10)
-            processing.run("grass7:r.reclass", {'input': self.data_path + 'pracovni/radial' + str(self.pointid) + '.tif','rules': self.data_path + 'pracovni/azimuth_reclass.rules','txtrules': '','output': self.data_path + 'pracovni/radial_reclassed_' + str(self.pointid) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
+            processing.run("grass7:r.reclass", {'input': self.data_path + 'pracovni/radial' + str(self.pointid) + '.tif','rules': self.data_path + 'pracovni/azimuth_reclass_' + str(self.pointid) + '.rules','txtrules': '','output': self.data_path + 'pracovni/radial_reclassed_' + str(self.pointid) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
             print("grass7:r.mapcalc.simple")
             self.setProgress(15)
             processing.run("grass7:r.mapcalc.simple", {'a': self.data_path + 'raster/friction.tif','b':self.data_path + 'pracovni/radial_reclassed_' + str(self.pointid) + '.tif','c':None,'d':None,'e':None,'f':None,'expression':'A+B','output':self.data_path + 'pracovni/friction_radial_' + str(self.pointid) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
             self.setProgress(20)
             processing.run("grass7:r.walk.coords", {'elevation': self.data_path + 'raster/dem.tif','friction':self.data_path + 'pracovni/friction_radial_' + str(self.pointid) + '.tif','start_coordinates': str(self.x) + ',' + str(self.y),'stop_coordinates':'','walk_coeff':'0.72,6.0,1.9998,-1.9998','lambda':1,'slope_factor':-0.2125,'max_cost':0,'null_cost':None,'memory':300,'-k':False,'-n':False,'output':self.data_path + 'pracovni/cost_' + str(self.pointid) + '.tif','outdir':'TEMPORARY_OUTPUT','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
             self.setProgress(25)
-            processing.run("gdal:rasterize", {'INPUT':self.data_path + 'pracovni/coords_vector_' + str(self.pointid) + '.shp','FIELD':'','BURN':1,'USE_Z':False,'UNITS':1,'WIDTH':5,'HEIGHT':5,'EXTENT':'-870888.866500000,-834372.789100000,-1044166.135100000,-1011525.172000000 [EPSG:5514]','NODATA':0,'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9','DATA_TYPE':0,'INIT':None,'INVERT':False,'EXTRA':'','OUTPUT':self.data_path + 'pracovni/coords_rast_' + str(self.pointid) + '.tif'})
+            processing.run("gdal:rasterize", {'INPUT':self.data_path + 'pracovni/coords_vector_' + str(self.pointid) + '.shp','FIELD':'','BURN':1,'USE_Z':False,'UNITS':1,'WIDTH':5,'HEIGHT':5,'EXTENT': self.get_proj_win(),'NODATA':0,'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9','DATA_TYPE':0,'INIT':None,'INVERT':False,'EXTRA':'','OUTPUT':self.data_path + 'pracovni/coords_rast_' + str(self.pointid) + '.tif'})
             self.setProgress(30)
-            # TODO load distances
             processing.run("grass7:r.buffer", {'input': self.data_path + 'pracovni/coords_rast_' + str(self.pointid) + '.tif','distances': self.get_distances(),'units':0,'-z':False,'output': self.data_path + 'pracovni/buffers_' + str(self.pointid) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
             self.setProgress(35)
             # we have to start on cat 3, so on min of the ring for 20%
@@ -171,14 +172,14 @@ class CalculateCostDistanceTask(QgsTask):
                     except:
                         print("Problem with category " + str(cat) + " " + str(i) + "%")
                 cat += 1
-                progress += 7
+                progress += 5
                 self.setProgress(progress)
             processing.run("grass7:r.reclass", {'input':self.data_path + 'pracovni/cost_' + str(self.pointid) + '.tif','rules':'','txtrules': rules_global,'output':self.data_path + 'pracovni/distances_' + str(self.pointid) + '_costed.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
-            progress = 100
+            progress = 80
             self.setProgress(progress)
             return True
         except Exception as e:
-            print(e)
+            QgsMessageLog.logMessage("Chyba v CalculateCostDistanceTask " + str(self.pointid) + ": " + str(e), "Patrac")
             self.exception = e
             return False
 
@@ -221,11 +222,12 @@ class Area(object):
                 "data_path": DATAPATH + "/",
                 "finish_steps": finish_steps
             }
-            self.widget.runTask(CalculateDistanceCostedCumulativeTask(self.widget, self, params), "Calculating cumulative: ")
+            self.widget.runTask(CalculateDistanceCostedCumulativeTask(self.widget, self, params))
 
     def getArea(self, finish_steps=False):
         """Runs main search for suitable area"""
 
+        self.widget.createProgressBar("Calculating area: ")
 
         if self.params is None:
             projectinfo = self.Utils.getProjectInfo()
@@ -287,9 +289,11 @@ class Area(object):
             azimuth = self.getRadial(features)
             useAzimuth = self.Utils.getProcessRadial()
             # difficult to set azimuth (for example wrong shape of the path (e.q. close to  circle))
+            QgsMessageLog.logMessage("Maskuji pro azimuth: " + str(azimuth) + " " + str(useAzimuth), "Patrac")
             if azimuth <= 360 and useAzimuth:
+                self.pointsToCalculate = [features[len(features) - 1]]
                 self.generateRadialOnPoint(features[len(features) - 1], 0)
-                self.writeAzimuthReclass(azimuth, 30, 100)
+                self.writeAzimuthReclass(azimuth, 30, 100, 0)
                 self.findAreaWithRadial(features[len(features) - 1], 0, finish_steps)
                 # cats_status = self.checkCats()
                 # if not cats_status:
@@ -299,11 +303,11 @@ class Area(object):
                 self.cumulativeEquationInputs = ['distances_0_costed']
                 # self.createCumulativeArea()
             else:
-                self.writeAzimuthReclass(0, 0, 0)
                 i = 0
                 distances_costed_cum = ""
                 max_weight = 1
                 for feature in features:
+                    self.writeAzimuthReclass(0, 0, 0, i)
                     self.generateRadialOnPoint(feature, i)
                     self.findAreaWithRadial(feature, i, finish_steps)
                     # cats_status = self.checkCats()
@@ -315,7 +319,7 @@ class Area(object):
                         cur_weight = str(feature["vaha"])
                     if str(feature["vaha"]) != "NULL" and feature["vaha"] > max_weight:
                         max_weight = feature["vaha"]
-                    if (i == 0):
+                    if i == 0:
                         distances_costed_cum = "(" + str(chr(65 + i)) + "/" + cur_weight + ")"
                         self.cumulativeEquationInputs.append('distances_0_costed')
 
@@ -328,7 +332,7 @@ class Area(object):
                 # self.createCumulativeArea()
         else:
             self.generateRadialOnPoint(features[0], 0)
-            self.writeAzimuthReclass(0, 0, 0)
+            self.writeAzimuthReclass(0, 0, 0, 0)
             self.findAreaWithRadial(features[0], 0, finish_steps)
             # cats_status = self.checkCats()
             # if not cats_status:
@@ -426,7 +430,9 @@ class Area(object):
             "y": pt.y(),
             "finish_steps": finish_steps
         }
-        self.widget.runTask(CalculateCostDistanceTask(self.widget, self, params), "Calculating area: ")
+        os.mkdir('/tmp/processing_' + str(id))
+        processing.setConfigurationParameter('TMPDIR', '/tmp/processing_' + str(id))
+        self.widget.runTask(CalculateCostDistanceTask(self.widget, self, params))
 
     def checkCats(self):
         rules_percentage_path = self.pluginPath + "/grass/rules_percentage.txt"
@@ -591,7 +597,7 @@ class Area(object):
         # In axe Y is coordinate increased
         if KVADRANT == 4:
             from_deg = 270
-            to_deg = 360
+            to_deg = 361
             xdir = -1
             ydir = 1
         for i in range(from_deg, to_deg):
@@ -632,13 +638,13 @@ class Area(object):
             wkt_polygon = wkt_polygon + ", " + str(x) + " " + str(y) + ", " + str(CENTERX) + " " + str(CENTERY) + "))"
             csv.write(str(i) + ";" + wkt_polygon + "\n")
 
-    def writeAzimuthReclass(self, azimuth, tolerance, friction):
+    def writeAzimuthReclass(self, azimuth, tolerance, friction, id):
         """Creates reclass rules for direction
             Tolerance is for example 30 degrees
             Friction is how frict is the direction
         """
         DATAPATH = self.Utils.getDataPath()
-        reclass = open(DATAPATH + "/pracovni/azimuth_reclass.rules", "w")
+        reclass = open(DATAPATH + "/pracovni/azimuth_reclass_" + str(id) + ".rules", "w")
         tolerance_half = tolerance / 2
         astart = int(azimuth) - tolerance_half
         aend = int(azimuth) + tolerance_half

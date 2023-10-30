@@ -44,6 +44,8 @@ import requests, json
 from ..connect.connect import *
 from string import ascii_uppercase
 import urllib3
+import tempfile
+from zipfile import ZipFile
 
 # import qrcode
 
@@ -70,7 +72,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
         self.main = parent
         self.iface = self.main.iface
-        self.serverUrl = 'http://gisak.vsb.cz/patrac/'
+        self.serverUrl = 'http://sarops.info/patrac/'
         self.comboBoxDistance.addItem(self.tr("LSOM"))
         self.comboBoxDistance.addItem(self.tr("Hill"))
         self.comboBoxDistance.addItem(self.tr("UK"))
@@ -329,9 +331,112 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.setCursor(Qt.ArrowCursor)
         self.parent.setCursor(Qt.ArrowCursor)
 
+
+    def downloadResource(self, source, target, start, end):
+        print(source)
+        print(target)
+        self.progressBar.setValue(start)
+        try:
+            if os.path.exists(target):
+                os.remove(target)
+            url = source
+            http = urllib3.PoolManager()
+            response = http.request('GET', url, preload_content=False)
+            content_length = response.headers['Content-Length']
+            total_size = int(content_length)
+            downloaded = 0
+            CHUNK = 256 * 10240
+            with open(target, 'wb') as fp:
+                while True:
+                    chunk = response.read(CHUNK)
+                    downloaded += len(chunk)
+                    if not chunk:
+                        break
+                    fp.write(chunk)
+            response.release_conn()
+            self.progressBar.setValue(end)
+        except Exception as e:
+            print(e)
+            QMessageBox.information(None, self.tr("ERROR"), self.tr("Can not connect to the server"))
+
+    def downloadData(self, start, end):
+        print('Downloading data')
+        self.textEditHds.append('Downloading data ...')
+        QtWidgets.QApplication.processEvents()
+        tmpdirname = tempfile.mkdtemp()
+        self.downloadResource(self.serverUrl + "qgis3/data/ka/list.json", os.path.join(tmpdirname, 'list.json'), 30, 31)
+        with open(os.path.join(tmpdirname, 'list.json')) as l:
+            data = json.load(l)
+            count = len(data)
+            size = round((end - start) / count)
+            for item in data:
+                print(item)
+                self.downloadResource(self.serverUrl + "qgis3/data/ka/" + item, os.path.join(tmpdirname, item), start, start + size)
+                self.textEditHds.append('Downloaded chunk ' + item)
+                QtWidgets.QApplication.processEvents()
+                start += size
+        return [tmpdirname, data]
+
+    def mergeDownloaded(self, items, source, target):
+        self.textEditHds.append('Merging chunks ...')
+        QtWidgets.QApplication.processEvents()
+        # items = ['x00', 'x01', 'x02', 'x03', 'x04', 'x05']
+        for item in items:
+            with open(os.path.join(source, item), 'rb') as input:
+                data = input.read()
+            with open(target, 'ab') as output:
+                output.write(data)
+
+    def backupData(self, source, target, start, end):
+        print('Backing up the data')
+        self.textEditHds.append('Backing up the data ...')
+        self.textEditHds.append('Calculating files ...')
+        # shutil.make_archive(target, 'zip', source)
+        count = 0
+        for dirname, subdirs, files in os.walk(source):
+            for filename in files:
+                count += 1
+
+        step = (end - start) / count
+        progress = start
+        zf = ZipFile(target, "w")
+        for dirname, subdirs, files in os.walk(source):
+            zf.write(dirname)
+            for filename in files:
+                self.textEditHds.append('Archiving ' + filename + ' ...')
+                QtWidgets.QApplication.processEvents()
+                zf.write(os.path.join(dirname, filename))
+                progress += step
+                self.progressBar.setValue(round(progress))
+        zf.close()
+
+        self.progressBar.setValue(end)
+
+    def unzipData(self, source, target):
+        self.textEditHds.append('Unzipping data ...')
+        QtWidgets.QApplication.processEvents()
+        try:
+            kraj_zip = ZipFile(source)
+            kraj_zip.extractall(target)
+        except:
+            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Can not extract"), self.tr("Can not extract"))
+
     def updateData(self):
-        msg = self.tr("Function is not supported")
-        QMessageBox.information(self.main.iface.mainWindow(), self.tr("Not available"), msg)
+        # msg = self.tr("Function is not supported")
+        # QMessageBox.information(self.main.iface.mainWindow(), self.tr("Not available"), msg)
+        self.progressBar.setValue(5)
+        if not os.path.exists('/data/patracdata/kraje/backups'):
+            os.mkdir('/data/patracdata/kraje/backups')
+        self.backupData('/data/patracdata/kraje/ka', os.path.join('/data/patracdata/kraje/backups', 'ka.zip'), 5, 30)
+        self.progressBar.setValue(30)
+        resources = self.downloadData(30, 70)
+        self.progressBar.setValue(70)
+        self.mergeDownloaded(resources[1], resources[0], os.path.join(resources[0], 'data.zip'))
+        self.progressBar.setValue(85)
+        self.unzipData(os.path.join(resources[0], 'data.zip'), '/data/patracdata/ka/')
+        self.progressBar.setValue(100)
+        self.textEditHds.append('Finished. The data has been updated.')
+        QtWidgets.QApplication.processEvents()
         return
 
     def getPatracDataPath(self):

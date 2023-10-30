@@ -131,7 +131,6 @@ class ClipSourceDataTask(QgsTask):
                 layer.updateFeature(feature)
             layer.commitChanges()
             self.setProgress(100)
-
             return True
         except Exception as e:
             self.exception = e
@@ -141,6 +140,7 @@ class ClipSourceDataTask(QgsTask):
     def finished(self, result):
         print("FINISHED")
         self.widget.finishStep1()
+        self.widget.clearMessageBar()
 
 class Project(object):
     def __init__(self, widget):
@@ -317,7 +317,8 @@ class Project(object):
             "epsg": epsg
         }
 
-        self.widget.runTask(ClipSourceDataTask(self.widget, params), "Loading data: ")
+        self.widget.createProgressBar("Loading data: ")
+        self.widget.runTask(ClipSourceDataTask(self.widget, params))
         print("TASK STARTED")
 
         return {

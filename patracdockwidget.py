@@ -215,6 +215,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.projectname = ""
         self.projectdesc = ""
         self.gridsize = 0
+        self.tasks = []
 
         userPluginPath = QFileInfo(QgsApplication.qgisUserDatabaseFilePath()).path() + "/python/plugins/qgis_patrac"
         systemPluginPath = QgsApplication.prefixPath() + "/python/plugins/qgis_patrac"
@@ -1214,7 +1215,14 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.persondlg.show()
 
 
-    def runTask(self, task, message):
+    def runTask(self, task):
+        # create the task and connect its signals
+        self.tasks.append(task)
+        self.tasks[len(self.tasks) - 1].progressChanged.connect(self.progress_bar.setValue)
+        # start the task and close the dialog
+        QgsApplication.taskManager().addTask(self.tasks[len(self.tasks) - 1])
+
+    def createProgressBar(self, message):
         # Create a progress bar in the QGIS message bar
         self.progress_bar = QProgressBar()
         self.progress_bar.setMaximum(100)
@@ -1225,13 +1233,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         progress_msg.layout().addWidget(self.progress_bar)
         self.iface.messageBar().pushWidget(progress_msg, Qgis.Info)
 
-        # create the task and connect its signals
-        self.task = task
-        self.task.progressChanged.connect(self.progress_bar.setValue)
-        # self.task.taskCompleted.connect(self.iface.messageBar().clearWidgets)
-
-        # start the task and close the dialog
-        QgsApplication.taskManager().addTask(self.task)
+    def clearMessageBar(self):
+        self.iface.messageBar().clearWidgets()
 
     def runTestProcessing(self):
 
