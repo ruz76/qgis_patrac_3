@@ -222,7 +222,11 @@ class Area(object):
                 "data_path": DATAPATH + "/",
                 "finish_steps": finish_steps
             }
-            self.widget.runTask(CalculateDistanceCostedCumulativeTask(self.widget, self, params))
+            self.widget.clearTasksList()
+            self.widget.appendTask(CalculateDistanceCostedCumulativeTask(self.widget, self, params))
+            self.widget.runTask(0)
+        else:
+            self.widget.runTask(pointid + 1)
 
     def getArea(self, finish_steps=False):
         """Runs main search for suitable area"""
@@ -282,6 +286,7 @@ class Area(object):
 
         self.pointsToCalculate = features
         self.calculatedPoints = []
+        self.widget.clearTasksList()
 
         # If there is just one point - impossible to define direction
         # TODO - think more about this check - should be more than two, probably and in some shape as well
@@ -341,6 +346,8 @@ class Area(object):
             self.cumulativeEquation = "A"
             self.cumulativeEquationInputs = ['distances_0_costed']
             # self.createCumulativeArea()
+
+        self.widget.runTask(0)
         self.widget.setCursor(Qt.ArrowCursor)
         return "CALCULATED"
 
@@ -431,9 +438,8 @@ class Area(object):
             "y": pt.y(),
             "finish_steps": finish_steps
         }
-        # os.mkdir('/tmp/processing_' + str(id))
-        # processing.setConfigurationParameter('TMPDIR', '/tmp/processing_' + str(id))
-        self.widget.runTask(CalculateCostDistanceTask(self.widget, self, params))
+
+        self.widget.appendTask(CalculateCostDistanceTask(self.widget, self, params))
 
     def checkCats(self):
         rules_percentage_path = self.pluginPath + "/grass/rules_percentage.txt"

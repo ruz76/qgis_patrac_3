@@ -1215,7 +1215,8 @@ class Sectors(object):
                                                 layerOptions=['FORCE_GPX_TRACK=YES'])
 
         # Writes footer
-        footer = io.open(DATAPATH + '/pracovni/report_footer.html', encoding='utf-8', mode='r').read()
+        with open(DATAPATH + '/pracovni/report_footer.html', encoding='utf-8', mode='r') as foot:
+            footer = foot.read()
         f.write(footer)
         f.close()
 

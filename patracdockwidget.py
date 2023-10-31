@@ -1138,12 +1138,18 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.persondlg.show()
 
 
-    def runTask(self, task):
+
+    def clearTasksList(self):
+        self.tasks = []
+
+    def appendTask(self, task):
         # create the task and connect its signals
         self.tasks.append(task)
         self.tasks[len(self.tasks) - 1].progressChanged.connect(self.progress_bar.setValue)
-        # start the task and close the dialog
-        QgsApplication.taskManager().addTask(self.tasks[len(self.tasks) - 1])
+
+    def runTask(self, id):
+        # start the task
+        QgsApplication.taskManager().addTask(self.tasks[id])
 
     def createProgressBar(self, message):
         # Create a progress bar in the QGIS message bar

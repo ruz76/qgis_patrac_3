@@ -317,7 +317,9 @@ class Project(object):
         }
 
         self.widget.createProgressBar("Loading data: ")
-        self.widget.runTask(ClipSourceDataTask(self.widget, params))
+        self.widget.clearTasksList()
+        self.widget.appendTask(ClipSourceDataTask(self.widget, params))
+        self.widget.runTask(0)
         print("TASK STARTED")
 
         return {
