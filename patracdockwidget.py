@@ -141,6 +141,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         # self.pluginPath = "/usr/share/qgis/python/plugins/qgis_patrac"
         self.pluginPath = path.dirname(__file__)
         self.settingsPath = self.pluginPath + "/../../../patrac_settings"
+        self.config = {}
+        self.readConfig()
 
         QDockWidget.__init__(self, None)
         self.setupUi(self)
@@ -330,24 +332,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 self.buffers.append(row[1])
                 self.sectorsProgressAnalyzeType.addItem(row[0])
 
-    def getPatracDataPath(self):
-        DATAPATH = ''
-        letters = "CDEFGHIJKLMNOPQRSTUVWXYZ"
-        drives = [letters[i] + ":/" for i in range(len(letters))]
-        for drive in drives:
-            if os.path.isfile(drive + 'patracdata/cr/projekty/simple/simple.qgs'):
-                DATAPATH = drive + 'patracdata/cr/projekty/simple/'
-                break
-        if os.path.isfile('/data/patracdata/cr/projekty/simple/simple.qgs'):
-            DATAPATH = '/data/patracdata/cr/projekty/simple/'
-
-        return DATAPATH
-
     def showHelp(self):
         try:
-            DATAPATH = self.getPatracDataPath()
             webbrowser.get().open(
-                "file://" + DATAPATH + "doc/index.html")
+                "file://" + self.config['data_path'] + "doc/index.html")
             # webbrowser.get().open("file://" + DATAPATH + "/sektory/report.html")
             # self.iface.messageBar().pushMessage("Error", "file://" + self.pluginPath + "/doc/index.html", level=Qgis.Critical)
             # webbrowser.get().open("file://" + self.pluginPath + "/doc/index.html")
