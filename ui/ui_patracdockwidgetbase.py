@@ -183,15 +183,6 @@ class Ui_PatracDockWidget(object):
         self.horizontalGeneralToolbarLayout = QHBoxLayout()
         self.horizontalGeneralToolbarLayout.setObjectName(_fromUtf8("horizontalGeneralToolbarLayout"))
 
-        self.testProcessing = QPushButton(self.dockWidgetContents)
-        self.testProcessing.setObjectName(_fromUtf8("helpShow"))
-        self.testProcessing.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "help.png")))
-        self.testProcessing.setIconSize(QSize(32, 32))
-        self.testProcessing.setFixedSize(QSize(42, 42))
-        self.testProcessing.setToolTip(
-            QApplication.translate("PatracDockWidget", "Handlers", None))
-        self.horizontalGeneralToolbarLayout.addWidget(self.testProcessing)
-
         self.showHandlers = QPushButton(self.dockWidgetContents)
         self.showHandlers.setObjectName(_fromUtf8("helpShow"))
         self.showHandlers.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "handlers.png")))
@@ -818,7 +809,7 @@ class Ui_PatracDockWidget(object):
 
     def loadAvailableUnits(self):
         self.setAvailableUnitsItems()
-        settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+        settingsPath = self.pluginPath + "/../../../patrac_settings"
         with open(settingsPath + "/grass/units.txt", "r") as fileInput:
             i=0
             for row in csv.reader(fileInput, delimiter=';'):

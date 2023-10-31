@@ -67,7 +67,7 @@ class PointMapTool(QgsMapTool):
       if not vector.isValid():
           QgsMessageLog.logMessage("Vrstvu " + path + " se nepodařilo načíst", "Patrac")
       else:
-          settingsPath = self.widget.pluginPath + "/../../../qgis_patrac_settings"
+          settingsPath = self.widget.pluginPath + "/../../../patrac_settings"
           vector.loadNamedStyle(settingsPath + '/styles/result.qml')
           QgsProject.instance().addMapLayer(vector)
 

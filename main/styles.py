@@ -62,7 +62,7 @@ class Styles(object):
     def setSectorsStyle(self, name):
         layer = self.getSectorsLayer()
         if not layer is None:
-            settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+            settingsPath = self.pluginPath + "/../../../patrac_settings"
             layer.loadNamedStyle(settingsPath + '/styles/sectors_' + name + '.qml')
             f = io.open(settingsPath + '/styles/sektory_group.txt', 'w', encoding='utf-8')
             f.write(name)

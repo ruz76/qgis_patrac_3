@@ -30,6 +30,9 @@
    </property>
   </widget>
   <widget class="QTabWidget" name="tabWidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -444,29 +447,6 @@
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="labelSearchID">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>270</y>
-       <width>181</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Search identifier</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditSearchID">
-     <property name="geometry">
-      <rect>
-       <x>190</x>
-       <y>260</y>
-       <width>281</width>
-       <height>31</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QLabel" name="labelWeightLimit">
      <property name="geometry">
       <rect>
@@ -523,39 +503,13 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>350</y>
+       <y>270</y>
        <width>851</width>
        <height>21</height>
       </rect>
      </property>
      <property name="text">
       <string>Path to project</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButtonShowQrCode">
-     <property name="geometry">
-      <rect>
-       <x>490</x>
-       <y>260</y>
-       <width>112</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Show QR</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_5">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>310</y>
-       <width>861</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </widget>
@@ -738,39 +692,10 @@
     <attribute name="title">
      <string>Management</string>
     </attribute>
-    <widget class="QPushButton" name="pushButtonHds">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>290</y>
-       <width>191</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Run basic test</string>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="checkBoxUpdateData">
-     <property name="geometry">
-      <rect>
-       <x>230</x>
-       <y>20</y>
-       <width>311</width>
-       <height>26</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Update only current region</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
     <widget class="QPushButton" name="pushButtonUpdateData">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>230</x>
        <y>20</y>
        <width>191</width>
        <height>31</height>
@@ -783,8 +708,8 @@
     <widget class="QPushButton" name="pushButtonSaveStyle">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>160</y>
+       <x>690</x>
+       <y>20</y>
        <width>191</width>
        <height>31</height>
       </rect>
@@ -793,92 +718,24 @@
       <string>Save style to the template</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButtonDataHds">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>220</x>
-       <y>340</y>
-       <width>191</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Run test for data</string>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="comboBoxDataHds">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>340</y>
-       <width>191</width>
-       <height>25</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QTextEdit" name="textEditHds">
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>380</y>
+       <y>70</y>
        <width>871</width>
-       <height>201</height>
+       <height>511</height>
       </rect>
      </property>
     </widget>
-    <widget class="Line" name="line_6">
+    <widget class="QComboBox" name="comboBoxData">
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>140</y>
-       <width>871</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-    <widget class="Line" name="line_7">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>260</y>
-       <width>871</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="comboBoxDataFix">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>60</y>
+       <y>20</y>
        <width>191</width>
        <height>25</height>
       </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButtonFixData">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>230</x>
-       <y>60</y>
-       <width>191</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Fix data</string>
      </property>
     </widget>
     <widget class="QProgressBar" name="progressBar">

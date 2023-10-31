@@ -26,11 +26,10 @@
 #******************************************************************************
 
 
-import os, subprocess, sys
+import os, subprocess, sys, json
 from os import path
 from shutil import copy
 from glob import glob
-import configparser
 
 from qgis.PyQt.QtWidgets import *
 from qgis.PyQt.QtCore import *
@@ -42,9 +41,6 @@ from qgis.gui import *
 from . import patracdockwidget
 from .connect.connect import *
 
-# Debugger
-from . import debug
-
 class NoClose(QObject):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -54,8 +50,6 @@ class NoClose(QObject):
         if path.exists(self.pluginPath + "/config/lastprojectpath.txt"):
             with open(self.pluginPath + "/config/lastprojectpath.txt", "r") as f:
                 projectPath = f.read()
-                print(projectPath + "/search/result.xml")
-                # TODO stop QGIS from exiting
                 if not path.exists(projectPath + "/search/result.xml"):
                     return False
                 else:
@@ -85,10 +79,6 @@ class PatracPlugin(object):
                        ]
 
     def __init__(self, iface):
-        # debug.RemoteDebugger.setup_remote_pydev_debug('localhost',10999)
-
-        #QgsApplication.setQuitOnLastWindowClosed(False)
-        #QgsApplication.lastWindowClosed.connect(self.exiting)
 
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
@@ -100,6 +90,8 @@ class PatracPlugin(object):
         self.toolBar = None
         self.toolbar = self.iface.addToolBar("Patrac Toolbar")
         self.toolbar.setObjectName("Patrac Toolbar")
+        self.pluginPath = path.dirname(__file__)
+        self.profilePath = self.pluginPath + "/../../../"
 
         # self.qgsVersion = str(QGis.QGIS_VERSION_INT)
 
@@ -123,6 +115,7 @@ class PatracPlugin(object):
             self.translator.load(self.localePath)
             QCoreApplication.installTranslator(self.translator)
 
+        self.config = {}
         self.checkSettings()
         self.copyDoc()
         self.checkRequests = CheckRequests(userPluginPath + "/settings.db")
@@ -133,34 +126,48 @@ class PatracPlugin(object):
         self.iface.actionMapTips().setChecked(True)
 
     def checkSettings(self):
-        pluginPath = path.dirname(__file__)
-        profilePath = pluginPath + "/../../../"
-        if not os.path.isdir(profilePath + "qgis_patrac_settings"):
-            os.mkdir(profilePath + "qgis_patrac_settings")
-            os.mkdir(profilePath + "qgis_patrac_settings/config")
-            os.mkdir(profilePath + "qgis_patrac_settings/styles")
-            os.mkdir(profilePath + "qgis_patrac_settings/grass")
-            copy(pluginPath + "/config/systemid.txt", profilePath + "qgis_patrac_settings/config/")
-            copy(pluginPath + "/config/config.json", profilePath + "qgis_patrac_settings/config/")
-            copy(pluginPath + "/config/paths.txt", profilePath + "qgis_patrac_settings/config/")
-            copy(pluginPath + "/grass/maxtime.txt", profilePath + "qgis_patrac_settings/grass/")
-            copy(pluginPath + "/grass/units.txt", profilePath + "qgis_patrac_settings/grass/")
-            copy(pluginPath + "/grass/weightlimit.txt", profilePath + "qgis_patrac_settings/grass/")
-            copy(pluginPath + "/grass/radialsettings.txt", profilePath + "qgis_patrac_settings/grass/")
-            copy(pluginPath + "/grass/distancesUser.txt", profilePath + "qgis_patrac_settings/grass/")
-            copy(pluginPath + "/grass/buffer.csv", profilePath + "qgis_patrac_settings/grass/")
-            copy(pluginPath + "/grass/units_times.csv", profilePath + "qgis_patrac_settings/grass/")
-            for file in glob(pluginPath + "/styles/*"):
-                copy(file, profilePath + "qgis_patrac_settings/styles/")
+        if not os.path.isdir(self.profilePath + "patrac_settings"):
+            os.mkdir(self.profilePath + "patrac_settings")
+            os.mkdir(self.profilePath + "patrac_settings/config")
+            os.mkdir(self.profilePath + "patrac_settings/styles")
+            os.mkdir(self.profilePath + "patrac_settings/grass")
+            self.createDefaultConfig()
+            copy(self.pluginPath + "/grass/maxtime.txt", self.profilePath + "patrac_settings/grass/")
+            copy(self.pluginPath + "/grass/units.txt", self.profilePath + "patrac_settings/grass/")
+            copy(self.pluginPath + "/grass/weightlimit.txt", self.profilePath + "patrac_settings/grass/")
+            copy(self.pluginPath + "/grass/radialsettings.txt", self.profilePath + "patrac_settings/grass/")
+            copy(self.pluginPath + "/grass/distancesUser.txt", self.profilePath + "patrac_settings/grass/")
+            copy(self.pluginPath + "/grass/buffer.csv", self.profilePath + "patrac_settings/grass/")
+            copy(self.pluginPath + "/grass/units_times.csv", self.profilePath + "patrac_settings/grass/")
+            for file in glob(self.pluginPath + "/styles/*"):
+                copy(file, self.profilePath + "patrac_settings/styles/")
         else:
-            if not os.path.isfile(profilePath + "qgis_patrac_settings/grass/buffer.csv"):
-                copy(pluginPath + "/grass/buffer.csv", profilePath + "qgis_patrac_settings/grass/")
-            if not os.path.isfile(profilePath + "qgis_patrac_settings/grass/units_times.csv"):
-                copy(pluginPath + "/grass/units_times.csv", profilePath + "qgis_patrac_settings/grass/")
-            if not os.path.isfile(profilePath + "qgis_patrac_settings/config/config.json"):
-                copy(pluginPath + "/config/config.json", profilePath + "qgis_patrac_settings/config/")
-            for file in glob(pluginPath + "/styles/*"):
-                copy(file, profilePath + "qgis_patrac_settings/styles/")
+            if not os.path.isfile(self.profilePath + "patrac_settings/grass/buffer.csv"):
+                copy(self.pluginPath + "/grass/buffer.csv", self.profilePath + "patrac_settings/grass/")
+            if not os.path.isfile(self.profilePath + "patrac_settings/grass/units_times.csv"):
+                copy(self.pluginPath + "/grass/units_times.csv", self.profilePath + "patrac_settings/grass/")
+            if not os.path.isfile(self.profilePath + "patrac_settings/config/config.json"):
+                self.createDefaultConfig()
+            for file in glob(self.pluginPath + "/styles/*"):
+                copy(file, self.profilePath + "patrac_settings/styles/")
+
+        with open(self.profilePath + "patrac_settings/config/config.json") as config:
+            self.config = json.load(config)
+
+    def createDefaultConfig(self):
+        config = {
+            "hsapikey": "",
+            "hsuser": "",
+            "hspassword": "",
+            "places": "/ui/obce_okr_kr_utf8_20180131.csv",
+            "serverUrl": "http://sarops.info/patrac/",
+            "hsCreateIncidentUrl": "https://api.hscr.cz/cz/app-patrac-new-incident",
+            "hsCreateIncidentTestUrl": "https://api.hscr.cz/cz/app-patrac-new-incident-test",
+            "debug_level": 0
+        }
+        config['data_path'] = self.getPatracDataPath()
+        with open(self.profilePath + "patrac_settings/config/config.json", "w") as out:
+            out.write(json.dumps(config))
 
     def copyDocDir(self, DATAPATH, pluginPath, name):
         if not os.path.isdir(DATAPATH + "doc/" + name):
@@ -169,29 +176,24 @@ class PatracPlugin(object):
             copy(file, DATAPATH + "doc/" + name + "/")
 
     def copyDoc(self):
-        pluginPath = path.dirname(__file__)
-        DATAPATH = self.getPatracDataPath()
-        if not os.path.isdir(DATAPATH + "doc"):
-            os.mkdir(DATAPATH + "doc")
-        copy(pluginPath + "/doc/index.html", DATAPATH + "doc/")
-        self.copyDocDir(DATAPATH, pluginPath, "css")
-        self.copyDocDir(DATAPATH, pluginPath, "fonts")
-        self.copyDocDir(DATAPATH, pluginPath, "images")
-        self.copyDocDir(DATAPATH, pluginPath, "js")
+        if not os.path.isdir(self.config['data_path'] + "doc"):
+            os.mkdir(self.config['data_path'] + "doc")
+        copy(self.pluginPath + "/doc/index.html", self.config['data_path'] + "doc/")
+        self.copyDocDir(self.config['data_path'], self.pluginPath, "css")
+        self.copyDocDir(self.config['data_path'], self.pluginPath, "fonts")
+        self.copyDocDir(self.config['data_path'], self.pluginPath, "images")
+        self.copyDocDir(self.config['data_path'], self.pluginPath, "js")
 
     def getPatracDataPath(self):
-        DATAPATH = ''
         letters = "CDEFGHIJKLMNOPQRSTUVWXYZ"
         drives = [letters[i] + ":/" for i in range(len(letters))]
         for drive in drives:
-            if os.path.isfile(drive + 'patracdata/cr/projekty/simple/simple.qgs'):
-                DATAPATH = drive + 'patracdata/cr/projekty/simple/'
-                break
-        if os.path.isfile('/data/patracdata/cr/projekty/simple/simple.qgs'):
-            DATAPATH = '/data/patracdata/cr/projekty/simple/'
+            if os.path.exists(drive + 'patracdata/'):
+                return drive + 'patracdata/'
+        if os.path.exists('/data/patracdata/'):
+            return '/data/patracdata/'
 
-        return DATAPATH
-
+        return ''
 
     def initGui(self):
         # if int(self.qgsVersion) < 10900:
@@ -223,9 +225,6 @@ class PatracPlugin(object):
 
     def runHDS(self, array_where_to_append_output):
         self.dockWidget.testHds(array_where_to_append_output)
-
-    def exiting(self):
-        print("EXITING")
 
     def hideToolbars(self):
         self.iface.advancedDigitizeToolBar().setVisible(False)
@@ -312,12 +311,12 @@ class PatracPlugin(object):
         #             subprocess.Popen(("qgis", "--profiles-path", "/home/jencek/qgis3_profiles", "--profile", "default"))
         #         except:
         #             print("CAN NOT FIND QGIS TO RELOAD")
-
         self.iface.currentLayerChanged.disconnect(self.layerChanged)
         self.iface.removePluginMenu(QCoreApplication.translate("Patrac", "Patrac"), self.actionDock)
         self.dockWidget.close()
         del self.dockWidget
         self.dockWidget = None
+        del self.toolbar
 
     def showWidget(self):
         self.dockWidget.show()

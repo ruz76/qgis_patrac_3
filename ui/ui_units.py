@@ -50,7 +50,7 @@ class Ui_Units(QtWidgets.QDialog, FORM_CLASS):
         self.parent = parent
         self.setupUi(self)
         self.pluginPath = pluginPath
-        self.settingsPath = pluginPath + "/../../../qgis_patrac_settings"
+        self.settingsPath = pluginPath + "/../../../patrac_settings"
         self.unitsLabels = [self.tr("Handler"), self.tr("Searcher"), self.tr("Rider"), self.tr("Car"), self.tr("Drone"), self.tr("Diver"), self.tr("Other")]
 
     def accept(self):
@@ -81,7 +81,7 @@ class Ui_Units(QtWidgets.QDialog, FORM_CLASS):
         tableWidget.setHorizontalHeaderLabels([self.tr("Count"), self.tr("Note")])
         tableWidget.setVerticalHeaderLabels(self.unitsLabels)
         tableWidget.setColumnWidth(1, 600)
-        settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+        settingsPath = self.pluginPath + "/../../../patrac_settings"
         # Reads CSV and populate the table
         with open(settingsPath + fileName, "r") as fileInput:
             i = 0

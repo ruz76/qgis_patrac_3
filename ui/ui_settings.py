@@ -46,6 +46,7 @@ from string import ascii_uppercase
 import urllib3
 import tempfile
 from zipfile import ZipFile
+from time import gmtime, strftime
 
 # import qrcode
 
@@ -62,12 +63,11 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.parent = parent
         self.setupUi(self)
         self.pluginPath = pluginPath
-        self.settingsPath = pluginPath + "/../../../qgis_patrac_settings"
+        self.settingsPath = pluginPath + "/../../../patrac_settings"
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
         self.config = None
         self.readConfig()
-        self.systemid = self.config["systemid"]
         self.unitsLabels = [self.tr("Handler"), self.tr("Searcher"), self.tr("Rider"), self.tr("Car"), self.tr("Drone"), self.tr("Diver"), self.tr("Other")]
 
         self.main = parent
@@ -96,22 +96,13 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         else:
             self.fillLineEdit(self.settingsPath + "/grass/weightlimit.txt", self.lineEditWeightLimit)
 
-        self.drive = "D"
-        self.pushButtonHds.clicked.connect(self.testHds)
-        self.pushButtonDataHds.clicked.connect(self.testDataHds)
-        self.fillDataHdsCmb()
         self.pushButtonUpdateData.clicked.connect(self.updateData)
-        self.pushButtonFixData.clicked.connect(self.fixData)
-
-        self.buttonBox.accepted.connect(self.accept)
-
+        # self.buttonBox.accepted.connect(self.accept)
         self.periodic_scheduler = None
-        self.pushButtonShowQrCode.clicked.connect(self.showQrCode)
-
         self.pushButtonSaveStyle.clicked.connect(self.saveStyle)
-        self.pushButtonRecalculateFriction.clicked.connect(self.recalculateFriction)
-
         self.lineEditAccessKey.editingFinished.connect(self.lineEditAccessKeyEditingFinished)
+
+        self.fillDataCmbList()
 
     def lineEditAccessKeyEditingFinished(self):
         print(self.lineEditAccessKey.text())
@@ -145,46 +136,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         else:
             self.parent.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
-    def downloadStats(self):
-        # localPath = "/tmp/ka/stats.db"
-        localPath = self.drive + ":/patracdata/kraje/" + self.comboBoxDataFix.currentText() + "/vektor/ZABAGED/line_x/stats.db"
-        if not os.path.exists(localPath) or (os.path.exists(localPath) and os.path.getsize(localPath) < 1000):
-            try:
-                if os.path.exists(localPath):
-                    os.remove(localPath)
-                url = self.serverUrl + "/qgis3/data/stats/" + self.comboBoxDataFix.currentText() + "/stats.db"
-                http = urllib3.PoolManager()
-                response = http.request('GET', url, preload_content=False)
-                content_length = response.headers['Content-Length']
-                total_size = int(content_length)
-                downloaded = 0
-                CHUNK = 256 * 10240
-                with open(localPath, 'wb') as fp:
-                    while True:
-                        chunk = response.read(CHUNK)
-                        downloaded += len(chunk)
-                        if not chunk:
-                            break
-                        fp.write(chunk)
-                response.release_conn()
-            except:
-                QMessageBox.information(None, self.tr("ERROR"), self.tr("Can not connect to the server"))
-
-    def fixData(self):
-        self.parent.setCursor(Qt.WaitCursor)
-        self.setCursor(Qt.WaitCursor)
-
-        if sys.platform.startswith('win'):
-            self.downloadStats()
-            p = subprocess.Popen((self.pluginPath + "/grass/run_fix_datastore.bat", self.drive + ":/patracdata/kraje/" + self.comboBoxDataFix.currentText(), self.pluginPath))
-            p.wait()
-            QMessageBox.information(None, self.tr("Fixed"), self.tr("The datastore has been fixed"))
-        else:
-            # self.downloadStats()
-            QMessageBox.information(None, self.tr("Not available"), self.tr("The function is not implemented"))
-
-        self.setCursor(Qt.ArrowCursor)
-        self.parent.setCursor(Qt.ArrowCursor)
 
     def readConfig(self):
         with open(self.settingsPath + "/config/config.json") as json_file:
@@ -207,25 +158,10 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         if 'emailto2' in self.config:
             self.lineEditEmailTo2.setText(self.config["emailto2"])
 
-    def fillDataHdsCmb(self):
-        if sys.platform.startswith('win'):
-            for i in ascii_uppercase:
-                if os.path.exists(i + ":/patracdata"):
-                    self.fillDataHdsCmbList(i + ":")
-                    self.drive = i
-                    break
-        else:
-            if os.path.exists("/data/patracdata"):
-                self.fillDataHdsCmbList("/data")
-
-    def fillDataHdsCmbList(self, disk):
+    def fillDataCmbList(self):
         regions = ["jc", "jm", "ka", "kh", "lb", "ms", "ol", "pa", "pl", "st", "us", "vy", "zl"]
         for region in regions:
-            if os.path.exists(disk + "/patracdata/kraje/" + region):
-                self.comboBoxDataHds.addItem(region)
-                self.comboBoxDataFix.addItem(region)
-                self.pushButtonDataHds.setEnabled(True)
-                self.pushButtonFixData.setEnabled(True)
+            self.comboBoxData.addItem(region)
 
     def testDataHds(self):
         self.parent.setCursor(Qt.WaitCursor)
@@ -246,9 +182,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                 break
 
         if layer is not None:
-            settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
-            name = open(settingsPath + "/styles/sektory_group.txt", 'r').read()
-            layer.saveNamedStyle(settingsPath + '/styles/sectors_' + name + '.qml')
+            name = open(self.settingsPath + "/styles/sektory_group.txt", 'r').read()
+            layer.saveNamedStyle(self.settingsPath + '/styles/sectors_' + name + '.qml')
 
     def refreshSystemUsersSetSheduler(self):
         QMessageBox.information(None, self.tr("Not available"), self.tr("The function is not implemented"))
@@ -298,24 +233,9 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
 
     def updateSettings(self):
-        self.showSearchId()
         self.showPath()
         self.fillHSConfig()
-        # if self.parent.projectname != "":
-        #     self.lineEditTitle.setText(self.parent.projectname)
-        # if self.parent.projectdesc != "":
-        #     self.lineEditText.setText(self.parent.projectdesc)
 
-    def showSearchId(self):
-        # Fills textEdit with SearchID
-        prjfi = QFileInfo(QgsProject.instance().fileName())
-        DATAPATH = prjfi.absolutePath()
-        if DATAPATH != "" and QFileInfo(DATAPATH + "/config/searchid.txt").exists():
-            self.searchID = open(DATAPATH + "/config/searchid.txt", 'r').read()
-            self.lineEditSearchID.setText(self.searchID)
-        else:
-            msg = self.tr("Wrong project.")
-            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong project"), msg)
 
     def showPath(self):
         prjfi = QFileInfo(QgsProject.instance().fileName())
@@ -427,40 +347,22 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.progressBar.setValue(5)
         if not os.path.exists('/data/patracdata/kraje/backups'):
             os.mkdir('/data/patracdata/kraje/backups')
-        self.backupData('/data/patracdata/kraje/ka', os.path.join('/data/patracdata/kraje/backups', 'ka.zip'), 5, 30)
+        self.backupData('/data/patracdata/kraje/ka', os.path.join('/data/patracdata/kraje/backups', 'ka_' + strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + '.zip'), 5, 30)
         self.progressBar.setValue(30)
         resources = self.downloadData(30, 70)
         self.progressBar.setValue(70)
         self.mergeDownloaded(resources[1], resources[0], os.path.join(resources[0], 'data.zip'))
         self.progressBar.setValue(85)
-        self.unzipData(os.path.join(resources[0], 'data.zip'), '/data/patracdata/ka/')
+        self.unzipData(os.path.join(resources[0], 'data.zip'), '/data/patracdata/kraje/ka/')
         self.progressBar.setValue(100)
         self.textEditHds.append('Finished. The data has been updated.')
         QtWidgets.QApplication.processEvents()
         return
 
-    def getPatracDataPath(self):
-        DATAPATH = ''
-        letters = "CDEFGHIJKLMNOPQRSTUVWXYZ"
-        drives = [letters[i] + ":/" for i in range(len(letters))]
-        for drive in drives:
-            if os.path.isfile(drive + 'patracdata/cr/projekty/simple/simple.qgs'):
-                DATAPATH = drive + 'patracdata/cr/projekty/simple/'
-                break
-        if os.path.isfile('/data/patracdata/cr/projekty/simple/simple.qgs'):
-            DATAPATH = '/data/patracdata/cr/projekty/simple/'
-
-        return DATAPATH
-
     def showHelp(self):
         try:
-            DATAPATH = self.getPatracDataPath()
             webbrowser.get().open(
-                "file://" + DATAPATH + "doc/index.html")
-            # webbrowser.get().open("file://" + DATAPATH + "/sektory/report.html")
-            # self.iface.messageBar().pushMessage("Error", "file://" + self.pluginPath + "/doc/index.html", level=Qgis.Critical)
-            # webbrowser.get().open("file://" + self.pluginPath + "/doc/index.html")
-            # webbrowser.open("file://" + self.pluginPath + "/doc/index.html")
+                "file://" + self.config['data_path'] + "doc/index.html")
         except (webbrowser.Error):
             self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not find web browser to open help"), level=Qgis.Critical)
 
@@ -468,231 +370,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         content = open(filePath, 'r').read()
         lineEdit.setText(content)
 
-    def getRegion(self):
-        prjfi = QFileInfo(QgsProject.instance().fileName())
-        DATAPATH = prjfi.absolutePath()
-        if DATAPATH != "" and QFileInfo(DATAPATH + "/config/region.txt").exists():
-            region = open(DATAPATH + "/config/region.txt", 'r').read()
-            return region.upper()
-        else:
-            msg = self.tr("Wrong project.")
-            QMessageBox.information(self.main.iface.mainWindow(), self.tr("Wrong project"), msg)
-            return "KH"
-
-    def getRegionAndSurrounding(self):
-        # TODO put to file
-        kraj = self.getRegion()
-        if kraj == "US":
-            return ["US", "LB", "ST", "KA", "PL"]
-        if kraj == "ST":
-            return ["KH", "PA", "ST", "US"]
-        if kraj == "PL":
-            return ["PL", "KA", "US", "ST", "JC"]
-        if kraj == "KH":
-            return ["KH", "PA", "ST", "US"]
-        if kraj == "HP":
-            return ["HP", "ST"]
-        if kraj == "PA":
-            return ["PA", "KH", "VY", "OL", "JM"]
-        if kraj == "VY":
-            return ["VY", "JC", "ST", "JM", "PA"]
-        if kraj == "JC":
-            return ["JC", "VY", "PL", "ST", "JM"]
-        if kraj == "JM":
-            return ["JM", "VY", "JC", "ZL", "OL", "PA"]
-        if kraj == "ZL":
-            return ["ZL", "MS", "OL", "JM"]
-        if kraj == "OL":
-            return ["OL", "MS", "JM", "ZL", "PA"]
-        if kraj == "LB":
-            return ["LB", "US", "KH", "ST"]
-        if kraj == "MS":
-            return ["MS", "ZL", "OL"]
-        if kraj == "KA":
-            return ["KA", "US", "PL"]
-
-    def callOnDuty(self):
-        if hasattr(self, 'searchID') and self.searchID != "":
-            self.setStatus("callonduty", self.searchID)
-
-    def callToJoin(self):
-        if hasattr(self, 'searchID') and self.searchID != "":
-            self.setStatus("calltocome", self.searchID)
-
-    def putToSleep(self):
-        self.setStatus("waiting", "")
-
-    def getSelectedSystemUsers(self):
-        # indexes = self.selectionModel.selectedIndexes()
-        rows = self.tableWidgetSystemUsers.selectionModel().selectedRows()
-        # rows = self.tableWidgetSystemUsers.selectionModel().selectedIndexes()
-        ids = ""
-        first = True
-        for row in rows:
-            if first:
-                ids = ids + self.tableWidgetSystemUsers.item(row.row(), 0).text()
-            else:
-                ids = ids + ";" + self.tableWidgetSystemUsers.item(row.row(), 0).text()
-            first = False
-            # ids.append(self.tableWidgetSystemUsers.item(row.row(), 0).text())
-            # print(self.tableWidgetSystemUsers.item(row.row(), 0).text());
-        return ids
-
-    def getSelectedSystemUsersStatuses(self):
-        rows = self.tableWidgetSystemUsers.selectionModel().selectedRows()
-        statuses = ""
-        first = True
-        for row in rows:
-            if first:
-                statuses = statuses + self.tableWidgetSystemUsers.item(row.row(), 2).text()
-            else:
-                statuses = statuses + ";" + self.tableWidgetSystemUsers.item(row.row(), 2).text()
-            first = False
-            # ids.append(self.tableWidgetSystemUsers.item(row.row(), 0).text())
-            # print(self.tableWidgetSystemUsers.item(row.row(), 0).text());
-        return statuses
-
-    def removeSleepingSystemUsers(self, ids, statuses):
-        idsList = ids.split(";")
-        statusesList = statuses.split(";")
-        idsListOut = []
-        for i in range(len(idsList)):
-            if statusesList[i] != "sleeping" and statusesList[i] != "released":
-                idsListOut.append(idsList[i])
-
-        idsOutput = ""
-        first = True
-        for id in idsListOut:
-            if first:
-                idsOutput = idsOutput + id
-            else:
-                idsOutput = idsOutput + ";" + id
-            first = False
-        return idsOutput
-
-    def setStatus(self, status, searchid):
-        idsSelected = self.getSelectedSystemUsers()
-        statuses = self.getSelectedSystemUsersStatuses()
-        ids = self.removeSleepingSystemUsers(idsSelected, statuses)
-        if len(ids) != len(idsSelected):
-            QMessageBox.information(None, self.tr("INFO"),
-                                    self.tr("Some of the selected handlersare in sleeping or released state. You have to wait for their wakeup."))
-        if ids == "":
-            QMessageBox.information(None, self.tr("INFO"), self.tr("You did not select handler that can be called."))
-            return
-
-        # Connects to the server to call the selected users on duty
-        self.connect = Connect()
-        self.connect.setUrl(self.serverUrl + 'users.php?operation=changestatus&id=' + self.systemid + '&status_to=' + status + '&ids=' + ids + "&searchid=" + searchid)
-        self.connect.statusChanged.connect(self.onStatusChanged)
-        self.connect.start()
-
-    def onStatusChanged(self, response):
-        # print(response.status)
-        if response.status == 200:
-            self.refreshSystemUsers()
-            QgsMessageLog.logMessage(str(response.data.read()), "Patrac")
-        else:
-            self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
-
-    def refreshSystemUsers(self):
-        self.systemusers = Connect()
-        self.systemusers.setUrl(self.serverUrl + 'users.php?operation=getsystemusers&id=' + self.systemid)
-        self.systemusers.statusChanged.connect(self.onRefreshSystemUsers)
-        self.systemusers.start()
-
-    def onRefreshSystemUsers(self, response):
-        if response.status == 200:
-            list = response.data.read().decode('utf-8')
-            if list != "":
-                self.fillTableWidgetSystemUsers(list, self.tableWidgetSystemUsers)
-        else:
-            self.iface.messageBar().pushMessage(self.tr("Error"), self.tr("Can not connect to the server."), level=Qgis.Warning)
-
-    def getDataFromUrl(self, url, timeout):
-        # self.connect = Connect()
-        # self.connect.setUrl(url)
-        # self.connect.statusChanged.connect(self.onGetDataFromUrl)
-        # self.connect.start()
-        return ""
-
-    def fillTableWidgetSystemUsers(self, list, tableWidget):
-        """Fills table with units"""
-        tableWidget.setHorizontalHeaderLabels([self.tr("Sysid"), self.tr("Name"), self.tr("Status"), self.tr("Search id"), self.tr("Region"), self.tr("Arrive until")])
-        tableWidget.setColumnWidth(1, 300);
-        # Reads list and populate the table
-        lines = list.split("\n")
-        lines = self.filterSystemUsers(lines)
-        tableWidget.setRowCount(len(lines))
-        # tableWidget.setSelectionMode(QAbstractItemView.MultiSelection)
-        # Loops via users
-        i = 0
-        for line in lines:
-            if line != "":
-                cols = line.split(";")
-                j = 0
-                for col in cols:
-                    if j == 2:
-                        col = self.getStatusName(col)
-                        tableWidget.setItem(i, j, QTableWidgetItem(col))
-                    else:
-                        tableWidget.setItem(i, j, QTableWidgetItem(str(col)))
-                    j = j + 1
-                # tableWidget.selectRow(i)
-                i = i + 1
-
-    def filterSystemUsers(self, lines):
-        linesFiltered = []
-        for line in lines:
-            if line != "":
-                cols = line.split(";")
-                if self.filterSystemUsersByStatus(cols[2]):
-                    if self.filterSystemUserByTime(cols[5]):
-                        if self.filterSystemUsersByArea(cols[4]):
-                            linesFiltered.append(line)
-                #         else:
-                #             print("Filtered out: " + line)
-                #     else:
-                #         print("Filtered out: " + line)
-                # else:
-                #     print("Filtered out: " + line)
-        return linesFiltered
-
-    def filterSystemUsersByStatus(self, value):
-        if self.comboBoxStatus.currentIndex() == 0:
-            return True
-        else:
-            return self.getStatusCode(self.comboBoxStatus.currentText()) == value
-
-    def filterSystemUserByTime(self, value):
-        if self.comboBoxTime.currentIndex() == 0:
-            return True
-        if self.comboBoxTime.currentIndex() == 1:
-            allowedValues = ["60m"]
-            return value in allowedValues
-        if self.comboBoxTime.currentIndex() == 2:
-            allowedValues = ["60m", "120m"]
-            return value in allowedValues
-        if self.comboBoxTime.currentIndex() == 3:
-            allowedValues = ["60m", "120m", "180m"]
-            return value in allowedValues
-        if self.comboBoxTime.currentIndex() == 4:
-            allowedValues = ["60m", "120m", "180m", "240m"]
-            return value in allowedValues
-        if self.comboBoxTime.currentIndex() == 5:
-            allowedValues = ["60m", "120m", "180m", "240m", "300m"]
-            return value in allowedValues
-        if self.comboBoxTime.currentIndex() == 6:
-            allowedValues = ["gt300m"]
-            return value in allowedValues
-
-    def filterSystemUsersByArea(self, value):
-        if self.comboBoxArea.currentIndex() == 0:
-            return True
-        if self.comboBoxArea.currentIndex() == 1:
-            return value == self.getRegion()
-        if self.comboBoxArea.currentIndex() == 2:
-            return value in self.getRegionAndSurrounding()
 
     def fillTableWidgetFriction(self, fileName, tableWidget):
         """Fills table with units"""
@@ -716,9 +393,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         tableWidget.setHorizontalHeaderLabels([self.tr("Count"), self.tr("Note")])
         tableWidget.setVerticalHeaderLabels(self.unitsLabels)
         tableWidget.setColumnWidth(1, 600)
-        settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
         # Reads CSV and populate the table
-        with open(settingsPath + fileName, "r") as fileInput:
+        with open(self.settingsPath + fileName, "r") as fileInput:
             i = 0
             for row in csv.reader(fileInput, delimiter=';'):
                 j = 0
@@ -743,9 +419,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
              self.tr("water body"),
              self.tr("other")])
         tableWidget.setHorizontalHeaderLabels(self.unitsLabels)
-        settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
         # Reads CSV and populate the table
-        with open(settingsPath + fileName, "r") as fileInput:
+        with open(self.settingsPath + fileName, "r") as fileInput:
             i = 0
             for row in csv.reader(fileInput, delimiter=';'):
                 j = 0
@@ -765,7 +440,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
 
         currentPath = self.pluginPath
         if type == "user":
-            currentPath = self.pluginPath + "/../../../qgis_patrac_settings"
+            currentPath = self.pluginPath + "/../../../patrac_settings"
 
         # Reads CSV and populate the table
         with open(currentPath + fileName, "r") as fileInput:
@@ -777,68 +452,18 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                     j = j + 1
                 i = i + 1
 
-    def fillCmbArea(self):
-        self.comboBoxArea.addItem(self.tr("All"))
-        self.comboBoxArea.addItem(self.tr("Region"))
-        self.comboBoxArea.addItem(self.tr("Region and surrounding"))
-
-    def fillCmbTime(self):
-        self.comboBoxTime.addItem(self.tr("All"))
-        self.comboBoxTime.addItem("< 1h")
-        self.comboBoxTime.addItem("< 2h")
-        self.comboBoxTime.addItem("< 3h")
-        self.comboBoxTime.addItem("< 4h")
-        self.comboBoxTime.addItem("< 5h")
-        self.comboBoxTime.addItem("> 5h")
-
-    def fillCmbStatus(self):
-        self.comboBoxStatus.addItem(self.tr("All"))
-        self.comboBoxStatus.addItem(self.tr("waiting"))
-        self.comboBoxStatus.addItem(self.tr("call on duty"))
-        self.comboBoxStatus.addItem(self.tr("ready to go"))
-        self.comboBoxStatus.addItem(self.tr("can not arrive"))
-        self.comboBoxStatus.addItem(self.tr("call to come"))
-        self.comboBoxStatus.addItem(self.tr("on duty"))
-
-    def getStatusName(self, status):
-        if status == "waiting":
-            return self.tr("waiting")
-        if status == "callonduty":
-            return self.tr("call on duty")
-        if status == "readytogo":
-            return self.tr("ready to go")
-        if status == "cannotarrive":
-            return self.tr("can not arrive")
-        if status == "calltocome":
-            return self.tr("call to come")
-        if status == "onduty":
-            return self.tr("on duty")
-
-    def getStatusCode(self, status):
-        if status == self.tr("waiting"):
-            return "waiting"
-        if status == self.tr("call on duty"):
-            return "callonduty"
-        if status == self.tr("ready to go"):
-            return "readytogo"
-        if status == self.tr("can not arrive"):
-            return "cannotarrive"
-        if status == self.tr("call to come"):
-            return "calltocome"
-        if status == self.tr("on duty"):
-            return "onduty"
+    def copySettingsInfoProject(self):
+        prjfi = QFileInfo(QgsProject.instance().fileName())
+        DATAPATH = prjfi.absolutePath()
+        if os.path.exists(DATAPATH + "/pracovni/sektory_group.shp"):
+            shutil.copy(self.settingsPath + "/grass/" + "weightlimit.txt", DATAPATH + '/config/weightlimit.txt')
+            shutil.copy(self.settingsPath + "/grass/" + "radialsettings.txt", DATAPATH + '/config/radialsettings.txt')
 
     def accept(self):
         """Writes settings to the appropriate files"""
 
-        if not hasattr(self, 'searchID'):
-            # Wrong project
-            return
-
-        settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
-
         # Distances are fixed, but the user can change user distances, so only the one table is written
-        f = open(settingsPath + '/grass/distancesUser.txt', 'w')
+        f = open(self.settingsPath + '/grass/distancesUser.txt', 'w')
         for i in range(0, 10):
             for j in range(0, 9):
                 value = self.tableWidgetDistancesUser.item(i, j).text()
@@ -852,22 +477,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         f.close()
 
         # Units can be changes so the units.txt is written
-        # f = io.open(settingsPath + '/grass/units.txt', 'w', encoding='utf-8')
-        # for i in range(0, 7):
-        #     for j in range(0, 2):
-        #         value = self.tableWidgetUnits.item(i, j).text()
-        #         if value == '':
-        #             value = '0'
-        #         unicodeValue = self.getUnicode(value)
-        #         if j == 0:
-        #             f.write(unicodeValue)
-        #         else:
-        #             f.write(";" + unicodeValue)
-        #     f.write("\n")
-        # f.close()
-
-        # Units can be changes so the units.txt is written
-        f = io.open(settingsPath + '/grass/units_times.csv', 'w', encoding='utf-8')
+        f = io.open(self.settingsPath + '/grass/units_times.csv', 'w', encoding='utf-8')
         for i in range(0, 10):
             for j in range(0, 7):
                 value = self.tableWidgetUnitsTimes.item(i, j).text()
@@ -892,29 +502,10 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             shutil.copy(self.pluginPath + "/grass/distancesUK.txt", self.pluginPath + "/grass/distances.txt")
 
         if self.comboBoxDistance.currentIndex() == 3:
-            settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
-            shutil.copy(settingsPath + "/grass/distancesUser.txt", self.pluginPath + "/grass/distances.txt")
-
-        prjfi = QFileInfo(QgsProject.instance().fileName())
-        DATAPATH = prjfi.absolutePath()
-
-        f = open(DATAPATH + '/config/searchid.txt', 'w')
-        f.write(self.lineEditSearchID.text())
-        f.close()
-
-        f = open(DATAPATH + '/config/weightlimit.txt', 'w')
-        f.write(self.lineEditWeightLimit.text())
-        f.close()
+            shutil.copy(self.settingsPath + "/grass/distancesUser.txt", self.pluginPath + "/grass/distances.txt")
 
         f = open(self.settingsPath + '/grass/weightlimit.txt', 'w')
         f.write(self.lineEditWeightLimit.text())
-        f.close()
-
-        f = open(DATAPATH + '/config/radialsettings.txt', 'w')
-        if self.checkBoxRadial.isChecked():
-            f.write("1")
-        else:
-            f.write("0")
         f.close()
 
         f = open(self.settingsPath + '/grass/radialsettings.txt', 'w')
@@ -927,6 +518,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.writeConfig()
 
         QMessageBox.information(self.main.iface.mainWindow(), self.tr("INFO"), self.tr("Settings has been updated"))
+
+        self.close()
 
     def ifNumberGetString(self, number):
         """Converts number to string"""
@@ -949,40 +542,3 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         if isinstance(strOrUnicode, str):
             return strOrUnicode.encode(encoding)
         return strOrUnicode
-
-    def showQrCode(self):
-        if hasattr(self, 'searchID') and self.searchID != "":
-            url = "https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=" + self.searchID
-            webbrowser.get().open(url)
-            # webbrowser.open(url)
-
-    def recalculateFriction(self):
-        QMessageBox.information(None, self.tr("Not available"), self.tr("The function is not implemented"))
-        return
-        f = open(self.pluginPath + '/grass/friction_user.rules', 'w')
-        for i in range(0, 56):
-            cat = self.tableWidgetFriction.item(i, 0).text()
-            value = self.tableWidgetFriction.item(i, 1).text()
-            if value == '':
-                value = 'null'
-            f.write(cat + " = " + value + "\n")
-        f.write("* = null\n")
-        f.write("end\n")
-        f.close()
-
-        self.parent.setCursor(Qt.WaitCursor)
-        self.setCursor(Qt.WaitCursor)
-
-        prjfi = QFileInfo(QgsProject.instance().fileName())
-        DATAPATH = prjfi.absolutePath()
-        if sys.platform.startswith('win'):
-            p = subprocess.Popen((self.pluginPath + "/grass/run_friction.bat", DATAPATH, self.pluginPath))
-            p.wait()
-        else:
-            p = subprocess.Popen(
-                ('bash', self.pluginPath + "/grass/run_friction.sh", DATAPATH, self.pluginPath))
-            p.wait()
-
-        QMessageBox.information(None, self.tr("Recalculated"), self.tr("The friction has been recalculated"))
-        self.setCursor(Qt.ArrowCursor)
-        self.parent.setCursor(Qt.ArrowCursor)

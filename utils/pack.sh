@@ -32,8 +32,6 @@ cp qgis_patrac.$PREFIX"."$PREVID.zip qgis_patrac.$PREFIX"."$ID.zip
 unzip qgis_patrac.$PREFIX"."$ID.zip
 
 cp $PLUGIN_PATH/config/config.json qgis_patrac/config/
-cp $PLUGIN_PATH/config/paths.txt qgis_patrac/config/
-cp $PLUGIN_PATH/config/systemid.txt qgis_patrac/config/
 
 cp $PLUGIN_PATH/connect/*.py qgis_patrac/connect/
 

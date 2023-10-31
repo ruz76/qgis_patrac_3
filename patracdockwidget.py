@@ -114,94 +114,6 @@ class DiactricFreeStringListModel(QStringListModel):
     def diactricFreeRole(self):
         return self.mDiactricFreeRole;
 
-class MyFeedBack(QgsProcessingFeedback):
-
-    def setProgressText(self, text):
-        print(text)
-
-    def pushInfo(self, info):
-        print(info)
-
-    def pushCommandInfo(self, info):
-        print(info)
-
-    def pushDebugInfo(self, info):
-        print(info)
-
-    def pushConsoleInfo(self, info):
-        print(info)
-
-    def reportError(self, error, fatalError=False):
-        print(error)
-
-class TestTask(QgsTask):
-    def __init__(self):
-        super().__init__("Patrac task", QgsTask.CanCancel)
-        self.exception: Optional[Exception] = None
-
-    def run(self):
-        try:
-            result = processing.run(
-                "gdal:cliprasterbyextent",
-                {'INPUT':'/data/patracdata/kraje/ka/raster/dem_5514.tif','PROJWIN':'-857031.912000000,-849227.571900000,-1028202.161000000,-1021136.837500000 [EPSG:5514]','OVERCRS':False,'NODATA':None,'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9','DATA_TYPE':0,'EXTRA':'','OUTPUT':'/data/patracdata/kraje/ka/raster/dem_5514_current.tif'},
-                feedback=MyFeedBack()
-            )
-            print(result)
-            self.setProgress(1)
-            processing.run("gdal:cliprasterbyextent", {'INPUT':'/data/patracdata/kraje/ka/raster/friction_5514.tif','PROJWIN':'-857031.912000000,-849227.571900000,-1028202.161000000,-1021136.837500000 [EPSG:5514]','OVERCRS':False,'NODATA':None,'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9','DATA_TYPE':0,'EXTRA':'','OUTPUT':'/data/patracdata/kraje/ka/raster/friction_5514_current.tif'})
-            self.setProgress(2)
-            processing.run("native:extractbyextent", {'INPUT':'/data/patracdata/kraje/ka/vektor/ZABAGED/sectors_export_ka.shp','EXTENT':'-860629.542200000,-845020.862000000,-1031686.096400000,-1017555.449400000 [EPSG:5514]','CLIP':False,'OUTPUT':'/data/patracdata/kraje/ka/raster/sectors.shp'})
-            self.setProgress(3)
-            processing.run("grass7:r.walk.coords", {'elevation':'/data/patracdata/kraje/ka/raster/dem_5514_current.tif','friction':'/data/patracdata/kraje/ka/raster/friction_5514_current.tif','start_coordinates':'-852612,-1025091','stop_coordinates':'','walk_coeff':'0.72,6.0,1.9998,-1.9998','lambda':1,'slope_factor':-0.2125,'max_cost':0,'null_cost':None,'memory':300,'-k':False,'-n':False,'output':'/data/patracdata/kraje/ka/raster/cumulative.tif','outdir':'TEMPORARY_OUTPUT','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
-            self.setProgress(5)
-            processing.run("gdal:rasterize", {'INPUT':'/data/patracdata/kraje/ka/raster/coords_vector.shp','FIELD':'','BURN':1,'USE_Z':False,'UNITS':1,'WIDTH':5,'HEIGHT':5,'EXTENT':'-870888.866500000,-834372.789100000,-1044166.135100000,-1011525.172000000 [EPSG:5514]','NODATA':0,'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9','DATA_TYPE':0,'INIT':None,'INVERT':False,'EXTRA':'','OUTPUT':'/data/patracdata/kraje/ka/raster/coords_rast.tif'})
-            self.setProgress(10)
-            processing.run("grass7:r.buffer", {'input':'/data/patracdata/kraje/ka/raster/coords_rast.tif','distances':'190,390,640,970,1280,1900,2530,3200,10320','units':0,'-z':False,'output':'TEMPORARY_OUTPUT','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
-            self.setProgress(15)
-            # we have to start on cat 3, so on min of the ring for 20%
-            cat=3
-            variables = [10, 20, 30, 40, 50, 60, 70, 80]
-            rules_global = ''
-            PREVMIN = 0
-            progress = 15
-            for i in variables:
-                rules = str(cat) + ' = 1\n'
-                rules += 'end'
-                processing.run("grass7:r.reclass", {'input':'/data/patracdata/kraje/ka/raster/buffers.tif','rules':'','txtrules': rules,'output':'/data/patracdata/kraje/ka/raster/distances_' + str(i) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
-                processing.run("grass7:r.mapcalc.simple", {'a':'/data/patracdata/kraje/ka/raster/distances_' + str(i) + '.tif','b':'/data/patracdata/kraje/ka/raster/cumulative.tif','c':None,'d':None,'e':None,'f':None,'expression':'A*B','output':'/data/patracdata/kraje/ka/raster/cost_distances_' + str(i) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
-                stats = processing.run("native:rasterlayerstatistics", {'INPUT':'/data/patracdata/kraje/ka/raster/cost_distances_' + str(i) + '.tif','BAND':1,'OUTPUT_HTML_FILE':'TEMPORARY_OUTPUT'})
-                print(stats)
-                if stats['MIN'] is not None and stats['MAX'] is not None:
-                    try:
-                        #Reads min value
-                        MIN = float(stats['MIN'])
-                        print(str(MIN))
-                        #Reads max value
-                        MAX = float(stats['MAX'])
-                        print(str(MAX))
-                        #Minimum value and maximum value is used as extent for relass of the whole cost layer
-                        #rules_percentage_f.write(str(MIN) + ' thru ' + str(MAX) + ' = ' + str(i) + '\n')
-                        if str(PREVMIN) != 'nan' and str(MIN) != 'nan':
-                            rules_global += str(PREVMIN) + ' thru ' + str(MIN) + ' = ' + str(i) + '\n'
-                        PREVMIN = MIN
-                    except:
-                        print("Problem with category " + str(cat) + " " + str(i) + "%")
-                cat += 1
-                progress += 10
-                self.setProgress(progress)
-            processing.run("grass7:r.reclass", {'input':'/data/patracdata/kraje/ka/raster/cumulative.tif','rules':'','txtrules': rules_global,'output':'/data/patracdata/kraje/ka/raster/distances_costed.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
-            progress = 95
-            processing.run("native:zonalstatisticsfb", {'INPUT':'/data/patracdata/kraje/ka/raster/sectors.shp','INPUT_RASTER':'/data/patracdata/kraje/ka/raster/distances_costed.tif','RASTER_BAND':1,'COLUMN_PREFIX':'stats_','STATISTICS':[5],'OUTPUT':'/data/patracdata/kraje/ka/raster/sectors_zoned.shp'})
-            progress = 100
-            self.setProgress(progress)
-            return True
-        except Exception as e:
-            self.exception = e
-            return False
-
-    def finished(self, result):
-        print("FINISHED")
-
 class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def __init__(self, plugin):
 
@@ -228,8 +140,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         # QUICKFIX:
         # self.pluginPath = "/usr/share/qgis/python/plugins/qgis_patrac"
         self.pluginPath = path.dirname(__file__)
-        self.settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
-        self.systemid = open(self.settingsPath + "/config/systemid.txt", 'r').read().rstrip("\n")
+        self.settingsPath = self.pluginPath + "/../../../patrac_settings"
 
         QDockWidget.__init__(self, None)
         self.setupUi(self)
@@ -317,7 +228,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.tbtnSwitchSectorsType.clicked.connect(self.switchSectorsType)
         self.tbtnRecalculate.clicked.connect(self.recalculateAll)
 
-        self.testProcessing.clicked.connect(self.runTestProcessing)
         self.showHandlers.clicked.connect(self.showHandlersDialog)
         self.printPrepared.clicked.connect(self.showReport)
         self.printUserDefined.clicked.connect(self.actionShowLayoutManager)
@@ -335,6 +245,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         self.guideRealSearch.clicked.connect(self.clearDescription)
         self.guideTestSearch.clicked.connect(self.setTestDescription)
+
+        self.createProjectResult = None
 
     def readConfig(self):
         with open(self.settingsPath + "/config/config.json") as json_file:
@@ -411,7 +323,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             self.horizontalSectorsAnalyzeTrackNumberOfPersonsContainer.setEnabled(False)
 
     def loadBuffers(self):
-        settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+        settingsPath = self.pluginPath + "/../../../patrac_settings"
         self.buffers = []
         with open(settingsPath + "/grass/buffer.csv", "r") as fileInput:
             for row in csv.reader(fileInput, delimiter=';'):
@@ -665,14 +577,25 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if not layer is None:
             self.setCursor(Qt.WaitCursor)
 
-            params = {
-                "persontype": self.personType,
-                "minx": self.createProjectResult["XMIN"],
-                "maxx": self.createProjectResult["XMAX"],
-                "miny": self.createProjectResult["YMIN"],
-                "maxy": self.createProjectResult["YMAX"],
-                "epsg": self.createProjectResult["epsg"]
-            }
+            if self.createProjectResult is None:
+                projectinfo = self.Utils.getProjectInfo()
+                params = {
+                    "persontype": projectinfo['persontype'],
+                    "minx": projectinfo['minx'],
+                    "maxx": projectinfo['maxx'],
+                    "miny": projectinfo['miny'],
+                    "maxy": projectinfo['maxy'],
+                    "epsg": projectinfo['epsg']
+                }
+            else:
+                params = {
+                    "persontype": self.personType,
+                    "minx": self.createProjectResult["XMIN"],
+                    "maxx": self.createProjectResult["XMAX"],
+                    "miny": self.createProjectResult["YMIN"],
+                    "maxy": self.createProjectResult["YMAX"],
+                    "epsg": self.createProjectResult["epsg"]
+                }
 
             self.Area.setParams(params)
             self.Area.getArea()
@@ -772,8 +695,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def setPercent(self, percent):
         self.spinStart.setValue(0)
-        self.spinEnd.setValue(percent)
-        self.guideSpinEnd.setValue(percent)
+        self.spinEnd.setValue(percent + 10)
+        self.guideSpinEnd.setValue(percent + 10)
         self.updatePatrac()
 
     def setGridSize(self, gridsize):
@@ -930,7 +853,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                                                                  QApplication.translate("Patrac", "Can not copy. You have copy it manually from the path" + ": ", None) + DATAPATH + '/sektory/gpx/all.gpx')
 
     def saveUnitsInformation(self):
-        settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
+        settingsPath = self.pluginPath + "/../../../patrac_settings"
         f = io.open(settingsPath + '/grass/units.txt.tmp', 'w', encoding='utf-8')
 
         with open(settingsPath + "/grass/units.txt", "r") as fileInput:
@@ -968,8 +891,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             f.write(self.guideMaxTime.text())
             f.close()
 
-        if os.path.exists(self.pluginPath + "/../../../qgis_patrac_settings/grass"):
-            f = io.open(self.pluginPath + "/../../../qgis_patrac_settings/grass/" + 'maxtime.txt', 'w', encoding='utf-8')
+        if os.path.exists(self.pluginPath + "/../../../patrac_settings/grass"):
+            f = io.open(self.pluginPath + "/../../../patrac_settings/grass/" + 'maxtime.txt', 'w', encoding='utf-8')
             f.write(self.guideMaxTime.text())
             f.close()
 

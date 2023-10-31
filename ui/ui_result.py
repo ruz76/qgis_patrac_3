@@ -58,7 +58,6 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         self.widget = widget
         self.Utils = Utils(self.widget)
         self.serverUrl = self.widget.serverUrl
-        self.systemid = self.widget.systemid
 
         self.setupUi(self)
         self.pushButtonNotFound.clicked.connect(self.acceptNotFound)
@@ -321,7 +320,7 @@ class Ui_Result(QtWidgets.QDialog, FORM_CLASS):
         self.Utils.updateProjectInfo("lost_clothes", "")
 
     def getAccessKey(self):
-        with open(self.widget.getPluginPath() + "/../../../qgis_patrac_settings" + "/config/config.json") as json_file:
+        with open(self.widget.getPluginPath() + "/../../../patrac_settings" + "/config/config.json") as json_file:
             config = json.load(json_file)
             accessKey = config['hsapikey']
         return accessKey

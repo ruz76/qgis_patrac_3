@@ -396,6 +396,7 @@ class Area(object):
 
         # Adds exported raster to map
         self.Utils.addRasterLayer(DATAPATH + '/pracovni/distances_costed_cum.tif', 'procenta', -2)
+        self.Utils.setLayerCrs(DATAPATH + '/pracovni/distances_costed_cum.tif', 5514)
         layer = None
         for lyr in list(QgsProject.instance().mapLayers().values()):
             if lyr.source() == DATAPATH + "/pracovni/distances_costed_cum.tif":
@@ -430,8 +431,8 @@ class Area(object):
             "y": pt.y(),
             "finish_steps": finish_steps
         }
-        os.mkdir('/tmp/processing_' + str(id))
-        processing.setConfigurationParameter('TMPDIR', '/tmp/processing_' + str(id))
+        # os.mkdir('/tmp/processing_' + str(id))
+        # processing.setConfigurationParameter('TMPDIR', '/tmp/processing_' + str(id))
         self.widget.runTask(CalculateCostDistanceTask(self.widget, self, params))
 
     def checkCats(self):

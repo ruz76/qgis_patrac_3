@@ -905,7 +905,7 @@ class Sectors(object):
         CUR_VPT = 0
 
         fileInput = None
-        settingsPath = PLUGIN_PATH + "/../../../qgis_patrac_settings"
+        settingsPath = PLUGIN_PATH + "/../../../patrac_settings"
         if system == 'win':
             fileInput = open(settingsPath + "/grass/units.txt", encoding='utf-8', mode="r")
         elif system == 'linux':
@@ -954,7 +954,7 @@ class Sectors(object):
         f.write(u"</div>\n")
 
         fileInput = None
-        unitsTimesPath = PLUGIN_PATH + "/../../../qgis_patrac_settings/grass/units_times.csv"
+        unitsTimesPath = PLUGIN_PATH + "/../../../patrac_settings/grass/units_times.csv"
         if system == 'win':
             fileInput = open(unitsTimesPath, encoding='utf-8', mode="r")
         elif system == 'linux':

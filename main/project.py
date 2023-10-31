@@ -149,10 +149,9 @@ class Project(object):
         self.iface = self.widget.plugin.iface
         self.canvas = self.widget.canvas
         self.serverUrl = self.widget.serverUrl
-        self.settingsPath = self.pluginPath + "/../../../qgis_patrac_settings"
-        with open(self.settingsPath + "/config.json") as c:
+        self.settingsPath = self.pluginPath + "/../../../patrac_settings"
+        with open(self.settingsPath + "/config/config.json") as c:
             self.config = json.load(c)
-        self.systemid = open(self.settingsPath + "/config/systemid.txt", 'r').read().rstrip("\n")
 
     def copyTemplate(self, NEW_PROJECT_PATH, TEMPLATES_PATH, NAMESAFE):
         if not os.path.isdir(NEW_PROJECT_PATH):
@@ -241,10 +240,10 @@ class Project(object):
 
         regionOut = None
         QgsMessageLog.logMessage("Region: " + region, "Patrac")
-        QgsMessageLog.logMessage("Datapath: " + self.config['datapath'], "Patrac")
-        if os.path.isfile(self.config['datapath'] + 'kraje/' + region + '/vektor/OSM/sectors.shp'):
+        QgsMessageLog.logMessage("Datapath: " + self.config['data_path'], "Patrac")
+        if os.path.isfile(self.config['data_path'] + 'kraje/' + region + '/vektor/OSM/sectors.shp'):
             regionOut = region
-        if os.path.isfile(self.config['datapath'] + 'kraje/' + region + '/vektor/ZABAGED/sectors.shp'):
+        if os.path.isfile(self.config['data_path'] + 'kraje/' + region + '/vektor/ZABAGED/sectors.shp'):
             regionOut = region
 
         return regionOut
@@ -295,7 +294,7 @@ class Project(object):
         QgsMessageLog.logMessage("g.region e=" + XMAX + " w=" + XMIN + " n=" + YMAX + " s=" + YMIN, "Patrac")
         QgsMessageLog.logMessage("Název: " + NAMESAFE, "Patrac")
 
-        DATAPATH = self.config["datapath"]
+        DATAPATH = self.config["data_path"]
 
         NEW_PROJECT_PATH = DATAPATH + "kraje/" + region + "/projekty/" + NAMESAFE
         # set working dir to new path

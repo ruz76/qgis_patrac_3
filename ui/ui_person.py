@@ -50,7 +50,7 @@ class Ui_Person(QtWidgets.QDialog, FORM_CLASS):
         self.parent = parent
         self.setupUi(self)
         self.pluginPath = pluginPath
-        self.settingsPath = pluginPath + "/../../../qgis_patrac_settings"
+        self.settingsPath = pluginPath + "/../../../patrac_settings"
         self.Utils = Utils(self.parent)
         self.fillBoxes()
 

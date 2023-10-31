@@ -51,7 +51,7 @@ class Utils(object):
 
     def getSettingsPath(self):
         pluginPath = self.getPluginPath()
-        return pluginPath + "/../../../qgis_patrac_settings"
+        return pluginPath + "/../../../patrac_settings"
 
     def setUTFToAllLayers(self):
         for layer in QgsProject.instance().mapLayers().values():
@@ -309,7 +309,7 @@ class Utils(object):
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".dbf", self.getDataPath() + "/pracovni/sektory_group.dbf")
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".prj", self.getDataPath() + "/pracovni/sektory_group.prj")
         self.addVectorLayerWithStyle(self.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "sectors_single")
-        self.setLayerCrs(self.getDataPath() + "/pracovni/sektory_group.shp", "EPSG:5514")
+        self.setLayerCrs(self.getDataPath() + "/pracovni/sektory_group.shp", 5514)
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".shp", self.getDataPath() + "/pracovni/sektory_group_selected.shp")
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".shx", self.getDataPath() + "/pracovni/sektory_group_selected.shx")
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".dbf", self.getDataPath() + "/pracovni/sektory_group_selected.dbf")
