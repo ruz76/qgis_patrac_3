@@ -310,11 +310,6 @@ class Utils(object):
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".prj", self.getDataPath() + "/pracovni/sektory_group.prj")
         self.addVectorLayerWithStyle(self.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "sectors_single")
         self.setLayerCrs(self.getDataPath() + "/pracovni/sektory_group.shp", 5514)
-        copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".shp", self.getDataPath() + "/pracovni/sektory_group_selected.shp")
-        copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".shx", self.getDataPath() + "/pracovni/sektory_group_selected.shx")
-        copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".dbf", self.getDataPath() + "/pracovni/sektory_group_selected.dbf")
-        copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".prj", self.getDataPath() + "/pracovni/sektory_group_selected.prj")
-        self.importSwitchedSectorsToDatastore()
 
     def createUTMSectors(self, cellsize):
         with open(self.getDataPath() + '/config/extent.txt') as f:
@@ -384,25 +379,20 @@ class Utils(object):
         minx = extent[0]
         miny = extent[1]
         # ch = 'A'
+        id = 0
         for col in range(cols):
             for row in range(rows):
                 geom = self.getUTMGridPolygon(minx, miny, cellsize)
                 label = self.getGridSectorLabel(minx, miny, cellsize)
-                cols = [label, label, 'MIX', None, None, 0, label, None, None, None]
+                cols = [id, label, 'MIX', None, None, (cellsize * cellsize) / 10000, None, None, None]
                 self.saveUTMGridPolygon(provider, geom, cols)
                 miny = miny + cellsize
+                id += 1
             minx = minx + cellsize
             miny = extent[1]
             # ch = chr(ord(ch) + 1)
 
         layer.commitChanges()
-
-        copy(self.getDataPath() + "/pracovni/sektory_group.shp", self.getDataPath() + "/pracovni/sektory_group_selected.shp")
-        copy(self.getDataPath() + "/pracovni/sektory_group.shx", self.getDataPath() + "/pracovni/sektory_group_selected.shx")
-        copy(self.getDataPath() + "/pracovni/sektory_group.dbf", self.getDataPath() + "/pracovni/sektory_group_selected.dbf")
-        copy(self.getDataPath() + "/pracovni/sektory_group.prj", self.getDataPath() + "/pracovni/sektory_group_selected.prj")
-        self.importSwitchedSectorsToDatastore()
-        # layer.stopEditing()
 
     def getUTMGridPolygon(self, minx, miny, cellsize):
         maxx = minx + cellsize
@@ -486,21 +476,28 @@ class Utils(object):
 
     def saveMistaModificationTime(self):
         DATAPATH = self.getDataPath()
-        with open(DATAPATH + '/pracovni/mista_modified.json', 'w') as out:
+        with open(DATAPATH + '/pracovni/data_modified.json', 'w') as out:
             mod = {
-                "shp": os.path.getmtime(DATAPATH + '/pracovni/mista.shp'),
-                "dbf": os.path.getmtime(DATAPATH + '/pracovni/mista.dbf')
+                "mista_shp": os.path.getmtime(DATAPATH + '/pracovni/mista.shp'),
+                "mista_dbf": os.path.getmtime(DATAPATH + '/pracovni/mista.dbf'),
+                "sectors_shp": os.path.getmtime(DATAPATH + '/pracovni/sektory_group.shp'),
+                "sectors_dbf": os.path.getmtime(DATAPATH + '/pracovni/sektory_group.dbf')
             }
             out.write(json.dumps(mod))
 
-    def hasBeenMistaModified(self):
+    def hasBeenDataModified(self):
         DATAPATH = self.getDataPath()
-        if os.path.exists(DATAPATH + '/pracovni/mista_modified.json'):
-            with open(DATAPATH + '/pracovni/mista_modified.json') as modfile:
+        if os.path.exists(DATAPATH + '/pracovni/data_modified.json'):
+            with open(DATAPATH + '/pracovni/data_modified.json') as modfile:
                 mod = json.load(modfile)
-                shp = os.path.getmtime(DATAPATH + '/pracovni/mista.shp')
-                dbf = os.path.getmtime(DATAPATH + '/pracovni/mista.dbf')
-                if mod['shp'] != shp or mod['dbf'] != dbf:
+                mista_shp = os.path.getmtime(DATAPATH + '/pracovni/mista.shp')
+                mista_dbf = os.path.getmtime(DATAPATH + '/pracovni/mista.dbf')
+                sectors_shp = os.path.getmtime(DATAPATH + '/pracovni/sektory_group.shp')
+                sectors_dbf = os.path.getmtime(DATAPATH + '/pracovni/sektory_group.dbf')
+                if mod['mista_shp'] != mista_shp \
+                        or mod['mista_dbf'] != mista_dbf \
+                        or mod['sectors_shp'] != sectors_shp \
+                        or mod['sectors_dbf'] != sectors_dbf:
                     return True
                 else:
                     return False

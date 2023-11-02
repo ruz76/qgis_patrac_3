@@ -672,7 +672,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if not layer is None:
             # Removed step 5
             # self.updateUnitsGuide()
-            if self.Utils.hasBeenMistaModified():
+            if self.Utils.hasBeenDataModified():
                 self.Area.getArea(True)
             else:
                 self.finishRecalculateAll()
@@ -685,6 +685,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.Sectors.reportExportSectors(False, False)
         self.showReport()
         self.updatePatrac()
+        self.Utils.saveMistaModificationTime()
 
     def setPercent(self, percent):
         self.spinStart.setValue(0)
@@ -1108,10 +1109,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.Sectors.addVectorsForSplitByLine()
 
     def extendRegion(self):
-        # msg = QApplication.translate("Patrac", "The function is not available. Please create new project.", None)
-        # QMessageBox.information(None, QApplication.translate("Patrac", "Not available", None), msg)
-        # return
-        self.Sectors.extendRegion()
+        self.Project.extendRegion()
 
     def showSettings(self):
         """Shows the settings dialog"""
@@ -1143,6 +1141,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def runTask(self, id):
         # start the task
         QgsApplication.taskManager().addTask(self.tasks[id])
+
+    def setProgress(self, value):
+        self.progress_bar.setValue(value)
 
     def createProgressBar(self, message):
         # Create a progress bar in the QGIS message bar
@@ -1852,3 +1853,54 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def setSectorsUnitsRecommendedStyle(self):
         self.Styles.setSectorsStyle('units_recommended')
         self.setSectorsShowLabels()
+
+    def appendSectors(self):
+
+        layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if self.Utils.getDataPath() + "/pracovni/sektory_group.shp" in lyr.source():
+                layer = lyr
+                break
+
+        if layer == None:
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None),
+                                    QApplication.translate("Patrac", "Wrong project.", None))
+            return
+
+        layerToAdd = QgsVectorLayer(self.Utils.getDataPath() + "/pracovni/sectors_group_to_append.shp", "sectors to add", "ogr")
+
+        # we remove the subset if it is set
+        layer.setSubsetString("")
+
+        # we save the edits before the process (if there are any)
+        layer.commitChanges()
+        layer.startEditing()
+
+        if not os.path.exists(self.Utils.getDataPath() + '/pracovni/listOfIds.txt'):
+            # The list was not created yet, we fill with all ids from existing layer
+            with open(self.Utils.getDataPath() + '/pracovni/listOfIds.txt', 'w') as f:
+                provider = layer.dataProvider()
+                features = provider.getFeatures()
+                for feature in features:
+                    f.write(str(feature['id']) + "\n")
+
+        featureIds = self.getSectorsIds()
+
+        with open(self.Utils.getDataPath() + '/pracovni/listOfIds.txt', 'a') as f:
+            providerToAdd = layerToAdd.dataProvider()
+            featuresToAdd = providerToAdd.getFeatures()
+            for feature in featuresToAdd:
+                if str(feature['id']) not in featureIds:
+                    QgsMessageLog.logMessage("Adding: " + str(feature['id']), "Patrac")
+                    f.write(str(feature['id']) + "\n")
+                    layer.addFeature(feature)
+
+        layer.commitChanges()
+        layer.triggerRepaint()
+        self.setProgress(100)
+        self.clearMessageBar()
+        self.setCursor(Qt.ArrowCursor)
+
+    def getSectorsIds(self):
+        with open(self.Utils.getDataPath() + '/pracovni/listOfIds.txt') as f:
+            return f.read().splitlines()
