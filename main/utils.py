@@ -506,3 +506,20 @@ class Utils(object):
                     return False
         else:
             return True
+
+    def getLastSectorId(self):
+        DATAPATH = self.getDataPath()
+        if os.path.exists(DATAPATH + '/config/lastsectorid.txt'):
+            with open(DATAPATH + '/config/lastsectorid.txt') as lastsectorid_file:
+                try:
+                    lastsectorid = int(lastsectorid_file.read())
+                    return lastsectorid
+                except ValueError:
+                    return 1000000
+        else:
+            return 1000000
+
+    def writeLastSectorId(self, value):
+        DATAPATH = self.getDataPath()
+        with open(DATAPATH + '/config/lastsectorid.txt', "w") as out:
+            out.write(str(value))

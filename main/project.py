@@ -71,6 +71,7 @@ class ClipSourceDataTask(QgsTask):
 
     def run(self):
         try:
+            self.setProgress(5)
             processing.run(
                 "gdal:cliprasterbyextent",
                 {
@@ -98,7 +99,37 @@ class ClipSourceDataTask(QgsTask):
                     'OUTPUT': self.target_path + 'raster/friction.tif'
                 }
             )
+            self.setProgress(50)
+            processing.run(
+                "native:extractbyextent",
+                {
+                    'INPUT':self.source_path + 'vektor/ZABAGED/vodtok.shp',
+                    'EXTENT':self.get_proj_win(),
+                    'CLIP':False,
+                    'OUTPUT':self.target_path + 'pracovni/vodtok.shp'
+                }
+            )
             self.setProgress(60)
+            processing.run(
+                "native:extractbyextent",
+                {
+                    'INPUT':self.source_path + 'vektor/ZABAGED/cesta.shp',
+                    'EXTENT':self.get_proj_win(),
+                    'CLIP':False,
+                    'OUTPUT':self.target_path + 'pracovni/cesta.shp'
+                }
+            )
+            self.setProgress(70)
+            processing.run(
+                "native:extractbyextent",
+                {
+                    'INPUT':self.source_path + 'vektor/ZABAGED/lespru.shp',
+                    'EXTENT':self.get_proj_win(),
+                    'CLIP':False,
+                    'OUTPUT':self.target_path + 'pracovni/lespru.shp'
+                }
+            )
+            self.setProgress(80)
             vector_output_name = 'sektory_group'
             if self.type == 'extend':
                 vector_output_name = 'sectors_group_to_append'
@@ -312,6 +343,7 @@ class Project(object):
 
         TEMPLATES_PATH = self.pluginPath + "/templates"
         self.copyTemplate(NEW_PROJECT_PATH, TEMPLATES_PATH, NAMESAFE)
+        copy(DATAPATH + "kraje/" + region + "/vektor/ZABAGED/lastsectorid.txt", NEW_PROJECT_PATH + '/config/lastsectorid.txt')
 
         # TODO make it globally
         epsg = 5514

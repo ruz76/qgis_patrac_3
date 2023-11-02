@@ -392,11 +392,10 @@ class Sectors(object):
             return
         return "OK"
 
-    def setAttributesAfterSplit(self, feature_source, feature_target, id):
+    def setAttributesAfterSplit(self, feature_source, feature_target, id, label):
         feature_target['id'] = id
-        feature_target['label'] = id
+        feature_target['label'] = label
         feature_target['area_ha'] = round(feature_target.geometry().area() / 10000)
-        feature_target['cat'] = feature_source['cat']
         feature_target['typ'] = feature_source['typ']
         feature_target['stav'] = feature_source['stav']
         feature_target['prostredky'] = feature_source['prostredky']
@@ -444,6 +443,7 @@ class Sectors(object):
         provider_sectors_layer = sectors_layer.dataProvider()
         sectors_layer.startEditing()
         newIds = ""
+        lastsectorid = self.Utils.getLastSectorId()
         for sector in selected_sectors:
             sector_geometry = sector.geometry()
             for line in features:
@@ -451,18 +451,21 @@ class Sectors(object):
                 output = sector_geometry.splitGeometry(ls, False)
                 if len(output[1]) > 0:
                     sector.setGeometry(sector_geometry)
-                    id = sector['id']
-                    newIds += "'" + id + '_A' + "', "
-                    self.setAttributesAfterSplit(sector, sector, id + '_A')
+                    id = lastsectorid + 1
+                    label = sector['label']
+                    newIds += "'" + str(id) + '_A' + "', "
+                    self.setAttributesAfterSplit(sector, sector, id, label + '_A')
                     sectors_layer.updateFeature(sector)
                     cur_sub_id = 'B'
                     for o in output[1]:
                         feature = QgsFeature(sector)
                         feature.setGeometry(o)
-                        self.setAttributesAfterSplit(sector, feature, id + '_' + cur_sub_id)
-                        newIds += "'" + id + '_' + cur_sub_id + "', "
+                        id += 1
+                        self.setAttributesAfterSplit(sector, feature, id, label + '_' + cur_sub_id)
+                        newIds += "'" + str(id) + '_' + cur_sub_id + "', "
                         provider_sectors_layer.addFeatures([feature])
                         cur_sub_id = chr(ord(cur_sub_id) + 1)
+                    self.Utils.writeLastSectorId(id)
                 else:
                     QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "Can not split.", None))
         sectors_layer.commitChanges()
@@ -492,26 +495,6 @@ class Sectors(object):
 
     def addVectorsForSplitByLine(self):
         self.widget.setCursor(Qt.WaitCursor)
-        DATA_PATH = self.Utils.getDataPath()
-        KRAJ_DATA_PATH = DATA_PATH + "/../../"
-        initialExtent = open(self.Utils.getDataPath() + '/config/extent.txt', 'r').read()
-        initialExtentItems = initialExtent.split(" ")
-        self.createCregion(initialExtentItems)
-        XMIN = initialExtentItems[0]
-        YMIN = initialExtentItems[1]
-        XMAX = initialExtentItems[2]
-        YMAX = initialExtentItems[3]
-        # GRASS exports to SHP
-        if sys.platform.startswith('win'):
-            p = subprocess.Popen(
-                (self.pluginPath + "/grass/run_export_vectors.bat", KRAJ_DATA_PATH, self.pluginPath, XMIN, YMIN,
-                 XMAX, YMAX, DATA_PATH))
-            p.wait()
-        else:
-            p = subprocess.Popen(('bash', self.pluginPath + "/grass/run_export_vectors.sh", KRAJ_DATA_PATH, self.pluginPath, XMIN, YMIN,
-                                  XMAX, YMAX, DATA_PATH))
-            p.wait()
-
         self.addVectorLayerForSplitByLine("vodtok", "Vodní toky")
         self.addVectorLayerForSplitByLine("cesta", "Cesty")
         self.addVectorLayerForSplitByLine("lespru", "Průseky")
