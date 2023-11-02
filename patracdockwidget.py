@@ -592,19 +592,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
             self.setCursor(Qt.ArrowCursor)
 
-            #
-            # if area is not None:
-            #     # set spin to 70%
-            #     self.__updateSliderEnd(70)
-            #     self.updatePatrac()
-            #
-            #     # move to next tab (tab 4)
-            #     self.tabGuideSteps.setCurrentIndex(3)
-            #     self.currentStep = 4
-            # else:
-            #     QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None) + ":",
-            #                             QApplication.translate("Patrac", "Can not calculate the area. Check the inputs.", None))
-
     def finishStep3(self):
         self.__updateSliderEnd(70)
         self.updatePatrac()
@@ -613,6 +600,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.tabGuideSteps.setCurrentIndex(3)
         self.currentStep = 4
 
+        self.Utils.saveMistaModificationTime()
 
     def runGuideStep4Next(self):
         if not self.checkStep(5):
@@ -682,8 +670,12 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def recalculateAll(self):
         layer = self.saveMistaLayer()
         if not layer is None:
-            self.updateUnitsGuide()
-            self.Area.getArea(True)
+            # Removed step 5
+            # self.updateUnitsGuide()
+            if self.Utils.hasBeenMistaModified():
+                self.Area.getArea(True)
+            else:
+                self.finishRecalculateAll()
 
     def finishRecalculateAll(self):
         self.spinStart.setValue(0)

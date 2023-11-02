@@ -482,3 +482,27 @@ class Utils(object):
         crs = QgsCoordinateReferenceSystem("EPSG:" + str(epsg))
         QgsVectorFileWriter.writeAsVectorFormat(mem_layer, file_path,
                                                 "utf-8", crs, "ESRI Shapefile")
+
+
+    def saveMistaModificationTime(self):
+        DATAPATH = self.getDataPath()
+        with open(DATAPATH + '/pracovni/mista_modified.json', 'w') as out:
+            mod = {
+                "shp": os.path.getmtime(DATAPATH + '/pracovni/mista.shp'),
+                "dbf": os.path.getmtime(DATAPATH + '/pracovni/mista.dbf')
+            }
+            out.write(json.dumps(mod))
+
+    def hasBeenMistaModified(self):
+        DATAPATH = self.getDataPath()
+        if os.path.exists(DATAPATH + '/pracovni/mista_modified.json'):
+            with open(DATAPATH + '/pracovni/mista_modified.json') as modfile:
+                mod = json.load(modfile)
+                shp = os.path.getmtime(DATAPATH + '/pracovni/mista.shp')
+                dbf = os.path.getmtime(DATAPATH + '/pracovni/mista.dbf')
+                if mod['shp'] != shp or mod['dbf'] != dbf:
+                    return True
+                else:
+                    return False
+        else:
+            return True
