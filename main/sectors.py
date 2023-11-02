@@ -88,7 +88,7 @@ class Sectors(object):
         DATAPATH = prjfi.absolutePath()
 
         # Adds newly created layer with sectors to map
-        self.Utils.addVectorLayer(DATAPATH + '/pracovni/sectors_zoned.shp', 'sektory zoned')
+        self.Utils.addVectorLayer(DATAPATH + '/pracovni/sectors_zoned.shp', 'sektory zoned', 5514)
 
         #layer.dataProvider().forceReload()
         # layer.triggerRepaint()
@@ -134,8 +134,7 @@ class Sectors(object):
 
         self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sectors_zoned.shp")
         self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sektory_group.shp")
-        self.Utils.addVectorLayerWithStyle(self.Utils.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "sectors_single")
-        self.Utils.setLayerCrs(self.Utils.getDataPath() + "/pracovni/sektory_group.shp", 5514)
+        self.Utils.addVectorLayerWithStyle(self.Utils.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "sectors_single", 5514)
 
         layer = None
         for lyr in list(QgsProject.instance().mapLayers().values()):
@@ -489,7 +488,7 @@ class Sectors(object):
         DATA_PATH = self.Utils.getDataPath()
         if os.path.exists(DATA_PATH + "/pracovni/" + name + ".prj"):
             os.remove(DATA_PATH + "/pracovni/" + name + ".prj")
-        self.Utils.addVectorLayerWithStyle(DATA_PATH + "/pracovni/" + name + ".shp", label, name)
+        self.Utils.addVectorLayerWithStyle(DATA_PATH + "/pracovni/" + name + ".shp", label, name, 5514)
 
     def addVectorsForSplitByLine(self):
         self.widget.setCursor(Qt.WaitCursor)
@@ -1048,6 +1047,9 @@ class Sectors(object):
                 QgsVectorFileWriter.writeAsVectorFormat(sector, gpkgPath, options)
                 sector_from_gpkg = QgsVectorLayer(DATAPATH + "/sektory/shp/sectors.gpkg|layername=" + feature['label'], feature['label'], "ogr")
                 sector_from_gpkg.loadNamedStyle(self.pluginPath + "/templates/projekt/sektory/shp/style.qml")
+                # TODO - from settings
+                crs = QgsCoordinateReferenceSystem(5514)
+                sector_from_gpkg.setCrs(crs)
 
                 QgsProject.instance().addMapLayer(sector_from_gpkg, False)
                 root = QgsProject.instance().layerTreeRoot()

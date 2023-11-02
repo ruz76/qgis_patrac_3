@@ -66,18 +66,18 @@ class Utils(object):
         for layer in layers:
             layerExists = self.checkLayer(layer)
             if not layerExists:
-                self.addVectorLayer(self.getDataPath() + "/pracovni/" + layer, layers_titles[id])
+                self.addVectorLayer(self.getDataPath() + "/pracovni/" + layer, layers_titles[id], 5514)
             id += 1
 
         layer = "distances_costed_cum.tif"
         layerExists = self.checkLayer(layer)
         if not layerExists:
-            self.addRasterLayer(self.getDataPath() + "/pracovni/" + layer, "procenta")
+            self.addRasterLayer(self.getDataPath() + "/pracovni/" + layer, "procenta", 5514)
 
         layer = "zpm.mbtiles"
         layerExists = self.checkLayer(layer)
         if not layerExists:
-            self.addRasterLayer(self.getDataPath() + "/../../../" + layer, "zpm")
+            self.addRasterLayer(self.getDataPath() + "/../../../" + layer, "zpm", 5514)
 
     def getLayer(self, name):
         layer = None
@@ -122,13 +122,14 @@ class Utils(object):
         copy(DATAPATH + "/sektory/shp/template.qml", DATAPATH + "/sektory/shp/" + name + ".qml")
         # copy(DATAPATH + "/sektory/shp/template.qpj", DATAPATH + "/sektory/shp/" + name + ".qpj")
 
-    def addRasterLayer(self, path, label, placement=0):
+    def addRasterLayer(self, path, label, crs_code, placement=0):
         """Adds raster layer to map"""
         raster = QgsRasterLayer(path, label, "gdal")
         if not raster.isValid():
             QgsMessageLog.logMessage("Can not read layer: " + path, "Patrac")
         else:
-            ##            crs = QgsCoordinateReferenceSystem("EPSG:4326")
+            crs = QgsCoordinateReferenceSystem(crs_code)
+            raster.setCrs(crs)
             if placement < 0:
                 root = QgsProject.instance().layerTreeRoot()
                 QgsProject.instance().addMapLayer(raster, False)
@@ -136,23 +137,26 @@ class Utils(object):
             else:
                 QgsProject.instance().addMapLayer(raster)
 
-    def addVectorLayer(self, path, label):
+    def addVectorLayer(self, path, label, crs_code):
         """Adds raster layer to map"""
         vector = QgsVectorLayer(path, label, "ogr")
         if not vector.isValid():
             QgsMessageLog.logMessage("Vrstvu " + path + " se nepodařilo načíst", "Patrac")
         else:
-            ##            crs = QgsCoordinateReferenceSystem("EPSG:4326")
+            crs = QgsCoordinateReferenceSystem(crs_code)
+            vector.setCrs(crs)
             vector.setProviderEncoding(u'UTF-8')
             vector.dataProvider().setEncoding(u'UTF-8')
             QgsProject.instance().addMapLayer(vector)
 
-    def addVectorLayerWithStyle(self, path, label, style):
+    def addVectorLayerWithStyle(self, path, label, style, crs_code):
         """Adds raster layer to map"""
         vector = QgsVectorLayer(path, label, "ogr")
         if not vector.isValid():
             QgsMessageLog.logMessage("Vrstvu " + path + " se nepodařilo načíst", "Patrac")
         else:
+            crs = QgsCoordinateReferenceSystem(crs_code)
+            vector.setCrs(crs)
             vector.setProviderEncoding(u'UTF-8')
             vector.dataProvider().setEncoding(u'UTF-8')
             vector.loadNamedStyle(self.pluginPath + '/styles/' + style + '.qml')
@@ -308,8 +312,7 @@ class Utils(object):
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".shx", self.getDataPath() + "/pracovni/sektory_group.shx")
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".dbf", self.getDataPath() + "/pracovni/sektory_group.dbf")
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".prj", self.getDataPath() + "/pracovni/sektory_group.prj")
-        self.addVectorLayerWithStyle(self.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "sectors_single")
-        self.setLayerCrs(self.getDataPath() + "/pracovni/sektory_group.shp", 5514)
+        self.addVectorLayerWithStyle(self.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "sectors_single", 5514)
 
     def createUTMSectors(self, cellsize):
         with open(self.getDataPath() + '/config/extent.txt') as f:
