@@ -52,9 +52,11 @@ class Ui_Units(QtWidgets.QDialog, FORM_CLASS):
         self.pluginPath = pluginPath
         self.settingsPath = pluginPath + "/../../../patrac_settings"
         self.unitsLabels = [self.tr("Handler"), self.tr("Searcher"), self.tr("Rider"), self.tr("Car"), self.tr("Drone"), self.tr("Diver"), self.tr("Other")]
+        self.fillLimitingTime()
 
     def accept(self):
         self.writeUnits()
+        self.writeLimitingTime()
         self.close()
 
     def updateTable(self):
@@ -80,10 +82,9 @@ class Ui_Units(QtWidgets.QDialog, FORM_CLASS):
         """Fills table with units"""
         tableWidget.setHorizontalHeaderLabels([self.tr("Count"), self.tr("Note")])
         tableWidget.setVerticalHeaderLabels(self.unitsLabels)
-        tableWidget.setColumnWidth(1, 600)
-        settingsPath = self.pluginPath + "/../../../patrac_settings"
+        tableWidget.setColumnWidth(1, 700)
         # Reads CSV and populate the table
-        with open(settingsPath + fileName, "r") as fileInput:
+        with open(self.settingsPath + fileName, "r") as fileInput:
             i = 0
             for row in csv.reader(fileInput, delimiter=';'):
                 j = 0
@@ -108,3 +109,20 @@ class Ui_Units(QtWidgets.QDialog, FORM_CLASS):
                 isinstance(number, float):
             convertedStr = str(number)
         return convertedStr
+
+    def fillLimitingTime(self):
+        maxtime = 3
+        if os.path.isfile(self.settingsPath + "/grass/maxtime.txt"):
+            try:
+                maxtime = int(open(self.settingsPath + "/grass/maxtime.txt", 'r').read())
+            except ValueError:
+                maxtime = 3
+
+        if maxtime <= 0:
+            maxtime = 3
+
+        self.spinBoxLimitingTime.setValue(maxtime)
+
+    def writeLimitingTime(self):
+        with open(self.settingsPath + "/grass/maxtime.txt", "w") as out:
+            out.write(str(self.spinBoxLimitingTime.value()))

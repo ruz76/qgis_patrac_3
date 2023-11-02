@@ -868,9 +868,9 @@ class Sectors(object):
         f.write(u"</div>\n")
 
         maxtime = 3
-        if os.path.isfile(DATAPATH + "/config/maxtime.txt"):
+        if os.path.isfile(settingsPath + "/grass/maxtime.txt"):
             try:
-                maxtime = int(open(DATAPATH + "/config/maxtime.txt", 'r').read())
+                maxtime = int(open(settingsPath + "/grass/maxtime.txt", 'r').read())
             except ValueError:
                 maxtime = 3
 
