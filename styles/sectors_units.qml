@@ -478,7 +478,7 @@ def my_form_open(dialog, layer, feature):
     </widget>
   </widgets>
   <previewExpression>"id"</previewExpression>
-  <mapTip>[% "id" %]&lt;/br>
+  <mapTip>[% "label" %]&lt;/br>
        [% "typ" %], [% "area_ha" %] ha&lt;/br>
        [% CASE WHEN "stav" = 1 THEN '&lt;span style="background-color:#f6f372">Zahájeno&lt;/span>' END %]
        [% CASE WHEN "stav" = 2 THEN '&lt;span style="background-color:#AAFFAA">Dokončeno&lt;/span>' END %]
