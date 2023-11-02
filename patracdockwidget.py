@@ -223,7 +223,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         # self.setMouseHandler()
 
         self.tbtnReturnToAddfeature.clicked.connect(self.actionAddFeature)
-        self.guideStep5OtherUnits.clicked.connect(self.showUnitsDialog)
+        # Removed step 5
+        # self.guideStep5OtherUnits.clicked.connect(self.showUnitsDialog)
 
         self.tbtnPercent.clicked.connect(self.showPercentDialog)
         self.tbtnUnits.clicked.connect(self.showUnitsDialog)
@@ -364,7 +365,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.guideStep4Next.clicked.connect(self.runGuideStep4Next)
 
         # Step 5 Next
-        self.guideStep5Next.clicked.connect(self.runGuideStep5Next)
+        # Removed from flow
+        # self.guideStep5Next.clicked.connect(self.runGuideStep5Next)
 
         # Step 6 Show Report
         self.guideShowReport.clicked.connect(self.showReport)
@@ -621,15 +623,26 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.spinEnd.setValue(self.guideSpinEnd.value() + 10)
         self.updatePatrac()
 
-        # move to next tab (tab 5)
-        self.tabGuideSteps.setCurrentIndex(4)
+        # select sectors
+        self.runGuideGetSectors()
+
+        # run sectors selection and exports
+        self.Sectors.reportExportSectors(False, False)
+
+        # move to next tab (tab 5 - formerly tab 6)
+        self.tabGuideSteps.setCurrentIndex(5)
         self.currentStep = 5
 
-        prjfi = QFileInfo(QgsProject.instance().fileName())
-        DATAPATH = prjfi.absolutePath()
-        if os.path.exists(DATAPATH + "/config/maxtime.txt"):
-            self.guideMaxTime.setText(open(DATAPATH + "/config/maxtime.txt", 'r').read())
+        # move to next tab (tab 5)
+        # self.tabGuideSteps.setCurrentIndex(4)
+        # self.currentStep = 5
 
+        # prjfi = QFileInfo(QgsProject.instance().fileName())
+        # DATAPATH = prjfi.absolutePath()
+        # if os.path.exists(DATAPATH + "/config/maxtime.txt"):
+        #     self.guideMaxTime.setText(open(DATAPATH + "/config/maxtime.txt", 'r').read())
+
+    # Removed from flow
     def runGuideStep5Next(self):
         if not self.checkStep(6):
             return
