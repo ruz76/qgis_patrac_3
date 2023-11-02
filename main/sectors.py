@@ -385,15 +385,6 @@ class Sectors(object):
         if setLabels:
             f.close()
 
-        QgsMessageLog.logMessage("Spoustim python " + self.pluginPath + "/grass/store_sectors.py", "Patrac")
-        self.widget.setCursor(Qt.WaitCursor)
-        if sys.platform.startswith('win'):
-            p = subprocess.Popen((self.pluginPath + "/grass/run_store_sectors.bat", DATAPATH, self.pluginPath))
-            p.wait()
-        else:
-            p = subprocess.Popen(('bash', self.pluginPath + "/grass/run_store_sectors.sh", DATAPATH, self.pluginPath))
-            p.wait()
-
         self.widget.setCursor(Qt.ArrowCursor)
         return sectorid
 

@@ -516,6 +516,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         f.close()
 
         self.writeConfig()
+        self.copySettingsInfoProject()
 
         QMessageBox.information(self.main.iface.mainWindow(), self.tr("INFO"), self.tr("Settings has been updated"))
 
