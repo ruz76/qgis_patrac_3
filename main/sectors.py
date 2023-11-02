@@ -229,12 +229,12 @@ class Sectors(object):
                     if feature['id'] in duplicities:
                         current_duplicity = feature['id']
                         feature['id'] = str(feature['id']) + "_" + str(duplicities[feature['id']])
-                        newIds += "'" + feature['id'] + "', "
+                        newIds += "'" + str(feature['id']) + "', "
                         feature['label'] = str(feature['id'])
                         order = duplicities[current_duplicity]
                         order = chr(ord(str(order)) + 1)
                         duplicities.update({current_duplicity:order})
-                        print(feature['id'])
+                        print(str(feature['id']))
 
                 # Area in hectares
                 feature['area_ha'] = round(feature.geometry().area() / 10000)
@@ -330,7 +330,7 @@ class Sectors(object):
                 #                                         "utf-8", crs, "GPX",
                 #                                         datasourceOptions=['GPX_USE_EXTENSIONS=YES'],
                 #                                         layerOptions=['FORCE_GPX_TRACK=YES'])
-                QgsVectorFileWriter.writeAsVectorFormat(sector, DATAPATH + "/sektory/gpx/" + feature['label'] + ".gpx",
+                QgsVectorFileWriter.writeAsVectorFormat(sector, DATAPATH + "/sektory/gpx/" + str(feature['label']) + "_" + str(feature['id']) + ".gpx",
                                                         "utf-8", crs, "GPX",
                                                         datasourceOptions=['NameField=label'],
                                                         layerOptions=['FORCE_GPX_TRACK=YES'])
@@ -549,7 +549,6 @@ class Sectors(object):
             # print('*****' + feature['id'] + '*****')
             f.write('<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"></head><body>')
             f.write("<h1>" + QApplication.translate("Patrac", "SECTOR", None) + " " + feature['label'] + " (" + str(feature['area_ha']) + " ha)</h1>" + "\n")
-            f.write(report)
             f.write("<h2>" + QApplication.translate("Patrac", "Map lists where the sector is present", None) + "</h2>")
             widthmax = (271.816 * scale) / 0.64
             heightmax = (177.272 * scale) / 0.64
@@ -569,7 +568,7 @@ class Sectors(object):
                         f.write('<a href="../' + str(scale) + '_report_' + str(row) + '_' + str(col) + '.pdf">' + str(row) + '-' + str(col) + '.pdf</a>\n')
 
             f.write("<h2>" + QApplication.translate("Patrac", "GPS file with drawn sector", None) + "</h2>")
-            f.write('<a href="../gpx/' + str(feature['id']) + '.gpx">' + str(feature['id']) + '.gpx</a>\n')
+            f.write('<a href="../gpx/' + str(feature['label']) + "_" + str(feature['id']) + '.gpx">' + str(feature['label']) + '.gpx</a>\n')
             f.write("</body></html>")
 
     def fixUt(self, ut):
@@ -737,7 +736,7 @@ class Sectors(object):
             p_values = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10]
             most_common_type = self.getMostCommonType(p_values)
             f.write(u'<tr><td>' + feature['label'] + '</td><td>' + str(feature['area_ha']) + '</td><td>' + p_labels[most_common_type] + '</td>\n')
-            f.write(u'<td><a href="gpx/' + feature['label'] + '.gpx"><img src="styles/gpx.png" alt="GPX" width="40"></a></td>\n')
+            f.write(u'<td><a href="gpx/' + str(feature['label']) + "_" + str(feature['id']) + '.gpx"><img src="styles/gpx.png" alt="GPX" width="40"></a></td>\n')
             f.write(u'</tr>\n')
             f.close()
 
@@ -1034,7 +1033,7 @@ class Sectors(object):
                 #                                         "utf-8", crs, "GPX",
                 #                                         datasourceOptions=['GPX_USE_EXTENSIONS=YES'],
                 #                                         layerOptions=['FORCE_GPX_TRACK=YES'])
-                QgsVectorFileWriter.writeAsVectorFormat(sector, DATAPATH + "/sektory/gpx/" + feature['label'] + ".gpx",
+                QgsVectorFileWriter.writeAsVectorFormat(sector, DATAPATH + "/sektory/gpx/" + str(feature['label']) + "_" + str(feature['id']) + ".gpx",
                                                         "utf-8", crs, "GPX",
                                                         layerOptions=['FORCE_GPX_TRACK=YES'])
 
