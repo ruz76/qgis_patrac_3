@@ -212,6 +212,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.sectorsUnitsStyle.clicked.connect(self.setSectorsUnitsStyle)
         self.sectorsUnitsRecommendedStyle.clicked.connect(self.setSectorsUnitsRecommendedStyle)
         self.guideStep6ShowSectorsBySuggestedUnits.clicked.connect(self.setSectorsUnitsRecommendedStyle)
+        self.guideStep6ExportSectorsPdf.clicked.connect(self.exportSectorsPdf)
 
         self.sectorsProgressAnalyzeType.currentIndexChanged.connect(self.sectorsProgressAnalyzeTypeChanged)
         self.sectorsProgressAnalyzeValue.textChanged.connect(self.sectorsProgressAnalyzeValueChanged)
@@ -1844,6 +1845,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def setSectorsUnitsRecommendedStyle(self):
         self.Styles.setSectorsStyle('units_recommended')
         self.setSectorsShowLabels()
+
+    def exportSectorsPdf(self):
+        self.Sectors.createIndividualSectorPdf()
 
     def appendSectors(self):
 

@@ -1081,3 +1081,66 @@ class Sectors(object):
         if openReport:
             webbrowser.open("file://" + DATAPATH + "/sektory/report.html")
         return
+
+    def createIndividualSectorPdf(self):
+
+        DATAPATH = self.Utils.getDataPath()
+
+        layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if DATAPATH + "/pracovni/sektory_group.shp" in lyr.source():
+                layer = lyr
+                break
+
+        provider = layer.dataProvider()
+        features = provider.getFeatures()
+
+        featuresCount = 0
+        for feature in features:
+            featuresCount += 1
+
+        # TODO change to something interesting
+        if featuresCount > 0:
+            reply = QMessageBox.question(None,
+                                         QApplication.translate("Patrac", 'Step', None), QApplication.translate("Patrac", 'Generating of PDFs for individual sectors can take about 10 seconds for each sector. Do you want to continue? Number of sectors: ' + str(featuresCount), None),
+                                         QMessageBox.Yes, QMessageBox.No)
+
+            if reply == QMessageBox.No:
+                return
+
+        self.widget.createProgressBar(QApplication.translate("Patrac", 'Exporting PDFs for each sector', None))
+        step = 100 / featuresCount
+        progress = 0
+        self.widget.setProgress(round(progress))
+        features = provider.getFeatures()
+        srs = self.canvas.mapSettings().destinationCrs()
+        current_crs = srs.authid()
+        needsToBeTransformed = True
+        if current_crs == "EPSG:5514":
+            needsToBeTransformed = False
+        else:
+            srs = self.canvas.mapSettings().destinationCrs()
+            crs_src = QgsCoordinateReferenceSystem(5514)
+            crs_dest = QgsCoordinateReferenceSystem(srs)
+            xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
+
+            # extent = xform.transform(layer.extent())
+            # self.Printing.exportPDF(extent, DATAPATH + "/sektory/")
+
+        for feature in features:
+            bbox = feature.geometry().boundingBox()
+            # print(str(bbox))
+            if needsToBeTransformed:
+                extent = xform.transform(bbox)
+            else:
+                extent = bbox
+            scale = 1.2
+            if feature.geometry().area() < 100000:
+                scale = (100000 / feature.geometry().area()) + 0.2
+            self.Printing.export(extent, DATAPATH + "/sektory/pdf/" + feature['label'] + "_" + str(feature['id']) + ".pdf", scale)
+            progress += step
+            self.widget.setProgress(round(progress))
+
+        self.widget.setProgress(100)
+        self.widget.clearMessageBar()
+        webbrowser.open("file://" + DATAPATH + "/sektory/pdf/")
