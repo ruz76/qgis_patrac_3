@@ -618,7 +618,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.Sectors.reportExportSectors(False, False)
 
         # move to next tab (tab 5 - formerly tab 6)
-        self.tabGuideSteps.setCurrentIndex(5)
+        self.tabGuideSteps.setCurrentIndex(4)
         self.currentStep = 5
 
         # move to next tab (tab 5)
