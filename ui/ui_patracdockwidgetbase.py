@@ -689,20 +689,42 @@ class Ui_PatracDockWidget(object):
         self.guideLabelStep6.setWordWrap(True)
         self.verticalGuideLayoutStep6.addWidget(self.guideLabelStep6)
 
+        self.horizontalLayoutToolbarGuideLayoutStep6 = QHBoxLayout()
+        self.horizontalLayoutToolbarGuideLayoutStep6.setObjectName(_fromUtf8("horizontalLayoutToolbarGuideLayoutStep6"))
+
         self.guideShowReport = QPushButton(self.dockWidgetContents)
         self.guideShowReport.setObjectName(_fromUtf8("guideShowReport"))
-        self.guideShowReport.setText(QApplication.translate("PatracDockWidget", "Show report", None))
-        self.verticalGuideLayoutStep6.addWidget(self.guideShowReport)
+        self.guideShowReport.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "report.png")))
+        self.guideShowReport.setIconSize(QSize(24, 24))
+        self.guideShowReport.setFixedSize(QSize(32, 32))
+        self.horizontalLayoutToolbarGuideLayoutStep6.addWidget(self.guideShowReport)
+        self.guideShowReport.setToolTip(QApplication.translate("PatracDockWidget", "Show report", None))
 
         self.guideStep6ShowSectorsByType = QPushButton(self.dockWidgetContents)
         self.guideStep6ShowSectorsByType.setObjectName(_fromUtf8("guideStep6ShowSectorsByType"))
-        self.guideStep6ShowSectorsByType.setText(QApplication.translate("PatracDockWidget", "Show sectors by type", None))
-        self.verticalGuideLayoutStep6.addWidget(self.guideStep6ShowSectorsByType)
+        self.guideStep6ShowSectorsByType.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "sectors_unique.png")));
+        self.guideStep6ShowSectorsByType.setIconSize(QSize(24,24));
+        self.guideStep6ShowSectorsByType.setFixedSize(QSize(32,32));
+        self.horizontalLayoutToolbarGuideLayoutStep6.addWidget(self.guideStep6ShowSectorsByType)
+        self.guideStep6ShowSectorsByType.setToolTip(QApplication.translate("PatracDockWidget", "Show sectors by type", None))
 
         self.guideStep6ShowSectorsBySuggestedUnits = QPushButton(self.dockWidgetContents)
         self.guideStep6ShowSectorsBySuggestedUnits.setObjectName(_fromUtf8("guideStep6ShowSectorsBySuggestedUnits"))
-        self.guideStep6ShowSectorsBySuggestedUnits.setText(QApplication.translate("PatracDockWidget", "Show sectors by recomended units", None))
-        self.verticalGuideLayoutStep6.addWidget(self.guideStep6ShowSectorsBySuggestedUnits)
+        self.guideStep6ShowSectorsBySuggestedUnits.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "sectors_units_recommended.png")));
+        self.guideStep6ShowSectorsBySuggestedUnits.setIconSize(QSize(24,24));
+        self.guideStep6ShowSectorsBySuggestedUnits.setFixedSize(QSize(32,32));
+        self.horizontalLayoutToolbarGuideLayoutStep6.addWidget(self.guideStep6ShowSectorsBySuggestedUnits)
+        self.guideStep6ShowSectorsBySuggestedUnits.setToolTip(QApplication.translate("PatracDockWidget", "Show sectors by recomended units", None))
+
+        self.guideStep6ExportSectorsPdf = QPushButton(self.dockWidgetContents)
+        self.guideStep6ExportSectorsPdf.setObjectName(_fromUtf8("guideStep6ExportSectorsPdf"))
+        self.guideStep6ExportSectorsPdf.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "export_sectors_pdf.png")));
+        self.guideStep6ExportSectorsPdf.setIconSize(QSize(24,24));
+        self.guideStep6ExportSectorsPdf.setFixedSize(QSize(32,32));
+        self.horizontalLayoutToolbarGuideLayoutStep6.addWidget(self.guideStep6ExportSectorsPdf)
+        self.guideStep6ExportSectorsPdf.setToolTip(QApplication.translate("PatracDockWidget", "Generate individual PDF for each sector", None))
+
+        self.verticalGuideLayoutStep6.addLayout(self.horizontalLayoutToolbarGuideLayoutStep6)
 
         self.guideLabel2Step6 = QLabel(self.dockWidgetContents)
         self.guideLabel2Step6.setObjectName(_fromUtf8("guideLabel2Step6"))
