@@ -621,15 +621,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.tabGuideSteps.setCurrentIndex(4)
         self.currentStep = 5
 
-        # move to next tab (tab 5)
-        # self.tabGuideSteps.setCurrentIndex(4)
-        # self.currentStep = 5
-
-        # prjfi = QFileInfo(QgsProject.instance().fileName())
-        # DATAPATH = prjfi.absolutePath()
-        # if os.path.exists(DATAPATH + "/config/maxtime.txt"):
-        #     self.guideMaxTime.setText(open(DATAPATH + "/config/maxtime.txt", 'r').read())
-
     # Removed from flow
     def runGuideStep5Next(self):
         if not self.checkStep(6):
@@ -689,8 +680,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def setPercent(self, percent):
         self.spinStart.setValue(0)
-        self.spinEnd.setValue(percent + 10)
-        self.guideSpinEnd.setValue(percent + 10)
+        self.spinEnd.setValue(percent)
+        self.guideSpinEnd.setValue(percent)
         self.updatePatrac()
 
     def setGridSize(self, gridsize):
@@ -1077,7 +1068,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def generateTransparencyList(self, minVal, maxVal):
         trList = []
         tr = QgsRasterTransparency.TransparentSingleValuePixel()
-        tr.min = minVal
+        tr.min = minVal + 10
         tr.max = maxVal
         tr.percentTransparent = 100
         trList.append(tr)
