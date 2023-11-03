@@ -484,7 +484,9 @@ class Utils(object):
                 "mista_shp": os.path.getmtime(DATAPATH + '/pracovni/mista.shp'),
                 "mista_dbf": os.path.getmtime(DATAPATH + '/pracovni/mista.dbf'),
                 "sectors_shp": os.path.getmtime(DATAPATH + '/pracovni/sektory_group.shp'),
-                "sectors_dbf": os.path.getmtime(DATAPATH + '/pracovni/sektory_group.dbf')
+                "sectors_dbf": os.path.getmtime(DATAPATH + '/pracovni/sektory_group.dbf'),
+                "weightlimit": os.path.getmtime(DATAPATH + '/config/weightlimit.txt'),
+                "radialsettings": os.path.getmtime(DATAPATH + '/config/radialsettings.txt'),
             }
             out.write(json.dumps(mod))
 
@@ -497,10 +499,14 @@ class Utils(object):
                 mista_dbf = os.path.getmtime(DATAPATH + '/pracovni/mista.dbf')
                 sectors_shp = os.path.getmtime(DATAPATH + '/pracovni/sektory_group.shp')
                 sectors_dbf = os.path.getmtime(DATAPATH + '/pracovni/sektory_group.dbf')
+                weightlimit = os.path.getmtime(DATAPATH + '/config/weightlimit.txt')
+                radialsettings = os.path.getmtime(DATAPATH + '/config/radialsettings.txt')
                 if mod['mista_shp'] != mista_shp \
                         or mod['mista_dbf'] != mista_dbf \
                         or mod['sectors_shp'] != sectors_shp \
-                        or mod['sectors_dbf'] != sectors_dbf:
+                        or mod['sectors_dbf'] != sectors_dbf \
+                        or mod['weightlimit'] != weightlimit \
+                        or mod["radialsettings"] != radialsettings:
                     return True
                 else:
                     return False

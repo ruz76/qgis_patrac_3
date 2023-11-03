@@ -61,6 +61,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         """Constructor."""
         super(Ui_Settings, self).__init__(parent)
         self.parent = parent
+        self.widget = parent
         self.setupUi(self)
         self.pluginPath = pluginPath
         self.settingsPath = pluginPath + "/../../../patrac_settings"
@@ -95,6 +96,23 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             self.fillLineEdit(DATAPATH + "/config/weightlimit.txt", self.lineEditWeightLimit)
         else:
             self.fillLineEdit(self.settingsPath + "/grass/weightlimit.txt", self.lineEditWeightLimit)
+
+        try:
+            if os.path.isfile(DATAPATH + "/config/radialsettings.txt"):
+                with open(DATAPATH + "/config/radialsettings.txt") as rs:
+                    if rs.read().rstrip() == '1':
+                        self.checkBoxRadial.setChecked(True)
+                    else:
+                        self.checkBoxRadial.setChecked(False)
+            else:
+                with open(self.settingsPath + "/grass/radialsettings.txt") as rs:
+                    if rs.read().rstrip() == '1':
+                        self.checkBoxRadial.setChecked(True)
+                    else:
+                        self.checkBoxRadial.setChecked(False)
+        except:
+            print("ERROR CHBX")
+            self.checkBoxRadial.setChecked(False)
 
         self.pushButtonUpdateData.clicked.connect(self.updateData)
         # self.buttonBox.accepted.connect(self.accept)
@@ -452,12 +470,12 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                     j = j + 1
                 i = i + 1
 
-    def copySettingsInfoProject(self):
-        prjfi = QFileInfo(QgsProject.instance().fileName())
-        DATAPATH = prjfi.absolutePath()
-        if os.path.exists(DATAPATH + "/pracovni/sektory_group.shp"):
-            shutil.copy(self.settingsPath + "/grass/" + "weightlimit.txt", DATAPATH + '/config/weightlimit.txt')
-            shutil.copy(self.settingsPath + "/grass/" + "radialsettings.txt", DATAPATH + '/config/radialsettings.txt')
+    # def copySettingsInfoProject(self):
+    #     prjfi = QFileInfo(QgsProject.instance().fileName())
+    #     DATAPATH = prjfi.absolutePath()
+    #     if os.path.exists(DATAPATH + "/pracovni/sektory_group.shp"):
+    #         shutil.copy(self.settingsPath + "/grass/" + "weightlimit.txt", DATAPATH + '/config/weightlimit.txt')
+    #         shutil.copy(self.settingsPath + "/grass/" + "radialsettings.txt", DATAPATH + '/config/radialsettings.txt')
 
     def accept(self):
         """Writes settings to the appropriate files"""
@@ -504,11 +522,11 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         if self.comboBoxDistance.currentIndex() == 3:
             shutil.copy(self.settingsPath + "/grass/distancesUser.txt", self.pluginPath + "/grass/distances.txt")
 
-        f = open(self.settingsPath + '/grass/weightlimit.txt', 'w')
+        f = open(self.widget.Utils.getDataPath() + '/config/weightlimit.txt', 'w')
         f.write(self.lineEditWeightLimit.text())
         f.close()
 
-        f = open(self.settingsPath + '/grass/radialsettings.txt', 'w')
+        f = open(self.widget.Utils.getDataPath() + '/config/radialsettings.txt', 'w')
         if self.checkBoxRadial.isChecked():
             f.write("1")
         else:
@@ -516,7 +534,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         f.close()
 
         self.writeConfig()
-        self.copySettingsInfoProject()
+        # self.copySettingsInfoProject()
 
         QMessageBox.information(self.main.iface.mainWindow(), self.tr("INFO"), self.tr("Settings has been updated"))
 
