@@ -193,6 +193,7 @@ class CalculateCostDistanceTask(QgsTask):
                 cat += 1
                 progress += 5
                 self.setProgress(progress)
+            rules_global += '* = 95\n'
             processing.run("grass7:r.reclass", {'input':self.data_path + 'pracovni/cost_' + str(self.pointid) + '.tif','rules':'','txtrules': rules_global,'output':self.data_path + 'pracovni/distances_' + str(self.pointid) + '_costed.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
             progress = 80
             self.setProgress(progress)
