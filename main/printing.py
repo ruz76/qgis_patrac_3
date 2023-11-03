@@ -32,6 +32,7 @@ from qgis.gui import *
 
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import *
+from qgis.PyQt.QtWidgets import *
 
 class Printing(object):
     def __init__(self, widget):
@@ -52,7 +53,7 @@ class Printing(object):
         with open(path + "report.html", 'w') as file:
             file.write(filedata)
 
-    def exportTiles(self, extent, path, scale):
+    def exportTiles(self, extent, path, scale, progress_start, progress_range):
         widthmax = (271.816 * scale) / 0.64
         heightmax = (177.272 * scale) / 0.64
         widthmap = extent.width()
@@ -61,6 +62,8 @@ class Printing(object):
         rows = int(heightmap / heightmax) + 1 # we need to handle round - may use roundup ot increase number of cols by 1
         tilemap = ""
         tilemap += '<table style="width: 400px; height: 250px">\n'
+        progress = progress_start
+        step = progress_range / (cols * rows)
         for row in range(rows):
             tilemap += '<tr>\n'
             for col in range(cols):
@@ -70,6 +73,8 @@ class Printing(object):
                                     extent.yMaximum() - (row * heightmax) - heightmax)
                 tilemap += '<td style="border: 1px solid; width: 100px; height: 50px; text-align: center"><a href="' + str(scale) + '_report_' + str(row) + '_' + str(col) + '.pdf">' + str(row) + '-' + str(col) + '&nbsp;<img src="styles/pdf.png" alt="PDF" width="40"></a></a></td>\n'
                 self.export(rect, path + str(scale) + "_report_" + str(row) + "_" + str(col) + ".pdf", 1.0)
+                progress += step
+                self.widget.setProgress(round(progress))
             tilemap += '</tr>\n'
         tilemap += '</table>\n'
 
@@ -97,6 +102,9 @@ class Printing(object):
         exporter.exportToPdf(path, QgsLayoutExporter.PdfExportSettings())
 
     def exportAll(self, extent, path, scale):
+        self.widget.createProgressBar(QApplication.translate("Patrac", 'Exporting predefined PDFs', None))
+        progress = 5
+        self.widget.setProgress(round(progress))
         project = QgsProject.instance()
         layout = project.layoutManager().layoutByName("Basic")
         maps = [item for item in list(layout.items()) if
@@ -108,7 +116,14 @@ class Printing(object):
         exporter = QgsLayoutExporter(layout)
         exporter.exportToPdf(path + "report.pdf", QgsLayoutExporter.PdfExportSettings())
         #self.exportTiles(composer_map.extent(), path, 50)
+        progress = 10
+        self.widget.setProgress(round(progress))
         composer_map.zoomToExtent(extent)
-        self.exportTiles(composer_map.extent(), path, 25)
+        self.exportTiles(composer_map.extent(), path, 25, 10, 20)
+        progress = 30
+        self.widget.setProgress(round(progress))
         composer_map.zoomToExtent(extent)
-        self.exportTiles(composer_map.extent(), path, 10)
+        self.exportTiles(composer_map.extent(), path, 10, 30, 70)
+        progress = 100
+        self.widget.setProgress(round(progress))
+        self.widget.clearMessageBar()

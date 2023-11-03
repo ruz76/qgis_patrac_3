@@ -910,8 +910,10 @@ class Sectors(object):
         features = provider.getFeatures()
 
         LABELS = ""
+        featuresCount = 0
         for feature in features:
             LABELS = LABELS + "!" + str(feature['label'])
+            featuresCount += 1
 
         # Loop via features in sektory_group_selected
         features = provider.getFeatures()
@@ -978,6 +980,10 @@ class Sectors(object):
         f.write("<h2>" + QApplication.translate("Patrac", "SECTOR", None) + "</h2>")
         f.write("<table border><tr><th>" + QApplication.translate("Patrac", "SECTOR", None) + "</th><th>ha</th><th>" + QApplication.translate("Patrac", "Types of terrain", None) + '</th><th>GPS</th></th>' + "\n")
 
+        self.widget.createProgressBar(QApplication.translate("Patrac", 'Exporting GPX for each sector', None))
+        step = 100 / featuresCount
+        progress = 0
+        self.widget.setProgress(0)
         for feature in features:
 
             # Reads sector report
@@ -1041,8 +1047,11 @@ class Sectors(object):
                     sektorygroup = root.insertGroup(0, "sektory")
                 sektorygroup.addLayer(sector_from_gpkg)
                 sektorygroup.setExpanded(False)
-
+            progress += step
+            self.widget.setProgress(round(progress))
             i += 1
+
+        self.widget.setProgress(99)
 
         f.write("</table></div>")
 
@@ -1061,6 +1070,9 @@ class Sectors(object):
             footer = foot.read()
         f.write(footer)
         f.close()
+
+        self.widget.setProgress(100)
+        self.widget.clearMessageBar()
 
         # exports overall map with all sectors to PDF
         if exportPDF:
