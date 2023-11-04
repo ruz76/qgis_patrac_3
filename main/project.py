@@ -158,7 +158,11 @@ class ClipSourceDataTask(QgsTask):
             layer.startEditing()
             features = layer.dataProvider().getFeatures()
             for feature in features:
-                feature['area_ha'] = round(feature.geometry().area() / 10000, 1)
+                area_ha = round(feature.geometry().area() / 10000, 1)
+                if area_ha < 1:
+                    feature['area_ha'] = area_ha
+                else:
+                    feature['area_ha'] = round(area_ha)
                 layer.updateFeature(feature)
             layer.commitChanges()
             progress = 100
