@@ -157,12 +157,8 @@ class ClipSourceDataTask(QgsTask):
             layer.commitChanges()
             layer.startEditing()
             features = layer.dataProvider().getFeatures()
-            # index = layer.fieldNameIndex('area_ha')
-            # index2 = layer.fieldNameIndex('poznamka')
             for feature in features:
-                # layer.changeAttributeValue(feature.id(), index, round(feature.geometry().area() / 10000))
-                # layer.changeAttributeValue(feature.id(), index2, str(round(feature.geometry().area() / 10000)))
-                feature['area_ha'] = round(feature.geometry().area() / 10000)
+                feature['area_ha'] = round(feature.geometry().area() / 10000, 1)
                 layer.updateFeature(feature)
             layer.commitChanges()
             progress = 100
