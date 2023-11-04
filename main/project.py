@@ -395,6 +395,24 @@ class Project(object):
         self.widget.settingsdlg.updateSettings()
         self.saveRegion(params["region"], params["NEW_PROJECT_PATH"])
         self.saveExtent(params["XMIN"], params["YMIN"], params["XMAX"], params["YMAX"], params["NEW_PROJECT_PATH"])
+
+        if os.path.exists(self.config['zpm_path']):
+            self.widget.Utils.addRasterLayer(self.config['zpm_path'], 'zpm', 3857, -1)
+        else:
+            reply = QMessageBox.question(None,
+                                         QApplication.translate("Patrac", 'ZPM', None), QApplication.translate("Patrac", 'Can not find ZPM map. Do you wan to find it yourself?', None),
+                                         QMessageBox.Yes, QMessageBox.No)
+
+            if reply == QMessageBox.Yes:
+                options = QFileDialog.Options()
+                fileName, _ = QFileDialog.getOpenFileName(self.widget, "ZPM", "", "All Files (*);;MBTiles Files (*.mbtiles)", options=options)
+                if fileName:
+                    self.widget.Utils.addRasterLayer(fileName, 'zpm', 3857, -1)
+                    self.config['zpm_path'] = fileName
+                    with open(self.settingsPath + "/config/config.json", "w") as outfile:
+                        json.dump(self.config, outfile)
+
+        self.iface.mapCanvas().refresh()
         self.widget.setCursor(Qt.ArrowCursor)
 
     def saveRegion(self, region, DATAPATH):

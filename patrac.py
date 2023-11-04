@@ -166,6 +166,7 @@ class PatracPlugin(object):
             "debug_level": 0
         }
         config['data_path'] = self.getPatracDataPath()
+        config['zpm_path'] = config['data_path'] + 'kraje/zpm.mbtiles'
         with open(self.profilePath + "patrac_settings/config/config.json", "w") as out:
             out.write(json.dumps(config))
 
@@ -268,6 +269,7 @@ class PatracPlugin(object):
         self.toolbar.addAction(self.iface.actionAddOgrLayer())
         self.addVectorsForSplitByLineButton()
         self.addSplitByLineButton()
+        self.toolbar.addAction(self.iface.actionVertexToolActiveLayer())
 
     def addRecalculateButton(self):
         pluginPath = path.dirname(__file__)
