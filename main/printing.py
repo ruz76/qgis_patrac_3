@@ -98,6 +98,7 @@ class Printing(object):
         extent.scale(scale)
         composer_map.zoomToExtent(extent)
         layout.updateSettings()
+        layout.refresh()
         exporter = QgsLayoutExporter(layout)
         exporter.exportToPdf(path, QgsLayoutExporter.PdfExportSettings())
 

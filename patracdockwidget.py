@@ -477,6 +477,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if self.guideRealSearch.isChecked():
             version = 1
         self.createProjectResult = self.runCreateProjectGuide(municipalityindex, version)
+        QgsExpressionContextUtils.setGlobalVariable('zpm_update','ZPM aktualizace: 2022-01-01')
+        QgsExpressionContextUtils.setGlobalVariable('sectors_update','Sektory aktualizace: 2023-09-08')
+        QgsExpressionContextUtils.setGlobalVariable('print_label','Tisk')
+        QgsExpressionContextUtils.setGlobalVariable('contour_line_label','Vrstevnice')
 
     def finishStep1(self):
 
