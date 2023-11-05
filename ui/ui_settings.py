@@ -298,27 +298,30 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             QMessageBox.information(None, self.tr("ERROR"), self.tr("Can not connect to the server"))
 
     def downloadData(self, start, end):
-        print('Downloading data')
-        self.textEditHds.append('Downloading data ...')
-        QtWidgets.QApplication.processEvents()
-        tmpdirname = tempfile.mkdtemp()
-        self.downloadResource(self.serverUrl + "qgis3/data/ka/list.json", os.path.join(tmpdirname, 'list.json'), 30, 31)
-        with open(os.path.join(tmpdirname, 'list.json')) as l:
-            data = json.load(l)
-            count = len(data)
-            size = round((end - start) / count)
-            for item in data:
-                print(item)
-                self.downloadResource(self.serverUrl + "qgis3/data/ka/" + item, os.path.join(tmpdirname, item), start, start + size)
-                self.textEditHds.append('Downloaded chunk ' + item)
-                QtWidgets.QApplication.processEvents()
-                start += size
-        return [tmpdirname, data]
+        try:
+            self.textEditHds.append(QApplication.translate("Patrac", 'Downloading data ...', None))
+            QtWidgets.QApplication.processEvents()
+            tmpdirname = tempfile.mkdtemp()
+            self.downloadResource(self.serverUrl + "qgis3/data/" + self.comboBoxData.currentText() + "/list.json", os.path.join(tmpdirname, 'list.json'), 30, 31)
+            if os.path.exists(os.path.join(tmpdirname, 'list.json')):
+                with open(os.path.join(tmpdirname, 'list.json')) as l:
+                    data = json.load(l)
+                    count = len(data)
+                    size = round((end - start) / count)
+                    for item in data:
+                        self.downloadResource(self.serverUrl + "qgis3/data/" + self.comboBoxData.currentText() + "/" + item, os.path.join(tmpdirname, item), start, start + size)
+                        self.textEditHds.append(QApplication.translate("Patrac", 'Downloaded chunk ', None) + item)
+                        QtWidgets.QApplication.processEvents()
+                        start += size
+                return [tmpdirname, data]
+            else:
+                return None
+        except:
+            return None
 
     def mergeDownloaded(self, items, source, target):
-        self.textEditHds.append('Merging chunks ...')
+        self.textEditHds.append(QApplication.translate("Patrac", 'Merging chunks ...', None))
         QtWidgets.QApplication.processEvents()
-        # items = ['x00', 'x01', 'x02', 'x03', 'x04', 'x05']
         for item in items:
             with open(os.path.join(source, item), 'rb') as input:
                 data = input.read()
@@ -326,32 +329,36 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                 output.write(data)
 
     def backupData(self, source, target, start, end):
-        print('Backing up the data')
-        self.textEditHds.append('Backing up the data ...')
-        self.textEditHds.append('Calculating files ...')
-        # shutil.make_archive(target, 'zip', source)
-        count = 0
-        for dirname, subdirs, files in os.walk(source):
-            for filename in files:
-                count += 1
+        try:
+            self.textEditHds.append(QApplication.translate("Patrac", 'Backing up the data ...', None))
+            self.textEditHds.append(QApplication.translate("Patrac", 'Calculating files ...', None))
+            # shutil.make_archive(target, 'zip', source)
+            count = 0
+            for dirname, subdirs, files in os.walk(source):
+                for filename in files:
+                    count += 1
 
-        step = (end - start) / count
-        progress = start
-        zf = ZipFile(target, "w")
-        for dirname, subdirs, files in os.walk(source):
-            zf.write(dirname)
-            for filename in files:
-                self.textEditHds.append('Archiving ' + filename + ' ...')
-                QtWidgets.QApplication.processEvents()
-                zf.write(os.path.join(dirname, filename))
-                progress += step
-                self.progressBar.setValue(round(progress))
-        zf.close()
+            step = (end - start) / count
+            progress = start
+            zf = ZipFile(target, "w")
+            for dirname, subdirs, files in os.walk(source):
+                zf.write(dirname)
+                for filename in files:
+                    self.textEditHds.append(QApplication.translate("Patrac", 'Archiving ', None) + filename + ' ...')
+                    QtWidgets.QApplication.processEvents()
+                    zf.write(os.path.join(dirname, filename))
+                    progress += step
+                    self.progressBar.setValue(round(progress))
+            zf.close()
 
-        self.progressBar.setValue(end)
+            self.progressBar.setValue(end)
+            return False
+        except:
+            self.textEditHds.append(QApplication.translate("Patrac", '!!! ERROR in update of the data. Exiting. !!!', None))
+            return True
 
     def unzipData(self, source, target):
-        self.textEditHds.append('Unzipping data ...')
+        self.textEditHds.append(QApplication.translate("Patrac", 'Unzipping data ...', None))
         QtWidgets.QApplication.processEvents()
         try:
             kraj_zip = ZipFile(source)
@@ -365,15 +372,31 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.progressBar.setValue(5)
         if not os.path.exists(self.config['data_path'] + 'kraje/backups'):
             os.mkdir(self.config['data_path'] + 'kraje/backups')
-        self.backupData(self.config['data_path'] + 'kraje/' + self.comboBoxDataHds.currentText(), os.path.join(self.config['data_path'] + 'kraje/backups', self.comboBoxDataHds.currentText() + '_' + strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + '.zip'), 5, 30)
+        dir_path = self.config['data_path'] + 'kraje/' + self.comboBoxData.currentText()
+        zip_file_name = os.path.join(self.config['data_path'] + 'kraje/backups', self.comboBoxData.currentText() + '_' + strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + '.zip')
+        if os.path.exists(dir_path):
+            backupResults = self.backupData(dir_path, zip_file_name, 5, 30)
+        if os.path.exists(dir_path) and (not backupResults or not os.path.exists(zip_file_name)):
+            QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
+                                 QApplication.translate("Patrac", "The backup of the data was not created. Can not continue with data update.", None))
+            return
         self.progressBar.setValue(30)
         resources = self.downloadData(30, 70)
+        if resources is None:
+            QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
+                                 QApplication.translate("Patrac", "The data was not downloaded. Can not continue with data update.", None))
+            return
         self.progressBar.setValue(70)
         self.mergeDownloaded(resources[1], resources[0], os.path.join(resources[0], 'data.zip'))
         self.progressBar.setValue(85)
-        self.unzipData(os.path.join(resources[0], 'data.zip'), self.config['data_path'] + 'kraje/' + self.comboBoxDataHds.currentText() + '/')
+        try:
+            self.unzipData(os.path.join(resources[0], 'data.zip'), self.config['data_path'] + 'kraje/' + self.comboBoxData.currentText() + '/')
+        except:
+            QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
+                                 QApplication.translate("Patrac", "The data were corrupted. Can not continue with data update.", None))
+            return
         self.progressBar.setValue(100)
-        self.textEditHds.append('Finished. The data has been updated.')
+        self.textEditHds.append(QApplication.translate("Patrac", 'Finished. The data has been updated.', None))
         QtWidgets.QApplication.processEvents()
         return
 
