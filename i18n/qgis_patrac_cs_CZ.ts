@@ -721,7 +721,7 @@
     <message>
         <location filename="../main/project.py" line="315"/>
         <source>Do not have data for seleted region. Can not continue.</source>
-        <translation>Pro daný kraj nemám k dispozici data. Nemám data nemohu pokračovat.</translation>
+        <translation>Pro daný kraj nemám k dispozici aktuální data. Nemám data nemohu pokračovat. Data můžete aktualizovat / nainstalovat v dialogu Nastavení, který se následně otevře.</translation>
     </message>
     <message>
         <location filename="../patracdockwidget.py" line="1737"/>

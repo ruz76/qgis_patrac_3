@@ -352,10 +352,10 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
             zf.close()
 
             self.progressBar.setValue(end)
-            return False
+            return True
         except:
             self.textEditHds.append(QApplication.translate("Patrac", '!!! ERROR in update of the data. Exiting. !!!', None))
-            return True
+            return False
 
     def unzipData(self, source, target):
         self.textEditHds.append(QApplication.translate("Patrac", 'Unzipping data ...', None))
@@ -371,7 +371,7 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         # QMessageBox.information(self.main.iface.mainWindow(), self.tr("Not available"), msg)
         self.progressBar.setValue(5)
         if not os.path.exists(self.config['data_path'] + 'kraje/backups'):
-            os.mkdir(self.config['data_path'] + 'kraje/backups')
+            os.makedirs(self.config['data_path'] + 'kraje/backups', exist_ok=True)
         dir_path = self.config['data_path'] + 'kraje/' + self.comboBoxData.currentText()
         zip_file_name = os.path.join(self.config['data_path'] + 'kraje/backups', self.comboBoxData.currentText() + '_' + strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + '.zip')
         if os.path.exists(dir_path):

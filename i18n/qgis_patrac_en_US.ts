@@ -693,7 +693,7 @@
     <message>
         <location filename="../main/project.py" line="315"/>
         <source>Do not have data for seleted region. Can not continue.</source>
-        <translation>Do not have data for seleted region. Can not continue.</translation>
+        <translation>Do not have last version of data for seleted region. Can not continue. The data may be updated / installed in Settings dialog that will be opened.</translation>
     </message>
     <message>
         <location filename="../patracdockwidget.py" line="1737"/>

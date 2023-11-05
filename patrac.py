@@ -178,7 +178,7 @@ class PatracPlugin(object):
 
     def copyDoc(self):
         if not os.path.isdir(self.config['data_path'] + "doc"):
-            os.mkdir(self.config['data_path'] + "doc")
+            os.makedirs(self.config['data_path'] + "doc", exist_ok=True)
         copy(self.pluginPath + "/doc/index.html", self.config['data_path'] + "doc/")
         self.copyDocDir(self.config['data_path'], self.pluginPath, "css")
         self.copyDocDir(self.config['data_path'], self.pluginPath, "fonts")

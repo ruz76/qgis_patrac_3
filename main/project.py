@@ -282,10 +282,11 @@ class Project(object):
         regionOut = None
         QgsMessageLog.logMessage("Region: " + region, "Patrac")
         QgsMessageLog.logMessage("Datapath: " + self.config['data_path'], "Patrac")
-        if os.path.isfile(self.config['data_path'] + 'kraje/' + region + '/vektor/OSM/sectors.shp'):
-            regionOut = region
-        if os.path.isfile(self.config['data_path'] + 'kraje/' + region + '/vektor/ZABAGED/sectors.shp'):
-            regionOut = region
+        if os.path.isfile(self.config['data_path'] + 'kraje/' + region + '/metadata.json'):
+            with open(self.config['data_path'] + 'kraje/' + region + '/metadata.json') as m:
+                metadata = json.load(m)
+                if metadata['version'] == '2023-09-08':
+                    regionOut = region
 
         return regionOut
 
@@ -314,6 +315,8 @@ class Project(object):
         if region is None:
             QMessageBox.information(None, QApplication.translate("Patrac", "ERROR", None),
                                                                  QApplication.translate("Patrac", "Do not have data for seleted region. Can not continue.", None))
+            self.widget.showSettings()
+            self.widget.setCursor(Qt.ArrowCursor)
             return
 
         self.widget.setCursor(Qt.WaitCursor)
