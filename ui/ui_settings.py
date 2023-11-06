@@ -308,11 +308,14 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
                     data = json.load(l)
                     count = len(data)
                     size = round((end - start) / count)
+                    i = 1
                     for item in data:
-                        self.downloadResource(self.serverUrl + "qgis3/data/" + self.comboBoxData.currentText() + "/" + item, os.path.join(tmpdirname, item), start, start + size)
-                        self.textEditHds.append(QApplication.translate("Patrac", 'Downloaded chunk ', None) + item)
+                        res = list(item.keys())[0]
+                        self.downloadResource(self.serverUrl + "qgis3/data/" + self.comboBoxData.currentText() + "/" + res, os.path.join(tmpdirname, res), start, start + size)
+                        self.textEditHds.append(QApplication.translate("Patrac", 'Downloaded chunk ', None) + str(i) + '/' + str(count))
                         QtWidgets.QApplication.processEvents()
                         start += size
+                        i += 1
                 return [tmpdirname, data]
             else:
                 return None
@@ -545,16 +548,16 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         if self.comboBoxDistance.currentIndex() == 3:
             shutil.copy(self.settingsPath + "/grass/distancesUser.txt", self.pluginPath + "/grass/distances.txt")
 
-        f = open(self.widget.Utils.getDataPath() + '/config/weightlimit.txt', 'w')
-        f.write(self.lineEditWeightLimit.text())
-        f.close()
+        DATAPATH = self.widget.Utils.getDataPath()
+        if os.path.exists(DATAPATH + '/config/'):
+            with open(self.widget.Utils.getDataPath() + '/config/weightlimit.txt', 'w') as f:
+                f.write(self.lineEditWeightLimit.text())
 
-        f = open(self.widget.Utils.getDataPath() + '/config/radialsettings.txt', 'w')
-        if self.checkBoxRadial.isChecked():
-            f.write("1")
-        else:
-            f.write("0")
-        f.close()
+            with open(DATAPATH + '/config/radialsettings.txt', 'w') as f:
+                if self.checkBoxRadial.isChecked():
+                    f.write("1")
+                else:
+                    f.write("0")
 
         self.writeConfig()
         # self.copySettingsInfoProject()
