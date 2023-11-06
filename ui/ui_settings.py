@@ -326,7 +326,8 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         self.textEditHds.append(QApplication.translate("Patrac", 'Merging chunks ...', None))
         QtWidgets.QApplication.processEvents()
         for item in items:
-            with open(os.path.join(source, item), 'rb') as input:
+            res = list(item.keys())[0]
+            with open(os.path.join(source, res), 'rb') as input:
                 data = input.read()
             with open(target, 'ab') as output:
                 output.write(data)

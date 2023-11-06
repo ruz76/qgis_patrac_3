@@ -50,7 +50,10 @@ else:
 if localeFullName == "cs":
     from .report_export_cs import *
 else:
-    from .report_export_en import *
+    if localeFullName == "uk":
+        from .report_export_uk import *
+    else:
+        from .report_export_en import *
 
 def get_label(f):
     if len(f['label']) >= 5:
