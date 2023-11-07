@@ -1,5 +1,12 @@
 # Changelog 
 
+## Version 3.26.1 (2023-11-07)
+
+#### Improvements
+* Removed dependency on OSGeo4W
+* Added support for installing data
+* Added uk_UA translation
+
 ## Version 3.12.27 (2022-06-10)
 
 #### Improvements

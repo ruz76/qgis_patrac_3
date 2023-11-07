@@ -1,6 +1,0 @@
-FROM patrac_environment
-
-# Debugger
-RUN apt-get install -y python3-pip &&\
-    pip3 install pydevd &&\
-    apt-get clean

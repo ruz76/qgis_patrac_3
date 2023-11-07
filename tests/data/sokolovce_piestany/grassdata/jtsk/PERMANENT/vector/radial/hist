@@ -1,8 +1,0 @@
-COMMAND: v.in.ogr --overwrite -o input="/home/jencek/qgis3_profiles/profiles/default/python/plugins/qgis_patrac/grass/radial.csv" output="radial" min_area=0.0001 type="" snap=-1
-GISDBASE: /home/jencek/qgis3_profiles/profiles/default/python/plugins/qgis_patrac/tests/data/sokolovce_piestany/grassdata
-LOCATION: jtsk MAPSET: PERMANENT USER: jencek DATE: Tue Jul 13 20:07:39 2021
------------------------------------------------------
-360 input polygons
-Total area: 1.25657E+09 (360 areas)
-Overlapping area: 0 (0 areas)
-Area without category: 0 (0 areas)

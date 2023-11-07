@@ -2,8 +2,8 @@
 name=Patrac
 description=Support for search for missing person
 category=Decision support
-version=3.12.27
-qgisMinimumVersion=3.4
+version=3.26.1
+qgisMinimumVersion=3.26
 
 author=Jan Růžička
 email=jan.ruzicka.vsb@gmail.com

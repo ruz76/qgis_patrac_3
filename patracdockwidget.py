@@ -53,7 +53,6 @@ from .main.project import Project
 from .main.area import Area
 from .main.utils import Utils
 from .main.sectors import Sectors
-from .main.hds import Hds
 from .main.styles import Styles
 
 from os import path
@@ -189,7 +188,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.Printing = Printing(self)
         self.Area = Area(self)
         self.Sectors = Sectors(self)
-        self.Hds = Hds(self)
 
         # Dialogs and tools are defined here
         self.settingsdlg = Ui_Settings(self.pluginPath, self)
@@ -1814,12 +1812,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         layer.commitChanges()
         layer.triggerRepaint()
         self.setCursor(Qt.ArrowCursor)
-
-    def testHds(self, textEdit):
-        self.Hds.testHds(textEdit)
-
-    def testHdsData(self, region, textEdit):
-        self.Hds.testHdsData(region, textEdit)
 
     def setSectorsUniqueValuesStyle(self):
         self.Styles.setSectorsStyle('unique')

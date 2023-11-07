@@ -181,13 +181,6 @@ class Ui_Settings(QtWidgets.QDialog, FORM_CLASS):
         for region in regions:
             self.comboBoxData.addItem(region)
 
-    def testDataHds(self):
-        self.parent.setCursor(Qt.WaitCursor)
-        self.setCursor(Qt.WaitCursor)
-        self.main.testHdsData(self.comboBoxDataHds.currentText(), self.textEditHds)
-        self.setCursor(Qt.ArrowCursor)
-        self.parent.setCursor(Qt.ArrowCursor)
-
     def saveStyle(self):
 
         prjfi = QFileInfo(QgsProject.instance().fileName())
