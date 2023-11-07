@@ -268,6 +268,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.guideSearchDescription.setText('!!! TEST')
 
     def switchSectorsType(self):
+        self.setCursor(Qt.WaitCursor)
+
         projectinfo = self.Utils.getProjectInfo()
         sectors_type = projectinfo['sectors_type']
         # print(sectors_type)
@@ -291,6 +293,11 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             self.Utils.backupSectors('grid')
             self.Utils.restoreSectors('natural')
             self.Utils.updateProjectInfo('sectors_type', 0)
+
+        self.setCursor(Qt.ArrowCursor)
+
+        QMessageBox.information(None, QApplication.translate("Patrac", "Info", None),
+                                QApplication.translate("Patrac", "The type of sectors has been changed. You have ot recalculate the situation.", None))
 
     def setMouseHandler(self):
         self.emitPoint = QgsMapToolEmitPoint(self.canvas)

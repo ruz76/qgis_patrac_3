@@ -137,7 +137,7 @@ class Sectors(object):
 
         self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sectors_zoned.shp")
         self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sektory_group.shp")
-        self.Utils.addVectorLayerWithStyle(self.Utils.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "sectors_single", 5514)
+        self.Utils.addVectorLayerWithStyle(self.Utils.getDataPath() + "/pracovni/sektory_group.shp", self.Utils.getLayerName("sektory_group.shp"), "sectors_single", 5514)
 
         layer = None
         for lyr in list(QgsProject.instance().mapLayers().values()):

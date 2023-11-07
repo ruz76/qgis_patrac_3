@@ -45,6 +45,43 @@ class Utils(object):
         self.pluginPath = self.widget.pluginPath
         self.iface = self.widget.plugin.iface
         self.canvas = self.widget.canvas
+        self.layers = {
+            "mista.shp": {
+                "cs": "Místa",
+                "en": "Places",
+                "uk": "Місця"
+            },
+            "mista_linie.shp": {
+                "cs": "Místa (linie)",
+                "en": "Places (lines)",
+                "uk": "Місця (лінія)"
+            },
+            "mista_polygon.shp": {
+                "cs": "Místa (plocha)",
+                "en": "Places (area)",
+                "uk": "Місця (область)"
+            },
+            "patraci.shp": {
+                "cs": "Pátrači",
+                "en": "Searchers",
+                "uk": "Пошуковці"
+            },
+            "sektory_group.shp": {
+                "cs": "Sektory",
+                "en": "Sectors",
+                "uk": "Сектори"
+            },
+            "distances_costed_cum.tif": {
+                "cs": "Procenta",
+                "en": "Percent",
+                "uk": "Відсоток"
+            },
+            "zpm.mbtiles": {
+                "cs": "zpm",
+                "en": "zpm",
+                "uk": "zpm"
+            }
+        }
 
     def getPluginPath(self):
         return path.dirname(__file__) + "/.."
@@ -61,23 +98,22 @@ class Utils(object):
 
     def loadRemovedNecessaryLayers(self):
         layers = ["patraci.shp", "sektory_group.shp", "mista.shp", "mista_linie.shp", "mista_polygon.shp"]
-        layers_titles = ["patraci", "sektory", "mista", "mista_linie", "mista_polygon"]
         id = 0
         for layer in layers:
             layerExists = self.checkLayer(layer)
             if not layerExists:
-                self.addVectorLayer(self.getDataPath() + "/pracovni/" + layer, layers_titles[id], 5514)
+                self.addVectorLayer(self.getDataPath() + "/pracovni/" + layer, self.getLayerName(layers[id]), 5514)
             id += 1
 
         layer = "distances_costed_cum.tif"
         layerExists = self.checkLayer(layer)
         if not layerExists:
-            self.addRasterLayer(self.getDataPath() + "/pracovni/" + layer, "procenta", 5514)
+            self.addRasterLayer(self.getDataPath() + "/pracovni/" + layer, self.getLayerName(layer), 5514)
 
         layer = "zpm.mbtiles"
         layerExists = self.checkLayer(layer)
         if not layerExists:
-            self.addRasterLayer(self.getDataPath() + "/../../../" + layer, "zpm", 5514)
+            self.addRasterLayer(self.getDataPath() + "/../../../" + layer, self.getLayerName(layer), 5514)
 
     def getLayer(self, name):
         layer = None
@@ -312,7 +348,7 @@ class Utils(object):
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".shx", self.getDataPath() + "/pracovni/sektory_group.shx")
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".dbf", self.getDataPath() + "/pracovni/sektory_group.dbf")
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".prj", self.getDataPath() + "/pracovni/sektory_group.prj")
-        self.addVectorLayerWithStyle(self.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "sectors_single", 5514)
+        self.addVectorLayerWithStyle(self.getDataPath() + "/pracovni/sektory_group.shp", self.getLayerName("sektory_group.shp"), "sectors_single", 5514)
 
     def createUTMSectors(self, cellsize):
         with open(self.getDataPath() + '/config/extent.txt') as f:
@@ -361,11 +397,9 @@ class Utils(object):
         return x + "-" + y
 
     def createUTMSectorsGrid(self, extent, cellsize):
-        layer = None
-        for lyr in list(QgsProject.instance().mapLayers().values()):
-            if self.getDataPath() + "/pracovni/sektory_group.shp" in lyr.source():
-                layer = lyr
-                break
+        self.removeLayer(self.getDataPath() + "/pracovni/sektory_group.shp")
+
+        layer = QgsVectorLayer(self.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "ogr")
         if layer is not None:
             layer.setSubsetString("")
             provider = layer.dataProvider()
@@ -396,6 +430,8 @@ class Utils(object):
             # ch = chr(ord(ch) + 1)
 
         layer.commitChanges()
+
+        self.addVectorLayerWithStyle(self.getDataPath() + "/pracovni/sektory_group.shp", self.getLayerName("sektory_group.shp"), "sectors_single", 5514)
 
     def getUTMGridPolygon(self, minx, miny, cellsize):
         maxx = minx + cellsize
@@ -531,45 +567,12 @@ class Utils(object):
             out.write(str(value))
 
     def renameLayers(self):
-        layers = {
-            "mista.shp": {
-                "cs": "Místa",
-                "en": "Places",
-                "uk": "Місця"
-            },
-            "mista_linie.shp": {
-                "cs": "Místa (linie)",
-                "en": "Places (lines)",
-                "uk": "Місця (лінія)"
-            },
-            "mista_polygon.shp": {
-                "cs": "Místa (plocha)",
-                "en": "Places (area)",
-                "uk": "Місця (область)"
-            },
-            "patraci.shp": {
-                "cs": "Pátrači",
-                "en": "Searchers",
-                "uk": "Пошуковці"
-            },
-            "sektory_group.shp": {
-                "cs": "Sektory",
-                "en": "Sectors",
-                "uk": "Сектори"
-            },
-            "distances_costed_cum.tif": {
-                "cs": "Procenta",
-                "en": "Percent",
-                "uk": "Відсоток"
-            }
-        }
-
         locale = self.getLocale()
 
-        for key in layers:
+        for key in self.layers:
             layer = self.getLayer(key)
             if layer is not None:
-                layer.setName(layers[key][locale])
+                layer.setName(self.layers[key][locale])
 
     def setGlobalVariables(self):
         zpm_update = '2022-01-01'
@@ -613,3 +616,10 @@ class Utils(object):
             return locale
         else:
             return 'en'
+
+    def getLayerName(self, key):
+        locale = self.getLocale()
+        if key in self.layers:
+            return self.layers[key][locale]
+        else:
+            return "Unknown"

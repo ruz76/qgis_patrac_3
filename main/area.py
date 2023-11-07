@@ -87,7 +87,7 @@ class CalculateDistanceCostedCumulativeTask(QgsTask):
     def finished(self, result):
         print("FINISHED")
         DATAPATH = self.parent.Utils.getDataPath()
-        self.parent.Utils.addRasterLayer(DATAPATH + '/pracovni/distances_costed_cum.tif', 'procenta', 5514, -2)
+        self.parent.Utils.addRasterLayer(DATAPATH + '/pracovni/distances_costed_cum.tif', self.parent.Utils.getLayerName("distances_costed_cum.tif"), 5514, -2)
         layer = None
         for lyr in list(QgsProject.instance().mapLayers().values()):
             if lyr.source() == DATAPATH + "/pracovni/distances_costed_cum.tif":

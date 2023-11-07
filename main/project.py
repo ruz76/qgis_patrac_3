@@ -383,6 +383,9 @@ class Project(object):
         }
 
     def finishCreateProject(self, params):
+        if os.path.exists(params["NEW_PROJECT_PATH"] + '/pracovni/sektory_group.qix'):
+            os.remove(params["NEW_PROJECT_PATH"] + '/pracovni/sektory_group.qix')
+
         project = QgsProject.instance()
         QgsMessageLog.logMessage(params["NEW_PROJECT_PATH"] + '/' + params["NAMESAFE"] + '.qgs', "Patrac")
         project.read(params["NEW_PROJECT_PATH"] + '/' + params["NAMESAFE"] + '.qgs')

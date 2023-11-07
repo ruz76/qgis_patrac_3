@@ -244,8 +244,9 @@ class PatracPlugin(object):
         # self.iface.vectorToolBar().setVisible(False)
         # self.iface.webToolBar().setVisible(False)
         # self.iface.selectionToolBar().setVisible(False)
+        allowed_toolbars = ['mBrowserToolbar', 'Patrac Toolbar', 'processingToolbar', 'mIdentifyToolbar', 'mToolbar', '']
         for x in self.iface.mainWindow().findChildren(QToolBar):
-            if x.objectName() != 'Patrac Toolbar':
+            if not x.objectName() in allowed_toolbars:
                 x.setVisible(False)
 
     def hidePanels(self):
@@ -328,12 +329,11 @@ class PatracPlugin(object):
         self.iface.removePluginMenu(QCoreApplication.translate("Patrac", "Patrac"), self.actionDock)
         self.dockWidget.close()
         del self.dockWidget
-        self.dockWidget = None
         del self.toolbar
 
     def showWidget(self):
-        self.dockWidget.show()
         self.hideToolbars()
+        self.hidePanels()
         for x in self.iface.mainWindow().findChildren(QDockWidget):
             if x.objectName() == 'Layers' or x.objectName() == 'PatracDockWidget':
                 x.setVisible(True)
