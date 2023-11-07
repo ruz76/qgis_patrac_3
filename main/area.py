@@ -80,7 +80,7 @@ class CalculateDistanceCostedCumulativeTask(QgsTask):
 
             return True
         except Exception as e:
-            QgsMessageLog.logMessage("Chyba v CalculateDistanceCostedCumulativeTask: " + str(e), "Patrac")
+            QgsMessageLog.logMessage("Error in CalculateDistanceCostedCumulativeTask: " + str(e), "Patrac")
             self.exception = e
             return False
 
@@ -199,12 +199,12 @@ class CalculateCostDistanceTask(QgsTask):
             self.setProgress(progress)
             return True
         except Exception as e:
-            QgsMessageLog.logMessage("Chyba v CalculateCostDistanceTask " + str(self.pointid) + ": " + str(e), "Patrac")
+            QgsMessageLog.logMessage("Error in CalculateCostDistanceTask " + str(self.pointid) + ": " + str(e), "Patrac")
             self.exception = e
             return False
 
     def finished(self, result):
-        print("FINISHED Calculate CostDistance Task for Point: " + str(self.pointid))
+        QgsMessageLog.logMessage("FINISHED Calculate CostDistance Task for Point: " + str(self.pointid), "Patrac")
         self.parent.finishedCalculateCostDistanceTask(self.pointid, self.finish_steps)
 
     def get_proj_win(self):
@@ -434,7 +434,7 @@ class Area(object):
     def finishedCalculateCostDistanceTask(self, pointid, finish_steps):
         self.calculatedPoints.append(pointid)
         if len(self.calculatedPoints) == len(self.pointsToCalculate):
-            print("Start Cumulative using self.cumulativeEquation")
+            QgsMessageLog.logMessage("Start Cumulative using self.cumulativeEquation", "Patrac")
             # Start Cumulative using self.cumulativeEquation
             DATAPATH = self.Utils.getDataPath()
             params = {
@@ -450,7 +450,7 @@ class Area(object):
     def getArea(self, finish_steps=False):
         """Runs main search for suitable area"""
 
-        self.widget.createProgressBar("Calculating area: ")
+        self.widget.createProgressBar(QApplication.translate("Patrac", "Calculating area: ", None))
 
         if self.params is None:
             projectinfo = self.Utils.getProjectInfo()
@@ -514,7 +514,7 @@ class Area(object):
             azimuth = self.getRadial(features)
             useAzimuth = self.Utils.getProcessRadial()
             # difficult to set azimuth (for example wrong shape of the path (e.q. close to  circle))
-            QgsMessageLog.logMessage("Maskuji pro azimuth: " + str(azimuth) + " " + str(useAzimuth), "Patrac")
+            QgsMessageLog.logMessage("Masking for azimuth: " + str(azimuth) + " " + str(useAzimuth), "Patrac")
             if azimuth <= 360 and useAzimuth:
                 self.pointsToCalculate = [features[len(features) - 1]]
                 self.findAreaWithRadial(features[len(features) - 1], 0, finish_steps, azimuth, 30, 100)
@@ -552,13 +552,8 @@ class Area(object):
                 # self.createCumulativeArea()
         else:
             self.findAreaWithRadial(features[0], 0, finish_steps, 0, 0, 0)
-            # cats_status = self.checkCats()
-            # if not cats_status:
-            #     self.widget.setCursor(Qt.ArrowCursor)
-            #     return
             self.cumulativeEquation = "A"
             self.cumulativeEquationInputs = ['distances_0_costed']
-            # self.createCumulativeArea()
 
         self.widget.runTask(0)
         self.widget.setCursor(Qt.ArrowCursor)
@@ -588,46 +583,6 @@ class Area(object):
             [1, datetime.now().strftime('%Y-%m-%d %H:%M:%S'), datetime.now().strftime('%Y-%m-%d %H:%M:%S')])
         provider.addFeatures([fet])
         layer.commitChanges()
-
-    def createCumulativeArea(self):
-        prjfi = QFileInfo(QgsProject.instance().fileName())
-        DATAPATH = prjfi.absolutePath()
-        # Windows - nutno nejdrive smazat tif
-        # driver = gdal.GetDriverByName('GTiff')
-        # driver.DeleteDataSource(DATAPATH + "/pracovni/distances_costed_cum.tif")
-        # time.sleep(1)
-        if os.path.isfile(DATAPATH + '/pracovni/distances_costed_cum.tif.aux.xml'):
-            os.remove(DATAPATH + '/pracovni/distances_costed_cum.tif.aux.xml')
-        if os.path.isfile(DATAPATH + '/pracovni/distances_costed_cum.tif'):
-            os.remove(DATAPATH + '/pracovni/distances_costed_cum.tif')
-        if os.path.isfile(DATAPATH + '/pracovni/distances_costed_cum.tfw'):
-            os.remove(DATAPATH + '/pracovni/distances_costed_cum.tfw')
-
-        QgsMessageLog.logMessage(
-            "Spoustim python " + self.pluginPath + "/grass/run_distance_costed_cum.sh",
-            "Patrac")
-        if sys.platform.startswith('win'):
-            p = subprocess.Popen((self.pluginPath + "/grass/run_distance_costed_cum.bat", DATAPATH, self.pluginPath))
-            p.wait()
-        else:
-            p = subprocess.Popen(
-                ('bash', self.pluginPath + "/grass/run_distance_costed_cum.sh", DATAPATH, self.pluginPath))
-            p.wait()
-
-        # Adds exported raster to map
-        self.Utils.addRasterLayer(DATAPATH + '/pracovni/distances_costed_cum.tif', 'procenta', 5514, -2)
-        layer = None
-        for lyr in list(QgsProject.instance().mapLayers().values()):
-            if lyr.source() == DATAPATH + "/pracovni/distances_costed_cum.tif":
-                layer = lyr
-                break
-        if layer is not None:
-            layer.triggerRepaint()
-            # Sets the added layer as sctive
-            self.plugin.iface.setActiveLayer(layer)
-        else:
-            QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
-                                 QApplication.translate("Patrac", "Wrong installation. Call you administrator.", None))
 
     def findAreaWithRadial(self, feature, id, finish_steps, azimuth, tolerance, friction):
         DATAPATH = self.Utils.getDataPath()
