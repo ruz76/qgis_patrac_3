@@ -205,6 +205,9 @@ class PatracPlugin(object):
         #                         QCoreApplication.translate("Patrac", "Je potřeba minimálně verze 2.0.\nPlugin nebude fungovat."))
         #     return None
 
+        self.hideToolbars()
+        self.hidePanels()
+
         self.dockWidget = None
         pluginPath = path.dirname(__file__)
 
@@ -222,25 +225,33 @@ class PatracPlugin(object):
         self.layerChanged()
 
         self.createToolbar()
-        self.hideToolbars()
 
     def runHDS(self, array_where_to_append_output):
         self.dockWidget.testHds(array_where_to_append_output)
 
     def hideToolbars(self):
-        self.iface.advancedDigitizeToolBar().setVisible(False)
-        self.iface.attributesToolBar().setVisible(False)
-        self.iface.databaseToolBar().setVisible(False)
-        self.iface.dataSourceManagerToolBar().setVisible(False)
-        self.iface.digitizeToolBar().setVisible(False)
-        self.iface.fileToolBar().setVisible(False)
-        self.iface.helpToolBar().setVisible(False)
-        self.iface.layerToolBar().setVisible(False)
-        self.iface.mapNavToolToolBar().setVisible(False)
-        self.iface.pluginToolBar().setVisible(False)
-        self.iface.rasterToolBar().setVisible(False)
-        self.iface.vectorToolBar().setVisible(False)
-        self.iface.webToolBar().setVisible(False)
+        # self.iface.advancedDigitizeToolBar().setVisible(False)
+        # self.iface.attributesToolBar().setVisible(False)
+        # self.iface.databaseToolBar().setVisible(False)
+        # self.iface.dataSourceManagerToolBar().setVisible(False)
+        # self.iface.digitizeToolBar().setVisible(False)
+        # self.iface.fileToolBar().setVisible(False)
+        # self.iface.helpToolBar().setVisible(False)
+        # self.iface.layerToolBar().setVisible(False)
+        # self.iface.mapNavToolToolBar().setVisible(False)
+        # self.iface.pluginToolBar().setVisible(False)
+        # self.iface.rasterToolBar().setVisible(False)
+        # self.iface.vectorToolBar().setVisible(False)
+        # self.iface.webToolBar().setVisible(False)
+        # self.iface.selectionToolBar().setVisible(False)
+        for x in self.iface.mainWindow().findChildren(QToolBar):
+            if x.objectName() != 'Patrac Toolbar':
+                x.setVisible(False)
+
+    def hidePanels(self):
+        for x in self.iface.mainWindow().findChildren(QDockWidget):
+            if x.objectName() != 'Layers':
+                x.setVisible(False)
 
     def createToolbar(self):
         self.toolbar.addAction(self.actionDock)
