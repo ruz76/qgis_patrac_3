@@ -78,13 +78,13 @@ class PointMapToolLatLon(QgsMapTool):
 
     def addToCanvas(self, point, type):
         layer_name = 'handlers_placement'
-        layer_title = 'Místo pro psovody'
+        layer_title = self.Utils.getLayerName(layer_name + '.shp')
         if type == 1:
             layer_name = 'others_placement'
-            layer_title = 'Místo pro ostatní prostředky'
+            layer_title = self.Utils.getLayerName(layer_name + '.shp')
 
         layer = QgsVectorLayer("Point", layer_name, "memory")
-        crs = QgsCoordinateReferenceSystem("EPSG:5514")
+        crs = QgsCoordinateReferenceSystem(5514)
         layer.setCrs(crs)
         pr = layer.dataProvider()
         field = QgsField("note", QVariant.String)
@@ -99,7 +99,7 @@ class PointMapToolLatLon(QgsMapTool):
         self.saveLayer(layer, layer_name, layer_title)
 
     def saveLayer(self, layer, layer_name, layer_title):
-        crs = QgsCoordinateReferenceSystem("EPSG:5514")
+        crs = QgsCoordinateReferenceSystem(5514)
         QgsVectorFileWriter.writeAsVectorFormat(layer, self.Utils.getDataPath() + "/pracovni/" + layer_name + ".shp",
                                                 "utf-8", crs, "ESRI Shapefile")
 

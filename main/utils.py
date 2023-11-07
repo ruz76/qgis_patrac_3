@@ -80,6 +80,16 @@ class Utils(object):
                 "cs": "zpm",
                 "en": "zpm",
                 "uk": "zpm"
+            },
+            "handlers_placement.shp": {
+                "cs": "Místo pro psovody",
+                "en": "Place for handlers",
+                "uk": "Місце для кінологів"
+            },
+            "others_placement.shp": {
+                "cs": "Místo pro ostatní prostředky",
+                "en": "Place for other resources",
+                "uk": "Місце для інших ресурсів"
             }
         }
 
