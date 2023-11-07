@@ -477,10 +477,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if self.guideRealSearch.isChecked():
             version = 1
         self.createProjectResult = self.runCreateProjectGuide(municipalityindex, version)
-        QgsExpressionContextUtils.setGlobalVariable('zpm_update','ZPM aktualizace: 2022-01-01')
-        QgsExpressionContextUtils.setGlobalVariable('sectors_update','Sektory aktualizace: 2023-09-08')
-        QgsExpressionContextUtils.setGlobalVariable('print_label','Tisk')
-        QgsExpressionContextUtils.setGlobalVariable('contour_line_label','Vrstevnice')
 
     def finishStep1(self):
 
@@ -498,7 +494,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if self.guideRealSearch.isChecked():
             version = 1
         self.Utils.createProjectInfo(self.projectname, self.projectdesc, version, self.createProjectResult['XMIN'], self.createProjectResult['XMAX'], self.createProjectResult['YMIN'], self.createProjectResult['YMAX'], self.createProjectResult['epsg'])
-
+        self.Utils.renameLayers()
+        self.Utils.setGlobalVariables()
         self.setCursor(Qt.ArrowCursor)
 
     def checkStep(self, nextStep):

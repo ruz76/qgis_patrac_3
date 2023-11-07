@@ -529,3 +529,83 @@ class Utils(object):
         DATAPATH = self.getDataPath()
         with open(DATAPATH + '/config/lastsectorid.txt', "w") as out:
             out.write(str(value))
+
+    def renameLayers(self):
+        layers = {
+            "mista.shp": {
+                "cs": "Místa",
+                "en": "Places",
+                "uk": "Місця"
+            },
+            "mista_linie.shp": {
+                "cs": "Místa (linie)",
+                "en": "Places (lines)",
+                "uk": "Місця (лінія)"
+            },
+            "mista_polygon.shp": {
+                "cs": "Místa (plocha)",
+                "en": "Places (area)",
+                "uk": "Місця (область)"
+            },
+            "patraci.shp": {
+                "cs": "Pátrači",
+                "en": "Searchers",
+                "uk": "Пошуковці"
+            },
+            "sektory_group.shp": {
+                "cs": "Sektory",
+                "en": "Sectors",
+                "uk": "Сектори"
+            },
+            "distances_costed_cum.tif": {
+                "cs": "Procenta",
+                "en": "Percent",
+                "uk": "Відсоток"
+            }
+        }
+
+        locale = self.getLocale()
+
+        for key in layers:
+            layer = self.getLayer(key)
+            if layer is not None:
+                layer.setName(layers[key][locale])
+
+    def setGlobalVariables(self):
+        zpm_update = '2022-01-01'
+        sectors_update = '2023-09-08'
+        variables = {
+            "zpm_update": {
+                "cs": "ZPM aktualizace: " + zpm_update,
+                "en": "ZPM update: " + zpm_update,
+                "uk": "ЗПМ оновлення: " + zpm_update
+            },
+            "sectors_update": {
+                "cs": "Sektory aktualizace: " + sectors_update,
+                "en": "Sectors update: " + sectors_update,
+                "uk": "Сектори оновлення: " + sectors_update
+            },
+            "print_label": {
+                "cs": "Tisk",
+                "en": "Print",
+                "uk": "Друк"
+            },
+            "contour_line_label": {
+                "cs": "Vrstevnice",
+                "en": "Contour lines",
+                "uk": "Контурна лінія"
+            },
+        }
+
+        locale = self.getLocale()
+
+        for key in variables:
+            QgsExpressionContextUtils.setGlobalVariable(key, variables[key][locale])
+
+    def getLocale(self):
+        overrideLocale = bool(QSettings().value("locale/overrideFlag", False))
+        if not overrideLocale:
+            localeFullName = QLocale.system().name()
+        else:
+            localeFullName = QSettings().value("locale/userLocale", "")
+        return localeFullName
