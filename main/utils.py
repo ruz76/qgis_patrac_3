@@ -608,4 +608,8 @@ class Utils(object):
             localeFullName = QLocale.system().name()
         else:
             localeFullName = QSettings().value("locale/userLocale", "")
-        return localeFullName
+        locale = localeFullName[:2]
+        if locale in ['cs', 'en', 'uk']:
+            return locale
+        else:
+            return 'en'

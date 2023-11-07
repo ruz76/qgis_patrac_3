@@ -7,12 +7,10 @@ fi
 
 RELEASE_PATH=/home/jencek/Documents/Projekty/PCR/qgis/verze3/release
 PLUGIN_PATH=/home/jencek/qgis3_profiles/profiles/default/python/plugins/qgis_patrac
-PREFIX="3.12"
+PREFIX="3.26"
 ID=$1
-PREVID=$((ID-1))
 
 echo $PREFIX"."$ID
-echo $PREFIX"."$PREVID
 
 COUNT=`cat $PLUGIN_PATH/metadata.txt | grep -c $PREFIX"."$ID`
 if [[ "$COUNT" -eq 0 ]]; then
@@ -27,45 +25,58 @@ if [[ "$COUNT" -eq 0 ]]; then
 fi
 
 cd $RELEASE_PATH
-rm qgis_patrac.$PREFIX"."$ID.zip
-cp qgis_patrac.$PREFIX"."$PREVID.zip qgis_patrac.$PREFIX"."$ID.zip
-unzip qgis_patrac.$PREFIX"."$ID.zip
 
-cp $PLUGIN_PATH/config/config.json qgis_patrac/config/
+mkdir qgis_patrac
+cd qgis_patrac
+mkdir config
+mkdir connect
+mkdir doc
+mkdir grass
+mkdir i18n
+mkdir icons
+mkdir main
+mkdir styles
+mkdir templates
+mkdir ui
 
-cp $PLUGIN_PATH/connect/*.py qgis_patrac/connect/
+echo "placeholder" > config/.placeholder
 
-cp -r $PLUGIN_PATH/doc qgis_patrac/
+cp $PLUGIN_PATH/connect/*.py connect/
 
-cp $PLUGIN_PATH/grass/* qgis_patrac/grass/
+cp -r $PLUGIN_PATH/doc/* doc/
 
-cp $PLUGIN_PATH/i18n/* qgis_patrac/i18n/
+cp $PLUGIN_PATH/grass/* grass/
 
-cp $PLUGIN_PATH/icons/* qgis_patrac/icons/
+cp $PLUGIN_PATH/i18n/* i18n/
 
-cp $PLUGIN_PATH/main/*.py qgis_patrac/main/
+cp $PLUGIN_PATH/icons/* icons/
 
-cp $PLUGIN_PATH/styles/* qgis_patrac/styles/
+cp $PLUGIN_PATH/main/*.py main/
 
-cp $PLUGIN_PATH/main/*.py qgis_patrac/main/
+cp $PLUGIN_PATH/styles/* styles/
 
-cp $PLUGIN_PATH/ui/*.py qgis_patrac/ui/
-cp $PLUGIN_PATH/ui/*.ui qgis_patrac/ui/
-cp $PLUGIN_PATH/ui/*.csv qgis_patrac/ui/
-cp $PLUGIN_PATH/ui/*.png qgis_patrac/ui/
-cp $PLUGIN_PATH/ui/*.svg qgis_patrac/ui/
+cp $PLUGIN_PATH/main/*.py main/
 
-cp $PLUGIN_PATH/*.py qgis_patrac/
-cp $PLUGIN_PATH/*.md qgis_patrac/
-cp $PLUGIN_PATH/metadata.txt qgis_patrac/
-cp $PLUGIN_PATH/RELEASE qgis_patrac/
-cp $PLUGIN_PATH/settings.db qgis_patrac/
-cp $PLUGIN_PATH/templates/projekt/clean_v3.qgs qgis_patrac/templates/projekt/
+cp $PLUGIN_PATH/ui/*.py ui/
+cp $PLUGIN_PATH/ui/*.ui ui/
+cp $PLUGIN_PATH/ui/*.csv ui/
+cp $PLUGIN_PATH/ui/*.png ui/
+cp $PLUGIN_PATH/ui/*.svg ui/
+
+cp $PLUGIN_PATH/*.py ./
+cp $PLUGIN_PATH/*.md ./
+cp $PLUGIN_PATH/metadata.txt ./
+cp $PLUGIN_PATH/RELEASE ./
+cp $PLUGIN_PATH/settings.db ./
+
+cp -r $PLUGIN_PATH/templates/* templates/
+
+cd ..
 
 rm qgis_patrac.$PREFIX"."$ID.zip
 zip -r qgis_patrac.$PREFIX"."$ID.zip qgis_patrac
 rm -r qgis_patrac
 
-sed -i "s/$PREFIX.$PREVID/$PREFIX.$ID/g" plugins.xml
-sed -i "s/$PREFIX.$PREVID/$PREFIX.$ID/g" plugins-dev.xml
-sed -i "s/$PREFIX.$PREVID/$PREFIX.$ID/g" ../sarops.info/plugins.xml
+#sed -i "s/$PREFIX.$PREVID/$PREFIX.$ID/g" plugins.xml
+#sed -i "s/$PREFIX.$PREVID/$PREFIX.$ID/g" plugins-dev.xml
+#sed -i "s/$PREFIX.$PREVID/$PREFIX.$ID/g" ../sarops.info/plugins.xml
