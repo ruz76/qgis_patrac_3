@@ -1151,7 +1151,7 @@
     <message>
         <location filename="../main/sectors.py" line="1119"/>
         <source>Generating of PDFs for individual sectors can take about 10 seconds for each sector. Do you want to continue? Number of sectors: </source>
-        <translation>Generování PDF pro každý sektor může trvat kolem 10 s pro jeden sektpr. Opravdu chcete pokračovat? Počet sektorů: </translation>
+        <translation>Generování PDF pro každý sektor může trvat kolem 10 s pro jeden sektor. Opravdu chcete pokračovat? Počet sektorů: </translation>
     </message>
 </context>
 <context>

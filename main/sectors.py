@@ -1117,7 +1117,7 @@ class Sectors(object):
         # TODO change to something interesting
         if featuresCount > 0:
             reply = QMessageBox.question(None,
-                                         QApplication.translate("Patrac", 'Step', None), QApplication.translate("Patrac", 'Generating of PDFs for individual sectors can take about 10 seconds for each sector. Do you want to continue? Number of sectors: ', None) + + str(featuresCount),
+                                         QApplication.translate("Patrac", 'Step', None), QApplication.translate("Patrac", 'Generating of PDFs for individual sectors can take about 10 seconds for each sector. Do you want to continue? Number of sectors: ', None) + str(featuresCount),
                                          QMessageBox.Yes, QMessageBox.No)
 
             if reply == QMessageBox.No:
