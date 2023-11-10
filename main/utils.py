@@ -32,12 +32,170 @@ from qgis.core import *
 from qgis.gui import *
 from shutil import copy
 
+from qgis.PyQt.QtWidgets import *
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import *
+from qgis.PyQt.QtCore import QSettings
 
 from os import path
 
 from datetime import datetime
+
+class CreateGridTask():
+    def __init__(self, widget, parent, params):
+        # super().__init__("Create Grid Task", QgsTask.CanCancel)
+        self.widget = widget
+        self.parent = parent
+        self.method = params["method"]
+        self.cellsize = params["cellsize"]
+        self.bbox = params["bbox"]
+        self.sector = params["sector"]
+        # self.exception: Optional[Exception] = None
+
+    def run(self):
+        try:
+            progress = 5
+            self.setProgress(progress)
+            self.createUTMSectors(self.cellsize)
+            progress = 100
+            self.setProgress(progress)
+            return True
+        except Exception as e:
+            QgsMessageLog.logMessage("Error in CreateGridTask: " + str(e), "Patrac")
+            self.exception = e
+            return False
+
+    def setProgress(self, progress):
+        self.widget.setProgress(progress)
+
+    def createUTMSectors(self, cellsize):
+        if self.method == 'full':
+            with open(self.parent.getDataPath() + '/config/extent.txt') as f:
+                lines = f.readlines()
+                parts = lines[0].split(' ')
+
+        if self.method == 'sector':
+            parts = self.bbox
+
+        source_crs = QgsCoordinateReferenceSystem(5514)
+        dest_crs = QgsCoordinateReferenceSystem(32633)
+        transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
+        minXY_UTM = transform.transform(int(parts[0]), int(parts[1]))
+        maxXY_UTM = transform.transform(int(parts[2]), int(parts[3]))
+
+        # cellsize = 1000
+        # print(minXY_UTM)
+        # print(maxXY_UTM)
+
+        minx = int(minXY_UTM.x() / cellsize) * cellsize - cellsize
+        miny = int(minXY_UTM.y() / cellsize) * cellsize - cellsize
+        maxx = int(maxXY_UTM.x() / cellsize) * cellsize + cellsize
+        maxy = int(maxXY_UTM.y() / cellsize) * cellsize + cellsize
+
+        QgsMessageLog.logMessage("Creating grid for: " + str(minx) + " " + str(miny) + " " + str(maxx) + " " + str(maxy), "Patrac")
+
+        self.createUTMSectorsGrid([minx, miny, maxx, maxy], cellsize)
+
+    def getGridSectorLabel(self, minx, miny, cellsize):
+        kmstrx = str(minx)[-5:]
+        kmstry = str(miny)[-5:]
+        x = kmstrx[0:3]
+        y = kmstry[0:3]
+        if cellsize == 10:
+            x = kmstrx[0:4]
+            y = kmstry[0:4]
+        if cellsize == 1000:
+            x = kmstrx[0:2]
+            y = kmstry[0:2]
+        label = x + "-" + y
+        if self.method == 'sector':
+            label = self.sector['label'] + '-' + label
+        return label
+    def createUTMSectorsGrid(self, extent, cellsize):
+        self.parent.removeLayer(self.parent.getDataPath() + "/pracovni/sektory_group.shp")
+        layer = QgsVectorLayer(self.parent.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "ogr")
+
+        if layer is not None:
+            layer.setSubsetString("")
+            provider = layer.dataProvider()
+            if self.method == 'full':
+                listOfIds = [feat.id() for feat in layer.getFeatures()]
+            if self.method == 'sector':
+                listOfIds = [self.sector.id()]
+            # Deletes all features in layer patraci.shp
+            layer.startEditing()
+            layer.deleteFeatures(listOfIds)
+            layer.commitChanges()
+        else:
+            return
+
+        cols = int((extent[2] - extent[0]) / cellsize)
+        rows = int((extent[3] - extent[1]) / cellsize)
+        minx = extent[0]
+        miny = extent[1]
+        # ch = 'A'
+        id = self.parent.getLastSectorId()
+        progress = 10
+        step = 90 / (cols * rows)
+        for col in range(cols):
+            for row in range(rows):
+                # print(str(col) + " " + str(row))
+                geom = self.getUTMGridPolygon(minx, miny, cellsize)
+                # print('Haloo ' + str(col) + " " + str(row))
+                label = self.getGridSectorLabel(minx, miny, cellsize)
+                # print(str(col) + " " + str(row))
+                typ = 'MIX'
+                if self.method == 'sector':
+                    typ = self.sector['typ']
+                cols = [id, label, typ, None, None, (cellsize * cellsize) / 10000, None, None, None]
+                self.saveUTMGridPolygon(provider, geom, cols)
+                miny = miny + cellsize
+                id += 1
+                progress += step
+                self.setProgress(round(progress))
+            minx = minx + cellsize
+            miny = extent[1]
+
+        self.parent.writeLastSectorId(id)
+
+        layer.commitChanges()
+
+        self.parent.addVectorLayerWithStyle(self.parent.getDataPath() + "/pracovni/sektory_group.shp", self.parent.getLayerName("sektory_group.shp"), "sectors_single", 5514)
+
+    def getUTMGridPolygon(self, minx, miny, cellsize):
+        try:
+            maxx = minx + cellsize
+            maxy = miny + cellsize
+            wkt = "POLYGON((" + str(minx) + " " + str(miny) \
+                  + ", " + str(maxx) + " " + str(miny) \
+                  + ", " + str(maxx) + " " + str(maxy) \
+                  + ", " + str(minx) + " " + str(maxy) \
+                  + ", " + str(minx) + " " + str(miny) + "))"
+
+            source_crs = QgsCoordinateReferenceSystem(32633)
+            dest_crs = QgsCoordinateReferenceSystem(5514)
+            tr = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
+            geom = QgsGeometry.fromWkt(wkt)
+            geom.transform(tr)
+            if self.method == 'sector':
+                geom = geom.intersection(self.sector.geometry())
+            # print(geom.asWkt())
+            return geom
+        except Exception as e:
+            print(e)
+            return None
+
+    def saveUTMGridPolygon(self, provider, geom, cols):
+        fet = QgsFeature()
+        # Name and sessionid are on first and second place
+        fet.setAttributes(cols)
+        fet.setGeometry(geom)
+        provider.addFeatures([fet])
+
+    def finished(self, result):
+        print("FINISHED")
+        self.widget.finishCreateUTMSecrors()
+        self.widget.clearMessageBar()
 
 class Utils(object):
     def __init__(self, widget):
@@ -360,113 +518,6 @@ class Utils(object):
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".prj", self.getDataPath() + "/pracovni/sektory_group.prj")
         self.addVectorLayerWithStyle(self.getDataPath() + "/pracovni/sektory_group.shp", self.getLayerName("sektory_group.shp"), "sectors_single", 5514)
 
-    def createUTMSectors(self, cellsize):
-        with open(self.getDataPath() + '/config/extent.txt') as f:
-            lines = f.readlines()
-            parts = lines[0].split(' ')
-
-        source_crs = QgsCoordinateReferenceSystem(5514)
-        dest_crs = QgsCoordinateReferenceSystem(32633)
-        transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
-        minXY_UTM = transform.transform(int(parts[0]), int(parts[1]))
-        maxXY_UTM = transform.transform(int(parts[2]), int(parts[3]))
-
-        # cellsize = 1000
-        # print(minXY_UTM)
-        # print(maxXY_UTM)
-
-        minx = int(minXY_UTM.x() / cellsize) * cellsize - cellsize
-        miny = int(minXY_UTM.y() / cellsize) * cellsize - cellsize
-        maxx = int(maxXY_UTM.x() / cellsize) * cellsize + cellsize
-        maxy = int(maxXY_UTM.y() / cellsize) * cellsize + cellsize
-
-        print(minx, miny, maxx, maxy)
-
-        self.createUTMSectorsGrid([minx, miny, maxx, maxy], cellsize)
-
-    def importSwitchedSectorsToDatastore(self):
-        if sys.platform.startswith('win'):
-            p = subprocess.Popen(
-                (self.pluginPath + "/grass/run_import_after_switch_type.bat", self.getDataPath(), self.pluginPath))
-            p.wait()
-        else:
-            p = subprocess.Popen(('bash', self.pluginPath + "/grass/run_import_after_switch_type.sh", self.getDataPath(), self.pluginPath))
-            p.wait()
-
-    def getGridSectorLabel(self, minx, miny, cellsize):
-        kmstrx = str(minx)[-5:]
-        kmstry = str(miny)[-5:]
-        x = kmstrx[0:3]
-        y = kmstry[0:3]
-        if cellsize == 10:
-            x = kmstrx[0:4]
-            y = kmstry[0:4]
-        if cellsize == 1000:
-            x = kmstrx[0:2]
-            y = kmstry[0:2]
-        return x + "-" + y
-
-    def createUTMSectorsGrid(self, extent, cellsize):
-        self.removeLayer(self.getDataPath() + "/pracovni/sektory_group.shp")
-
-        layer = QgsVectorLayer(self.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "ogr")
-        if layer is not None:
-            layer.setSubsetString("")
-            provider = layer.dataProvider()
-            listOfIds = [feat.id() for feat in layer.getFeatures()]
-            # Deletes all features in layer patraci.shp
-            layer.startEditing()
-            layer.deleteFeatures(listOfIds)
-            layer.commitChanges()
-        else:
-            return
-
-        cols = int((extent[2] - extent[0]) / cellsize)
-        rows = int((extent[3] - extent[1]) / cellsize)
-        minx = extent[0]
-        miny = extent[1]
-        # ch = 'A'
-        id = 0
-        for col in range(cols):
-            for row in range(rows):
-                geom = self.getUTMGridPolygon(minx, miny, cellsize)
-                label = self.getGridSectorLabel(minx, miny, cellsize)
-                cols = [id, label, 'MIX', None, None, (cellsize * cellsize) / 10000, None, None, None]
-                self.saveUTMGridPolygon(provider, geom, cols)
-                miny = miny + cellsize
-                id += 1
-            minx = minx + cellsize
-            miny = extent[1]
-            # ch = chr(ord(ch) + 1)
-
-        layer.commitChanges()
-
-        self.addVectorLayerWithStyle(self.getDataPath() + "/pracovni/sektory_group.shp", self.getLayerName("sektory_group.shp"), "sectors_single", 5514)
-
-    def getUTMGridPolygon(self, minx, miny, cellsize):
-        maxx = minx + cellsize
-        maxy = miny + cellsize
-        wkt = "POLYGON((" + str(minx) + " " + str(miny)\
-              + ", " + str(maxx) + " " + str(miny)\
-              + ", " + str(maxx) + " " + str(maxy)\
-              + ", " + str(minx) + " " + str(maxy)\
-              + ", " + str(minx) + " " + str(miny) + "))"
-
-        source_crs = QgsCoordinateReferenceSystem(32633)
-        dest_crs = QgsCoordinateReferenceSystem(5514)
-        tr = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
-        geom = QgsGeometry.fromWkt(wkt)
-        geom.transform(tr)
-        # print(geom.asWkt())
-        return geom
-
-    def saveUTMGridPolygon(self, provider, geom, cols):
-        fet = QgsFeature()
-        # Name and sessionid are on first and second place
-        fet.setAttributes(cols)
-        fet.setGeometry(geom)
-        provider.addFeatures([fet])
-
     def getLostInfo(self, project_settings):
         lost_info = "Pohřešovaná osoba: "
         if project_settings["lost_name"] != "":
@@ -633,3 +684,20 @@ class Utils(object):
             return self.layers[key][locale]
         else:
             return "Unknown"
+
+    def createUTMSectors(self, cellsize, method, bbox, sector):
+        params = {
+            "cellsize": cellsize,
+            "method": method,
+            "bbox": bbox,
+            "sector": sector
+        }
+        self.widget.createProgressBar(QApplication.translate("Patrac", "Creating grid: ", None))
+        # self.widget.clearTasksList()
+        # self.widget.appendTask(CreateGridTask(self.widget, self, params))
+        # self.widget.runTask(0)
+        # TODO fix crash on QgsTask
+        cgt = CreateGridTask(self.widget, self, params)
+        cgt.run()
+        self.widget.finishCreateUTMSecrors()
+        self.widget.clearMessageBar()

@@ -267,6 +267,26 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def setTestDescription(self):
         self.guideSearchDescription.setText('!!! TEST')
 
+
+    def splitSectorByGrid(self):
+        sectors_layer = self.Sectors.getSectorsLayer()
+        selected_sectors = sectors_layer.selectedFeatures()
+        count = 0
+        for sector in selected_sectors:
+            count += 1
+        if count != 1:
+            QMessageBox.information(None, QApplication.translate("Patrac", "Info", None),
+                                    QApplication.translate("Patrac", "You have to select just one sector.", None))
+            return
+        self.gridsize = 0
+        self.showGridDialog()
+        if self.gridsize == 0:
+            return
+        selected_sectors = sectors_layer.selectedFeatures()
+        for sector in selected_sectors:
+            bbox = sector.geometry().boundingBox()
+            self.Utils.createUTMSectors(self.gridsize, 'sector', [bbox.xMinimum() - 100, bbox.yMinimum() - 100, bbox.xMaximum() + 100, bbox.yMaximum() + 100], sector)
+
     def switchSectorsType(self):
         self.setCursor(Qt.WaitCursor)
 
@@ -282,18 +302,21 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             stored_gridsize = 0
             if "grid_size" in projectinfo:
                 stored_gridsize = projectinfo['grid_size']
-            if os.path.exists(self.Utils.getDataPath() + "/pracovni/sektory_group_grid.shp") and stored_gridsize == self.gridsize:
-                self.Utils.restoreSectors('grid')
-            else:
-                self.Utils.createUTMSectors(self.gridsize)
             self.Utils.updateProjectInfo('sectors_type', 1)
             self.Utils.updateProjectInfo('grid_size', self.gridsize)
+            if os.path.exists(self.Utils.getDataPath() + "/pracovni/sektory_group_grid.shp") and stored_gridsize == self.gridsize:
+                self.Utils.restoreSectors('grid')
+                self.finishCreateUTMSecrors()
+            else:
+                self.Utils.createUTMSectors(self.gridsize, 'full', [])
 
         if sectors_type == 1:
             self.Utils.backupSectors('grid')
             self.Utils.restoreSectors('natural')
             self.Utils.updateProjectInfo('sectors_type', 0)
+            self.finishCreateUTMSecrors()
 
+    def finishCreateUTMSecrors(self):
         self.setCursor(Qt.ArrowCursor)
 
         QMessageBox.information(None, QApplication.translate("Patrac", "Info", None),

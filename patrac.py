@@ -282,6 +282,7 @@ class PatracPlugin(object):
         self.addVectorsForSplitByLineButton()
         self.addSplitByLineButton()
         self.toolbar.addAction(self.iface.actionVertexToolActiveLayer())
+        self.addSplitByGridButton()
 
     def addRecalculateButton(self):
         pluginPath = path.dirname(__file__)
@@ -306,6 +307,14 @@ class PatracPlugin(object):
         self.addVectorsForSplitByLineAction.setWhatsThis(QCoreApplication.translate("Patrac", "Add vectors for Split by line"))
         self.addVectorsForSplitByLineAction.triggered.connect(self.dockWidget.addVectorsForSplitByLine)
         self.toolbar.addAction(self.addVectorsForSplitByLineAction)
+
+    def addSplitByGridButton(self):
+        pluginPath = path.dirname(__file__)
+        self.addSplitByGridAction = QAction(QIcon(pluginPath + "/icons/split_sectors_by_grid.png"), "Patrac", self.iface.mainWindow())
+        self.addSplitByGridAction.setStatusTip(QCoreApplication.translate("Patrac", "Split sector by grid"))
+        self.addSplitByGridAction.setWhatsThis(QCoreApplication.translate("Patrac", "Split sector by grid"))
+        self.addSplitByGridAction.triggered.connect(self.dockWidget.splitSectorByGrid)
+        self.toolbar.addAction(self.addSplitByGridAction)
 
     def createShowWidgetAction(self):
         icon = QIcon(icon_path)
