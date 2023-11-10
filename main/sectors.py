@@ -426,11 +426,10 @@ class Sectors(object):
             polylineXY.append(ptXY)
         return polylineXY
 
-    def splitByLine(self):
+    def splitByLine(self, selectedLayers):
         self.widget.setCursor(Qt.WaitCursor)
         sectors_layer = self.getSectorsLayer()
         selected_sectors = sectors_layer.selectedFeatures()
-        selectedLayers = self.iface.layerTreeView().selectedLayers()
         if self.checkBeforeSplit(selected_sectors, selectedLayers) is None:
             return
         layer_line = selectedLayers[0]
@@ -438,10 +437,9 @@ class Sectors(object):
         if len(features) != 1:
             QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "You have to select just one line.", None))
             return
-        selectid = [features[0].id()]
         if selectedLayers[0].crs().authid() != "EPSG:5514":
             layer_line = self.transformTrack(layer_line)
-            layer_line.select(selectid)
+            layer_line.select([1])
         features = layer_line.selectedFeatures()
         provider_sectors_layer = sectors_layer.dataProvider()
         sectors_layer.startEditing()
@@ -449,7 +447,9 @@ class Sectors(object):
         lastsectorid = self.Utils.getLastSectorId()
         for sector in selected_sectors:
             sector_geometry = sector.geometry()
+            QgsMessageLog.logMessage("Splitting: " + str(sector.id()), "Patrac")
             for line in features:
+                QgsMessageLog.logMessage("Splitting by: " + str(line.id()), "Patrac")
                 ls = self.getExtendedLineGeometry(line, sector_geometry)
                 output = sector_geometry.splitGeometry(ls, False)
                 if len(output[1]) > 0:
@@ -470,7 +470,7 @@ class Sectors(object):
                         cur_sub_id = chr(ord(cur_sub_id) + 1)
                     self.Utils.writeLastSectorId(id)
                 else:
-                    QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "Can not split.", None))
+                    QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "Can not split. Check if one sector is selected and the line crosses it completely.", None))
         sectors_layer.commitChanges()
         if sectors_layer.subsetString() != "" and newIds != "":
             sectors_layer.setSubsetString(sectors_layer.subsetString()[:-1] + "," + newIds[:-2] + ")")

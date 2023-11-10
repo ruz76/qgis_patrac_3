@@ -225,6 +225,7 @@ class PatracPlugin(object):
         self.layerChanged()
 
         self.createToolbar()
+        self.setDefaultSelectionColor()
 
     def runHDS(self, array_where_to_append_output):
         self.dockWidget.testHds(array_where_to_append_output)
@@ -254,6 +255,11 @@ class PatracPlugin(object):
             if x.objectName() != 'Layers':
                 x.setVisible(False)
 
+    def setDefaultSelectionColor(self):
+        selection_color_key = "/Map/defaultSelectionColor"
+        color = QgsSettings().value(selection_color_key)
+        print(color)
+
     def createToolbar(self):
         self.toolbar.addAction(self.actionDock)
         self.toolbar.addAction(self.iface.actionOpenProject())
@@ -272,9 +278,11 @@ class PatracPlugin(object):
         self.toolbar.addAction(self.iface.actionAddFeature())
         self.toolbar.addAction(self.iface.actionMoveFeature())
         self.toolbar.addAction(self.iface.actionDeleteSelected())
-        self.toolbar.addAction(self.iface.actionSplitFeatures())
+        # self.toolbar.addAction(self.iface.actionSplitFeatures())
+        self.addSplitSectorsButton()
+        self.addMergeSectorsButton()
         self.toolbar.addAction(self.iface.actionSaveEdits())
-        self.addRecalculateButton()
+        # self.addRecalculateButton()
         self.toolbar.addAction(self.iface.actionMeasure())
         self.toolbar.addAction(self.iface.actionMeasureArea())
         self.toolbar.addAction(self.iface.actionAddRasterLayer())
@@ -315,6 +323,22 @@ class PatracPlugin(object):
         self.addSplitByGridAction.setWhatsThis(QCoreApplication.translate("Patrac", "Split sector by grid"))
         self.addSplitByGridAction.triggered.connect(self.dockWidget.splitSectorByGrid)
         self.toolbar.addAction(self.addSplitByGridAction)
+
+    def addSplitSectorsButton(self):
+        pluginPath = path.dirname(__file__)
+        self.addSplitSectorsAction = QAction(QIcon(pluginPath + "/icons/split_by_drawn_line.png"), "Patrac", self.iface.mainWindow())
+        self.addSplitSectorsAction.setStatusTip(QCoreApplication.translate("Patrac", "Split sector", None))
+        self.addSplitSectorsAction.setWhatsThis(QCoreApplication.translate("Patrac", "Split sector", None))
+        self.addSplitSectorsAction.triggered.connect(self.dockWidget.splitSector)
+        self.toolbar.addAction(self.addSplitSectorsAction)
+
+    def addMergeSectorsButton(self):
+        pluginPath = path.dirname(__file__)
+        self.addMergeSectorsAction = QAction(QIcon(pluginPath + "/icons/merge_sectors.png"), "Patrac", self.iface.mainWindow())
+        self.addMergeSectorsAction.setStatusTip(QCoreApplication.translate("Patrac", "Merge sectors"))
+        self.addMergeSectorsAction.setWhatsThis(QCoreApplication.translate("Patrac", "Merge sectors"))
+        self.addMergeSectorsAction.triggered.connect(self.dockWidget.mergeSectors)
+        self.toolbar.addAction(self.addMergeSectorsAction)
 
     def createShowWidgetAction(self):
         icon = QIcon(icon_path)

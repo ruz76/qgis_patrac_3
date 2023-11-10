@@ -48,9 +48,17 @@ class Ui_Grid(QtWidgets.QDialog, FORM_CLASS):
         super(Ui_Grid, self).__init__()
         self.setupUi(self)
         self.parent = None
+        self.method = 'full'
 
     def setParent(self, parent):
         self.parent = parent
+
+    def setMethod(self, method):
+        self.method = method
+        if self.method == 'full':
+            self.radioButtonGridSize10m.setEnabled(False)
+        else:
+            self.radioButtonGridSize10m.setEnabled(True)
 
     def accept(self):
         try:

@@ -6,7 +6,7 @@
 # ---------------------------------------------------------
 # Podpora pátrání po pohřešované osobě
 #
-# Copyright (C) 2017-2019 Jan Růžička (jan.ruzicka.vsb@gmail.com)
+# Copyright (C) 2017-2023 Jan Růžička (jan.ruzicka.vsb@gmail.com)
 #
 # This source is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free
@@ -23,7 +23,7 @@
 # to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 # MA 02111-1307, USA.
 #
-# The sliders and layer transparency are based on https://github.com/alexbruy/raster-transparency
+# The layer transparency is based on https://github.com/alexbruy/raster-transparency
 # ******************************************************************************
 
 from qgis.PyQt.QtWidgets import *
@@ -41,6 +41,7 @@ from .ui.ui_message import Ui_Message
 from .ui.ui_coords import Ui_Coords
 from .ui.ui_point_tool import PointMapTool
 from .ui.ui_point_tool_lat_lon import PointMapToolLatLon
+from .ui.ui_line_tool import LineMapTool
 from .ui.ui_progress_tool import ProgressMapTool
 from .ui.ui_percent import Ui_Percent
 from .ui.ui_grid import Ui_Grid
@@ -194,6 +195,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.coordsdlg = Ui_Coords(self.plugin.iface.mapCanvas())
         self.pointtool = PointMapTool(self.plugin.iface.mapCanvas(), self)
         self.pointtoollatlon = PointMapToolLatLon(self.plugin.iface.mapCanvas(), self)
+        self.linetool = LineMapTool(self.plugin.iface.mapCanvas(), self)
         self.progresstool = ProgressMapTool(self.plugin.iface.mapCanvas(), self.plugin.iface)
         self.percentdlg = Ui_Percent()
         self.griddlg = Ui_Grid()
@@ -268,6 +270,53 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.guideSearchDescription.setText('!!! TEST')
 
 
+    def mergeSectors(self):
+        sectors_layer = self.Sectors.getSectorsLayer()
+        selected_sectors = sectors_layer.selectedFeatures()
+        count = 0
+        for sector in selected_sectors:
+            count += 1
+        if count < 1:
+            QMessageBox.information(None, QApplication.translate("Patrac", "Info", None),
+                                    QApplication.translate("Patrac", "You have to select at least two sectors.", None))
+            return
+
+        label = ''
+        id = 0
+        typ = 'MIX'
+        i = 0
+        merged_sector = None
+        listOfIds = []
+        for sector in selected_sectors:
+            listOfIds.append(sector.id())
+            if i == 0:
+                merged_sector = sector.geometry()
+                id = sector['id']
+                label = sector['label']
+            else:
+                intersection = merged_sector.intersection(sector.geometry())
+                merged_sector = merged_sector.combine(sector.geometry())
+                merged_sector = merged_sector.difference(intersection)
+            i += 1
+        print(merged_sector.asWkt())
+
+        layer = QgsVectorLayer(self.Utils.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "ogr")
+        if layer is not None:
+            layer.setSubsetString("")
+            provider = layer.dataProvider()
+            # Deletes all features in layer patraci.shp
+            layer.startEditing()
+            layer.deleteFeatures(listOfIds)
+            layer.commitChanges()
+
+            cols = [id, label, typ, None, None, round(merged_sector.area() / 10000, 1), None, None, None]
+            fet = QgsFeature()
+            # Name and sessionid are on first and second place
+            fet.setAttributes(cols)
+            fet.setGeometry(merged_sector)
+            provider.addFeatures([fet])
+            layer.commitChanges()
+
     def splitSectorByGrid(self):
         sectors_layer = self.Sectors.getSectorsLayer()
         selected_sectors = sectors_layer.selectedFeatures()
@@ -279,7 +328,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                                     QApplication.translate("Patrac", "You have to select just one sector.", None))
             return
         self.gridsize = 0
-        self.showGridDialog()
+        self.showGridDialog('sector')
         if self.gridsize == 0:
             return
         selected_sectors = sectors_layer.selectedFeatures()
@@ -295,7 +344,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         # print(sectors_type)
         if sectors_type == 0:
             self.gridsize = 0
-            self.showGridDialog()
+            self.showGridDialog('full')
             if self.gridsize == 0:
                 return
             self.Utils.backupSectors('natural')
@@ -721,8 +770,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.percentdlg.setParent(self)
         self.percentdlg.exec_()
 
-    def showGridDialog(self):
+    def showGridDialog(self, method):
         self.griddlg.setParent(self)
+        self.griddlg.setMethod(method)
         self.griddlg.exec_()
 
     def showUnitsDialog(self):
@@ -1124,7 +1174,11 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.Sectors.recalculateSectors(False, True)
 
     def splitByLine(self):
-        self.Sectors.splitByLine()
+        selectedLayers = self.iface.layerTreeView().selectedLayers()
+        self.Sectors.splitByLine(selectedLayers)
+
+    def splitByDrawnLine(self, layer):
+        self.Sectors.splitByLine([layer])
 
     def addVectorsForSplitByLine(self):
         self.Sectors.addVectorsForSplitByLine()
@@ -1311,6 +1365,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def insertPlaceOther(self):
         self.pointtoollatlon.setType(1)
         self.plugin.iface.mapCanvas().setMapTool(self.pointtoollatlon)
+
+    def splitSector(self):
+        self.plugin.iface.mapCanvas().setMapTool(self.linetool)
+        self.linetool.activate()
 
     def insertFinal(self):
         """Sets tool to pointtool to be able handle from click to map.
