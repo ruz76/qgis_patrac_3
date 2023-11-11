@@ -196,7 +196,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.pointtool = PointMapTool(self.plugin.iface.mapCanvas(), self)
         self.pointtoollatlon = PointMapToolLatLon(self.plugin.iface.mapCanvas(), self)
         self.linetool = LineMapTool(self.plugin.iface.mapCanvas(), self)
-        self.progresstool = ProgressMapTool(self.plugin.iface.mapCanvas(), self.plugin.iface)
+        self.progresstool = ProgressMapTool(self.plugin.iface.mapCanvas(), self.plugin.iface, self)
         self.percentdlg = Ui_Percent()
         self.griddlg = Ui_Grid()
         self.unitsdlg = Ui_Units(self.pluginPath, self)
@@ -259,6 +259,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def on_project_change(self):
         # print("PROJECT CHANGE")
         self.loadActionSettings()
+        self.setSectorsLayersSelectionEvent()
 
     def sayHello(self):
         print("HELLO")
@@ -357,7 +358,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 self.Utils.restoreSectors('grid')
                 self.finishCreateUTMSecrors()
             else:
-                self.Utils.createUTMSectors(self.gridsize, 'full', [])
+                self.Utils.createUTMSectors(self.gridsize, 'full', [], None)
 
         if sectors_type == 1:
             self.Utils.backupSectors('grid')
@@ -370,6 +371,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         QMessageBox.information(None, QApplication.translate("Patrac", "Info", None),
                                 QApplication.translate("Patrac", "The type of sectors has been changed. You have ot recalculate the situation.", None))
+        self.setSectorsLayersSelectionEvent()
 
     def setMouseHandler(self):
         self.emitPoint = QgsMapToolEmitPoint(self.canvas)
@@ -572,8 +574,34 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             version = 1
         self.Utils.createProjectInfo(self.projectname, self.projectdesc, version, self.createProjectResult['XMIN'], self.createProjectResult['XMAX'], self.createProjectResult['YMIN'], self.createProjectResult['YMAX'], self.createProjectResult['epsg'])
         self.Utils.renameLayers()
+        self.Utils.loadDefaultStyles()
         self.Utils.setGlobalVariables()
+        self.setSectorsLayersSelectionEvent()
         self.setCursor(Qt.ArrowCursor)
+
+    def setSectorsLayersSelectionEvent(self):
+        sectors_layer = self.Sectors.getSectorsLayer()
+        sectors_layer.selectionChanged.connect(self.sectorsLayerSelectionChanged)
+        self.plugin.splitByLineAction.setEnabled(False)
+        self.plugin.addSplitByGridAction.setEnabled(False)
+        self.plugin.addSplitSectorsAction.setEnabled(False)
+        self.plugin.addMergeSectorsAction.setEnabled(False)
+
+    def sectorsLayerSelectionChanged(self, ids):
+        QgsMessageLog.logMessage(str(len(ids)), "Patrac")
+        if len(ids) == 1:
+            QgsMessageLog.logMessage(str(len(ids)), "Patrac")
+            self.plugin.splitByLineAction.setEnabled(True)
+            self.plugin.addSplitByGridAction.setEnabled(True)
+            self.plugin.addSplitSectorsAction.setEnabled(True)
+            self.plugin.addMergeSectorsAction.setEnabled(False)
+        if len(ids) > 1:
+            QgsMessageLog.logMessage(str(len(ids)), "Patrac")
+            self.plugin.addMergeSectorsAction.setEnabled(True)
+            self.plugin.splitByLineAction.setEnabled(False)
+            self.plugin.addSplitByGridAction.setEnabled(False)
+            self.plugin.addSplitSectorsAction.setEnabled(False)
+        QgsMessageLog.logMessage(str(ids), "Patrac")
 
     def checkStep(self, nextStep):
         if self.currentStep == nextStep - 1:
@@ -680,6 +708,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.currentStep = 4
 
         self.Utils.saveMistaModificationTime()
+        self.setSectorsLayersSelectionEvent()
 
     def runGuideStep4Next(self):
         if not self.checkStep(5):
@@ -756,6 +785,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.showReport()
         self.updatePatrac()
         self.Utils.saveMistaModificationTime()
+        self.setSectorsLayersSelectionEvent()
 
     def setPercent(self, percent):
         self.spinStart.setValue(0)
@@ -1745,7 +1775,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 crs = QgsCoordinateReferenceSystem("EPSG:4326")
                 layer.setCrs(crs)
                 QgsProject.instance().addMapLayer(layer, False)
-                layer.loadNamedStyle(self.settingsPath + '/styles/patraci_lines.qml')
+                locale = self.Utils.getLocale()
+                layer.loadNamedStyle(self.settingsPath + '/styles/patraci_lines_' + locale + '.qml')
                 root = QgsProject.instance().layerTreeRoot()
                 group_name = QApplication.translate("Patrac", "Online tracks", None)
                 sektory_current_gpx = root.findGroup(group_name)

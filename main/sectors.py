@@ -137,7 +137,8 @@ class Sectors(object):
 
         self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sectors_zoned.shp")
         self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sektory_group.shp")
-        self.Utils.addVectorLayerWithStyle(self.Utils.getDataPath() + "/pracovni/sektory_group.shp", self.Utils.getLayerName("sektory_group.shp"), "sectors_single", 5514)
+        locale = self.Utils.getLocale()
+        self.Utils.addVectorLayerWithStyle(self.Utils.getDataPath() + "/pracovni/sektory_group.shp", self.Utils.getLayerName("sektory_group.shp"), "sectors_single_" + locale, 5514)
 
         layer = None
         for lyr in list(QgsProject.instance().mapLayers().values()):
@@ -497,10 +498,11 @@ class Sectors(object):
         self.Utils.addVectorLayerWithStyle(DATA_PATH + "/pracovni/" + name + ".shp", label, name, 5514)
 
     def addVectorsForSplitByLine(self):
+        locale = self.Utils.getLocale()
         self.widget.setCursor(Qt.WaitCursor)
-        self.addVectorLayerForSplitByLine("vodtok", "Vodní toky")
-        self.addVectorLayerForSplitByLine("cesta", "Cesty")
-        self.addVectorLayerForSplitByLine("lespru", "Průseky")
+        self.addVectorLayerForSplitByLine("vodtok_" + locale, "Vodní toky")
+        self.addVectorLayerForSplitByLine("cesta_" + locale, "Cesty")
+        self.addVectorLayerForSplitByLine("lespru_" + locale, "Průseky")
         self.widget.setCursor(Qt.ArrowCursor)
 
     def rewriteSelectedSectors(self):

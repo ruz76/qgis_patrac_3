@@ -290,8 +290,9 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
             return False
         else:
             if vector.featureCount() > 0:
-                print(self.Utils.getSettingsPath())
-                vector.loadNamedStyle(self.Utils.getSettingsPath() + '/styles/patraci_lines.qml')
+                # print(self.Utils.getSettingsPath())
+                locale = self.Utils.getLocale()
+                vector.loadNamedStyle(self.Utils.getSettingsPath() + '/styles/patraci_lines_' + locale + '.qml')
                 QgsProject.instance().addMapLayer(vector, False)
                 root = QgsProject.instance().layerTreeRoot()
                 sektory_current_gpx = root.findGroup(dir_name)

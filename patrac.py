@@ -225,7 +225,6 @@ class PatracPlugin(object):
         self.layerChanged()
 
         self.createToolbar()
-        self.setDefaultSelectionColor()
 
     def runHDS(self, array_where_to_append_output):
         self.dockWidget.testHds(array_where_to_append_output)
@@ -254,11 +253,6 @@ class PatracPlugin(object):
         for x in self.iface.mainWindow().findChildren(QDockWidget):
             if x.objectName() != 'Layers':
                 x.setVisible(False)
-
-    def setDefaultSelectionColor(self):
-        selection_color_key = "/Map/defaultSelectionColor"
-        color = QgsSettings().value(selection_color_key)
-        print(color)
 
     def createToolbar(self):
         self.toolbar.addAction(self.actionDock)
@@ -306,6 +300,7 @@ class PatracPlugin(object):
         self.splitByLineAction.setStatusTip(QCoreApplication.translate("Patrac", "Split by line"))
         self.splitByLineAction.setWhatsThis(QCoreApplication.translate("Patrac", "Split by line"))
         self.splitByLineAction.triggered.connect(self.dockWidget.splitByLine)
+        self.splitByLineAction.setEnabled(False)
         self.toolbar.addAction(self.splitByLineAction)
 
     def addVectorsForSplitByLineButton(self):
@@ -314,6 +309,7 @@ class PatracPlugin(object):
         self.addVectorsForSplitByLineAction.setStatusTip(QCoreApplication.translate("Patrac", "Add vectors for Split by line"))
         self.addVectorsForSplitByLineAction.setWhatsThis(QCoreApplication.translate("Patrac", "Add vectors for Split by line"))
         self.addVectorsForSplitByLineAction.triggered.connect(self.dockWidget.addVectorsForSplitByLine)
+        # self.addVectorsForSplitByLineAction.setEnabled(False)
         self.toolbar.addAction(self.addVectorsForSplitByLineAction)
 
     def addSplitByGridButton(self):
@@ -322,6 +318,7 @@ class PatracPlugin(object):
         self.addSplitByGridAction.setStatusTip(QCoreApplication.translate("Patrac", "Split sector by grid"))
         self.addSplitByGridAction.setWhatsThis(QCoreApplication.translate("Patrac", "Split sector by grid"))
         self.addSplitByGridAction.triggered.connect(self.dockWidget.splitSectorByGrid)
+        self.addSplitByGridAction.setEnabled(False)
         self.toolbar.addAction(self.addSplitByGridAction)
 
     def addSplitSectorsButton(self):
@@ -330,6 +327,7 @@ class PatracPlugin(object):
         self.addSplitSectorsAction.setStatusTip(QCoreApplication.translate("Patrac", "Split sector", None))
         self.addSplitSectorsAction.setWhatsThis(QCoreApplication.translate("Patrac", "Split sector", None))
         self.addSplitSectorsAction.triggered.connect(self.dockWidget.splitSector)
+        self.addSplitSectorsAction.setEnabled(False)
         self.toolbar.addAction(self.addSplitSectorsAction)
 
     def addMergeSectorsButton(self):
@@ -338,6 +336,7 @@ class PatracPlugin(object):
         self.addMergeSectorsAction.setStatusTip(QCoreApplication.translate("Patrac", "Merge sectors"))
         self.addMergeSectorsAction.setWhatsThis(QCoreApplication.translate("Patrac", "Merge sectors"))
         self.addMergeSectorsAction.triggered.connect(self.dockWidget.mergeSectors)
+        self.addMergeSectorsAction.setEnabled(False)
         self.toolbar.addAction(self.addMergeSectorsAction)
 
     def createShowWidgetAction(self):

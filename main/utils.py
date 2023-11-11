@@ -160,7 +160,8 @@ class CreateGridTask():
 
         layer.commitChanges()
 
-        self.parent.addVectorLayerWithStyle(self.parent.getDataPath() + "/pracovni/sektory_group.shp", self.parent.getLayerName("sektory_group.shp"), "sectors_single", 5514)
+        locale = self.parent.getLocale()
+        self.parent.addVectorLayerWithStyle(self.parent.getDataPath() + "/pracovni/sektory_group.shp", self.parent.getLayerName("sektory_group.shp"), "sectors_single_" + locale, 5514)
 
     def getUTMGridPolygon(self, minx, miny, cellsize):
         try:
@@ -366,6 +367,16 @@ class Utils(object):
             vector.loadNamedStyle(self.pluginPath + '/styles/' + style + '.qml')
             QgsProject.instance().addMapLayer(vector)
 
+    def setLayerStyle(self, path, style):
+        layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if lyr.source() == path:
+                layer = lyr
+                break
+        if layer is not None:
+            if layer.isValid():
+                layer.loadNamedStyle(self.pluginPath + '/styles/' + style + '.qml')
+
     def setLayerCrs(self, path, code):
         crs = QgsCoordinateReferenceSystem(code)
         layer = None
@@ -516,7 +527,8 @@ class Utils(object):
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".shx", self.getDataPath() + "/pracovni/sektory_group.shx")
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".dbf", self.getDataPath() + "/pracovni/sektory_group.dbf")
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".prj", self.getDataPath() + "/pracovni/sektory_group.prj")
-        self.addVectorLayerWithStyle(self.getDataPath() + "/pracovni/sektory_group.shp", self.getLayerName("sektory_group.shp"), "sectors_single", 5514)
+        locale = self.getLocale()
+        self.addVectorLayerWithStyle(self.getDataPath() + "/pracovni/sektory_group.shp", self.getLayerName("sektory_group.shp"), "sectors_single_" + locale, 5514)
 
     def getLostInfo(self, project_settings):
         lost_info = "Pohřešovaná osoba: "
@@ -634,6 +646,17 @@ class Utils(object):
             layer = self.getLayer(key)
             if layer is not None:
                 layer.setName(self.layers[key][locale])
+
+    def loadDefaultStyles(self):
+        locale = self.getLocale()
+        layers = {
+            "sektory_group.shp": {
+                "style": "sectors_single"
+            }
+        }
+        DATAPATH = self.getDataPath()
+        for key in layers:
+            self.setLayerStyle(DATAPATH + '/pracovni/' + key, layers[key]['style'] + '_' + locale)
 
     def setGlobalVariables(self):
         zpm_update = '2022-01-01'

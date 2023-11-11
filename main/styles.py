@@ -60,10 +60,11 @@ class Styles(object):
         return layer
 
     def setSectorsStyle(self, name):
+        locale = self.Utils.getLocale()
         layer = self.getSectorsLayer()
         if not layer is None:
             settingsPath = self.pluginPath + "/../../../patrac_settings"
-            layer.loadNamedStyle(settingsPath + '/styles/sectors_' + name + '.qml')
+            layer.loadNamedStyle(settingsPath + '/styles/sectors_' + name + '_' + locale + '.qml')
             f = io.open(settingsPath + '/styles/sektory_group.txt', 'w', encoding='utf-8')
             f.write(name)
             f.close()

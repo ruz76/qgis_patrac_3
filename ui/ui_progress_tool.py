@@ -15,7 +15,7 @@ from .ui_sector import Ui_Sector
 class ProgressMapTool(QgsMapTool):
     """Map tool for click in the map"""
 
-    def __init__(self, canvas, iface):
+    def __init__(self, canvas, iface, widget):
         self.canvas = canvas
         QgsMapTool.__init__(self, self.canvas)
         self.reset()
@@ -29,6 +29,7 @@ class ProgressMapTool(QgsMapTool):
         self.pluginPath = ''
         self.iface = iface
         self.dialog = Ui_Sector()
+        self.widget = widget
 
     def reset(self):
         self.point = None
@@ -248,7 +249,8 @@ class ProgressMapTool(QgsMapTool):
         provider.addFeatures([fet])
         layer.commitChanges()
         layer.updateExtents()
-        layer.loadNamedStyle(self.pluginPath + '/styles/not_searched.qml')
+        locale = self.widget.Utils.getLocale()
+        layer.loadNamedStyle(self.pluginPath + '/styles/not_searched_' + locale + '.qml')
         layer.triggerRepaint()
         QgsProject.instance().addMapLayer(layer)
 

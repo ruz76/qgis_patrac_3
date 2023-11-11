@@ -68,7 +68,8 @@ class PointMapTool(QgsMapTool):
           QgsMessageLog.logMessage("Vrstvu " + path + " se nepodařilo načíst", "Patrac")
       else:
           settingsPath = self.widget.pluginPath + "/../../../patrac_settings"
-          vector.loadNamedStyle(settingsPath + '/styles/result.qml')
+          locale = self.Utils.getLocale()
+          vector.loadNamedStyle(settingsPath + '/styles/result_' + locale + '.qml')
           QgsProject.instance().addMapLayer(vector)
 
   def canvasReleaseEvent(self, e):
