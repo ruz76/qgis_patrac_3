@@ -212,8 +212,7 @@ class PatracPlugin(object):
         pluginPath = path.dirname(__file__)
 
         self.actionDock = QAction(QIcon(pluginPath + "/icons/patrac.png"), "Patrac", self.iface.mainWindow())
-        self.actionDock.setStatusTip(QCoreApplication.translate("Patrac", "Show/hide Patrac dockwidget"))
-        self.actionDock.setWhatsThis(QCoreApplication.translate("Patrac", "Show/hide Patrac dockwidget"))
+        self.actionDock.setToolTip(QCoreApplication.translate("Patrac", "Show/hide Patrac dockwidget"))
         self.actionDock.triggered.connect(self.showWidget)
         self.iface.addPluginToMenu(QCoreApplication.translate("Patrac", "Patrac"), self.actionDock)
 
@@ -285,20 +284,19 @@ class PatracPlugin(object):
         self.addSplitByLineButton()
         self.toolbar.addAction(self.iface.actionVertexToolActiveLayer())
         self.addSplitByGridButton()
+        self.addLanguageSelection()
 
     def addRecalculateButton(self):
         pluginPath = path.dirname(__file__)
         self.recalculateSectorsAction = QAction(QIcon(pluginPath + "/icons/number_sectors.png"), "Patrac", self.iface.mainWindow())
-        self.recalculateSectorsAction.setStatusTip(QCoreApplication.translate("Patrac", "Recalculate sectors"))
-        self.recalculateSectorsAction.setWhatsThis(QCoreApplication.translate("Patrac", "Recalculate sectors"))
+        self.recalculateSectorsAction.setToolTip(QCoreApplication.translate("Patrac", "Recalculate sectors"))
         self.recalculateSectorsAction.triggered.connect(self.dockWidget.recalculateSectorsExpert)
         self.toolbar.addAction(self.recalculateSectorsAction)
 
     def addSplitByLineButton(self):
         pluginPath = path.dirname(__file__)
         self.splitByLineAction = QAction(QIcon(pluginPath + "/icons/split_by_line.png"), "Patrac", self.iface.mainWindow())
-        self.splitByLineAction.setStatusTip(QCoreApplication.translate("Patrac", "Split by line"))
-        self.splitByLineAction.setWhatsThis(QCoreApplication.translate("Patrac", "Split by line"))
+        self.splitByLineAction.setToolTip(QCoreApplication.translate("Patrac", "Split by line"))
         self.splitByLineAction.triggered.connect(self.dockWidget.splitByLine)
         self.splitByLineAction.setEnabled(False)
         self.toolbar.addAction(self.splitByLineAction)
@@ -306,8 +304,7 @@ class PatracPlugin(object):
     def addVectorsForSplitByLineButton(self):
         pluginPath = path.dirname(__file__)
         self.addVectorsForSplitByLineAction = QAction(QIcon(pluginPath + "/icons/add_vectors_for_split_by_line.png"), "Patrac", self.iface.mainWindow())
-        self.addVectorsForSplitByLineAction.setStatusTip(QCoreApplication.translate("Patrac", "Add vectors for Split by line"))
-        self.addVectorsForSplitByLineAction.setWhatsThis(QCoreApplication.translate("Patrac", "Add vectors for Split by line"))
+        self.addVectorsForSplitByLineAction.setToolTip(QCoreApplication.translate("Patrac", "Add vectors for Split by line"))
         self.addVectorsForSplitByLineAction.triggered.connect(self.dockWidget.addVectorsForSplitByLine)
         # self.addVectorsForSplitByLineAction.setEnabled(False)
         self.toolbar.addAction(self.addVectorsForSplitByLineAction)
@@ -315,8 +312,7 @@ class PatracPlugin(object):
     def addSplitByGridButton(self):
         pluginPath = path.dirname(__file__)
         self.addSplitByGridAction = QAction(QIcon(pluginPath + "/icons/split_sectors_by_grid.png"), "Patrac", self.iface.mainWindow())
-        self.addSplitByGridAction.setStatusTip(QCoreApplication.translate("Patrac", "Split sector by grid"))
-        self.addSplitByGridAction.setWhatsThis(QCoreApplication.translate("Patrac", "Split sector by grid"))
+        self.addSplitByGridAction.setToolTip(QCoreApplication.translate("Patrac", "Split sector by grid"))
         self.addSplitByGridAction.triggered.connect(self.dockWidget.splitSectorByGrid)
         self.addSplitByGridAction.setEnabled(False)
         self.toolbar.addAction(self.addSplitByGridAction)
@@ -324,8 +320,7 @@ class PatracPlugin(object):
     def addSplitSectorsButton(self):
         pluginPath = path.dirname(__file__)
         self.addSplitSectorsAction = QAction(QIcon(pluginPath + "/icons/split_by_drawn_line.png"), "Patrac", self.iface.mainWindow())
-        self.addSplitSectorsAction.setStatusTip(QCoreApplication.translate("Patrac", "Split sector", None))
-        self.addSplitSectorsAction.setWhatsThis(QCoreApplication.translate("Patrac", "Split sector", None))
+        self.addSplitSectorsAction.setToolTip(QCoreApplication.translate("Patrac", "Split sector", None))
         self.addSplitSectorsAction.triggered.connect(self.dockWidget.splitSector)
         self.addSplitSectorsAction.setEnabled(False)
         self.toolbar.addAction(self.addSplitSectorsAction)
@@ -333,11 +328,38 @@ class PatracPlugin(object):
     def addMergeSectorsButton(self):
         pluginPath = path.dirname(__file__)
         self.addMergeSectorsAction = QAction(QIcon(pluginPath + "/icons/merge_sectors.png"), "Patrac", self.iface.mainWindow())
-        self.addMergeSectorsAction.setStatusTip(QCoreApplication.translate("Patrac", "Merge sectors"))
-        self.addMergeSectorsAction.setWhatsThis(QCoreApplication.translate("Patrac", "Merge sectors"))
+        self.addMergeSectorsAction.setToolTip(QCoreApplication.translate("Patrac", "Merge sectors"))
         self.addMergeSectorsAction.triggered.connect(self.dockWidget.mergeSectors)
         self.addMergeSectorsAction.setEnabled(False)
         self.toolbar.addAction(self.addMergeSectorsAction)
+
+    def addLanguageSelection(self):
+        self.loadedLanguage = True
+        self.languageChange = QComboBox()
+        self.languageChange.setObjectName("languageChange")
+        self.languageChange.currentIndexChanged.connect(self.changeLanguage)
+        languages = ['Česky', 'English', 'Українська']
+        for language in languages:
+            self.languageChange.addItem(language)
+        locale = self.dockWidget.Utils.getLocale()
+        locales = ['cs', 'en', 'uk']
+        self.languageChange.setCurrentIndex(locales.index(locale))
+        self.toolbar.addWidget(self.languageChange)
+
+    def changeLanguage(self):
+        # To avoid show dialog on load
+        if not self.loadedLanguage:
+            locales = ['cs', 'en', 'uk']
+            locales_full = ['cs_CZ', 'en_US', 'uk_UA']
+            locale = self.dockWidget.Utils.getLocale()
+            if locales[self.languageChange.currentIndex()] != locale:
+                QSettings().setValue("locale/overrideFlag", True)
+                QSettings().setValue("locale/userLocale", locales_full[self.languageChange.currentIndex()])
+                QMessageBox.information(None, QApplication.translate("Patrac", "Info", None),
+                                        QApplication.translate("Patrac", "You have to restart QGIS to apply load language.", None))
+
+        else:
+            self.loadedLanguage = False
 
     def createShowWidgetAction(self):
         icon = QIcon(icon_path)

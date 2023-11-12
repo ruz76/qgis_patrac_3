@@ -336,7 +336,7 @@ class Project(object):
         XMAX = str(x + 6000)
         YMAX = str(y + 5000)
         QgsMessageLog.logMessage("g.region e=" + XMAX + " w=" + XMIN + " n=" + YMAX + " s=" + YMIN, "Patrac")
-        QgsMessageLog.logMessage("Název: " + NAMESAFE, "Patrac")
+        QgsMessageLog.logMessage("Name: " + NAMESAFE, "Patrac")
 
         DATAPATH = self.config["data_path"]
 
@@ -362,11 +362,11 @@ class Project(object):
             "type": "initial"
         }
 
-        self.widget.createProgressBar("Loading data: ")
+        self.widget.createProgressBar(QApplication.translate("Patrac", "Loading data: ", None))
         self.widget.clearTasksList()
         self.widget.appendTask(ClipSourceDataTask(self.widget, params))
         self.widget.runTask(0)
-        print("TASK STARTED")
+        # print("TASK STARTED")
 
         return {
             "name": name,

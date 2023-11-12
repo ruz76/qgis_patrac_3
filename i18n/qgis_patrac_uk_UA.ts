@@ -649,7 +649,7 @@
 <context>
     <name>Patrac</name>
     <message>
-        <location filename="../patracdockwidget.py" line="1862"/>
+        <location filename="../patracdockwidget.py" line="1973"/>
         <source>ERROR</source>
         <translation>ПОМИЛКА</translation>
     </message>
@@ -659,7 +659,7 @@
         <translation>Поганий проект. Відкрийте правильний проект або створіть новий за допомогою майстра</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="837"/>
+        <location filename="../patracdockwidget.py" line="945"/>
         <source>INFO</source>
         <translation>ІНФО</translation>
     </message>
@@ -681,17 +681,17 @@
     <message>
         <location filename="../main/hds.py" line="92"/>
         <source>Area test error</source>
-        <translation>Тест області завершився з помилкою (вихідний tif не відповідає очікуваному стану)</translation>
+        <translation type="obsolete">Тест області завершився з помилкою (вихідний tif не відповідає очікуваному стану)</translation>
     </message>
     <message>
         <location filename="../main/hds.py" line="106"/>
         <source>Sectors test error</source>
-        <translation>Тест секторів завершився з помилкою (вихідний SHP не відповідає очікуваному стану)</translation>
+        <translation type="obsolete">Тест секторів завершився з помилкою (вихідний SHP не відповідає очікуваному стану)</translation>
     </message>
     <message>
         <location filename="../main/hds.py" line="119"/>
         <source>Report test error</source>
-        <translation>Тест Report_Export завершився з помилкою (вихідний HTML не відповідає очікуваному стану)</translation>
+        <translation type="obsolete">Тест Report_Export завершився з помилкою (вихідний HTML не відповідає очікуваному стану)</translation>
     </message>
     <message>
         <location filename="../main/project.py" line="278"/>
@@ -699,7 +699,7 @@
         <translation>Протяжність карти знаходиться за межами Чехії. У мене немає даних, я не можу продовжити.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="399"/>
+        <location filename="../ui/ui_settings.py" line="392"/>
         <source>CRITICAL ERROR</source>
         <translation>КРИТИЧНА ПОМИЛКА</translation>
     </message>
@@ -724,17 +724,17 @@
         <translation>У мене немає актуальних даних для даного регіону. У мене немає даних, я не можу продовжити. Ви можете оновити/встановити дані в діалоговому вікні налаштувань, яке відкриється згодом.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1738"/>
+        <location filename="../patracdockwidget.py" line="1855"/>
         <source>Can not connect to the server.</source>
         <translation>Я не можу підключитися до сервера.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1862"/>
+        <location filename="../patracdockwidget.py" line="1973"/>
         <source>Wrong project.</source>
         <translation>Поганий проект. Відкрийте правильний проект або створіть новий за допомогою майстра.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="952"/>
+        <location filename="../main/sectors.py" line="954"/>
         <source>GPX and PDF for search</source>
         <translation>GPX і PDF для квестів</translation>
     </message>
@@ -759,22 +759,22 @@
         <translation type="obsolete">SE</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1768"/>
+        <location filename="../patracdockwidget.py" line="1885"/>
         <source>Error</source>
         <translation>ПОМИЛКА</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="346"/>
+        <location filename="../patracdockwidget.py" line="425"/>
         <source>Can not find web browser to open help</source>
         <translation>Я не можу відкрити веб-браузер, щоб завантажити довідку</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="436"/>
+        <location filename="../patracdockwidget.py" line="515"/>
         <source>Wrong municipality</source>
         <translation>Не те село</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="436"/>
+        <location filename="../patracdockwidget.py" line="515"/>
         <source>The municipality has not been found</source>
         <translation>Село не знайдено</translation>
     </message>
@@ -784,52 +784,52 @@
         <translation>Крок</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="505"/>
+        <location filename="../patracdockwidget.py" line="610"/>
         <source>You skipped the step. Do you want to continue?</source>
         <translation>Ви пропустили крок у майстрі. Ви хочете продовжити?</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="737"/>
+        <location filename="../patracdockwidget.py" line="845"/>
         <source>No probability layer. Can not continue.</source>
         <translation>Я не можу знайти рівень ймовірності. Я не можу продовжувати.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="768"/>
+        <location filename="../patracdockwidget.py" line="876"/>
         <source>Can not find web browser to open report</source>
         <translation>Я не можу відкрити веб-переглядач, щоб завантажити звіт</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="798"/>
+        <location filename="../patracdockwidget.py" line="906"/>
         <source>Did not find GPS. You have to copy GPX manually from the report.</source>
         <translation>Я не міг знайти підключений GPS. Ви повинні зберегти файл зі звіту вручну.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="802"/>
+        <location filename="../patracdockwidget.py" line="910"/>
         <source>select input dialog</source>
         <translation>вибрати</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="802"/>
+        <location filename="../patracdockwidget.py" line="910"/>
         <source>list of drives</source>
         <translation>Список дисків</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="837"/>
+        <location filename="../patracdockwidget.py" line="945"/>
         <source>The sectors has been copied into the device: </source>
         <translation>Сектори скопійовано на пристрій</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="839"/>
+        <location filename="../patracdockwidget.py" line="947"/>
         <source>Can not copy. You have copy it manually from the path: </source>
         <translation>Під час копіювання секторів сталася помилка. Копіювати через файловий менеджер зі шляху:</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="976"/>
+        <location filename="../patracdockwidget.py" line="1084"/>
         <source>No probability layer. Please try step 3 again.</source>
         <translation>Проект не включає ймовірнісний рівень. Повторіть крок 3 у посібнику.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="807"/>
+        <location filename="../patracdockwidget.py" line="915"/>
         <source>Do you want to clean the GPS data before export?</source>
         <translation>Бажаєте очистити GPS перед експортом?</translation>
     </message>
@@ -839,12 +839,12 @@
         <translation type="obsolete">Недоступний</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1699"/>
+        <location filename="../patracdockwidget.py" line="1816"/>
         <source>Tracks are empty.</source>
         <translation>Доріжки порожні.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1768"/>
+        <location filename="../patracdockwidget.py" line="1885"/>
         <source>Problem to read data from: </source>
         <translation>Проблема із завантаженням даних із бази даних</translation>
     </message>
@@ -854,27 +854,27 @@
         <translation type="obsolete">Позиції порожні.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1782"/>
+        <location filename="../patracdockwidget.py" line="1899"/>
         <source>CHYBA:</source>
         <translation>ПОМИЛКА:</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="984"/>
+        <location filename="../main/sectors.py" line="986"/>
         <source>SECTOR</source>
         <translation>СЕКТОР</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="984"/>
+        <location filename="../main/sectors.py" line="986"/>
         <source>Types of terrain</source>
         <translation>Типи поверхні</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="213"/>
+        <location filename="../patrac.py" line="216"/>
         <source>Show/hide Patrac dockwidget</source>
         <translation>Показати/приховати панель</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="317"/>
+        <location filename="../patrac.py" line="390"/>
         <source>Patrac</source>
         <translation>Патрак</translation>
     </message>
@@ -886,60 +886,60 @@
     <message>
         <location filename="../main/hds.py" line="132"/>
         <source>DATA HDS EXITS WITH ERROR. MISSING LAYER MISTA.</source>
-        <translation>ПОМИЛКА: ТЕСТ ДАНИХ ЗАВЕРШИВСЯ З ПОМИЛКОЮ. ВІДСУТНИЙ ТИП ПРОБІЛУ.</translation>
+        <translation type="obsolete">ПОМИЛКА: ТЕСТ ДАНИХ ЗАВЕРШИВСЯ З ПОМИЛКОЮ. ВІДСУТНИЙ ТИП ПРОБІЛУ.</translation>
     </message>
     <message>
         <location filename="../main/hds.py" line="155"/>
         <source>DATA HDS EXITS WITH ERROR</source>
-        <translation>ПОМИЛКА: ТЕСТ ДАНИХ ЗАВЕРШИВСЯ З ПОМИЛКОЮ</translation>
+        <translation type="obsolete">ПОМИЛКА: ТЕСТ ДАНИХ ЗАВЕРШИВСЯ З ПОМИЛКОЮ</translation>
     </message>
     <message>
         <location filename="../main/hds.py" line="158"/>
         <source>DATA HDS TEST STARTED</source>
-        <translation>ТЕСТ ДАНИХ ПОЧАТО</translation>
+        <translation type="obsolete">ТЕСТ ДАНИХ ПОЧАТО</translation>
     </message>
     <message>
         <location filename="../main/hds.py" line="170"/>
         <source>DATA HDS EXITS WITH ERROR. CONFIG FOR SELECTED REGION DOES NOT EXIST.</source>
-        <translation>ПОМИЛКА: ТЕСТ ДАНИХ ЗАВЕРШИВСЯ З ПОМИЛКОЮ. ВІДСУТНИЙ ФАЙЛ КОНФІГУРАЦІЇ ДЛЯ ТЕСТУВАННЯ.</translation>
+        <translation type="obsolete">ПОМИЛКА: ТЕСТ ДАНИХ ЗАВЕРШИВСЯ З ПОМИЛКОЮ. ВІДСУТНИЙ ФАЙЛ КОНФІГУРАЦІЇ ДЛЯ ТЕСТУВАННЯ.</translation>
     </message>
     <message>
         <location filename="../main/hds.py" line="172"/>
         <source>DATA HDS TEST FINISHED</source>
-        <translation>ТЕСТ ДАНИХ ЗАВЕРШЕНО</translation>
+        <translation type="obsolete">ТЕСТ ДАНИХ ЗАВЕРШЕНО</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1309"/>
+        <location filename="../patrac.py" line="365"/>
         <source>Info</source>
         <translation>Інформація</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1309"/>
+        <location filename="../patracdockwidget.py" line="1425"/>
         <source>Click into the map at the place of finding. If you finishing without finding, click anywhere into map.</source>
         <translation>Натисніть на карту, щоб знайти його. Якщо ви закінчите без знахідки, натисніть будь-яке місце на карті.</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="278"/>
+        <location filename="../patrac.py" line="294"/>
         <source>Recalculate sectors</source>
         <translation>Перерахувати сектори</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="473"/>
+        <location filename="../main/sectors.py" line="474"/>
         <source>ERROR:</source>
         <translation>ПОМИЛКА:</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="385"/>
+        <location filename="../main/sectors.py" line="386"/>
         <source>You have to select at least one sector to split.</source>
         <translation>Ви повинні вибрати принаймні один сектор для розділення.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="391"/>
+        <location filename="../main/sectors.py" line="392"/>
         <source>You have to select line layer.</source>
         <translation>Необхідно вибрати лінійний шар.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="394"/>
+        <location filename="../main/sectors.py" line="395"/>
         <source>Selected layer is not line layer.</source>
         <translation>Вибраний шар не є лінійним.</translation>
     </message>
@@ -951,65 +951,65 @@
     <message>
         <location filename="../main/sectors.py" line="473"/>
         <source>Can not split.</source>
-        <translation>Я не можу розділитися.</translation>
+        <translation type="obsolete">Я не можу розділитися.</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="286"/>
+        <location filename="../patrac.py" line="302"/>
         <source>Split by line</source>
         <translation>Розділити за допомогою наявної лінії.</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="294"/>
+        <location filename="../patrac.py" line="311"/>
         <source>Add vectors for Split by line</source>
         <translation>Додайте бурчання для поділу секторів.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="537"/>
+        <location filename="../main/sectors.py" line="539"/>
         <source>Map lists where the sector is present</source>
         <translation>Листи карт із заляганням сектора</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="555"/>
+        <location filename="../main/sectors.py" line="557"/>
         <source>GPS file with drawn sector</source>
         <translation>Файл для GPS із секторною побудовою</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="957"/>
+        <location filename="../main/sectors.py" line="959"/>
         <source>Overall view</source>
         <translation>Весь район</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="964"/>
+        <location filename="../main/sectors.py" line="966"/>
         <source>If you do not see links to PDF files for print, the files were not generated. Please use checkbox on last card in the guide and show report again.</source>
         <translation>Якщо ви не бачите посилань на PDF-файли, це означає, що їх ще не створено. Скористайтеся кнопкою прапорця на останньому кроці майстра, щоб знову відобразити звіт.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="465"/>
+        <location filename="../patracdockwidget.py" line="544"/>
         <source>Missing input</source>
         <translation>Відсутній запис</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="465"/>
+        <location filename="../patracdockwidget.py" line="544"/>
         <source>You have to select type of the search</source>
         <translation>Необхідно вказати тип пошуку (навчання та тестування або реальний пошуковий захід).</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1664"/>
+        <location filename="../patracdockwidget.py" line="1781"/>
         <source>Online tracks</source>
         <translation>Онлайн сліди</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="399"/>
+        <location filename="../patracdockwidget.py" line="478"/>
         <source>Information updated</source>
         <translation>Інформація оновлена</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1083"/>
+        <location filename="../patracdockwidget.py" line="1191"/>
         <source>Can not calculate the area. Check the inputs.</source>
         <translation>Я не можу обчислити поверхню ймовірності. Будь ласка, перевірте введення. наприклад чи знаходиться точка на о.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="457"/>
+        <location filename="../patracdockwidget.py" line="536"/>
         <source>You did not enter the result of the previous search. Do you want to continue?</source>
         <translation>Ви не ввели попередній результат пошуку. Ви впевнені, що бажаєте продовжити?</translation>
     </message>
@@ -1019,42 +1019,42 @@
         <translation>Ви не ввели попередній результат пошуку. Ви впевнені, що бажаєте закрити програму?</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="972"/>
+        <location filename="../main/sectors.py" line="974"/>
         <source>Wrong installation. Call you administrator.</source>
         <translation>Неправильна установка. Зверніться до адміністратора.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="814"/>
+        <location filename="../patracdockwidget.py" line="922"/>
         <source>Clean GPS</source>
         <translation>Очистити GPS</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="814"/>
+        <location filename="../patracdockwidget.py" line="922"/>
         <source>Are you sure that you want to clean the GPS data before export?</source>
         <translation>Ви впевнені, що бажаєте очистити GPS перед експортом?</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1773"/>
+        <location filename="../patracdockwidget.py" line="1890"/>
         <source>Success</source>
         <translation>Успіх</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1732"/>
+        <location filename="../patracdockwidget.py" line="1849"/>
         <source>Tracks were loaded.</source>
         <translation>Завантажено сліди трави.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1773"/>
+        <location filename="../patracdockwidget.py" line="1890"/>
         <source>Positions were loaded.</source>
         <translation>Позиції завантажено.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1602"/>
+        <location filename="../patracdockwidget.py" line="1718"/>
         <source>No handlers in action yet. Call them first.</source>
         <translation>Жодного обробника ще не запрошено. Створіть виклик.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1710"/>
+        <location filename="../patracdockwidget.py" line="1827"/>
         <source>Problem to read data for user: </source>
         <translation>Проблема із завантаженням даних користувача:</translation>
     </message>
@@ -1064,82 +1064,82 @@
         <translation>Експортуйте попередньо визначені PDF-файли</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="405"/>
+        <location filename="../main/project.py" line="408"/>
         <source>ZPM</source>
         <translation>ЗПМ</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="405"/>
+        <location filename="../main/project.py" line="408"/>
         <source>Can not find ZPM map. Do you wan to find it yourself?</source>
         <translation>Я не можу знайти ZPM. Хочете знайти його самостійно?</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="986"/>
+        <location filename="../main/sectors.py" line="988"/>
         <source>Exporting GPX for each sector</source>
         <translation>Я експортую GPX для кожного сектора</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="1126"/>
+        <location filename="../main/sectors.py" line="1128"/>
         <source>Exporting PDFs for each sector</source>
         <translation>Я експортую PDF для кожного сектора</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="302"/>
+        <location filename="../ui/ui_settings.py" line="295"/>
         <source>Downloading data ...</source>
         <translation>Завантаження даних...</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="315"/>
+        <location filename="../ui/ui_settings.py" line="308"/>
         <source>Downloaded chunk </source>
         <translation>Завантажена частина</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="326"/>
+        <location filename="../ui/ui_settings.py" line="319"/>
         <source>Merging chunks ...</source>
         <translation>З&apos;єднання частин...</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="337"/>
+        <location filename="../ui/ui_settings.py" line="330"/>
         <source>Backing up the data ...</source>
         <translation>Резервне копіювання даних...</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="338"/>
+        <location filename="../ui/ui_settings.py" line="331"/>
         <source>Calculating files ...</source>
         <translation>Перевірка файлів...</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="351"/>
+        <location filename="../ui/ui_settings.py" line="344"/>
         <source>Archiving </source>
         <translation>Я роблю резервну копію</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="361"/>
+        <location filename="../ui/ui_settings.py" line="354"/>
         <source>!!! ERROR in update of the data. Exiting. !!!</source>
         <translation>!!! ПОМИЛКА оновлення даних. Я кидаю. !!!</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="365"/>
+        <location filename="../ui/ui_settings.py" line="358"/>
         <source>Unzipping data ...</source>
         <translation>Розпакування даних...</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="384"/>
+        <location filename="../ui/ui_settings.py" line="377"/>
         <source>The backup of the data was not created. Can not continue with data update.</source>
         <translation>Резервне копіювання даних не створено. Я не можу продовжити оновлення даних.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="390"/>
+        <location filename="../ui/ui_settings.py" line="383"/>
         <source>The data was not downloaded. Can not continue with data update.</source>
         <translation>Дані не завантажено. Я не можу продовжити оновлення даних.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="399"/>
+        <location filename="../ui/ui_settings.py" line="392"/>
         <source>The data were corrupted. Can not continue with data update.</source>
         <translation>Завантажені дані пошкоджено. Я не можу продовжити оновлення даних.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="403"/>
+        <location filename="../ui/ui_settings.py" line="396"/>
         <source>Finished. The data has been updated.</source>
         <translation>Виконано. Дані оновлено.</translation>
     </message>
@@ -1149,9 +1149,59 @@
         <translation>Розрахунок площі: </translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="1119"/>
+        <location filename="../main/sectors.py" line="1121"/>
         <source>Generating of PDFs for individual sectors can take about 10 seconds for each sector. Do you want to continue? Number of sectors: </source>
         <translation>Створення PDF для кожного сектора може тривати близько 10 секунд для одного сектора. Ви впевнені, що бажаєте продовжити? Кількість секторів: </translation>
+    </message>
+    <message>
+        <location filename="../main/sectors.py" line="474"/>
+        <source>Can not split. Check if one sector is selected and the line crosses it completely.</source>
+        <translation>Я не можу розділитися. Переконайтеся, що виділено один сектор і лінія повністю його розділяє.</translation>
+    </message>
+    <message>
+        <location filename="../main/utils.py" line="722"/>
+        <source>Creating grid: </source>
+        <translation>Я створюю сітку: </translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="281"/>
+        <source>You have to select at least two sectors.</source>
+        <translation>Необхідно вибрати принаймні два сектори.</translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="328"/>
+        <source>You have to select just one sector.</source>
+        <translation>Ви повинні вибрати рівно один сектор.</translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="372"/>
+        <source>The type of sectors has been changed. You have ot recalculate the situation.</source>
+        <translation>Змінено тип секторів. Треба перерахувати ситуацію.</translation>
+    </message>
+    <message>
+        <location filename="../patrac.py" line="320"/>
+        <source>Split sector by grid</source>
+        <translation>Розділіть сектор сіткою</translation>
+    </message>
+    <message>
+        <location filename="../patrac.py" line="329"/>
+        <source>Split sector</source>
+        <translation>Розбити сектор</translation>
+    </message>
+    <message>
+        <location filename="../patrac.py" line="338"/>
+        <source>Merge sectors</source>
+        <translation>Об&apos;єднати сектори</translation>
+    </message>
+    <message>
+        <location filename="../patrac.py" line="365"/>
+        <source>You have to restart QGIS to apply load language.</source>
+        <translation>Потрібно перезапустити QGIS, щоб зміна мови набула чинності.</translation>
+    </message>
+    <message>
+        <location filename="../main/project.py" line="365"/>
+        <source>Loading data: </source>
+        <translation>Завантаження даних: </translation>
     </message>
 </context>
 <context>
@@ -1695,47 +1745,47 @@
 <context>
     <name>ProgressMapTool</name>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="238"/>
+        <location filename="../ui/ui_progress_tool.py" line="239"/>
         <source>CHYBA:</source>
         <translation>ПОМИЛКА:</translation>
     </message>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="204"/>
+        <location filename="../ui/ui_progress_tool.py" line="205"/>
         <source>You have to select track.</source>
         <translation>Ви повинні вибрати трек.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="209"/>
+        <location filename="../ui/ui_progress_tool.py" line="210"/>
         <source>You have to enter number of persons including siders.</source>
         <translation>Потрібно вказати кількість шукачів, включно з прикордонниками.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="212"/>
+        <location filename="../ui/ui_progress_tool.py" line="213"/>
         <source>You have to select two tracks.</source>
         <translation>Потрібно виділити два шари.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="218"/>
+        <location filename="../ui/ui_progress_tool.py" line="219"/>
         <source>Selected layers are not tracks.</source>
         <translation>Виділені шари не є слідом. Виберіть правильні шари.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="226"/>
+        <location filename="../ui/ui_progress_tool.py" line="227"/>
         <source>Yout have to select just one layer.</source>
         <translation>Потрібно лише вибрати один шар.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="232"/>
+        <location filename="../ui/ui_progress_tool.py" line="233"/>
         <source>Selected layer is not track.</source>
         <translation>Виділений шар не є слідом. Виберіть правильний шар.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="238"/>
+        <location filename="../ui/ui_progress_tool.py" line="239"/>
         <source>Select track does not have data to analyze. Select another track or unit.</source>
         <translation>Вибраний шар не містить треків для аналізу. Виберіть правильний шар або інший інструмент пошуку.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_progress_tool.py" line="289"/>
+        <location filename="../ui/ui_progress_tool.py" line="291"/>
         <source>canvasReleaseEvent crash</source>
         <translation>Збій canvasReleaseEvent</translation>
     </message>
@@ -1886,12 +1936,12 @@
         <translation>Жодного предмета не знайдено</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="304"/>
+        <location filename="../ui/ui_gpx.py" line="305"/>
         <source>INFO</source>
         <translation>ІНФО</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="304"/>
+        <location filename="../ui/ui_gpx.py" line="305"/>
         <source>There are not any tracks in the GPX.</source>
         <translation>Файли GPX не містять доріжок.</translation>
     </message>
@@ -1929,12 +1979,12 @@
 <context>
     <name>Ui_Grid</name>
     <message>
-        <location filename="../ui/ui_grid.py" line="65"/>
+        <location filename="../ui/ui_grid.py" line="73"/>
         <source>ERROR</source>
         <translation>ПОМИЛКА</translation>
     </message>
     <message>
-        <location filename="../ui/ui_grid.py" line="65"/>
+        <location filename="../ui/ui_grid.py" line="73"/>
         <source>You have to insert integer.</source>
         <translation>Ви повинні ввести ціле число</translation>
     </message>
@@ -2760,27 +2810,27 @@
         <translation>Коробка передач</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="207"/>
+        <location filename="../ui/ui_settings.py" line="200"/>
         <source>Not available</source>
         <translation>Недоступний</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="207"/>
+        <location filename="../ui/ui_settings.py" line="200"/>
         <source>The function is not implemented</source>
         <translation>Ця функція ще не реалізована</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="217"/>
+        <location filename="../ui/ui_settings.py" line="210"/>
         <source>Wrong input</source>
         <translation>Неправильні дані</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="214"/>
+        <location filename="../ui/ui_settings.py" line="207"/>
         <source>Enter user</source>
         <translation>Введіть користувача</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="217"/>
+        <location filename="../ui/ui_settings.py" line="210"/>
         <source>Enter password</source>
         <translation>Введіть пароль</translation>
     </message>
@@ -2800,7 +2850,7 @@
         <translation type="obsolete">Введіть свій номер телефону</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="230"/>
+        <location filename="../ui/ui_settings.py" line="223"/>
         <source>Can not get access</source>
         <translation>Помилка доступу</translation>
     </message>
@@ -2815,17 +2865,17 @@
         <translation type="obsolete">Введіть широту у форматі 48,54556</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="412"/>
+        <location filename="../ui/ui_settings.py" line="405"/>
         <source>Error</source>
         <translation>ПОМИЛКА</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="412"/>
+        <location filename="../ui/ui_settings.py" line="405"/>
         <source>Can not find web browser to open help</source>
         <translation>Я не можу відкрити веб-браузер, щоб завантажити довідку</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="251"/>
+        <location filename="../ui/ui_settings.py" line="244"/>
         <source>Can not connect to the server.</source>
         <translation>Не вдалося підключитися до сервера.</translation>
     </message>
@@ -2855,7 +2905,7 @@
         <translation type="obsolete">Поганий проект</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="260"/>
+        <location filename="../ui/ui_settings.py" line="253"/>
         <source>Path to the project</source>
         <translation>Шлях до проекту</translation>
     </message>
@@ -2865,7 +2915,7 @@
         <translation type="obsolete">Функція не підтримується в цій версії</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="566"/>
+        <location filename="../ui/ui_settings.py" line="559"/>
         <source>INFO</source>
         <translation>ІНФО</translation>
     </message>
@@ -2905,132 +2955,132 @@
         <translation type="obsolete">Прибуття до</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="421"/>
+        <location filename="../ui/ui_settings.py" line="414"/>
         <source>ID</source>
         <translation>id</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="421"/>
+        <location filename="../ui/ui_settings.py" line="414"/>
         <source>Time per 10m</source>
         <translation>Час (10 хв)</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="421"/>
+        <location filename="../ui/ui_settings.py" line="414"/>
         <source>KOD</source>
         <translation>КОД</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="421"/>
+        <location filename="../ui/ui_settings.py" line="414"/>
         <source>Description</source>
         <translation>опис</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="438"/>
+        <location filename="../ui/ui_settings.py" line="431"/>
         <source>Note</source>
         <translation>Примітка</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="438"/>
+        <location filename="../ui/ui_settings.py" line="431"/>
         <source>Count</source>
         <translation>Номер</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="455"/>
+        <location filename="../ui/ui_settings.py" line="448"/>
         <source>empty easy no cover</source>
         <translation>вільно життєздатні без рослинності</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="455"/>
+        <location filename="../ui/ui_settings.py" line="448"/>
         <source>empty easy with cover</source>
         <translation>вільна прохідна з рослинністю</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="455"/>
+        <location filename="../ui/ui_settings.py" line="448"/>
         <source>empty difficult</source>
         <translation>безкоштовно важко пройти</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="455"/>
+        <location filename="../ui/ui_settings.py" line="448"/>
         <source>cover easy to pass</source>
         <translation>злегка проникний наріст</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="455"/>
+        <location filename="../ui/ui_settings.py" line="448"/>
         <source>cover difficult to pass</source>
         <translation>важкопрохідна рослинність</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="455"/>
+        <location filename="../ui/ui_settings.py" line="448"/>
         <source>intravilan</source>
         <translation>забудована територія міст і муніципалітетів</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="455"/>
+        <location filename="../ui/ui_settings.py" line="448"/>
         <source>parks and playgrounds with people</source>
         <translation>міські парки та дитячі майданчики з пересуванням людей</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="455"/>
+        <location filename="../ui/ui_settings.py" line="448"/>
         <source>parks and playgrounds without people</source>
         <translation>міські парки та дитячі майданчики без людей</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="455"/>
+        <location filename="../ui/ui_settings.py" line="448"/>
         <source>water body</source>
         <translation>акваторія</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="455"/>
+        <location filename="../ui/ui_settings.py" line="448"/>
         <source>other</source>
         <translation>інші поверхні</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="482"/>
+        <location filename="../ui/ui_settings.py" line="475"/>
         <source>Child 1-3</source>
         <translation>Дитина 1-3</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="482"/>
+        <location filename="../ui/ui_settings.py" line="475"/>
         <source>Child 4-6</source>
         <translation>Дитина 4-6</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="482"/>
+        <location filename="../ui/ui_settings.py" line="475"/>
         <source>Child 7-12</source>
         <translation>Дитина 7-12</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="482"/>
+        <location filename="../ui/ui_settings.py" line="475"/>
         <source>Child 13-15</source>
         <translation>Дитина 13-15</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="482"/>
+        <location filename="../ui/ui_settings.py" line="475"/>
         <source>Despondent</source>
         <translation>депресія</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="482"/>
+        <location filename="../ui/ui_settings.py" line="475"/>
         <source>Psychical illness</source>
         <translation>Психічна звороба; психічний розлад</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="482"/>
+        <location filename="../ui/ui_settings.py" line="475"/>
         <source>Retarded</source>
         <translation>Відсталий</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="482"/>
+        <location filename="../ui/ui_settings.py" line="475"/>
         <source>Alzheimer</source>
         <translation>хвороба Альцгеймера</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="482"/>
+        <location filename="../ui/ui_settings.py" line="475"/>
         <source>Turist</source>
         <translation>Туристична</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="482"/>
+        <location filename="../ui/ui_settings.py" line="475"/>
         <source>Demention</source>
         <translation>Деменція</translation>
     </message>
@@ -3075,7 +3125,7 @@
         <translation type="obsolete">в дорозі або в пошуку</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="211"/>
+        <location filename="../ui/ui_settings.py" line="204"/>
         <source>You have to create incident first</source>
         <translation>Спочатку потрібно створити інцидент</translation>
     </message>
@@ -3105,12 +3155,12 @@
         <translation type="obsolete">Дані виправлено</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="298"/>
+        <location filename="../ui/ui_settings.py" line="291"/>
         <source>ERROR</source>
         <translation>ПОМИЛКА</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="298"/>
+        <location filename="../ui/ui_settings.py" line="291"/>
         <source>Can not connect to the server</source>
         <translation>Я не можу підключитися до сервера</translation>
     </message>
@@ -3120,7 +3170,7 @@
         <translation type="obsolete">Функція тимчасово недоступна. Будь ласка, використовуйте тест для даних.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="566"/>
+        <location filename="../ui/ui_settings.py" line="559"/>
         <source>Settings has been updated</source>
         <translation>Налаштування оновлено</translation>
     </message>
@@ -3145,7 +3195,7 @@
         <translation>Я не можу знайти ключ.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_settings.py" line="371"/>
+        <location filename="../ui/ui_settings.py" line="364"/>
         <source>Can not extract</source>
         <translation>Не можу розпакувати архів</translation>
     </message>

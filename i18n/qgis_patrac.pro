@@ -2,7 +2,7 @@ FORMS = ../ui/coords.ui ../ui/gpx.ui ../ui/message.ui \
         ../ui/result.ui ../ui/settings.ui ../ui/sector.ui \
         ../ui/percent.ui ../ui/units.ui ../ui/handlers.ui \
         ../ui/person.ui ../ui/grid.ui
-SOURCES = ../main/area.py ../main/hds.py ../main/printing.py \
+SOURCES = ../main/area.py ../main/printing.py \
           ../main/project.py ../main/sectors.py ../main/styles.py \
           ../main/utils.py ../ui/ui_aboutdialogbase.py ../ui/ui_coords.py \
           ../ui/ui_gpx.py ../ui/ui_message.py ../ui/ui_patracdockwidgetbase.py \

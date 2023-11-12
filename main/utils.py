@@ -641,6 +641,7 @@ class Utils(object):
 
     def renameLayers(self):
         locale = self.getLocale()
+        print(locale)
 
         for key in self.layers:
             layer = self.getLayer(key)
@@ -652,6 +653,9 @@ class Utils(object):
         layers = {
             "sektory_group.shp": {
                 "style": "sectors_single"
+            },
+            "mista.shp": {
+                "style": "places"
             }
         }
         DATAPATH = self.getDataPath()
