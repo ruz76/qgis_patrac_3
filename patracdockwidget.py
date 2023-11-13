@@ -128,6 +128,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.projectdesc = ""
         self.gridsize = 0
         self.tasks = []
+        self.sectors_layer = None
 
         userPluginPath = QFileInfo(QgsApplication.qgisUserDatabaseFilePath()).path() + "/python/plugins/qgis_patrac"
         systemPluginPath = QgsApplication.prefixPath() + "/python/plugins/qgis_patrac"
@@ -580,8 +581,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.setCursor(Qt.ArrowCursor)
 
     def setSectorsLayersSelectionEvent(self):
-        sectors_layer = self.Sectors.getSectorsLayer()
-        sectors_layer.selectionChanged.connect(self.sectorsLayerSelectionChanged)
+        QgsMessageLog.logMessage("Setting selection event", "Patrac")
+        self.sectors_layer = self.Sectors.getSectorsLayer()
+        self.sectors_layer.selectionChanged.connect(self.sectorsLayerSelectionChanged)
         self.plugin.splitByLineAction.setEnabled(False)
         self.plugin.addSplitByGridAction.setEnabled(False)
         self.plugin.addSplitSectorsAction.setEnabled(False)
@@ -589,6 +591,11 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
     def sectorsLayerSelectionChanged(self, ids):
         QgsMessageLog.logMessage(str(len(ids)), "Patrac")
+        if len(ids) == 0:
+            self.plugin.splitByLineAction.setEnabled(False)
+            self.plugin.addSplitByGridAction.setEnabled(False)
+            self.plugin.addSplitSectorsAction.setEnabled(False)
+            self.plugin.addMergeSectorsAction.setEnabled(False)
         if len(ids) == 1:
             QgsMessageLog.logMessage(str(len(ids)), "Patrac")
             self.plugin.splitByLineAction.setEnabled(True)

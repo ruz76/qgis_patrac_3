@@ -47,6 +47,8 @@ if not overrideLocale:
 else:
     localeFullName = QSettings().value("locale/userLocale", "")
 
+localeFullName = localeFullName[:2]
+
 if localeFullName == "cs":
     from .report_export_cs import *
 else:
@@ -101,7 +103,7 @@ class Sectors(object):
         return
 
     def filterSectors(self, min, max):
-        QgsMessageLog.logMessage("Filtruji pro " + str(min) + " " + str(max), "Patrac")
+        QgsMessageLog.logMessage("Filtering for " + str(min) + " " + str(max), "Patrac")
 
         layer = None
         for lyr in list(QgsProject.instance().mapLayers().values()):
@@ -148,9 +150,11 @@ class Sectors(object):
 
         # Filter the layer
         layer.setSubsetString('')
-        QgsMessageLog.logMessage("Filtruji " + filter, "Patrac")
+        QgsMessageLog.logMessage("Filtering " + filter, "Patrac")
         layer.setSubsetString(filter)
         layer.triggerRepaint()
+
+        self.widget.setSectorsLayersSelectionEvent()
 
     def getRegionDataPath(self):
         region = open(self.Utils.getDataPath() + '/config/region.txt', 'r').read()
