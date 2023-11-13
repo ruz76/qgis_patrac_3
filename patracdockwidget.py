@@ -319,6 +319,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             provider.addFeatures([fet])
             layer.commitChanges()
 
+        layer.triggerRepaint()
+
+
     def splitSectorByGrid(self):
         sectors_layer = self.Sectors.getSectorsLayer()
         selected_sectors = sectors_layer.selectedFeatures()
@@ -368,11 +371,12 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             self.finishCreateUTMSecrors()
 
     def finishCreateUTMSecrors(self):
-        self.setCursor(Qt.ArrowCursor)
 
         QMessageBox.information(None, QApplication.translate("Patrac", "Info", None),
                                 QApplication.translate("Patrac", "The type of sectors has been changed. You have ot recalculate the situation.", None))
         self.setSectorsLayersSelectionEvent()
+        processing.run("native:createspatialindex", {'INPUT': self.Utils.getDataPath() + '/pracovni/sektory_group.shp'})
+        self.setCursor(Qt.ArrowCursor)
 
     def setMouseHandler(self):
         self.emitPoint = QgsMapToolEmitPoint(self.canvas)

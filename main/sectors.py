@@ -495,18 +495,18 @@ class Sectors(object):
         with open(DATA_PATH + "/pracovni/cregion.geojson", "w+") as f:
             json.dump(data, f)
 
-    def addVectorLayerForSplitByLine(self, name, label):
+    def addVectorLayerForSplitByLine(self, name, label, style):
         DATA_PATH = self.Utils.getDataPath()
         if os.path.exists(DATA_PATH + "/pracovni/" + name + ".prj"):
             os.remove(DATA_PATH + "/pracovni/" + name + ".prj")
-        self.Utils.addVectorLayerWithStyle(DATA_PATH + "/pracovni/" + name + ".shp", label, name, 5514)
+        self.Utils.addVectorLayerWithStyle(DATA_PATH + "/pracovni/" + name + ".shp", label, style, 5514)
 
     def addVectorsForSplitByLine(self):
         locale = self.Utils.getLocale()
         self.widget.setCursor(Qt.WaitCursor)
-        self.addVectorLayerForSplitByLine("vodtok_" + locale, "Vodní toky")
-        self.addVectorLayerForSplitByLine("cesta_" + locale, "Cesty")
-        self.addVectorLayerForSplitByLine("lespru_" + locale, "Průseky")
+        self.addVectorLayerForSplitByLine("vodtok", "Vodní toky", "vodtok_" + locale)
+        self.addVectorLayerForSplitByLine("cesta", "Cesty", "cesta_" + locale)
+        self.addVectorLayerForSplitByLine("lespru", "Průseky", "lespru_" + locale)
         self.widget.setCursor(Qt.ArrowCursor)
 
     def rewriteSelectedSectors(self):
