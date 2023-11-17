@@ -649,32 +649,32 @@
 <context>
     <name>Patrac</name>
     <message>
-        <location filename="../patracdockwidget.py" line="1973"/>
+        <location filename="../patracdockwidget.py" line="1984"/>
         <source>ERROR</source>
         <translation>ПОМИЛКА</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="471"/>
+        <location filename="../main/area.py" line="493"/>
         <source>Wrong project</source>
         <translation>Поганий проект. Відкрийте правильний проект або створіть новий за допомогою майстра</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="945"/>
+        <location filename="../patracdockwidget.py" line="956"/>
         <source>INFO</source>
         <translation>ІНФО</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="492"/>
+        <location filename="../main/area.py" line="514"/>
         <source>Can not find places layer. Can not compute.</source>
         <translation>Проект не містить шару місць.</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="501"/>
+        <location filename="../main/area.py" line="523"/>
         <source>INFO:</source>
         <translation>ІНФО</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="501"/>
+        <location filename="../main/area.py" line="523"/>
         <source>Layer with places is empty. Placing point in the center of the map.</source>
         <translation>Шар місць не містить жодного елемента. Я вставляю точку в центрі карти з поточним часом.</translation>
     </message>
@@ -694,7 +694,7 @@
         <translation type="obsolete">Тест Report_Export завершився з помилкою (вихідний HTML не відповідає очікуваному стану)</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="278"/>
+        <location filename="../main/project.py" line="283"/>
         <source>Out of Czech Republic. Can not continue.</source>
         <translation>Протяжність карти знаходиться за межами Чехії. У мене немає даних, я не можу продовжити.</translation>
     </message>
@@ -709,32 +709,32 @@
         <translation type="obsolete">Не вдалося знайти каталог даних. Я не можу продовжувати.</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="295"/>
+        <location filename="../main/project.py" line="300"/>
         <source>Region</source>
         <translation>Регіон</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="295"/>
+        <location filename="../main/project.py" line="300"/>
         <source>The area is large. Computing will be slow. Do you want to continue?</source>
         <translation>Область занадто велика. Розрахунки будуть повільними. Ви хочете продовжити?</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="316"/>
+        <location filename="../main/project.py" line="321"/>
         <source>Do not have data for seleted region. Can not continue.</source>
         <translation>У мене немає актуальних даних для даного регіону. У мене немає даних, я не можу продовжити. Ви можете оновити/встановити дані в діалоговому вікні налаштувань, яке відкриється згодом.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1855"/>
+        <location filename="../patracdockwidget.py" line="1866"/>
         <source>Can not connect to the server.</source>
         <translation>Я не можу підключитися до сервера.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1973"/>
+        <location filename="../patracdockwidget.py" line="1984"/>
         <source>Wrong project.</source>
         <translation>Поганий проект. Відкрийте правильний проект або створіть новий за допомогою майстра.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="954"/>
+        <location filename="../main/sectors.py" line="958"/>
         <source>GPX and PDF for search</source>
         <translation>GPX і PDF для квестів</translation>
     </message>
@@ -759,22 +759,22 @@
         <translation type="obsolete">SE</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1885"/>
+        <location filename="../patracdockwidget.py" line="1896"/>
         <source>Error</source>
         <translation>ПОМИЛКА</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="425"/>
+        <location filename="../patracdockwidget.py" line="430"/>
         <source>Can not find web browser to open help</source>
         <translation>Я не можу відкрити веб-браузер, щоб завантажити довідку</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="515"/>
+        <location filename="../patracdockwidget.py" line="520"/>
         <source>Wrong municipality</source>
         <translation>Не те село</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="515"/>
+        <location filename="../patracdockwidget.py" line="520"/>
         <source>The municipality has not been found</source>
         <translation>Село не знайдено</translation>
     </message>
@@ -784,52 +784,52 @@
         <translation>Крок</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="610"/>
+        <location filename="../patracdockwidget.py" line="621"/>
         <source>You skipped the step. Do you want to continue?</source>
         <translation>Ви пропустили крок у майстрі. Ви хочете продовжити?</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="845"/>
+        <location filename="../patracdockwidget.py" line="856"/>
         <source>No probability layer. Can not continue.</source>
         <translation>Я не можу знайти рівень ймовірності. Я не можу продовжувати.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="876"/>
+        <location filename="../patracdockwidget.py" line="887"/>
         <source>Can not find web browser to open report</source>
         <translation>Я не можу відкрити веб-переглядач, щоб завантажити звіт</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="906"/>
+        <location filename="../patracdockwidget.py" line="917"/>
         <source>Did not find GPS. You have to copy GPX manually from the report.</source>
         <translation>Я не міг знайти підключений GPS. Ви повинні зберегти файл зі звіту вручну.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="910"/>
+        <location filename="../patracdockwidget.py" line="921"/>
         <source>select input dialog</source>
         <translation>вибрати</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="910"/>
+        <location filename="../patracdockwidget.py" line="921"/>
         <source>list of drives</source>
         <translation>Список дисків</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="945"/>
+        <location filename="../patracdockwidget.py" line="956"/>
         <source>The sectors has been copied into the device: </source>
         <translation>Сектори скопійовано на пристрій</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="947"/>
+        <location filename="../patracdockwidget.py" line="958"/>
         <source>Can not copy. You have copy it manually from the path: </source>
         <translation>Під час копіювання секторів сталася помилка. Копіювати через файловий менеджер зі шляху:</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1084"/>
+        <location filename="../patracdockwidget.py" line="1095"/>
         <source>No probability layer. Please try step 3 again.</source>
         <translation>Проект не включає ймовірнісний рівень. Повторіть крок 3 у посібнику.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="915"/>
+        <location filename="../patracdockwidget.py" line="926"/>
         <source>Do you want to clean the GPS data before export?</source>
         <translation>Бажаєте очистити GPS перед експортом?</translation>
     </message>
@@ -839,12 +839,12 @@
         <translation type="obsolete">Недоступний</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1816"/>
+        <location filename="../patracdockwidget.py" line="1827"/>
         <source>Tracks are empty.</source>
         <translation>Доріжки порожні.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1885"/>
+        <location filename="../patracdockwidget.py" line="1896"/>
         <source>Problem to read data from: </source>
         <translation>Проблема із завантаженням даних із бази даних</translation>
     </message>
@@ -854,27 +854,27 @@
         <translation type="obsolete">Позиції порожні.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1899"/>
+        <location filename="../patracdockwidget.py" line="1910"/>
         <source>CHYBA:</source>
         <translation>ПОМИЛКА:</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="986"/>
+        <location filename="../main/sectors.py" line="990"/>
         <source>SECTOR</source>
         <translation>СЕКТОР</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="986"/>
+        <location filename="../main/sectors.py" line="990"/>
         <source>Types of terrain</source>
         <translation>Типи поверхні</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="216"/>
+        <location filename="../patrac.py" line="215"/>
         <source>Show/hide Patrac dockwidget</source>
         <translation>Показати/приховати панель</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="390"/>
+        <location filename="../patrac.py" line="383"/>
         <source>Patrac</source>
         <translation>Патрак</translation>
     </message>
@@ -909,42 +909,42 @@
         <translation type="obsolete">ТЕСТ ДАНИХ ЗАВЕРШЕНО</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="365"/>
+        <location filename="../patrac.py" line="358"/>
         <source>Info</source>
         <translation>Інформація</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1425"/>
+        <location filename="../patracdockwidget.py" line="1436"/>
         <source>Click into the map at the place of finding. If you finishing without finding, click anywhere into map.</source>
         <translation>Натисніть на карту, щоб знайти його. Якщо ви закінчите без знахідки, натисніть будь-яке місце на карті.</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="294"/>
+        <location filename="../patrac.py" line="292"/>
         <source>Recalculate sectors</source>
         <translation>Перерахувати сектори</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="474"/>
+        <location filename="../main/sectors.py" line="478"/>
         <source>ERROR:</source>
         <translation>ПОМИЛКА:</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="386"/>
+        <location filename="../main/sectors.py" line="390"/>
         <source>You have to select at least one sector to split.</source>
         <translation>Ви повинні вибрати принаймні один сектор для розділення.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="392"/>
+        <location filename="../main/sectors.py" line="396"/>
         <source>You have to select line layer.</source>
         <translation>Необхідно вибрати лінійний шар.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="395"/>
+        <location filename="../main/sectors.py" line="399"/>
         <source>Selected layer is not line layer.</source>
         <translation>Вибраний шар не є лінійним.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="439"/>
+        <location filename="../main/sectors.py" line="443"/>
         <source>You have to select just one line.</source>
         <translation>Ви повинні вибрати рівно один рядок.</translation>
     </message>
@@ -954,62 +954,62 @@
         <translation type="obsolete">Я не можу розділитися.</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="302"/>
+        <location filename="../patrac.py" line="299"/>
         <source>Split by line</source>
         <translation>Розділити за допомогою наявної лінії.</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="311"/>
+        <location filename="../patrac.py" line="307"/>
         <source>Add vectors for Split by line</source>
         <translation>Додайте бурчання для поділу секторів.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="539"/>
+        <location filename="../main/sectors.py" line="543"/>
         <source>Map lists where the sector is present</source>
         <translation>Листи карт із заляганням сектора</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="557"/>
+        <location filename="../main/sectors.py" line="561"/>
         <source>GPS file with drawn sector</source>
         <translation>Файл для GPS із секторною побудовою</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="959"/>
+        <location filename="../main/sectors.py" line="963"/>
         <source>Overall view</source>
         <translation>Весь район</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="966"/>
+        <location filename="../main/sectors.py" line="970"/>
         <source>If you do not see links to PDF files for print, the files were not generated. Please use checkbox on last card in the guide and show report again.</source>
         <translation>Якщо ви не бачите посилань на PDF-файли, це означає, що їх ще не створено. Скористайтеся кнопкою прапорця на останньому кроці майстра, щоб знову відобразити звіт.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="544"/>
+        <location filename="../patracdockwidget.py" line="549"/>
         <source>Missing input</source>
         <translation>Відсутній запис</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="544"/>
+        <location filename="../patracdockwidget.py" line="549"/>
         <source>You have to select type of the search</source>
         <translation>Необхідно вказати тип пошуку (навчання та тестування або реальний пошуковий захід).</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1781"/>
+        <location filename="../patracdockwidget.py" line="1792"/>
         <source>Online tracks</source>
         <translation>Онлайн сліди</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="478"/>
+        <location filename="../patracdockwidget.py" line="483"/>
         <source>Information updated</source>
         <translation>Інформація оновлена</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1191"/>
+        <location filename="../patracdockwidget.py" line="1202"/>
         <source>Can not calculate the area. Check the inputs.</source>
         <translation>Я не можу обчислити поверхню ймовірності. Будь ласка, перевірте введення. наприклад чи знаходиться точка на о.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="536"/>
+        <location filename="../patracdockwidget.py" line="541"/>
         <source>You did not enter the result of the previous search. Do you want to continue?</source>
         <translation>Ви не ввели попередній результат пошуку. Ви впевнені, що бажаєте продовжити?</translation>
     </message>
@@ -1019,42 +1019,42 @@
         <translation>Ви не ввели попередній результат пошуку. Ви впевнені, що бажаєте закрити програму?</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="974"/>
+        <location filename="../main/sectors.py" line="978"/>
         <source>Wrong installation. Call you administrator.</source>
         <translation>Неправильна установка. Зверніться до адміністратора.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="922"/>
+        <location filename="../patracdockwidget.py" line="933"/>
         <source>Clean GPS</source>
         <translation>Очистити GPS</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="922"/>
+        <location filename="../patracdockwidget.py" line="933"/>
         <source>Are you sure that you want to clean the GPS data before export?</source>
         <translation>Ви впевнені, що бажаєте очистити GPS перед експортом?</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1890"/>
+        <location filename="../patracdockwidget.py" line="1901"/>
         <source>Success</source>
         <translation>Успіх</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1849"/>
+        <location filename="../patracdockwidget.py" line="1860"/>
         <source>Tracks were loaded.</source>
         <translation>Завантажено сліди трави.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1890"/>
+        <location filename="../patracdockwidget.py" line="1901"/>
         <source>Positions were loaded.</source>
         <translation>Позиції завантажено.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1718"/>
+        <location filename="../patracdockwidget.py" line="1729"/>
         <source>No handlers in action yet. Call them first.</source>
         <translation>Жодного обробника ще не запрошено. Створіть виклик.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1827"/>
+        <location filename="../patracdockwidget.py" line="1838"/>
         <source>Problem to read data for user: </source>
         <translation>Проблема із завантаженням даних користувача:</translation>
     </message>
@@ -1064,22 +1064,22 @@
         <translation>Експортуйте попередньо визначені PDF-файли</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="408"/>
+        <location filename="../main/project.py" line="413"/>
         <source>ZPM</source>
         <translation>ЗПМ</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="408"/>
+        <location filename="../main/project.py" line="413"/>
         <source>Can not find ZPM map. Do you wan to find it yourself?</source>
         <translation>Я не можу знайти ZPM. Хочете знайти його самостійно?</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="988"/>
+        <location filename="../main/sectors.py" line="992"/>
         <source>Exporting GPX for each sector</source>
         <translation>Я експортую GPX для кожного сектора</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="1128"/>
+        <location filename="../main/sectors.py" line="1132"/>
         <source>Exporting PDFs for each sector</source>
         <translation>Я експортую PDF для кожного сектора</translation>
     </message>
@@ -1144,17 +1144,17 @@
         <translation>Виконано. Дані оновлено.</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="453"/>
+        <location filename="../main/area.py" line="475"/>
         <source>Calculating area: </source>
         <translation>Розрахунок площі: </translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="1121"/>
+        <location filename="../main/sectors.py" line="1125"/>
         <source>Generating of PDFs for individual sectors can take about 10 seconds for each sector. Do you want to continue? Number of sectors: </source>
         <translation>Створення PDF для кожного сектора може тривати близько 10 секунд для одного сектора. Ви впевнені, що бажаєте продовжити? Кількість секторів: </translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="474"/>
+        <location filename="../main/sectors.py" line="478"/>
         <source>Can not split. Check if one sector is selected and the line crosses it completely.</source>
         <translation>Я не можу розділитися. Переконайтеся, що виділено один сектор і лінія повністю його розділяє.</translation>
     </message>
@@ -1164,44 +1164,59 @@
         <translation>Я створюю сітку: </translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="281"/>
+        <location filename="../patracdockwidget.py" line="282"/>
         <source>You have to select at least two sectors.</source>
         <translation>Необхідно вибрати принаймні два сектори.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="328"/>
+        <location filename="../patracdockwidget.py" line="332"/>
         <source>You have to select just one sector.</source>
         <translation>Ви повинні вибрати рівно один сектор.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="372"/>
+        <location filename="../patracdockwidget.py" line="375"/>
         <source>The type of sectors has been changed. You have ot recalculate the situation.</source>
         <translation>Змінено тип секторів. Треба перерахувати ситуацію.</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="320"/>
+        <location filename="../patrac.py" line="315"/>
         <source>Split sector by grid</source>
         <translation>Розділіть сектор сіткою</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="329"/>
+        <location filename="../patrac.py" line="323"/>
         <source>Split sector</source>
         <translation>Розбити сектор</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="338"/>
+        <location filename="../patrac.py" line="331"/>
         <source>Merge sectors</source>
         <translation>Об&apos;єднати сектори</translation>
     </message>
     <message>
-        <location filename="../patrac.py" line="365"/>
+        <location filename="../patrac.py" line="358"/>
         <source>You have to restart QGIS to apply load language.</source>
         <translation>Потрібно перезапустити QGIS, щоб зміна мови набула чинності.</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="365"/>
+        <location filename="../main/project.py" line="370"/>
         <source>Loading data: </source>
         <translation>Завантаження даних: </translation>
+    </message>
+    <message>
+        <location filename="../main/area.py" line="216"/>
+        <source>Can not compute. Try again, please. Check the position of last seen person. Move the point inside sector that is not a water body. DO not place it on building or encapsulated area, such as power station.</source>
+        <translation>Не можна обчислити. Будь ласка спробуйте ще раз. Перевірте місцезнаходження останньої людини, яку бачили. Перемістіть точку в сектор, який не є водоймою. Не розміщуйте його на будівлі чи закритій території, наприклад на електростанції.</translation>
+    </message>
+    <message>
+        <location filename="../main/area.py" line="531"/>
+        <source>Can not compute. One of the points is out of the project area.</source>
+        <translation>Не вдається обчислити. Одна з точок знаходиться поза зоною проекту.</translation>
+    </message>
+    <message>
+        <location filename="../main/project.py" line="187"/>
+        <source>Can not create project. Check the data. Try to update data is Settings.</source>
+        <translation>Неможливо створити проект. Перевірте дані. Спробуйте оновити дані в налаштуваннях.</translation>
     </message>
 </context>
 <context>
