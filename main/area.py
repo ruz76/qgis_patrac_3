@@ -68,7 +68,7 @@ class CalculateDistanceCostedCumulativeTask(QgsTask):
                 'GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''
             }
 
-            print(params)
+            QgsMessageLog.logMessage("CalculateDistanceCostedCumulativeTask with: " + str(params), "Patrac")
 
             processing.run("grass7:r.mapcalc.simple", params)
             progress = 90
@@ -85,28 +85,33 @@ class CalculateDistanceCostedCumulativeTask(QgsTask):
             return False
 
     def finished(self, result):
-        print("FINISHED")
-        DATAPATH = self.parent.Utils.getDataPath()
-        self.parent.Utils.addRasterLayer(DATAPATH + '/pracovni/distances_costed_cum.tif', self.parent.Utils.getLayerName("distances_costed_cum.tif"), 5514, -2)
-        layer = None
-        for lyr in list(QgsProject.instance().mapLayers().values()):
-            if lyr.source() == DATAPATH + "/pracovni/distances_costed_cum.tif":
-                layer = lyr
-                break
-        if layer is not None:
-            layer.triggerRepaint()
-            # Sets the added layer as sctive
-            self.parent.plugin.iface.setActiveLayer(layer)
+        QgsMessageLog.logMessage("Task CalculateDistanceCostedCumulativeTask FINISHED", "Patrac")
+        if result:
+            DATAPATH = self.parent.Utils.getDataPath()
+            self.parent.Utils.addRasterLayer(DATAPATH + '/pracovni/distances_costed_cum.tif', self.parent.Utils.getLayerName("distances_costed_cum.tif"), 5514, -2)
+            layer = None
+            for lyr in list(QgsProject.instance().mapLayers().values()):
+                if lyr.source() == DATAPATH + "/pracovni/distances_costed_cum.tif":
+                    layer = lyr
+                    break
+            if layer is not None:
+                layer.triggerRepaint()
+                # Sets the added layer as sctive
+                self.parent.plugin.iface.setActiveLayer(layer)
+            else:
+                QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
+                                     QApplication.translate("Patrac", "Wrong installation. Call you administrator.", None))
+
+            if self.finish_steps:
+                self.widget.finishRecalculateAll()
+            else:
+                self.widget.finishStep3()
+
+            self.widget.clearMessageBar()
         else:
             QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
-                                 QApplication.translate("Patrac", "Wrong installation. Call you administrator.", None))
-
-        if self.finish_steps:
-            self.widget.finishRecalculateAll()
-        else:
-            self.widget.finishStep3()
-
-        self.widget.clearMessageBar()
+                                 QApplication.translate("Patrac", "Can not compute. Try again, please. Check the position of last seen person. Move the point inside sector that is not a water body. DO not place it on building or encapsulated area, such as power station.", None))
+            self.widget.clearMessageBar()
 
 class CalculateCostDistanceTask(QgsTask):
     def __init__(self, widget, parent, params):
@@ -174,22 +179,22 @@ class CalculateCostDistanceTask(QgsTask):
                 processing.run("grass7:r.reclass", {'input': self.data_path + 'pracovni/buffers_' + str(self.pointid) + '.tif','rules':'','txtrules': rules,'output': self.data_path + 'pracovni/distances_' + str(self.pointid) + '_' + str(i) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
                 processing.run("grass7:r.mapcalc.simple", {'a': self.data_path + 'pracovni/distances_' + str(self.pointid) + '_' + str(i) + '.tif','b':self.data_path + 'pracovni/cost_' + str(self.pointid) + '.tif','c':None,'d':None,'e':None,'f':None,'expression':'A*B','output':self.data_path + 'pracovni/cost_' + str(self.pointid) + '_distances_' + str(i) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
                 stats = processing.run("native:rasterlayerstatistics", {'INPUT':self.data_path + 'pracovni/cost_' + str(self.pointid) + '_distances_' + str(i) + '.tif','BAND':1,'OUTPUT_HTML_FILE':'TEMPORARY_OUTPUT'})
-                print(stats)
+                QgsMessageLog.logMessage("Stats: " + str(stats), "Patrac")
                 if stats['MIN'] is not None and stats['MAX'] is not None:
                     try:
                         #Reads min value
                         MIN = float(stats['MIN'])
-                        print(str(MIN))
+                        QgsMessageLog.logMessage("MIN: " + str(MIN), "Patrac")
                         #Reads max value
                         MAX = float(stats['MAX'])
-                        print(str(MAX))
+                        QgsMessageLog.logMessage("MAX: " + str(MAX), "Patrac")
                         #Minimum value and maximum value is used as extent for relass of the whole cost layer
                         #rules_percentage_f.write(str(MIN) + ' thru ' + str(MAX) + ' = ' + str(i) + '\n')
                         if str(PREVMIN) != 'nan' and str(MIN) != 'nan':
                             rules_global += str(PREVMIN) + ' thru ' + str(MIN) + ' = ' + str(i) + '\n'
                         PREVMIN = MIN
                     except:
-                        print("Problem with category " + str(cat) + " " + str(i) + "%")
+                        QgsMessageLog.logMessage("Problem with category " + str(cat) + " " + str(i) + "%", "Patrac")
                 cat += 1
                 progress += 5
                 self.setProgress(progress)
@@ -204,8 +209,13 @@ class CalculateCostDistanceTask(QgsTask):
             return False
 
     def finished(self, result):
-        QgsMessageLog.logMessage("FINISHED Calculate CostDistance Task for Point: " + str(self.pointid), "Patrac")
-        self.parent.finishedCalculateCostDistanceTask(self.pointid, self.finish_steps)
+        if result:
+            QgsMessageLog.logMessage("FINISHED Calculate CostDistance Task for Point: " + str(self.pointid), "Patrac")
+            self.parent.finishedCalculateCostDistanceTask(self.pointid, self.finish_steps)
+        else:
+            QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
+                                 QApplication.translate("Patrac", "Can not compute. Try again, please. Check the position of last seen person. Move the point inside sector that is not a water body. DO not place it on building or encapsulated area, such as power station.", None))
+            self.widget.clearMessageBar()
 
     def get_proj_win(self):
         return str(self.minx) + ',' + str(self.maxx) + ',' + str(self.miny) + ',' + str(self.maxy) + ' [EPSG:' + str(self.epsg) + ']'
@@ -234,7 +244,7 @@ class CalculateCostDistanceTask(QgsTask):
             return self.move_from_null()
 
     def move_from_null(self):
-        print("Moving from null")
+        QgsMessageLog.logMessage("Moving from null", "Patrac")
         processing.run("grass7:r.mapcalc.simple", {'a': self.data_path + 'raster/friction.tif','b': None,'c':None,'d':None,'e':None,'f':None,'expression':'if(isnull(A), 1, null())','output':self.data_path + 'pracovni/friction_null_rec_' + str(self.pointid) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
         processing.run("grass7:r.buffer", {'input': self.data_path + 'pracovni/friction_null_rec_' + str(self.pointid) + '.tif','distances': '10','units':0,'-z':False,'output': self.data_path + 'pracovni/friction_null_rec_buf_10_' + str(self.pointid) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
         processing.run("grass7:r.null", {'map':self.data_path + 'pracovni/friction_null_rec_buf_10_' + str(self.pointid) + '.tif','setnull':'1','null':None,'-f':False,'-i':False,'-n':False,'-c':False,'-r':False,'output': self.data_path + 'pracovni/friction_null_rec_buf_10_null' + str(self.pointid) + '.tif','GRASS_REGION_PARAMETER':None,'GRASS_REGION_CELLSIZE_PARAMETER':0,'GRASS_RASTER_FORMAT_OPT':'','GRASS_RASTER_FORMAT_META':''})
@@ -250,7 +260,7 @@ class CalculateCostDistanceTask(QgsTask):
             # Reads min value
             if stats['MIN'] is not None:
                 MIN = float(stats['MIN'])
-                print("MINIMUM: " + str(MIN))
+                QgsMessageLog.logMessage("MINIMUM: " + str(MIN), "Patrac")
                 if str(MIN) == "nan":
                     return []
                 # Reads min value
@@ -447,6 +457,18 @@ class Area(object):
         else:
             self.widget.runTask(pointid + 1)
 
+    def checkPointsIfAreInsideTheArea(self, features):
+        result = True
+        for feature in features:
+            QgsMessageLog.logMessage("Feature: " + str(feature.geometry().asWkt()), "Patrac")
+            point = feature.geometry().asPoint()
+            if point.x() < (int(self.params['minx']) + 100) \
+                    or point.x() > (int(self.params['maxx']) - 100) \
+                    or point.y() < (int(self.params['miny']) + 100) \
+                    or point.y() > (int(self.params['maxy']) - 100):
+                result = False
+        return result
+
     def getArea(self, finish_steps=False):
         """Runs main search for suitable area"""
 
@@ -504,6 +526,13 @@ class Area(object):
             features = self.filterAndSortFeatures(layer.getFeatures())
 
         self.pointsToCalculate = features
+        result = self.checkPointsIfAreInsideTheArea(features)
+        if not result:
+            QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
+                                 QApplication.translate("Patrac", "Can not compute. One of the points is out of the project area.", None))
+            self.widget.clearMessageBar()
+            return
+
         self.calculatedPoints = []
         self.cumulativeEquationInputs = []
         self.widget.clearTasksList()

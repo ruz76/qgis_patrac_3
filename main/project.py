@@ -145,7 +145,7 @@ class ClipSourceDataTask(QgsTask):
             self.setProgress(90)
             layer = QgsVectorLayer(self.target_path + 'pracovni/' + vector_output_name + '.shp', "mylayer", "ogr")
             layer.startEditing()
-            print("ADDING fields")
+            QgsMessageLog.logMessage("ADDING fields", "Patrac")
             stavField = QgsField('stav', QVariant.Int)
             prostredkyField = QgsField('prostredky', QVariant.String)
             area_haField = QgsField('area_ha', QVariant.Double)
@@ -172,16 +172,21 @@ class ClipSourceDataTask(QgsTask):
             return True
         except Exception as e:
             self.exception = e
-            print(e)
+            QgsMessageLog.logMessage("ERROR in ClipSourceDataTask " + str(e), "Patrac")
             return False
 
     def finished(self, result):
-        print("FINISHED")
-        if self.type == 'initial':
-            self.widget.finishStep1()
+        if result:
+            QgsMessageLog.logMessage("ClipSourceDataTask FINISHED", "Patrac")
+            if self.type == 'initial':
+                self.widget.finishStep1()
+                self.widget.clearMessageBar()
+            if self.type == 'extend':
+                self.widget.appendSectors()
+        else:
+            QMessageBox.critical(None, QApplication.translate("Patrac", "CRITICAL ERROR", None),
+                                 QApplication.translate("Patrac", "Can not create project. Check the data. Try to update data is Settings.", None))
             self.widget.clearMessageBar()
-        if self.type == 'extend':
-            self.widget.appendSectors()
 
 class Project(object):
     def __init__(self, widget):
@@ -539,5 +544,5 @@ class Project(object):
         self.widget.clearTasksList()
         self.widget.appendTask(ClipSourceDataTask(self.widget, params))
         self.widget.runTask(0)
-        print("TASK STARTED")
+        QgsMessageLog.logMessage("ClipSourceDataTask STARTED", "Patrac")
 
