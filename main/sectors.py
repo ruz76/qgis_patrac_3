@@ -403,7 +403,7 @@ class Sectors(object):
     def setAttributesAfterSplit(self, feature_source, feature_target, id, label):
         feature_target['id'] = id
         feature_target['label'] = label
-        feature_target['area_ha'] = round(feature_target.geometry().area() / 10000)
+        feature_target['area_ha'] = round(feature_target.geometry().area() / 10000, 1)
         feature_target['typ'] = feature_source['typ']
         feature_target['stav'] = feature_source['stav']
         feature_target['prostredky'] = feature_source['prostredky']
@@ -447,6 +447,8 @@ class Sectors(object):
             layer_line.select([1])
         features = layer_line.selectedFeatures()
         provider_sectors_layer = sectors_layer.dataProvider()
+        subset_string = sectors_layer.subsetString()
+        sectors_layer.setSubsetString('')
         sectors_layer.startEditing()
         newIds = ""
         lastsectorid = self.Utils.getLastSectorId()
@@ -461,7 +463,7 @@ class Sectors(object):
                     sector.setGeometry(sector_geometry)
                     id = lastsectorid + 1
                     label = sector['label']
-                    newIds += "'" + str(id) + '_A' + "', "
+                    newIds += "'" + str(id) + "', "
                     self.setAttributesAfterSplit(sector, sector, id, label + '_A')
                     sectors_layer.updateFeature(sector)
                     cur_sub_id = 'B'
@@ -470,15 +472,16 @@ class Sectors(object):
                         feature.setGeometry(o)
                         id += 1
                         self.setAttributesAfterSplit(sector, feature, id, label + '_' + cur_sub_id)
-                        newIds += "'" + str(id) + '_' + cur_sub_id + "', "
+                        newIds += "'" + str(id) + "', "
                         provider_sectors_layer.addFeatures([feature])
                         cur_sub_id = chr(ord(cur_sub_id) + 1)
                     self.Utils.writeLastSectorId(id)
                 else:
                     QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "Can not split. Check if one sector is selected and the line crosses it completely.", None))
         sectors_layer.commitChanges()
-        if sectors_layer.subsetString() != "" and newIds != "":
-            sectors_layer.setSubsetString(sectors_layer.subsetString()[:-1] + "," + newIds[:-2] + ")")
+        if subset_string != "" and newIds != "":
+            QgsMessageLog.logMessage("Filtering by: " + subset_string[:-1] + "," + newIds[:-2] + ")", "Patrac")
+            sectors_layer.setSubsetString(subset_string[:-1] + "," + newIds[:-2] + ")")
         sectors_layer.triggerRepaint()
         self.widget.setCursor(Qt.ArrowCursor)
 

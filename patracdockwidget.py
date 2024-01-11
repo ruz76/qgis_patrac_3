@@ -797,6 +797,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.updatePatrac()
         self.Utils.saveMistaModificationTime()
         self.setSectorsLayersSelectionEvent()
+        processing.run("native:createspatialindex", {'INPUT': self.Utils.getDataPath() + '/pracovni/sektory_group.shp'})
 
     def setPercent(self, percent):
         self.spinStart.setValue(0)
