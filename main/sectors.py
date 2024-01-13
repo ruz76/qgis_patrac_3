@@ -93,7 +93,7 @@ class Sectors(object):
         DATAPATH = prjfi.absolutePath()
 
         # Adds newly created layer with sectors to map
-        self.Utils.addVectorLayer(DATAPATH + '/pracovni/sectors_zoned.shp', 'sektory zoned', 5514)
+        # self.Utils.addVectorLayer(DATAPATH + '/pracovni/sectors_zoned.shp', 'sektory zoned', 5514)
 
         #layer.dataProvider().forceReload()
         # layer.triggerRepaint()
@@ -107,11 +107,12 @@ class Sectors(object):
 
         layer = None
         for lyr in list(QgsProject.instance().mapLayers().values()):
-            if self.Utils.getDataPath() + "/pracovni/sectors_zoned.shp" in lyr.source():
+            if self.Utils.getDataPath() + "/pracovni/sektory_group.shp" in lyr.source():
                 layer = lyr
                 break
 
         provider = layer.dataProvider()
+        layer.setSubsetString('')
         features = provider.getFeatures()
         # save ids of selected sectors into file for future usage
         f = open(self.Utils.getDataPath() + '/pracovni/selectedSectors.txt', 'w')
@@ -137,7 +138,7 @@ class Sectors(object):
         filter = filter[:-2] + ")"
         f.close()
 
-        self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sectors_zoned.shp")
+        # self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sectors_zoned.shp")
         self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sektory_group.shp")
         locale = self.Utils.getLocale()
         self.Utils.addVectorLayerWithStyle(self.Utils.getDataPath() + "/pracovni/sektory_group.shp", self.Utils.getLayerName("sektory_group.shp"), "sectors_single_" + locale, 5514)
@@ -149,7 +150,6 @@ class Sectors(object):
                 break
 
         # Filter the layer
-        layer.setSubsetString('')
         QgsMessageLog.logMessage("Filtering " + filter, "Patrac")
         layer.setSubsetString(filter)
         layer.triggerRepaint()

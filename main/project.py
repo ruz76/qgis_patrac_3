@@ -73,34 +73,6 @@ class ClipSourceDataTask(QgsTask):
         try:
             self.setProgress(5)
             processing.run(
-                "gdal:cliprasterbyextent",
-                {
-                    'INPUT': self.source_path + 'raster/dem.tif',
-                    'PROJWIN': self.get_proj_win(),
-                    'OVERCRS':False,
-                    'NODATA':None,
-                    'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9',
-                    'DATA_TYPE':0,
-                    'EXTRA':'',
-                    'OUTPUT': self.target_path + 'raster/dem.tif'
-                }
-            )
-            self.setProgress(30)
-            processing.run(
-                "gdal:cliprasterbyextent",
-                {
-                    'INPUT': self.source_path + 'raster/friction.tif',
-                    'PROJWIN':self.get_proj_win(),
-                    'OVERCRS':False,
-                    'NODATA':None,
-                    'OPTIONS':'COMPRESS=DEFLATE|PREDICTOR=2|ZLEVEL=9',
-                    'DATA_TYPE':0,
-                    'EXTRA':'',
-                    'OUTPUT': self.target_path + 'raster/friction.tif'
-                }
-            )
-            self.setProgress(50)
-            processing.run(
                 "native:extractbyextent",
                 {
                     'INPUT':self.source_path + 'vektor/ZABAGED/vodtok.shp',
@@ -109,7 +81,7 @@ class ClipSourceDataTask(QgsTask):
                     'OUTPUT':self.target_path + 'pracovni/vodtok.shp'
                 }
             )
-            self.setProgress(60)
+            self.setProgress(20)
             processing.run(
                 "native:extractbyextent",
                 {
@@ -119,7 +91,7 @@ class ClipSourceDataTask(QgsTask):
                     'OUTPUT':self.target_path + 'pracovni/cesta.shp'
                 }
             )
-            self.setProgress(70)
+            self.setProgress(40)
             processing.run(
                 "native:extractbyextent",
                 {
@@ -129,7 +101,7 @@ class ClipSourceDataTask(QgsTask):
                     'OUTPUT':self.target_path + 'pracovni/lespru.shp'
                 }
             )
-            self.setProgress(80)
+            self.setProgress(60)
             vector_output_name = 'sektory_group'
             if self.type == 'extend':
                 vector_output_name = 'sectors_group_to_append'
@@ -142,7 +114,7 @@ class ClipSourceDataTask(QgsTask):
                     'OUTPUT':self.target_path + 'pracovni/' + vector_output_name + '.shp'
                 }
             )
-            self.setProgress(90)
+            self.setProgress(80)
             layer = QgsVectorLayer(self.target_path + 'pracovni/' + vector_output_name + '.shp', "mylayer", "ogr")
             layer.startEditing()
             QgsMessageLog.logMessage("ADDING fields", "Patrac")
@@ -152,7 +124,8 @@ class ClipSourceDataTask(QgsTask):
             poznamkaField = QgsField('poznamka', QVariant.String)
             od_casField = QgsField('od_cas', QVariant.String)
             do_casField = QgsField('do_cas', QVariant.String)
-            layer.dataProvider().addAttributes([stavField, prostredkyField, area_haField, poznamkaField, od_casField, do_casField])
+            percentField = QgsField('stats_min', QVariant.Double)
+            layer.dataProvider().addAttributes([stavField, prostredkyField, area_haField, poznamkaField, od_casField, do_casField, percentField])
             layer.updateFields()
             layer.commitChanges()
             layer.startEditing()
@@ -422,6 +395,8 @@ class Project(object):
                     self.config['zpm_path'] = fileName
                     with open(self.settingsPath + "/config/config.json", "w") as outfile:
                         json.dump(self.config, outfile)
+
+        self.widget.Utils.removeLayer(params["NEW_PROJECT_PATH"] + '/pracovni/distances_costed_cum.tif')
 
         self.iface.mapCanvas().refresh()
         self.widget.setCursor(Qt.ArrowCursor)

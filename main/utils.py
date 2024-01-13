@@ -274,10 +274,10 @@ class Utils(object):
                 self.addVectorLayer(self.getDataPath() + "/pracovni/" + layer, self.getLayerName(layers[id]), 5514)
             id += 1
 
-        layer = "distances_costed_cum.tif"
-        layerExists = self.checkLayer(layer)
-        if not layerExists:
-            self.addRasterLayer(self.getDataPath() + "/pracovni/" + layer, self.getLayerName(layer), 5514)
+        # layer = "distances_costed_cum.tif"
+        # layerExists = self.checkLayer(layer)
+        # if not layerExists:
+        #     self.addRasterLayer(self.getDataPath() + "/pracovni/" + layer, self.getLayerName(layer), 5514)
 
         layer = "zpm.mbtiles"
         layerExists = self.checkLayer(layer)

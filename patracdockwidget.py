@@ -830,21 +830,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
 
-        layer = None
-        for lyr in list(QgsProject.instance().mapLayers().values()):
-            if lyr.source() == DATAPATH + "/pracovni/distances_costed_cum.tif":
-                layer = lyr
-                break
-
-        if layer == None:
-            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
-                                                                 QApplication.translate("Patrac", "No probability layer. Can not continue.", None));
-            return
-
-        transparencyList = []
-        transparencyList.extend(self.generateTransparencyList(0, 100))
-        # layer.setCacheImage(None)
-        layer.renderer().rasterTransparency().setTransparentSingleValuePixelList(transparencyList)
         self.plugin.iface.mapCanvas().refresh()
 
         layer = None
@@ -871,15 +856,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
                 extent = xform.transform(layer.extent())
                 self.Printing.exportPDF(extent, DATAPATH + "/sektory/")
-
-        # exports map of sectors to PDF
-        # if self.chkGeneratePDF.isChecked():
-        #    self.exportPDF(layer.extent(), DATAPATH + "/sektory/report.pdf")
-
-        #    provider = layer.dataProvider()
-        #    features = provider.getFeatures()
-        #    for feature in features:
-        #        self.exportPDF(feature.geometry().boundingBox(), DATAPATH + "/sektory/pdf/" + feature['label'] + ".pdf")
 
         try:
             webbrowser.get().open("file://" + DATAPATH + "/sektory/report.html")
@@ -1077,29 +1053,6 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         """Changes the transfṕarency of raster"""
         # print("updatePatrac")
         transparencyList = []
-        if self.sliderStart.value() != 0:
-            transparencyList.extend(self.generateTransparencyList(0, self.sliderStart.value()))
-
-        if self.sliderEnd.value() != self.maxVal:
-            transparencyList.extend(self.generateTransparencyList(self.sliderEnd.value(), self.maxVal))
-
-        # update layer transparency
-        prjfi = QFileInfo(QgsProject.instance().fileName())
-        DATAPATH = prjfi.absolutePath()
-        layer = None
-        for lyr in list(QgsProject.instance().mapLayers().values()):
-            if DATAPATH + "/pracovni/distances_costed_cum.tif" in lyr.source():
-                layer = lyr
-                break
-
-        if layer == None:
-            QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
-                                                                 QApplication.translate("Patrac", "No probability layer. Please try step 3 again.", None))
-            return
-
-        layer.renderer().rasterTransparency().setTransparentSingleValuePixelList(transparencyList)
-        layer.renderer().setOpacity(0.5)
-        layer.triggerRepaint()
         self.plugin.iface.mapCanvas().refresh()
 
     def __updateSpinStart(self, value):
