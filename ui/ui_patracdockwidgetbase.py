@@ -349,6 +349,16 @@ class Ui_PatracDockWidget(object):
         self.tbtnShowSearchersTracks.setToolTip(
             QApplication.translate("PatracDockWidget", "Show searchers (lines)", None))
 
+
+        self.tbtnCaclulateChinesePath = QPushButton(self.dockWidgetContents)
+        self.tbtnCaclulateChinesePath.setObjectName(_fromUtf8("tbtnCaclulateChinesePath"))
+        self.tbtnCaclulateChinesePath.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "chinese_tracks.png")))
+        self.tbtnCaclulateChinesePath.setIconSize(QSize(24, 24))
+        self.tbtnCaclulateChinesePath.setFixedSize(QSize(32, 32))
+        self.horizontalLayoutTracks.addWidget(self.tbtnCaclulateChinesePath)
+        self.tbtnCaclulateChinesePath.setToolTip(
+            QApplication.translate("PatracDockWidget", "Chinese postman path", None))
+
         self.verticalLayoutManagement.addLayout(self.horizontalLayoutTracks)
 
         self.sectorsTracksStateLabel = QLabel(self.dockWidgetContents)
