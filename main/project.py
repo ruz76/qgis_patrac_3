@@ -263,7 +263,7 @@ class Project(object):
         if os.path.isfile(self.config['data_path'] + 'kraje/' + region + '/metadata.json'):
             with open(self.config['data_path'] + 'kraje/' + region + '/metadata.json') as m:
                 metadata = json.load(m)
-                if metadata['version'] == '2023-09-08':
+                if metadata['version'] == '2024-01-31':
                     regionOut = region
 
         return regionOut
@@ -317,6 +317,8 @@ class Project(object):
         QgsMessageLog.logMessage("Name: " + NAMESAFE, "Patrac")
 
         DATAPATH = self.config["data_path"]
+        if not os.path.exists(DATAPATH + "kraje/" + region + "/projekty/"):
+            os.mkdir(DATAPATH + "kraje/" + region + "/projekty/")
 
         NEW_PROJECT_PATH = DATAPATH + "kraje/" + region + "/projekty/" + NAMESAFE
         # set working dir to new path

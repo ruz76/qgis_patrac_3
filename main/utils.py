@@ -664,7 +664,7 @@ class Utils(object):
 
     def setGlobalVariables(self):
         zpm_update = '2022-01-01'
-        sectors_update = '2023-09-08'
+        sectors_update = '2024-01-31'
         variables = {
             "zpm_update": {
                 "cs": "ZPM aktualizace: " + zpm_update,

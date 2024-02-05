@@ -253,6 +253,10 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         self.createProjectResult = None
 
+        self.chinesePostmanId = ''
+        self.chinesePostmanCallId = 1
+        self.tbtnCaclulateChinesePath.clicked.connect(self.chinesePostmanPathPoC)
+
     def readConfig(self):
         with open(self.settingsPath + "/config/config.json") as json_file:
             self.config = json.load(json_file)
@@ -1976,3 +1980,38 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def getSectorsIds(self):
         with open(self.Utils.getDataPath() + '/pracovni/listOfIds.txt') as f:
             return f.read().splitlines()
+
+    def getSectorsLayer(self):
+        layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if self.Utils.getDataPath() + "/pracovni/sektory_group.shp" in lyr.source():
+                layer = lyr
+                break
+        if layer is None:
+            return None
+        return layer
+
+    def chinesePostmanPathPoC(self):
+        working_dir = os.path.join('/home/jencek/Documents/Projekty/PCR/devel/chinese_postman/chinese-postman/process/pgrouting/', self.chinesePostmanId)
+        if self.chinesePostmanId == '':
+            self.chinesePostmanId = str(uuid.uuid4())
+            working_dir = os.path.join('/home/jencek/Documents/Projekty/PCR/devel/chinese_postman/chinese-postman/process/pgrouting/', self.chinesePostmanId)
+            os.mkdir(working_dir)
+        sectors_layer = self.getSectorsLayer()
+        selected_sectors = sectors_layer.selectedFeatures()
+        ids = ''
+        for sector in selected_sectors:
+            ids += ", " + str(sector['id'])
+        ids = ids[2:]
+        print(ids)
+        with open(os.path.join(working_dir, 'ids.txt'), 'w') as ids_out:
+            ids_out.write(ids)
+        QgsMessageLog.logMessage("Spoustim bash " + self.pluginPath + "/chinese/process.sh", "Patrac")
+        p = subprocess.Popen(('bash', self.pluginPath + "/chinese/process.sh", working_dir, str(self.chinesePostmanCallId)))
+        p.wait()
+        # self.Utils.addVectorLayerWithStyle(working_dir + "/" + str(self.chinesePostmanCallId) + "_path.gpx|layername=track_points", "route_points_" + str(self.chinesePostmanCallId), "chinese_points", 'EPSG:4326')
+        self.Utils.addVectorLayerWithStyle(working_dir + "/" + str(self.chinesePostmanCallId) + "_path.shp", "route_lines_" + str(self.chinesePostmanCallId), "chinese_lines_notime", 'EPSG:5514')
+        self.Utils.addVectorLayerWithStyle(working_dir + "/" + str(self.chinesePostmanCallId) + "_path.shp", "route_lines_" + str(self.chinesePostmanCallId), "chinese_lines", 'EPSG:5514')
+        # self.Utils.addVectorLayerWithStyle(working_dir + "/" + str(self.chinesePostmanCallId) + "_path.gpkg|layername=1_path", "route_lines_gpkg", "chinese_lines", 'EPSG:5514')
+        self.chinesePostmanCallId += 1
+

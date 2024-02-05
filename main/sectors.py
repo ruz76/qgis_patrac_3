@@ -997,68 +997,74 @@ class Sectors(object):
         progress = 0
         self.widget.setProgress(0)
         for feature in features:
+            try:
+                # Reads sector report
+                report = io.open(DATAPATH + '/pracovni/report.html.' + str(i), encoding='utf-8', mode='r').read()
+                f.write(report)
+                self.writeSectorHtml(report, feature, layer.extent())
 
-            # Reads sector report
-            report = io.open(DATAPATH + '/pracovni/report.html.' + str(i), encoding='utf-8', mode='r').read()
-            f.write(report)
-            self.writeSectorHtml(report, feature, layer.extent())
+                sector = QgsVectorLayer("LineString?crs=epsg:5514", feature['label'], "memory")
 
-            sector = QgsVectorLayer("LineString?crs=epsg:5514", feature['label'], "memory")
+                # self.Utils.copyLayer(DATAPATH, feature['label'])
+                # sector = QgsVectorLayer(DATAPATH + "/sektory/shp/" + feature['label'] + ".shp", feature['label'], "ogr")
+                providerSector = sector.dataProvider()
+                sector.startEditing()
+                fet = QgsFeature()
 
-            # self.Utils.copyLayer(DATAPATH, feature['label'])
-            # sector = QgsVectorLayer(DATAPATH + "/sektory/shp/" + feature['label'] + ".shp", feature['label'], "ogr")
-            providerSector = sector.dataProvider()
-            sector.startEditing()
-            fet = QgsFeature()
+                nameField = QgsField('name', QVariant.String)
+                descField = QgsField('desc', QVariant.String)
+                sector.dataProvider().addAttributes([nameField, descField])
+                sector.updateFields()
 
-            nameField = QgsField('name', QVariant.String)
-            descField = QgsField('desc', QVariant.String)
-            sector.dataProvider().addAttributes([nameField, descField])
-            sector.updateFields()
+                fet.setAttributes([feature['label'], str(feature['area_ha']) + ' ha '])
 
-            fet.setAttributes([feature['label'], str(feature['area_ha']) + ' ha '])
+                polygon = feature.geometry()
+                if polygon.isMultipart():
+                    line = QgsGeometry.fromPolylineXY(polygon.asMultiPolygon()[0][0])
+                else:
+                    line = QgsGeometry.fromPolylineXY(polygon.asPolygon()[0])
+                fet.setGeometry(line)
+                providerSector.addFeatures([fet])
+                providerLayerLines.addFeatures([fet])
+                sector.commitChanges()
 
-            polygon = feature.geometry()
-            line = QgsGeometry.fromPolylineXY(polygon.asMultiPolygon()[0][0])
-            fet.setGeometry(line)
-            providerSector.addFeatures([fet])
-            providerLayerLines.addFeatures([fet])
-            sector.commitChanges()
-
-            if not sector.isValid():
-                QgsMessageLog.logMessage("Can not read sector " + feature['label'], "Patrac")
-            else:
-                # Export do GPX
-                # QgsVectorFileWriter.writeAsVectorFormat(sector, DATAPATH + "/sektory/gpx/" + feature['label'] + ".gpx",
-                #                                         "utf-8", crs, "GPX",
-                #                                         datasourceOptions=['GPX_USE_EXTENSIONS=YES'],
-                #                                         layerOptions=['FORCE_GPX_TRACK=YES'])
-                QgsVectorFileWriter.writeAsVectorFormat(sector, DATAPATH + "/sektory/gpx/" + str(feature['label']) + "_" + str(feature['id']) + ".gpx",
-                                                        "utf-8", crs, "GPX",
-                                                        layerOptions=['FORCE_GPX_TRACK=YES'])
+                if not sector.isValid():
+                    QgsMessageLog.logMessage("Can not read sector " + feature['label'], "Patrac")
+                else:
+                    # Export do GPX
+                    # QgsVectorFileWriter.writeAsVectorFormat(sector, DATAPATH + "/sektory/gpx/" + feature['label'] + ".gpx",
+                    #                                         "utf-8", crs, "GPX",
+                    #                                         datasourceOptions=['GPX_USE_EXTENSIONS=YES'],
+                    #                                         layerOptions=['FORCE_GPX_TRACK=YES'])
+                    QgsVectorFileWriter.writeAsVectorFormat(sector, DATAPATH + "/sektory/gpx/" + str(feature['label']) + "_" + str(feature['id']) + ".gpx",
+                                                            "utf-8", crs, "GPX",
+                                                            layerOptions=['FORCE_GPX_TRACK=YES'])
 
 
-                gpkgPath = DATAPATH + "/sektory/shp/sectors.gpkg"
-                options = QgsVectorFileWriter.SaveVectorOptions()
-                options.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteLayer
-                options.layerName = feature['label']
-                options.fileEncoding="UTF-8"
-                options.destCRS=sector.crs()
-                options.driverName="GPKG"
-                QgsVectorFileWriter.writeAsVectorFormat(sector, gpkgPath, options)
-                sector_from_gpkg = QgsVectorLayer(DATAPATH + "/sektory/shp/sectors.gpkg|layername=" + feature['label'], feature['label'], "ogr")
-                sector_from_gpkg.loadNamedStyle(self.pluginPath + "/templates/projekt/sektory/shp/style.qml")
-                # TODO - from settings
-                crs = QgsCoordinateReferenceSystem(5514)
-                sector_from_gpkg.setCrs(crs)
+                    gpkgPath = DATAPATH + "/sektory/shp/sectors.gpkg"
+                    options = QgsVectorFileWriter.SaveVectorOptions()
+                    options.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteLayer
+                    options.layerName = feature['label']
+                    options.fileEncoding="UTF-8"
+                    options.destCRS=sector.crs()
+                    options.driverName="GPKG"
+                    QgsVectorFileWriter.writeAsVectorFormat(sector, gpkgPath, options)
+                    sector_from_gpkg = QgsVectorLayer(DATAPATH + "/sektory/shp/sectors.gpkg|layername=" + feature['label'], feature['label'], "ogr")
+                    sector_from_gpkg.loadNamedStyle(self.pluginPath + "/templates/projekt/sektory/shp/style.qml")
+                    # TODO - from settings
+                    crs = QgsCoordinateReferenceSystem(5514)
+                    sector_from_gpkg.setCrs(crs)
 
-                QgsProject.instance().addMapLayer(sector_from_gpkg, False)
-                root = QgsProject.instance().layerTreeRoot()
-                sektorygroup = root.findGroup("sektory")
-                if sektorygroup is None:
-                    sektorygroup = root.insertGroup(0, "sektory")
-                sektorygroup.addLayer(sector_from_gpkg)
-                sektorygroup.setExpanded(False)
+                    QgsProject.instance().addMapLayer(sector_from_gpkg, False)
+                    root = QgsProject.instance().layerTreeRoot()
+                    sektorygroup = root.findGroup("sektory")
+                    if sektorygroup is None:
+                        sektorygroup = root.insertGroup(0, "sektory")
+                    sektorygroup.addLayer(sector_from_gpkg)
+                    sektorygroup.setExpanded(False)
+            except:
+                QgsMessageLog.logMessage("Cannot export " + str(feature['label']), "Patrac")
+
             progress += step
             self.widget.setProgress(round(progress))
             i += 1
