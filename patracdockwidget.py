@@ -1992,6 +1992,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         return layer
 
     def chinesePostmanPathPoC(self):
+        QMessageBox.critical(None, QApplication.translate("Patrac", "ERROR", None),
+                             QApplication.translate("Patrac", "Not implemented.", None))
+        return
         working_dir = os.path.join('/home/jencek/Documents/Projekty/PCR/devel/chinese_postman/chinese-postman/process/pgrouting/', self.chinesePostmanId)
         if self.chinesePostmanId == '':
             self.chinesePostmanId = str(uuid.uuid4())

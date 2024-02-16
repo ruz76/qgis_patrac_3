@@ -263,7 +263,7 @@ class Project(object):
         if os.path.isfile(self.config['data_path'] + 'kraje/' + region + '/metadata.json'):
             with open(self.config['data_path'] + 'kraje/' + region + '/metadata.json') as m:
                 metadata = json.load(m)
-                if metadata['version'] == '2024-01-31':
+                if metadata['version'] == '2020-01-01':
                     regionOut = region
 
         return regionOut

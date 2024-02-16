@@ -1041,27 +1041,27 @@ class Sectors(object):
                                                             layerOptions=['FORCE_GPX_TRACK=YES'])
 
 
-                    gpkgPath = DATAPATH + "/sektory/shp/sectors.gpkg"
-                    options = QgsVectorFileWriter.SaveVectorOptions()
-                    options.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteLayer
-                    options.layerName = feature['label']
-                    options.fileEncoding="UTF-8"
-                    options.destCRS=sector.crs()
-                    options.driverName="GPKG"
-                    QgsVectorFileWriter.writeAsVectorFormat(sector, gpkgPath, options)
-                    sector_from_gpkg = QgsVectorLayer(DATAPATH + "/sektory/shp/sectors.gpkg|layername=" + feature['label'], feature['label'], "ogr")
-                    sector_from_gpkg.loadNamedStyle(self.pluginPath + "/templates/projekt/sektory/shp/style.qml")
-                    # TODO - from settings
-                    crs = QgsCoordinateReferenceSystem(5514)
-                    sector_from_gpkg.setCrs(crs)
-
-                    QgsProject.instance().addMapLayer(sector_from_gpkg, False)
-                    root = QgsProject.instance().layerTreeRoot()
-                    sektorygroup = root.findGroup("sektory")
-                    if sektorygroup is None:
-                        sektorygroup = root.insertGroup(0, "sektory")
-                    sektorygroup.addLayer(sector_from_gpkg)
-                    sektorygroup.setExpanded(False)
+                    # gpkgPath = DATAPATH + "/sektory/shp/sectors.gpkg"
+                    # options = QgsVectorFileWriter.SaveVectorOptions()
+                    # options.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteLayer
+                    # options.layerName = feature['label']
+                    # options.fileEncoding="UTF-8"
+                    # options.destCRS=sector.crs()
+                    # options.driverName="GPKG"
+                    # QgsVectorFileWriter.writeAsVectorFormat(sector, gpkgPath, options)
+                    # sector_from_gpkg = QgsVectorLayer(DATAPATH + "/sektory/shp/sectors.gpkg|layername=" + feature['label'], feature['label'], "ogr")
+                    # sector_from_gpkg.loadNamedStyle(self.pluginPath + "/templates/projekt/sektory/shp/style.qml")
+                    # # TODO - from settings
+                    # crs = QgsCoordinateReferenceSystem(5514)
+                    # sector_from_gpkg.setCrs(crs)
+                    #
+                    # QgsProject.instance().addMapLayer(sector_from_gpkg, False)
+                    # root = QgsProject.instance().layerTreeRoot()
+                    # sektorygroup = root.findGroup("sektory")
+                    # if sektorygroup is None:
+                    #     sektorygroup = root.insertGroup(0, "sektory")
+                    # sektorygroup.addLayer(sector_from_gpkg)
+                    # sektorygroup.setExpanded(False)
             except:
                 QgsMessageLog.logMessage("Cannot export " + str(feature['label']), "Patrac")
 
