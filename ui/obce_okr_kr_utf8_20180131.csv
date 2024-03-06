@@ -10206,7 +10206,6 @@
 -582268;-1210915;13668;Průmyslový obvod-východ;3704;Břeclav, Břeclav;JM
 -750870;-1167186;33553;Na Samotách;3301;České Budějovice, Dubičné;JC
 -727048;-1071510;19674;Nové Městečko;3201;Benešov, Čerčany;ST
--617653;-1028065;331651;;0;Praha, Praha 18;ST
 -791523;-990167;99651;Obránců míru;3508;Most, Most;US
 -749910;-1004405;141704;Nemocnice;3506;Litoměřice, Roudnice nad Labem;US
 -561007;-1135181;320412;U remízku;3709;Prostějov, Prostějov;OL
@@ -10516,7 +10515,6 @@
 -787384;-1107325;175757;Chobot;3307;Strakonice, Chobot;JC
 -764461;-1073867;307971;Za Korytem;3211;Příbram, Dobříš;ST
 -756637;-991134;329860;Biskupství;3506;Litoměřice, Litoměřice;US
--834155;-1072304;331236;;0;Praha, Praha 18;ST
 -735981;-1046760;317411;Hostivař-za Skalkou;3100;Hlavní město Praha, Praha;ST
 -792482;-989626;319015;U hřbitova;3508;Most, Most;US
 -615378;-1036046;303682;Pod Domašínem;3607;Rychnov nad Kněžnou, Dobruška;KH
@@ -10707,7 +10705,6 @@
 -830850;-1000923;330035;Okounov u Hradiště;3503;Chomutov, Okounov;US
 -657745;-1010826;176541;Přibyslav;3604;Jičín, Nová Paka;KH
 -641632;-1027310;89214;Lhota;3602;Hradec Králové, Lužany;KH
--721863;-1070568;331368;;0;Praha, Praha 18;ST
 -745462;-1047458;128848;Pod Dívčími hrady;3100;Hlavní město Praha, Praha;ST
 -744333;-1044116;129046;Pod zahradou Kinských;3100;Hlavní město Praha, Praha;ST
 -751762;-1043656;129704;Staré Řepy;3100;Hlavní město Praha, Praha;ST
@@ -10758,7 +10755,6 @@
 -800326;-1006873;194816;Pod hlavním nádražím;3507;Louny, Žatec;US
 -660409;-1007835;105155;Slovany;3604;Jičín, Nová Paka;KH
 -854393;-1102140;71242;Nový Dvůr;3401;Domažlice, Kout na Šumavě;PL
--469109;-1116691;331341;;0;Praha, Praha 18;ST
 -660806;-1009369;105163;Vlkov;3604;Jičín, Nová Paka;KH
 -852010;-1093199;5631;Františkov;3401;Domažlice, Blížejov;PL
 -801386;-1006413;194808;Západní nádraží;3507;Louny, Žatec;US
@@ -10775,7 +10771,6 @@
 -496372;-1147164;143740;U Lošků;3810;Vsetín, Růžďka;ZL
 -639332;-1146251;15474;Kundelov;3710;Třebíč, Budišov;VY
 -658951;-1009349;328278;Štikovská;3604;Jičín, Nová Paka;KH
--658832;-1075723;331660;;0;Praha, Praha 18;ST
 -791988;-1157473;132764;Volovice;3306;Prachatice, Prachatice;JC
 -772123;-1177713;62057;Lazec;3302;Český Krumlov, Kájov;JC
 -861047;-1019584;44105;Třídomí;3409;Sokolov, Horní Slavkov;KA
@@ -10814,8 +10809,6 @@
 -822211;-1056554;300438;Vísky;3407;Plzeň-sever, Trnová;PL
 -762474;-975689;175030;Ovčí vrch;3510;Ústí nad Labem, Ústí nad Labem;US
 -480731;-1127014;331147;Průmyslový park Vlčovice;3804;Nový Jičín, Kopřivnice;MS
--709110;-978536;331694;;0;Praha, Praha 18;ST
--822643;-1053624;331619;;0;Praha, Praha 18;ST
 -644880;-1050965;330949;Opatovice-elektrárna východ;3606;Pardubice, Opatovice nad Labem;PA
 -497122;-1138740;176451;Na příkopě;3810;Vsetín, Valašské Meziříčí;ZL
 -467690;-1156285;178942;Na Lemešné;3810;Vsetín, Velké Karlovice;ZL
@@ -10909,7 +10902,6 @@
 -663726;-1075871;191345;Lhůty;3603;Chrudim, Třemošnice;PA
 -702288;-1026106;184004;Bor;3207;Mladá Boleslav, Vlkava;ST
 -745035;-1039561;129470;Baba;3100;Hlavní město Praha, Praha;ST
--861599;-1006369;331309;;0;Praha, Praha 18;ST
 -822544;-1130293;330736;Páteček;3404;Klatovy, Sušice;PL
 -625240;-1081699;80497;Dvořiště;3611;Ústí nad Orlicí, Leština;PA
 -596431;-1121521;80713;Letovice-střed;3701;Blansko, Letovice;JM
@@ -10921,7 +10913,6 @@
 -818718;-999223;61760;Průmyslový obvod;3503;Chomutov, Kadaň;US
 -818887;-999832;61778;Kadaň-předměstí;3503;Chomutov, Kadaň;US
 -646191;-1062483;117820;Pardubičky;3606;Pardubice, Pardubice;PA
--738693;-1006769;331325;;0;Praha, Praha 18;ST
 -661150;-1008939;329924;Zlámaniny;3604;Jičín, Nová Paka;KH
 -870634;-1039510;178322;Malá Hleďsebe;3402;Cheb, Velká Hleďsebe;KA
 -748458;-1024586;72915;Sídliště Cukrovar;3206;Mělník, Kralupy nad Vltavou;ST
@@ -12688,13 +12679,11 @@
 -596939;-1079226;149047;Skuhrov;3611;Ústí nad Orlicí, Česká Třebová;PA
 -630010;-1003567;169064;Česká čtvrť;3610;Trutnov, Trutnov;KH
 -642085;-1042300;321419;Střelecká-západ;3602;Hradec Králové, Hradec Králové;KH
--472276;-1109349;331287;;0;Praha, Praha 18;ST
 -501705;-1092471;173169;Uhlířov;3806;Opava, Uhlířov;MS
 -591754;-1059655;65749;Zbudov;3611;Ústí nad Orlicí, Klášterec nad Orlicí;PA
 -598453;-1161693;10073;Nové sady;3702;Brno-město, Brno;JM
 -601441;-1009143;92169;Martínkovice;3605;Náchod, Martínkovice;KH
 -837735;-1107159;65986;Kal;3404;Klatovy, Klatovy;PL
--685626;-1103841;331473;;0;Praha, Praha 18;ST
 -642455;-1149901;101605;Valdíkov;3710;Třebíč, Valdíkov;VY
 -771902;-1053364;3051;U Máchovny;3202;Beroun, Beroun;ST
 -776561;-972571;319104;Dolní Drahůnky;3509;Teplice, Dubí;US
@@ -12865,7 +12854,6 @@
 -594313;-1141670;313025;Hluchov;3701;Blansko, Blansko;JM
 -656856;-1011874;1864;Uhlíře;3604;Jičín, Lázně Bělohrad;KH
 -775322;-977983;166197;U tří dubů;3509;Teplice, Teplice;US
--756369;-1065144;331635;;0;Praha, Praha 18;ST
 -792919;-1110004;327468;V Jezárkách;3307;Strakonice, Blatná;JC
 -728049;-1077867;2208;Benešov-sever;3201;Benešov, Benešov;ST
 -806354;-1073277;302384;Práchovna;3408;Rokycany, Rokycany;PL
@@ -12895,10 +12883,8 @@
 -682743;-1016640;154393;V Barácích;3604;Jičín, Staré Hrady;KH
 -763205;-973770;319171;Pod Střížovickým vrchem;3510;Ústí nad Labem, Ústí nad Labem;US
 -624626;-997813;2801;Rybníček;3610;Trutnov, Bernartice;KH
--733159;-1125453;331228;;0;Praha, Praha 18;ST
 -793647;-1126912;301647;Za Rájem-západ;3307;Strakonice, Strakonice;JC
 -632330;-1115504;304727;U stadiónu;3714;Žďár nad Sázavou, Nové Město na Moravě;VY
--758929;-1192775;331210;;0;Praha, Praha 18;ST
 -748160;-964526;25178;Pastýřská stěna;3502;Děčín, Děčín;US
 -482647;-1123008;315427;U nádraží;3804;Nový Jičín, Příbor;MS
 -846585;-1006810;145874;Konkordie;3403;Karlovy Vary, Sadov;KA
@@ -13365,7 +13351,6 @@
 -836716;-1018954;390925;Javorná;3403;Karlovy Vary, Bražec;KA
 -776820;-973053;33405;Bystřice;3509;Teplice, Dubí;US
 -757171;-1162759;331180;České Vrbné-obchodní zóna;3301;České Budějovice, České Budějovice;JC
--738024;-1007336;331333;;0;Praha, Praha 18;ST
 -546671;-1133929;33278;Dub nad Moravou;3805;Olomouc, Dub nad Moravou;OL
 -521058;-1165038;35564;Zlín-střed;3705;Zlín, Zlín;ZL
 -829349;-1092309;89192;Zelená Hora;3406;Plzeň-jih, Lužany;PL
@@ -13374,7 +13359,6 @@
 -726950;-1098171;108936;Čečkov;3201;Benešov, Jankov;ST
 -702390;-1109073;70769;Krasolesí;3304;Pelhřimov, Košetice;VY
 -651783;-1152255;169901;Nehradov;3710;Třebíč, Třebíč;VY
--708487;-978138;331686;;0;Praha, Praha 18;ST
 -605705;-1154937;11843;Kozí horka-Chochola;3702;Brno-město, Brno;JM
 -696547;-1110124;7081;V Borovinách;3304;Pelhřimov, Křelovice;VY
 -703000;-1108050;70777;Nová Ves;3304;Pelhřimov, Košetice;VY
@@ -13399,9 +13383,6 @@
 -788716;-984685;69345;Pařidla;3508;Most, Most;US
 -786095;-988807;108731;České Zlatníky;3508;Most, Obrnice;US
 -788091;-990260;108740;Chanov;3508;Most, Obrnice;US
--739955;-1033030;331392;;0;Praha, Praha 18;ST
--701484;-961434;331252;;0;Praha, Praha 18;ST
--610853;-1048941;331244;;0;Praha, Praha 18;ST
 -779312;-1173441;330442;Okrouhlík;3302;Český Krumlov, Chvalšiny;JC
 -745718;-1048126;129119;Hlubočepy-nad nádražím;3100;Hlavní město Praha, Praha;ST
 -737672;-1192942;44342;Vyhlídky;3301;České Budějovice, Horní Stropnice;JC
@@ -13617,7 +13598,6 @@
 -595332;-1199196;95214;Milovice;3704;Břeclav, Milovice;JM
 -572004;-1207795;98795;Moravská Nová Ves;3704;Břeclav, Moravská Nová Ves;JM
 -498271;-1152235;331171;Průmyslová zóna Vsetín-Bobrky;3810;Vsetín, Vsetín;ZL
--513857;-1128800;331261;;0;Praha, Praha 18;ST
 -670551;-1019062;103268;Letná;3604;Jičín, Nemyčeves;KH
 -484930;-1101509;18759;Čavisov;3807;Ostrava-město, Čavisov;MS
 -589265;-1162090;124257;Podolí;3703;Brno-venkov, Podolí;JM
@@ -14264,7 +14244,6 @@
 -551300;-1067430;87084;Loučná nad Desnou;3809;Šumperk, Loučná nad Desnou;OL
 -611002;-1153746;50300;Hvozdec;3703;Brno-venkov, Hvozdec;JM
 -721250;-1084302;53562;Křemení;3201;Benešov, Chotýšany;ST
--757344;-1192938;331201;;0;Praha, Praha 18;ST
 -670129;-1156830;142298;Rozseč;3707;Jihlava, Rozseč;VY
 -556388;-1192229;185175;Vracov;3706;Hodonín, Vracov;JM
 -600246;-1120527;185434;Vranová;3701;Blansko, Vranová;JM
@@ -14372,7 +14351,6 @@
 -601687;-1162588;330809;Mezi Lískovci-Bítešská;3702;Brno-město, Brno;JM
 -567200;-1128698;192384;Zdětín;3709;Prostějov, Zdětín;OL
 -501811;-1158568;84760;Liptál;3810;Vsetín, Liptál;ZL
--771496;-1185892;331708;;0;Praha, Praha 18;ST
 -508031;-1128284;77071;Kunčice;3808;Přerov, Bělotín;OL
 -628363;-1061684;116335;Ostřetín;3606;Pardubice, Ostřetín;PA
 -500073;-1156771;81256;Lhotské Paseky;3810;Vsetín, Lhota u Vsetína;ZL
@@ -17159,7 +17137,6 @@
 -568693;-1065375;123927;Křivá Voda;3809;Šumperk, Malá Morava;OL
 -531674;-1168256;313807;Padělky;3705;Zlín, Napajedla;ZL
 -844820;-1069555;331163;Vlkýš;3407;Plzeň-sever, Heřmanova Huť;PL
--643258;-1203538;331490;;0;Praha, Praha 18;ST
 -628851;-1073661;163325;Mravín;3603;Chrudim, Jenišovice;PA
 -672849;-1008075;124567;Jinolice;3604;Jičín, Jinolice;KH
 -685886;-1094712;46809;Ostrov;3601;Havlíčkův Brod, Ostrov;VY
@@ -17531,7 +17508,6 @@
 -479072;-1133500;34789;U parku;3804;Nový Jičín, Frenštát pod Radhoštěm;MS
 -813960;-1136969;104434;Pohorsko;3404;Klatovy, Nezdice na Šumavě;PL
 -817247;-1134779;116246;Klepačka;3404;Klatovy, Nezdice na Šumavě;PL
--703929;-1028882;331384;;0;Praha, Praha 18;ST
 -580304;-1104944;118800;Plechtinec;3609;Svitavy, Městečko Trnávka;PA
 -844230;-1115537;17108;Starý Láz;3404;Klatovy, Nýrsko;PL
 -845005;-1117339;108448;Hodousice;3404;Klatovy, Nýrsko;PL
@@ -18335,7 +18311,6 @@
 -613530;-1071065;87033;Loučky;3611;Ústí nad Orlicí, Svatý Jiří;PA
 -586849;-1062767;165476;Celné;3611;Ústí nad Orlicí, Těchonín;PA
 -868507;-1085105;45934;Horoušany;3401;Domažlice, Hostouň;PL
--662182;-974838;331457;;0;Praha, Praha 18;ST
 -617163;-1073660;167274;Zaháj;3611;Ústí nad Orlicí, Tisová;PA
 -593214;-1088797;24694;Trpík;3611;Ústí nad Orlicí, Trpík;PA
 -618371;-1065772;173924;Chloumek;3611;Ústí nad Orlicí, Újezd u Chocně;PA
@@ -18345,7 +18320,6 @@
 -595426;-1074841;42773;Horní Dobrouč;3611;Ústí nad Orlicí, Dolní Dobrouč;PA
 -599243;-1071611;79031;Lanšperk;3611;Ústí nad Orlicí, Dolní Dobrouč;PA
 -651301;-1009994;118702;Staňkov;3604;Jičín, Pecka;KH
--645258;-1088506;331376;;0;Praha, Praha 18;ST
 -635254;-1155240;109452;Okarec;3710;Třebíč, Okarec;VY
 -621470;-1077613;34339;Džbánov;3611;Ústí nad Orlicí, Džbánov;PA
 -665130;-1010653;137847;Tužín;3604;Jičín, Radim;KH
@@ -18388,7 +18362,6 @@
 -577301;-1061413;133809;Prostřední Lipka;3611;Ústí nad Orlicí, Králíky;PA
 -537638;-1162656;159476;Karolín;3708;Kroměříž, Karolín;ZL
 -541944;-1163000;54518;Lhotka;3708;Kroměříž, Kostelany;ZL
--800982;-1012350;331431;;0;Praha, Praha 18;ST
 -829755;-1054324;102709;Lhotka;3407;Plzeň-sever, Nekmíř;PL
 -543080;-1164402;54526;Újezdsko;3708;Kroměříž, Kostelany;ZL
 -540785;-1157358;74993;Vážany;3708;Kroměříž, Kroměříž;ZL
@@ -24735,7 +24708,6 @@
 -872818;-993020;73253;Tisová;3409;Sokolov, Kraslice;KA
 -576374;-1121610;12726;Lhota u Konice;3709;Prostějov, Brodek u Konice;OL
 -563677;-1144976;12742;Sněhotice;3709;Prostějov, Brodek u Prostějova;OL
--723609;-1032130;331295;;0;Praha, Praha 18;ST
 -570653;-1120193;15326;Budětsko;3709;Prostějov, Budětsko;OL
 -671378;-991556;328201;Janeček;3608;Semily, Semily;LB
 -553290;-1140890;19313;Čelčice;3709;Prostějov, Čelčice;OL
@@ -26088,12 +26060,8 @@
 -664819;-979440;118184;Havírna;3608;Semily, Paseky nad Jizerou;LB
 -688329;-981879;26689;Javorník;3505;Liberec, Dlouhý Most;LB
 -845969;-1022050;57738;Javorná;3403;Karlovy Vary, Bochov;KA
--518252;-1080878;331503;;0;Praha, Praha 18;ST
 -649843;-1151875;329657;Dukovanská;3710;Třebíč, Třebíč;VY
--837463;-999750;331422;;0;Praha, Praha 18;ST
--849472;-990567;331414;;0;Praha, Praha 18;ST
 -443983;-1121858;315249;Lyžbice-sever;3802;Frýdek-Místek, Třinec;MS
--869045;-1016914;331317;;0;Praha, Praha 18;ST
 -443722;-1122674;315257;Terasa-východ;3802;Frýdek-Místek, Třinec;MS
 -821161;-1113083;121452;Hnačov;3404;Klatovy, Hnačov;PL
 -560405;-1133225;320447;Nová nemocnice II;3709;Prostějov, Prostějov;OL
@@ -26285,7 +26253,6 @@
 -795028;-1153256;79545;Lažiště;3306;Prachatice, Lažiště;JC
 -777199;-1034644;79049;Lány;3203;Kladno, Lány;ST
 -848179;-1016282;68560;Kolová;3403;Karlovy Vary, Kolová;KA
--453920;-1099529;331279;;0;Praha, Praha 18;ST
 -778314;-1037355;79057;Nový Dvůr;3203;Kladno, Lány;ST
 -787384;-1145093;33227;Javornice;3306;Prachatice, Dub;JC
 -798704;-1144068;24252;Lčovice;3306;Prachatice, Lčovice;JC
@@ -26870,7 +26837,6 @@
 -683264;-1050212;59013;Jestřabí Lhota;3204;Kolín, Jestřabí Lhota;ST
 -703267;-1055802;170488;Klášterní Skalice;3204;Kolín, Klášterní Skalice;ST
 -708230;-1048607;66656;Lstiboř;3204;Kolín, Klučov;ST
--645002;-1051529;331350;;0;Praha, Praha 18;ST
 -769200;-1121805;189979;Dolní Záhoří;3305;Písek, Záhoří;JC
 -521190;-1179078;63045;Seče;3705;Zlín, Kaňovice;ZL
 -770896;-1123189;190021;Svatonice;3305;Písek, Záhoří;JC
@@ -26962,7 +26928,6 @@
 -757014;-1170635;331139;Dlouhé role;3301;České Budějovice, Včelná;JC
 -472362;-1104228;320013;Vítkovice-závod;3807;Ostrava-město, Ostrava;MS
 -489089;-1085222;163384;Svoboda;3806;Opava, Štěpánkovice;MS
--813864;-1064216;331406;;0;Praha, Praha 18;ST
 -747401;-1045243;128759;Pod Vidoulí;3100;Hlavní město Praha, Praha;ST
 -792473;-1060364;191477;Františkov;3408;Rokycany, Zbiroh;PL
 -610881;-1046593;331015;Kvasiny-automobilka;3607;Rychnov nad Kněžnou, Kvasiny;KH
@@ -27071,7 +27036,6 @@
 -506585;-1101844;183067;Annino údolí;3806;Opava, Vítkov;MS
 -733874;-1011093;92975;Rožkovo údolí;3206;Mělník, Mělník;ST
 -759913;-974764;322237;Sídliště Dobětice-západ;3510;Ústí nad Labem, Ústí nad Labem;US
--612703;-1082474;331643;;0;Praha, Praha 18;ST
 -881603;-1015736;94838;Doubrava;3402;Cheb, Milhostov;KA
 -756900;-975675;329487;Neštěmická;3510;Ústí nad Labem, Ústí nad Labem;US
 -742194;-1045391;127281;Folimanka-východ;3100;Hlavní město Praha, Praha;ST
@@ -27188,8 +27152,6 @@
 -468304;-1121088;34916;U Místeckého lesa;3802;Frýdek-Místek, Frýdek-Místek;MS
 -803716;-979761;105996;Lesná;3508;Most, Nová Ves v Horách;US
 -528063;-1048027;193178;Rožmitál;3811;Jeseník, Zlaté Hory;OL
--584627;-1151811;331481;;0;Praha, Praha 18;ST
--664728;-977015;331465;;0;Praha, Praha 18;ST
 -789084;-983762;69329;Konobrže;3508;Most, Most;US
 -738421;-1043614;315761;U nákladového nádraží;3100;Hlavní město Praha, Praha;ST
 -528131;-1079649;13269;Sídliště Dolní;3801;Bruntál, Bruntál;MS
@@ -28453,7 +28415,6 @@
 -460008;-1117520;88366;Kocurovice;3802;Frýdek-Místek, Lučina;MS
 -598456;-1159643;10391;U stadiónu;3702;Brno-město, Brno;JM
 -446824;-1120200;171018;Konská;3802;Frýdek-Místek, Třinec;MS
--729888;-994034;331449;;0;Praha, Praha 18;ST
 -745850;-968447;14206;Chlum;3502;Děčín, Děčín;US
 -747818;-971167;80128;Hoštice nad Labem;3502;Děčín, Děčín;US
 -751391;-1044452;306312;Sídliště Řepy II-jih;3100;Hlavní město Praha, Praha;ST
@@ -28735,9 +28696,7 @@
 -752171;-1046454;316881;Chaby III-západ;3100;Hlavní město Praha, Praha;ST
 -632808;-993241;194239;Rýchory;3610;Trutnov, Žacléř;KH
 -632163;-1025264;57461;Labská luka;3605;Náchod, Jaroměř;KH
--641947;-1113562;331198;;0;Praha, Praha 18;ST
 -608290;-1143049;167410;Klucanina;3703;Brno-venkov, Tišnov;JM
--585863;-1159935;331678;;0;Praha, Praha 18;ST
 -724579;-980178;21466;Rasova Hůrka;3501;Česká Lípa, Česká Lípa;LB
 -601787;-1180017;174645;Unkovice;3703;Brno-venkov, Unkovice;JM
 -436761;-1132150;56375;Radvanov;3802;Frýdek-Místek, Jablunkov;MS
