@@ -11,6 +11,15 @@ The install process is described at http://sarops.info/patrac/qgis3/install/inde
 ## Use
 The user manual is described at http://sarops.info/patrac/qgis3/install/index.html
 
+## Data
+The data that are from 2024 year available to download via Patrac are based on ZABAGED®
+Data ZABAGED® area published by Zeměměřický úřad without fee as an open data, licenced by Creative Commons CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/deed.cs).
+The layers cesta, lespru and vodtok are original data with removed some attributes.
+The layer sectors is based on all polygon and line layers from ZABAGED®. The data has been processed in these steps:
+* All polygon and line layers has been merged together as lines.
+* This spaghetti model has been polygonized.
+* The resulting polygons has been merged together to form search sectors of size 10-20 hectares to cover only one type of landuse.
+
 ## Development
 Patrac is a plugin for the geographic information system application (QGIS). 
 It is used to determinenate probability of finding a missing person in various

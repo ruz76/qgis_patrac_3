@@ -1,5 +1,5 @@
 import math
-
+import random
 
 # Deprecated
 def get_cluster_based_on_neighbors(clusters, sectors, sectors_neighbors):
@@ -72,15 +72,15 @@ def is_already_in_clusters(clusters, sector_id):
 
 
 def append_sector_into_cluster(clusters, sectors, sectors_neighbors, cluster_id):
-    sector_in_cluster = clusters[cluster_id]['sectors'][0]
-    for sector_in_neighbors in sectors_neighbors[sector_in_cluster]:
-        if not is_already_in_clusters(clusters, sector_in_neighbors):
-            if sector_in_neighbors in sectors:
-                clusters[cluster_id]['sectors'].append(sector_in_neighbors)
-                clusters[cluster_id]['length'] += sectors[sector_in_neighbors]['length']
-                return
+    for sector_in_cluster in clusters[cluster_id]['sectors']:
+        for sector_in_neighbors in sectors_neighbors[sector_in_cluster]:
+            if not is_already_in_clusters(clusters, sector_in_neighbors):
+                if sector_in_neighbors in sectors:
+                    clusters[cluster_id]['sectors'].append(sector_in_neighbors)
+                    clusters[cluster_id]['length'] += sectors[sector_in_neighbors]['length']
+                    return
 
-def fix_not_assigned(sectors_not_assigned, clusters, sectors_neighbors, sectors):
+def fix_not_assigned(sectors_not_assigned, clusters, sectors_neighbors, sectors, covers, iteration):
     print(sectors_not_assigned)
     items_to_remove = []
     for not_assigned_sector in sectors_not_assigned:
@@ -89,7 +89,11 @@ def fix_not_assigned(sectors_not_assigned, clusters, sectors_neighbors, sectors)
         for cluster_id in clusters:
             for sector_id in clusters[cluster_id]['sectors']:
                 if not_assigned_sector in sectors_neighbors[sector_id]:
-                    cluster_candidates[cluster_id] = clusters[cluster_id]['length']
+                    if iteration > 5:
+                        cluster_candidates[cluster_id] = clusters[cluster_id]['length']
+                    else:
+                        if clusters[cluster_id]['length'] < covers[clusters[cluster_id]['unit']] * 1000:
+                            cluster_candidates[cluster_id] = clusters[cluster_id]['length']
         print('Len cluster_candidates: ' + str(len(cluster_candidates)))
         if len(cluster_candidates) < 1:
             print("We have a problem with: " + str(not_assigned_sector))
@@ -133,21 +137,95 @@ def optimize_clusters(clusters, sectors, sectors_neighbors, max_size):
 def print_clusters(clusters):
     for cluster_id in clusters:
         for sector in clusters[cluster_id]['sectors']:
-            print(sector + ';' + str(clusters[cluster_id]['grid']) + ';' + clusters[cluster_id]['type'])
+            print(sector + ';' + str(clusters[cluster_id]['grid']) + ';' + clusters[cluster_id]['type'] + ';' + clusters[cluster_id]['unit'])
+
+def get_used_searchers(searchers, total_length):
+    covers = {
+        "handler": 12,
+        "pedestrian": 12,
+        "rider": 16,
+        "quad_bike": 20
+    }
+
+    used_searchers = {
+        "handler": 0,
+        "pedestrian": 0,
+        "rider": 0,
+        "quad_bike": 0
+    }
+
+    cover = searchers['handler'] * covers['handler']
+    cover += searchers['pedestrian'] * covers['pedestrian']
+    cover += searchers['rider'] * covers['rider']
+    cover += searchers['quad_bike'] * covers['quad_bike']
+
+    # We do not cover whole area
+    if cover < total_length:
+        diff = total_length - cover
+        if diff < covers['pedestrian'] / 2:
+            used_searchers = searchers
+        else:
+            used_searchers = searchers
+            used_searchers['pedestrian'] += math.ceil(diff / covers['pedestrian'])
+
+    # We cover perfectly the whole area - should not happen so often
+    if cover == total_length:
+        used_searchers = searchers
+
+    # We do cover whole area and have more units
+    if cover > total_length:
+        diff = cover - total_length
+        if diff < covers['pedestrian'] / 2:
+            used_searchers = searchers
+        else:
+            cover = 0
+            for i in range(searchers['handler']):
+                cover += covers['handler']
+                if cover <= total_length:
+                    used_searchers['handler'] += 1
+            for i in range(searchers['pedestrian']):
+                cover += covers['pedestrian']
+                if cover <= total_length:
+                    used_searchers['pedestrian'] += 1
+            for i in range(searchers['rider']):
+                cover += covers['rider']
+                if cover <= total_length:
+                    used_searchers['rider'] += 1
+            for i in range(searchers['quad_bike']):
+                cover += covers['quad_bike']
+                if cover <= total_length:
+                    used_searchers['quad_bike'] += 1
+            # TODO maybe necessary to add last unit once more
+
+    return used_searchers
 
 def make_clusters():
     total_length = 102
     max_area_length = 11
-    number_of_clusters = round(total_length / max_area_length)
-    number_of_5_type_searchers = 2
+    searchers = {
+        "handler": 1,
+        "pedestrian": 1,
+        "rider": 2,
+        "quad_bike": 3
+    }
+    covers = {
+        "handler": 12,
+        "pedestrian": 12,
+        "rider": 16,
+        "quad_bike": 20
+    }
+    used_searchers = get_used_searchers(searchers, total_length)
+    number_of_clusters = used_searchers['handler'] + used_searchers['pedestrian'] + used_searchers['rider'] + used_searchers['quad_bike']
+    number_of_5_type_searchers = searchers['handler'] + searchers['pedestrian']
     clusters = {}
     sectors = {}
     sectors_neighbors = {}
     sectors_5_max_order = []
     bbox = []
     grid = []
-    grid_rows = 3
-    grid_cols = 3
+    grid_size = math.ceil(math.sqrt(number_of_clusters))
+    grid_rows = grid_size
+    grid_cols = grid_size
 
     with open('/tmp/sectors_by_path_with_neighbors_agg.csv') as pri:
         lines = pri.readlines()
@@ -185,26 +263,45 @@ def make_clusters():
             y = bbox[1] + cell_height * row + (cell_height / 2)
             grid.append([x, y])
 
+    grid = random.sample(grid, number_of_clusters)
+
     # print(clusters)
     # print(sectors)
     # print(sectors_neighbors)
     # print(grid)
 
-    # We set the first 5 type cluster
-    grid_pos = get_grid_position(sectors[sectors_5_max_order[0]], grid)
-    clusters[sectors_5_max_order[0]] = {
-        "type": "5",
-        "sectors": [sectors_5_max_order[0]],
-        "length": sectors[sectors_5_max_order[0]]['length'],
-        "grid": grid_pos
-    }
+    # We set the first 5 type cluster, if we have a person/handler for it
+    used_handlers = 0
+    used_pedestrians = 0
+    if number_of_5_type_searchers > 0:
+        grid_pos = get_grid_position(sectors[sectors_5_max_order[0]], grid)
+        unit = 'handler'
+        if used_searchers['handler'] == 0:
+            unit = 'pedestrian'
+            used_pedestrians += 1
+        else:
+            used_handlers += 1
+        clusters[sectors_5_max_order[0]] = {
+            "unit": unit,
+            "type": "5",
+            "sectors": [sectors_5_max_order[0]],
+            "length": sectors[sectors_5_max_order[0]]['length'],
+            "grid": grid_pos
+        }
 
     while len(clusters) < number_of_5_type_searchers:
         for sector_id in sectors_5_max_order:
             if sector_id not in clusters and sector_id in sectors and not is_neighbor(sector_id, clusters, sectors_neighbors):
                 grid_pos = get_grid_position(sectors[sector_id], grid)
+                unit = 'handler'
+                if used_handlers == used_searchers['handler']:
+                    unit = 'pedestrian'
+                    used_pedestrians += 1
+                else:
+                    used_handlers += 1
                 if grid_position_is_empty(grid_pos, clusters):
                     clusters[sector_id] = {
+                        "unit": unit,
                         "type": "5",
                         "sectors": [sector_id],
                         "length": sectors[sector_id]['length'],
@@ -212,18 +309,26 @@ def make_clusters():
                     }
                     print(len(clusters))
                     break
-
+    used_riders = 0
+    used_quad_bike = 0
     for i in range(number_of_clusters):
         if grid_position_is_empty(i, clusters):
             cluster_id = get_cluster(clusters, sectors, i, grid)
+            unit = 'rider'
+            if used_riders == used_searchers['rider']:
+                unit = 'quad_bike'
+                used_quad_bike += 1
+            else:
+                used_riders += 1
             clusters[cluster_id] = {
+                "unit": unit,
                 "type": "4",
                 "sectors": [cluster_id],
                 "length": sectors[cluster_id]['length'],
                 "grid": i
             }
 
-    print(clusters)
+    # print(clusters)
 
     # if len(lines) >= number_of_5_type_searchers:
     #     for i in range(number_of_5_type_searchers):
@@ -252,11 +357,11 @@ def make_clusters():
     # for cluster_id in clusters:
     #     print(cluster_id)
 
-    for it in range(10):
+    for it in range(100):
         print("Iteration: " + str(it))
         for cluster_id in clusters:
             print("Cluster: " + cluster_id)
-            if clusters[cluster_id]['length'] < max_area_length * 1000:
+            if clusters[cluster_id]['length'] < covers[clusters[cluster_id]['unit']] * 1000:
                 print("Adding another sector into cluster.")
                 append_sector_into_cluster(clusters, sectors, sectors_neighbors, cluster_id)
             else:
@@ -274,13 +379,13 @@ def make_clusters():
         if not sector_is_assigned:
             sectors_not_assigned.append(sector)
 
-    print(sectors_not_assigned)
-
-    for i in range(10):
-        print("Fix not assigned. Iteration: " + str(i))
-        fix_not_assigned(sectors_not_assigned, clusters, sectors_neighbors, sectors)
+    # print(sectors_not_assigned)
+    #
+    # for i in range(10):
+    #     print("Fix not assigned. Iteration: " + str(i))
+    #     fix_not_assigned(sectors_not_assigned, clusters, sectors_neighbors, sectors, covers, i)
 
     print(clusters)
-    # print_clusters(clusters)
+    print_clusters(clusters)
 
 make_clusters()
