@@ -99,11 +99,11 @@ def fix_not_assigned(sectors_not_assigned, clusters, sectors_neighbors, sectors,
             print("We have a problem with: " + str(not_assigned_sector))
         if len(cluster_candidates) > 0:
             cluster_id_candidate = - 1
-            min_length_candidate = 10000000
+            max_diff_length_candidate = -10000000
             for cluster_id in cluster_candidates:
-                if clusters[cluster_id]['length'] < min_length_candidate:
+                if (covers[clusters[cluster_id]['unit']] * 1000 - clusters[cluster_id]['length']) > max_diff_length_candidate:
                     cluster_id_candidate = cluster_id
-                    min_length_candidate = clusters[cluster_id]['length']
+                    max_diff_length_candidate = covers[clusters[cluster_id]['unit']] * 1000 - clusters[cluster_id]['length']
             clusters[cluster_id_candidate]['sectors'].append(not_assigned_sector)
             clusters[cluster_id_candidate]['length'] += sectors[not_assigned_sector]['length']
             print('Removing: ' + str(not_assigned_sector))
@@ -381,9 +381,9 @@ def make_clusters():
 
     # print(sectors_not_assigned)
     #
-    # for i in range(10):
-    #     print("Fix not assigned. Iteration: " + str(i))
-    #     fix_not_assigned(sectors_not_assigned, clusters, sectors_neighbors, sectors, covers, i)
+    for i in range(10):
+        print("Fix not assigned. Iteration: " + str(i))
+        fix_not_assigned(sectors_not_assigned, clusters, sectors_neighbors, sectors, covers, i)
 
     print(clusters)
     print_clusters(clusters)
