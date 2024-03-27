@@ -113,31 +113,124 @@ def fix_not_assigned(sectors_not_assigned, clusters, sectors_neighbors, sectors,
     for item in items_to_remove:
         sectors_not_assigned.remove(item)
 
-def optimize_clusters(clusters, sectors, sectors_neighbors, max_size):
-    smallest_clusters_id = -1
-    min_size = 1000000
+def get_the_most_undersized_or_oversized_cluster(clusters, covers):
+    cluster_id_candidate = - 1
+    max_diff_length_candidate_in_percent = -10000000
     for cluster_id in clusters:
-        if clusters[cluster_id]['length'] < min_size:
-            min_size = clusters[cluster_id]['length']
-            smallest_clusters_id = cluster_id
+        print(str(cluster_id) + ': ' + str(clusters[cluster_id]['length']))
+        difference = abs(covers[clusters[cluster_id]['unit']] * 1000 - clusters[cluster_id]['length'])
+        current_max_diff_length_candidate_in_percent = difference / (covers[clusters[cluster_id]['unit']] * 1000 / 100)
+        if current_max_diff_length_candidate_in_percent > max_diff_length_candidate_in_percent:
+            cluster_id_candidate = cluster_id
+            max_diff_length_candidate_in_percent = current_max_diff_length_candidate_in_percent
+    print(max_diff_length_candidate_in_percent)
+    print('Candidate: ' + str(cluster_id_candidate))
+    if max_diff_length_candidate_in_percent > 10:
+        return cluster_id_candidate
+    else:
+        return -1
 
-    if min_size < max_size:
-        cluster_candidates = {}
-        for sector in clusters[smallest_clusters_id]:
-            for cluster_id in clusters:
-                for sector_neighbor in sectors_neighbors[sector]:
-                    if sector_neighbor in clusters[cluster_id]['sectors']:
+def get_type_of_optimized_cluster(cluster_id, clusters, covers):
+    difference = covers[clusters[cluster_id]['unit']] * 1000 - clusters[cluster_id]['length']
+    if difference < 0:
+        return -1
+    else:
+        return 1
+
+def get_cluster_candidate(cluster_candidates, clusters, covers, increase):
+    # We should move the sector that in result makes difference for the current_cluster_id length from optimal smallest
+    # But also the one that will be used from the cluster that has the biggest difference of the length from optimal
+    # The flow is not probably optimal, but first we find the suitable cluster
+    # Then we select one of the sector from the cluster that covers the first condition
+    cluster_id_candidate = - 1
+    max_diff_length_candidate_in_percent = -10000000
+    for cluster_id in cluster_candidates:
+        difference = clusters[cluster_id]['length'] - covers[clusters[cluster_id]['unit']] * 1000
+        if not increase:
+            difference = covers[clusters[cluster_id]['unit']] * 1000 - clusters[cluster_id]['length']
+        current_max_diff_length_candidate_in_percent = difference / (covers[clusters[cluster_id]['unit']] * 1000 / 100)
+        if current_max_diff_length_candidate_in_percent > max_diff_length_candidate_in_percent:
+            cluster_id_candidate = cluster_id
+            max_diff_length_candidate_in_percent = current_max_diff_length_candidate_in_percent
+    return cluster_id_candidate
+
+def get_sector_candidate(current_cluster_id, cluster_id_candidate, cluster_candidates, clusters, sectors, covers, sectors_neighbors, increase):
+    sector_id_candidate = -1
+    min_diff_length_candidate = 10000000
+    if increase:
+        for sector_id in cluster_candidates[cluster_id_candidate]:
+            if increase:
+                if (abs(clusters[current_cluster_id]['length'] + sectors[sector_id]['length'] - covers[clusters[current_cluster_id]['unit']] * 1000)) < min_diff_length_candidate:
+                    sector_id_candidate = sector_id
+                    min_diff_length_candidate = abs(clusters[current_cluster_id]['length'] + sectors[sector_id]['length'] - covers[clusters[current_cluster_id]['unit']] * 1000)
+    else:
+        # We have to loop all sectors in current_cluster_id since we want to decrease the current_cluster_id
+        # We have to check if the sector is neighbor with any sector in cluster_id_candidate and if the decrease brings the best result
+        for sector_id in clusters[current_cluster_id]['sectors']:
+            for current_sector_id in clusters[cluster_id_candidate]['sectors']:
+                if sector_id in sectors_neighbors[current_sector_id]:
+                    if (abs(clusters[current_cluster_id]['length'] - sectors[sector_id]['length'] - covers[clusters[current_cluster_id]['unit']] * 1000)) < min_diff_length_candidate:
+                        sector_id_candidate = sector_id
+                        min_diff_length_candidate = abs(clusters[current_cluster_id]['length'] + sectors[sector_id]['length'] - covers[clusters[current_cluster_id]['unit']] * 1000)
+
+    return sector_id_candidate
+
+def move_sector_between_clusters(current_cluster_id, clusters, sectors, sectors_neighbors, covers):
+    cluster_candidates = {}
+    for cluster_id in clusters:
+        if cluster_id != current_cluster_id:
+            for sector_id in clusters[cluster_id]['sectors']:
+                for current_sector_id in clusters[current_cluster_id]['sectors']:
+                    if sector_id in sectors_neighbors[current_sector_id]:
+                        # The sector_id is a neighbor of the current_sector_id
                         if cluster_id not in cluster_candidates:
-                            cluster_candidates[cluster_id] = {"sectors": [sector_neighbor]}
+                            cluster_candidates[cluster_id] = [sector_id]
                         else:
-                            cluster_candidates[cluster_id]['sectors'].append(sector_neighbor)
+                            cluster_candidates[cluster_id].append(sector_id)
 
+    current_cluster_optimize_type = get_type_of_optimized_cluster(current_cluster_id, clusters, covers)
+    if current_cluster_optimize_type == 1:
+        cluster_id_candidate = get_cluster_candidate(cluster_candidates, clusters, covers, True)
+        sector_id_candidate = get_sector_candidate(current_cluster_id, cluster_id_candidate, cluster_candidates, clusters, sectors, covers, sectors_neighbors, True)
+    else:
+        cluster_id_candidate = get_cluster_candidate(cluster_candidates, clusters, covers, False)
+        sector_id_candidate = get_sector_candidate(current_cluster_id, cluster_id_candidate, cluster_candidates, clusters, sectors, covers, sectors_neighbors, False)
 
+    # We know the final candidate, so we move it from its cluster into current processed cluster
+    print('Type: ' + str(current_cluster_optimize_type))
+    print('Before: ' + str(clusters[current_cluster_id]['length']) + ' ' + str(clusters[cluster_id_candidate]['length']))
+    print('Sector length: ' + str(sectors[sector_id_candidate]['length']))
+    if current_cluster_optimize_type == 1:
+        clusters[current_cluster_id]['sectors'].append(sector_id_candidate)
+        clusters[cluster_id_candidate]['sectors'].remove(sector_id_candidate)
+        clusters[current_cluster_id]['length'] += sectors[sector_id_candidate]['length']
+        clusters[cluster_id_candidate]['length'] -= sectors[sector_id_candidate]['length']
+    else:
+        clusters[cluster_id_candidate]['sectors'].append(sector_id_candidate)
+        clusters[current_cluster_id]['sectors'].remove(sector_id_candidate)
+        clusters[current_cluster_id]['length'] -= sectors[sector_id_candidate]['length']
+        clusters[cluster_id_candidate]['length'] += sectors[sector_id_candidate]['length']
+    print(current_cluster_id + ' ' + cluster_id_candidate)
+    print('After: ' + str(clusters[current_cluster_id]['length']) + ' ' + str(clusters[cluster_id_candidate]['length']))
+
+def optimize_clusters(clusters, sectors, sectors_neighbors, covers):
+    for i in range(100):
+        cluster_id_to_optimize = get_the_most_undersized_or_oversized_cluster(clusters, covers)
+        if cluster_id_to_optimize != -1:
+            move_sector_between_clusters(cluster_id_to_optimize, clusters, sectors, sectors_neighbors, covers)
+        else:
+            print('Breaking optimization at ' + str(i) + ' iteration')
+            break
 
 def print_clusters(clusters):
+    with open('/tmp/clusters.csv', 'w') as out:
+        for cluster_id in clusters:
+            for sector in clusters[cluster_id]['sectors']:
+                out.write(sector + ';' + str(clusters[cluster_id]['grid']) + ';' + clusters[cluster_id]['type'] + ';' + clusters[cluster_id]['unit'] + ';' + str(cluster_id) + '\n')
+
+def print_clusters_2(clusters):
     for cluster_id in clusters:
-        for sector in clusters[cluster_id]['sectors']:
-            print(sector + ';' + str(clusters[cluster_id]['grid']) + ';' + clusters[cluster_id]['type'] + ';' + clusters[cluster_id]['unit'])
+        print(str(clusters[cluster_id]['grid']) + ';' + clusters[cluster_id]['type'] + ';' + clusters[cluster_id]['unit'] + ';' + str(clusters[cluster_id]['length']))
 
 def get_used_searchers(searchers, total_length):
     covers = {
@@ -385,7 +478,13 @@ def make_clusters():
         print("Fix not assigned. Iteration: " + str(i))
         fix_not_assigned(sectors_not_assigned, clusters, sectors_neighbors, sectors, covers, i)
 
-    print(clusters)
+    # print(clusters)
+    # print_clusters(clusters)
+    # print_clusters_2(clusters)
+
+    optimize_clusters(clusters, sectors, sectors_neighbors, covers)
+    # print(clusters)
+    print_clusters_2(clusters)
     print_clusters(clusters)
 
 make_clusters()
