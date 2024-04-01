@@ -293,8 +293,8 @@ def get_used_searchers(searchers, total_length):
     return used_searchers
 
 def make_clusters():
-    total_length = 102
-    max_area_length = 11
+    with open('/tmp/sum_length.csv') as sl:
+        total_length = int(float(sl.read().strip()))
     searchers = {
         "handler": 1,
         "pedestrian": 1,
@@ -329,7 +329,7 @@ def make_clusters():
         lines = sec.readlines()
         for line in lines:
             items = line.strip().split(',')
-            sectors[items[0]] = {"length": int(items[1]), "x": float(items[2]), "y": float(items[3])}
+            sectors[items[0]] = {"length": int(float(items[1])), "x": float(items[2]), "y": float(items[3])}
 
     with open('/tmp/sectors_neighbors.csv') as secn:
         lines = secn.readlines()
