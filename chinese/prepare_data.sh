@@ -19,6 +19,7 @@ ogr2ogr -overwrite -f "GPKG" /tmp/test.gpkg PG:"$CON_STRING_OGR" "routing.sum_le
 ogr2ogr -overwrite -f "GPKG" /tmp/test.gpkg PG:"$CON_STRING_OGR" "routing.sectors_with_paths_lengths_export" -nln sectors_with_paths_lengths_export
 ogr2ogr -overwrite -f "GPKG" /tmp/test.gpkg PG:"$CON_STRING_OGR" "routing.sectors_neighbors_export" -nln sectors_neighbors_export
 ogr2ogr -overwrite -f "GPKG" /tmp/test.gpkg PG:"$CON_STRING_OGR" "routing.sectors_envelope_export" -nln sectors_envelope_export
+ogr2ogr -overwrite -f "GPKG" /tmp/test.gpkg PG:"$CON_STRING_OGR" "routing.ways_for_sectors_export" -nln ways_for_sectors_export
 
 #ogr2ogr -overwrite -f "GPKG" /tmp/test.gpkg PG:"$CON_STRING_OGR" -sql "select id, type_5_length_m from routing.sectors_by_path_with_neighbors_agg order by type_5_length_m desc" -nln sectors_by_path_with_neighbors_agg
 #ogr2ogr -overwrite -f "GPKG" /tmp/test.gpkg PG:"$CON_STRING_OGR" -sql "select sp.id, length_m, ST_X(ST_Centroid(s.geom)), ST_Y(ST_Centroid(s.geom)) from routing.sectors_with_paths_lengths sp join routing.sectors_export_ka s on (s.id = sp.id)" -nln sectors_with_paths_lengths

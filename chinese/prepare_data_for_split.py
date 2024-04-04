@@ -1,9 +1,8 @@
 from osgeo import ogr
 import fiona
 
-# based on https://svn.osgeo.org/gdal/trunk/autotest/ogr/ogr_gpkg.py
-
 def run_query(query):
+    # based on https://svn.osgeo.org/gdal/trunk/autotest/ogr/ogr_gpkg.py
 
     gpkg_ds = ogr.Open('/tmp/test.gpkg', update = 1)
     # gpkg_ds.ExecuteSQL('CREATE INDEX sectors_by_path_with_neighbors_agg_fld_id_idx ON sectors_by_path_with_neighbors_agg(id)')
