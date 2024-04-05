@@ -9,6 +9,9 @@ import random
 import csv
 import networkx as nx
 import xml.dom.minidom as minidom
+from datetime import datetime, timedelta
+import json
+from shapely.geometry import mapping, shape
 
 _NX_BELOW_2_DOT_1 = False
 
@@ -284,6 +287,14 @@ def run_query(gpkg_path, query):
     gpkg_ds.ExecuteSQL(query)
     gpkg_ds.ExecuteSQL('VACUUM')
 
+def run_queries(gpkg_path, queries):
+    # based on https://svn.osgeo.org/gdal/trunk/autotest/ogr/ogr_gpkg.py
+
+    gpkg_ds = ogr.Open(gpkg_path, update=1)
+    for query in queries:
+        gpkg_ds.ExecuteSQL(query)
+    gpkg_ds.ExecuteSQL('VACUUM')
+
 def get_table_data(gpkg_path, table_name, fields):
     features_output = []
     with fiona.open(gpkg_path, layer=table_name) as layer:
@@ -293,6 +304,25 @@ def get_table_data(gpkg_path, table_name, fields):
                 feature_output[field] = feature['properties'][field]
             features_output.append(feature_output)
     return features_output
+
+def save_layer_as_geojson(gpkg_path, table_name, fields, output_path):
+    features_output = []
+    with fiona.open(gpkg_path, layer=table_name) as layer:
+        for feature in layer:
+            feature_output = {
+                "type": "Feature",
+                "properties": {},
+                "geometry": mapping(shape(feature["geometry"]))
+            }
+            for field in fields:
+                feature_output['properties'][field] = feature['properties'][field]
+            features_output.append(feature_output)
+    data = {
+        "type": "FeatureCollection",
+        "features": features_output
+    }
+    with open(output_path, 'w') as out:
+        json.dump(data, out)
 
 def array_to_in_param(arr, quotes=False):
     output = ''
@@ -770,7 +800,7 @@ def prepare_data_for_graph(config, sectors_list):
     return output_data
 
 def build_graph(features):
-    print(nx.__version__)
+    # print(nx.__version__)
     graph = nx.Graph()
     for feature in features:
         graph.add_edge(str(feature['source']), str(feature['target']), weight=feature['length_m'], id=str(feature['gid']), label=str(feature['gid']))
@@ -782,7 +812,7 @@ def build_graph(features):
 
     return graph
 
-def solve_graph(graph):
+def solve_graph(graph, config, name):
     components = graph_components(graph)
     if len(components) > 1:
         print("Warning: the selected area contains multiple disconnected " +
@@ -804,21 +834,38 @@ def solve_graph(graph):
     info += "Total length of roads: %.3f km\n" % in_length
     info += "Total length of path: %.3f km\n" % path_length
     info += "Length of sections visited twice: %.3f km\n" % duplicate_length
-    info += "\n"
-    info += "(If the above values do not make sense, consider changing CRS.)\n"
 
     print(info)
+
+    create_layer(config, graph, nodes, name)
+
+def create_layer(config, graph, nodes, name):
+    run_query(config['gpkg_path'], 'delete from chpostman_path')
+    pos = 0
+    ts = datetime.now()
+    queries = []
+    for u, v in pairs(nodes, False):
+        pos += 1
+        ts = ts + timedelta(seconds=1)
+        queries.append("insert into chpostman_path (gid, ord, ts) values (" + graph[u][v]['id'] + ", '" + str(pos) + "', '" + str(ts).split('.')[0] + "')")
+
+    run_queries(config['gpkg_path'], queries)
+    run_query(config['gpkg_path'], 'delete from chpostman_path_export')
+    run_query(config['gpkg_path'], "insert into chpostman_path_export (gid, ord, ts, the_geom) select ch.gid, ch.ord, ch.ts, w.the_geom from chpostman_path ch join ways w on (ch.gid = w.gid)")
+
+    save_layer_as_geojson(config['gpkg_path'], 'chpostman_path_export', ['gid', 'ord', 'ts'], '/tmp/' + name + '.geojson')
 
 def solve_area(config):
     data = prepare_data(config)
     # print(data)
     clusters = get_clusters(config, data)
     for cluster_id in clusters:
-        print(clusters[cluster_id]['sectors'])
+        # print(clusters[cluster_id]['sectors'])
+        print(clusters[cluster_id]['unit'])
         graph_data_input = prepare_data_for_graph(config, clusters[cluster_id]['sectors'])
         graph = build_graph(graph_data_input)
         # print(graph_data_input)
-        solve_graph(graph)
+        solve_graph(graph, config, clusters[cluster_id]['unit'] + '_' + str(cluster_id))
 
 def test_me():
     config = {
