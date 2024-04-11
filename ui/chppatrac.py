@@ -2,6 +2,7 @@
 Based on Ralf Kistner postman
 """
 
+import os
 from osgeo import ogr
 import fiona
 import math
@@ -12,6 +13,14 @@ import xml.dom.minidom as minidom
 from datetime import datetime, timedelta
 import json
 from shapely.geometry import mapping, shape
+
+QGIS_RUN=True
+if QGIS_RUN:
+    from qgis.PyQt.QtCore import *
+    from qgis.PyQt.QtGui import *
+
+    from qgis.core import *
+    from qgis.gui import *
 
 _NX_BELOW_2_DOT_1 = False
 
@@ -307,22 +316,45 @@ def get_table_data(gpkg_path, table_name, fields):
 
 def save_layer_as_geojson(gpkg_path, table_name, fields, output_path):
     features_output = []
+    print('Before fiona open')
+    print(fiona.__version__)
     with fiona.open(gpkg_path, layer=table_name) as layer:
         for feature in layer:
+            # print(feature)
+            # print(feature["geometry"])
+            # print(shape(feature["geometry"]))
+            try:
+                print(mapping(shape(feature["geometry"])))
+            except Exception as e:
+                print(e)
+            # feature_output = {
+            #     "type": "Feature",
+            #     "properties": {},
+            #     "geometry": mapping(shape(feature["geometry"]))
+            # }
             feature_output = {
                 "type": "Feature",
                 "properties": {},
-                "geometry": mapping(shape(feature["geometry"]))
+                "geometry": feature["geometry"]
             }
+            # print('Before fields')
             for field in fields:
                 feature_output['properties'][field] = feature['properties'][field]
+            # print('After fields')
             features_output.append(feature_output)
     data = {
         "type": "FeatureCollection",
         "features": features_output
     }
+    print('Before write')
     with open(output_path, 'w') as out:
         json.dump(data, out)
+
+def save_layer_as_shp(gpkg_path, table_name, label, output_path):
+    vector = QgsVectorLayer(gpkg_path + '|layername=' + table_name, label, "ogr")
+    crs = QgsCoordinateReferenceSystem(4326)
+    print('Saving into: ' + output_path)
+    QgsVectorFileWriter.writeAsVectorFormat(vector, output_path, "utf-8", crs, "ESRI Shapefile")
 
 def array_to_in_param(arr, quotes=False):
     output = ''
@@ -604,6 +636,8 @@ def get_used_searchers(config, total_length):
     cover += config['searchers']['rider'] * config['covers']['rider']
     cover += config['searchers']['quad_bike'] * config['covers']['quad_bike']
 
+    print('COVER: ' + str(cover))
+
     # We do not cover whole area
     if cover < total_length:
         diff = total_length - cover
@@ -641,22 +675,37 @@ def get_used_searchers(config, total_length):
                 if cover <= total_length:
                     used_searchers['quad_bike'] += 1
             # TODO maybe necessary to add last unit once more
+            if used_searchers['handler'] == 0:
+                used_searchers['handler'] = 1
 
     return used_searchers
 
 def get_clusters(config, data):
     total_length = int(float(data['sum_length'][0]['sum_length_m']))
+    print('TOTAL LENGTH: ' + str(total_length))
 
     used_searchers = get_used_searchers(config, total_length)
     number_of_clusters = used_searchers['handler'] + used_searchers['pedestrian'] + used_searchers['rider'] + used_searchers['quad_bike']
-    number_of_5_type_searchers = config['searchers']['handler'] + config['searchers']['pedestrian']
     clusters = {}
+
+    if number_of_clusters == 1:
+        clusters['0'] = {
+            "unit": 'handler',
+            "type": "5",
+            "sectors": config['sectors'],
+            "length": total_length,
+            "grid": 1
+        }
+        return clusters
+
+    number_of_5_type_searchers = config['searchers']['handler'] + config['searchers']['pedestrian']
     sectors = {}
     sectors_neighbors = {}
     sectors_5_max_order = []
     bbox = []
     grid = []
     grid_size = math.ceil(math.sqrt(number_of_clusters))
+    print('GRID: ' + str(grid_size))
     grid_rows = grid_size
     grid_cols = grid_size
 
@@ -839,6 +888,15 @@ def solve_graph(graph, config, name):
 
     create_layer(config, graph, nodes, name)
 
+    output = {
+        "id": name,
+        "total_roads": in_length,
+        "total_path": path_length,
+        "duplicate_length": duplicate_length
+    }
+
+    return output
+
 def create_layer(config, graph, nodes, name):
     run_query(config['gpkg_path'], 'delete from chpostman_path')
     pos = 0
@@ -853,24 +911,34 @@ def create_layer(config, graph, nodes, name):
     run_query(config['gpkg_path'], 'delete from chpostman_path_export')
     run_query(config['gpkg_path'], "insert into chpostman_path_export (gid, ord, ts, the_geom) select ch.gid, ch.ord, ch.ts, w.the_geom from chpostman_path ch join ways w on (ch.gid = w.gid)")
 
-    save_layer_as_geojson(config['gpkg_path'], 'chpostman_path_export', ['gid', 'ord', 'ts'], '/tmp/' + name + '.geojson')
+    print('Before export')
+
+    # Crashes when running inside QGIS, so we will do not use fiona for export in QGIS but QGIS API
+    # save_layer_as_geojson(config['gpkg_path'], 'chpostman_path_export', ['gid', 'ord', 'ts'], os.path.join(config['output_dir'], name + '.geojson'))
+    save_layer_as_shp(config['gpkg_path'], 'chpostman_path_export', name, os.path.join(config['output_dir'], name + '.shp'))
+
+    print('After export')
 
 def solve_area(config):
     data = prepare_data(config)
     # print(data)
     clusters = get_clusters(config, data)
+    solutions = []
     for cluster_id in clusters:
         # print(clusters[cluster_id]['sectors'])
         print(clusters[cluster_id]['unit'])
         graph_data_input = prepare_data_for_graph(config, clusters[cluster_id]['sectors'])
         graph = build_graph(graph_data_input)
         # print(graph_data_input)
-        solve_graph(graph, config, clusters[cluster_id]['unit'] + '_' + str(cluster_id))
+        graph_solution = solve_graph(graph, config, clusters[cluster_id]['unit'] + '_' + str(cluster_id))
+        solutions.append(graph_solution)
+    return solutions
 
 def test_me():
     config = {
         "log_level": "debug",
-        "gpkg_path": "/tmp/test.gpkg",
+        "gpkg_path": "/home/jencek/Documents/Projekty/PCR/test_data/test.gpkg",
+        "output_dir": "/tmp/",
         "covers": {
             "handler": 12,
             "pedestrian": 12,
@@ -887,4 +955,4 @@ def test_me():
     }
     solve_area(config)
 
-test_me()
+# test_me()
