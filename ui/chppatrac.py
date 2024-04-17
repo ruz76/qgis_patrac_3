@@ -848,16 +848,19 @@ def prepare_data_for_graph(config, sectors_list):
 
     return output_data
 
-def build_graph(features):
+def build_graph(features, used_edges):
     # print(nx.__version__)
     graph = nx.Graph()
     for feature in features:
-        graph.add_edge(str(feature['source']), str(feature['target']), weight=feature['length_m'], id=str(feature['gid']), label=str(feature['gid']))
-        # We keep the GPS coordinates as strings
-        graph.nodes[str(feature['source'])]['longitude'] = feature['x1']
-        graph.nodes[str(feature['source'])]['latitude'] = feature['y1']
-        graph.nodes[str(feature['target'])]['longitude'] = feature['x2']
-        graph.nodes[str(feature['target'])]['latitude'] = feature['y2']
+        # print(used_edges)
+        if feature['gid'] not in used_edges:
+            # print(feature['gid'])
+            graph.add_edge(str(feature['source']), str(feature['target']), weight=feature['length_m'], id=str(feature['gid']), label=str(feature['gid']))
+            # We keep the GPS coordinates as strings
+            graph.nodes[str(feature['source'])]['longitude'] = feature['x1']
+            graph.nodes[str(feature['source'])]['latitude'] = feature['y1']
+            graph.nodes[str(feature['target'])]['longitude'] = feature['x2']
+            graph.nodes[str(feature['target'])]['latitude'] = feature['y2']
 
     return graph
 
@@ -920,16 +923,23 @@ def create_layer(config, graph, nodes, name):
     print('After export')
 
 def solve_area(config):
+    # Reads sectors and prepares data for clustering
     data = prepare_data(config)
-    # print(data)
+    # Returns clusters
     clusters = get_clusters(config, data)
     solutions = []
+    used_edges = []
     for cluster_id in clusters:
         # print(clusters[cluster_id]['sectors'])
         print(clusters[cluster_id]['unit'])
+        # Prepares data in a form of nodes and edges
         graph_data_input = prepare_data_for_graph(config, clusters[cluster_id]['sectors'])
-        graph = build_graph(graph_data_input)
+        graph = build_graph(graph_data_input, used_edges)
+        # Remembers already used edges
+        for edge in graph_data_input:
+            used_edges.append(edge['gid'])
         # print(graph_data_input)
+        used_edges = [] # Use this if you do not want to remove duplicities
         graph_solution = solve_graph(graph, config, clusters[cluster_id]['unit'] + '_' + str(cluster_id))
         solutions.append(graph_solution)
     return solutions

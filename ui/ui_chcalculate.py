@@ -59,7 +59,8 @@ class Ui_Chcalculate(QtWidgets.QDialog, FORM_CLASS):
         chinesePostmanId = str(uuid.uuid4())
         working_dir = os.path.join('/tmp/', chinesePostmanId)
         os.mkdir(working_dir)
-        copy('/home/jencek/Documents/Projekty/PCR/test_data/test.gpkg', os.path.join(working_dir, 'test.gpkg'))
+        # copy('/home/jencek/Documents/Projekty/PCR/test_data/test.gpkg', os.path.join(working_dir, 'test.gpkg'))
+        copy('/home/jencek/Documents/Projekty/PCR/test_data_eustach/test.gpkg', os.path.join(working_dir, 'test.gpkg'))
 
         sectors_layer = self.widget.getSectorsLayer()
         selected_sectors = sectors_layer.selectedFeatures()
@@ -89,7 +90,7 @@ class Ui_Chcalculate(QtWidgets.QDialog, FORM_CLASS):
         solutions = solve_area(config)
         for solution in solutions:
             self.widget.Utils.addVectorLayerWithStyle(os.path.join(config['output_dir'], solution['id'] + ".shp"), solution['id'], "chinese_lines_notime", 'EPSG:4326')
-            self.widget.Utils.addVectorLayerWithStyle(os.path.join(config['output_dir'], solution['id'] + ".shp"), solution['id'], "chinese_lines", 'EPSG:4326')
+            # self.widget.Utils.addVectorLayerWithStyle(os.path.join(config['output_dir'], solution['id'] + ".shp"), solution['id'], "chinese_lines", 'EPSG:4326')
             print(solution)
             self.plainTextEditResults.appendPlainText(str(solution))
 

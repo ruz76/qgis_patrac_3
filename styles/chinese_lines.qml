@@ -283,7 +283,7 @@
   </renderer-v2>
   <labeling type="simple">
     <settings calloutType="simple">
-      <text-style fieldName="id" isExpression="1" textOpacity="1" capitalization="0" useSubstitutions="0" fontFamily="Liberation Sans" textOrientation="horizontal" allowHtml="0" fontWeight="50" fontItalic="0" fontSize="10" fontSizeMapUnitScale="3x:0,0,0,0,0,0" fontKerning="1" blendMode="0" fontUnderline="0" previewBkgrdColor="255,255,255,255" forcedItalic="0" fontStrikeout="0" fontSizeUnit="Point" fontLetterSpacing="0" textColor="50,50,50,255" forcedBold="0" fontWordSpacing="0" namedStyle="Regular" legendString="Aa" multilineHeight="1">
+      <text-style fieldName="ord" isExpression="1" textOpacity="1" capitalization="0" useSubstitutions="0" fontFamily="Liberation Sans" textOrientation="horizontal" allowHtml="0" fontWeight="50" fontItalic="0" fontSize="10" fontSizeMapUnitScale="3x:0,0,0,0,0,0" fontKerning="1" blendMode="0" fontUnderline="0" previewBkgrdColor="255,255,255,255" forcedItalic="0" fontStrikeout="0" fontSizeUnit="Point" fontLetterSpacing="0" textColor="50,50,50,255" forcedBold="0" fontWordSpacing="0" namedStyle="Regular" legendString="Aa" multilineHeight="1">
         <families/>
         <text-buffer bufferColor="250,250,250,255" bufferDraw="0" bufferSizeMapUnitScale="3x:0,0,0,0,0,0" bufferOpacity="1" bufferSizeUnits="MM" bufferJoinStyle="128" bufferSize="1" bufferBlendMode="0" bufferNoFill="1"/>
         <text-mask maskSizeMapUnitScale="3x:0,0,0,0,0,0" maskSize="0" maskEnabled="0" maskType="0" maskSizeUnits="MM" maskOpacity="1" maskJoinStyle="128" maskedSymbolLayers=""/>
