@@ -866,6 +866,11 @@ def build_graph(features, used_edges):
 
 def solve_graph(graph, config, name):
     components = graph_components(graph)
+    for component in components:
+        print(component)
+        for item in component:
+            print(item)
+
     if len(components) > 1:
         print("Warning: the selected area contains multiple disconnected " +
                                 "components - only the largest one will be used.")
