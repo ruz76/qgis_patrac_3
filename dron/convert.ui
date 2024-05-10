@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>558</width>
-    <height>658</height>
+    <height>596</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>DJI SRT to GPX a CSV</string>
+   <string>DJI SRT -&gt; GPX a CSV</string>
   </property>
   <widget class="QPushButton" name="pushButtonConvert">
    <property name="geometry">
@@ -45,7 +45,7 @@
      <x>20</x>
      <y>540</y>
      <width>501</width>
-     <height>71</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -137,7 +137,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Umožňuje extrahovat dráhu letu DJI dronu z titulků videa, uložených v souborech s příponou SRT. Vyberte soubory, které chcete použít. Specifkujte výstupní adresář, kam mají být uloženy stopy dráhy letu a spusťte process. Do výstupního adresáře busou uložena dhráha letu ve formátech GPX a CSV.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Umožňuje extrahovat dráhu letu DJI dronu z titulků videa, uložených v souborech s příponou SRT. Vyberte soubory, které chcete použít. Specifkujte výstupní adresář, kam mají být uloženy stopy dráhy letu a spusťte process. Do výstupního adresáře bude uložena dráha letu ve formátech GPX a CSV.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="wordWrap">
     <bool>true</bool>
