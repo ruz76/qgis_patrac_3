@@ -64,22 +64,26 @@ class Convert(QThread):
             gpx_output = '<trkseg>'
             for line in lines:
                 if len(line) > 10 and line[:4].isnumeric():
-                    timest = line.strip()
+                    timest = line.strip()[:23]
                     lon = ''
                     lat = ''
-                if line.startswith('[latitude:'):
+                if line.startswith('[latitude:') or line.startswith('[iso '):
                     # print(line.strip())
-                    items = line.strip().split(']')
+                    ii = line
+                    if line.startswith('[iso '):
+                        ii = line.split(',')[2]
+                    items = ii.strip().split(']')
                     # print(items[0][11:])
-                    lat = items[0][11:]
-                    lon = items[1][13:]
+                    lat = items[0][11:].strip()
+                    lon = items[1][13:].strip()
                     items2 = items[2].split('abs_alt: ')
-                    ele = items2[1][:-1]
+                    ele = items2[1][:-1].strip()
                 if len(lon) > 0:
-                    csv_output += timest + ';' + lon + ';' + lat + ';' + ele + '\n'
+                    timestz = timest.replace(' ', 'T').replace(',', '.') + 'Z'
+                    csv_output += timestz + ';' + lon + ';' + lat + ';' + ele + '\n'
                     gpx_output += '<trkpt lat="' + str(lat) + '" lon="' + str(lon) + '">\n'
                     gpx_output += '<ele>' + str(ele) + '</ele>\n'
-                    gpx_output += '<time>' + timest.replace(' ', 'T') + 'Z</time>\n'
+                    gpx_output += '<time>' + timestz + '</time>\n'
                     gpx_output += '</trkpt>\n'
             gpx_output += '</trkseg>\n'
             return [csv_output, gpx_output]
