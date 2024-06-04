@@ -839,14 +839,70 @@ def get_clusters(config, data):
 
     return clusters
 
-def prepare_data_for_graph(config, sectors_list):
+def prepare_data_for_graph(config, sectors_list, grades):
     sectors = array_to_in_param(sectors_list)
 
     run_query(config['gpkg_path'], 'delete from ways_for_sectors_export')
-    run_query(config['gpkg_path'], "insert into ways_for_sectors_export (source, target, length_m, gid, x1, y1, x2, y2) select distinct source, target, length_m, ways.gid gid, x1, y1, x2, y2 from ways join ways_for_sectors wfs on (id IN (" + sectors + ") and ways.gid = wfs.gid)")
+    sql = "insert into ways_for_sectors_export (source, target, length_m, gid, x1, y1, x2, y2) select distinct source, target, length_m, ways.gid gid, x1, y1, x2, y2 from ways join ways_for_sectors wfs on (grade in (" + grades + ") and id IN (" + sectors + ") and ways.gid = wfs.gid)"
+    print(sql)
+    run_query(config['gpkg_path'], sql)
     output_data = get_table_data(config['gpkg_path'], 'ways_for_sectors_export', ['source', 'target', 'length_m', 'gid', 'x1', 'y1', 'x2', 'y2'])
 
-    return output_data
+    # This is an optimisation where we removed nodes that are not on intersection or are not isolated nodes (end of line)
+    nodes = {
+
+    }
+
+    for way in output_data:
+        if way['source'] in nodes:
+            nodes[way['source']] += 1
+        else:
+            nodes[way['source']] = 1
+
+        if way['target'] in nodes:
+            nodes[way['target']] += 1
+        else:
+            nodes[way['target']] = 1
+
+    output_data_fixed = []
+    for key in nodes:
+        if nodes[key] == 2:
+            # This should be a node that is not necessary since it is not a node on intersection, and it is not an isolated node
+            ways_to_merge = []
+            for way in output_data:
+                if way['source'] == key or way['target'] == key:
+                    ways_to_merge.append(way)
+            # We start on 0 source and end on 1 target
+            if ways_to_merge[0]['target'] == ways_to_merge[1]['source']:
+                merged_way = ways_to_merge[0]
+                merged_way['target'] = ways_to_merge[1]['target']
+                merged_way['length_m'] += ways_to_merge[1]['length_m']
+                output_data_fixed.append(merged_way)
+            # We start on 0 source and end on 1 source
+            if ways_to_merge[0]['target'] == ways_to_merge[1]['target']:
+                merged_way = ways_to_merge[0]
+                merged_way['target'] = ways_to_merge[1]['source']
+                merged_way['length_m'] += ways_to_merge[1]['length_m']
+                output_data_fixed.append(merged_way)
+            # We start on 1 source and end on 0 target
+            if ways_to_merge[0]['source'] == ways_to_merge[1]['target']:
+                merged_way = ways_to_merge[1]
+                merged_way['target'] = ways_to_merge[0]['target']
+                merged_way['length_m'] += ways_to_merge[0]['length_m']
+                output_data_fixed.append(merged_way)
+            # We start on 0 target and end on 1 target
+            if ways_to_merge[0]['source'] == ways_to_merge[1]['source']:
+                merged_way = ways_to_merge[1]
+                merged_way['source'] = ways_to_merge[0]['target']
+                merged_way['length_m'] += ways_to_merge[0]['length_m']
+                output_data_fixed.append(merged_way)
+        else:
+            # These nodes should be correct
+            for way in output_data:
+                if way['source'] == key or way['target'] == key:
+                    output_data_fixed.append(way)
+
+    return output_data_fixed
 
 def build_graph(features, used_edges):
     # print(nx.__version__)
@@ -873,37 +929,42 @@ def solve_graph(graph, config, name):
 
     if len(components) > 1:
         print("Warning: the selected area contains multiple disconnected " +
-                                "components - only the largest one will be used.")
+                                "components.")
 
     if len(components) == 0:
         print("Error: Could not find any components. Try selecting different features.")
         return
 
-    component = components[0]
+    outputs = []
+    component_id = 0
+    for component in components:
 
-    eulerian_graph, nodes = single_chinese_postman_path(component)
+        eulerian_graph, nodes = single_chinese_postman_path(component)
 
-    in_length = edge_sum(component)/1000.0
-    path_length = edge_sum(eulerian_graph)/1000.0
-    duplicate_length = path_length - in_length
+        in_length = edge_sum(component)/1000.0
+        path_length = edge_sum(eulerian_graph)/1000.0
+        duplicate_length = path_length - in_length
 
-    info = ""
-    info += "Total length of roads: %.3f km\n" % in_length
-    info += "Total length of path: %.3f km\n" % path_length
-    info += "Length of sections visited twice: %.3f km\n" % duplicate_length
+        info = "Component: " + str(component_id) + "\n"
+        info += "Total length of roads: %.3f km\n" % in_length
+        info += "Total length of path: %.3f km\n" % path_length
+        info += "Length of sections visited twice: %.3f km\n" % duplicate_length
 
-    print(info)
+        print(info)
 
-    create_layer(config, graph, nodes, name)
+        create_layer(config, graph, nodes, name + '_' + str(component_id))
 
-    output = {
-        "id": name,
-        "total_roads": in_length,
-        "total_path": path_length,
-        "duplicate_length": duplicate_length
-    }
+        output = {
+            "id": name + '_' + str(component_id),
+            "total_roads": in_length,
+            "total_path": path_length,
+            "duplicate_length": duplicate_length
+        }
 
-    return output
+        outputs.append(output)
+        component_id += 1
+
+    return outputs
 
 def create_layer(config, graph, nodes, name):
     run_query(config['gpkg_path'], 'delete from chpostman_path')
@@ -927,6 +988,18 @@ def create_layer(config, graph, nodes, name):
 
     print('After export')
 
+def get_units_grades(unit):
+    if unit == 'handler':
+        # return '0, 1, 2, 3, 4, 5, 6'
+        return '5'
+    if unit == 'pedestrian':
+        return '0, 1, 2, 3, 4, 5, 6'
+    if unit == 'rider':
+        return '0, 1, 2, 3'
+    if unit == 'quad_bike':
+        return '0, 1, 2, 3'
+    return '0, 1, 2, 3'
+
 def solve_area(config):
     # Reads sectors and prepares data for clustering
     data = prepare_data(config)
@@ -938,7 +1011,9 @@ def solve_area(config):
         # print(clusters[cluster_id]['sectors'])
         print(clusters[cluster_id]['unit'])
         # Prepares data in a form of nodes and edges
-        graph_data_input = prepare_data_for_graph(config, clusters[cluster_id]['sectors'])
+        grades = get_units_grades(clusters[cluster_id]['unit'])
+        print(grades)
+        graph_data_input = prepare_data_for_graph(config, clusters[cluster_id]['sectors'], grades)
         graph = build_graph(graph_data_input, used_edges)
         # Remembers already used edges
         for edge in graph_data_input:

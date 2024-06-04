@@ -89,8 +89,9 @@ class Ui_Chcalculate(QtWidgets.QDialog, FORM_CLASS):
         }
         solutions = solve_area(config)
         for solution in solutions:
-            self.widget.Utils.addVectorLayerWithStyle(os.path.join(config['output_dir'], solution['id'] + ".shp"), solution['id'], "chinese_lines_notime", 'EPSG:4326')
-            # self.widget.Utils.addVectorLayerWithStyle(os.path.join(config['output_dir'], solution['id'] + ".shp"), solution['id'], "chinese_lines", 'EPSG:4326')
-            print(solution)
-            self.plainTextEditResults.appendPlainText(str(solution))
+            for component in solution:
+                self.widget.Utils.addVectorLayerWithStyle(os.path.join(config['output_dir'], component['id'] + ".shp"), component['id'], "chinese_lines_notime", 'EPSG:4326')
+                # self.widget.Utils.addVectorLayerWithStyle(os.path.join(config['output_dir'], solution['id'] + ".shp"), solution['id'], "chinese_lines", 'EPSG:4326')
+                print(component)
+                self.plainTextEditResults.appendPlainText(str(component))
 

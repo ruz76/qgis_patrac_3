@@ -13,7 +13,7 @@ https://wiki.openstreetmap.org/wiki/Key:tracktype
 
 ## Flow
 
-The flow should be now in process.py
+The flow should be now in chpatrac.py
 
 * In expects on input the list of sectors identifiers and list of available search teams
 * The data should be prepared in GPKG file with all necessary inputs prepared with PostGIS, since the computing takes too long in GPKG
