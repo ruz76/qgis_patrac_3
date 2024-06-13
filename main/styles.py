@@ -68,6 +68,7 @@ class Styles(object):
             f = io.open(settingsPath + '/styles/sektory_group.txt', 'w', encoding='utf-8')
             f.write(name)
             f.close()
+            layer.removeSelection()
 
     def setSectorsLabels(self, state):
         layer = self.getSectorsLayer()

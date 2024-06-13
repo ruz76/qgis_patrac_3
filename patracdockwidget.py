@@ -1911,6 +1911,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.Styles.setSectorsStyle('single')
         self.setSectorsShowLabels()
 
+
     def setSectorsShowLabels(self):
         if self.chkShowLabels.isChecked():
             self.Styles.setSectorsLabels(True)
