@@ -353,18 +353,18 @@ class Area(object):
         weightLimit = self.Utils.getWeightLimit()
         for feature in features:
             # print("VAHA: " + str(feature["vaha"]))
-            if str(feature["vaha"]) == 'NULL' or feature["vaha"] > weightLimit:
-                featuresIndex += 1
-                index = 0
-                for item in items:
-                    feature_cas = self.feature_agv_time(feature)
-                    item_cas = self.feature_agv_time(item)
-                    if feature_cas < item_cas:
-                        items.insert(index, feature)
-                        break
-                    index += 1
-                if len(items) < featuresIndex:
-                    items.append(feature)
+            # if str(feature["vaha"]) == 'NULL' or feature["vaha"] > weightLimit:
+            featuresIndex += 1
+            index = 0
+            for item in items:
+                feature_cas = self.feature_agv_time(feature)
+                item_cas = self.feature_agv_time(item)
+                if feature_cas < item_cas:
+                    items.insert(index, feature)
+                    break
+                index += 1
+            if len(items) < featuresIndex:
+                items.append(feature)
         return items
 
     def getRadial(self, features):
