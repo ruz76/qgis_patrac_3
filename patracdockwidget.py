@@ -207,8 +207,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.chcalculatedlg = Ui_Chcalculate(self.pluginPath, self)
 
         self.Styles = Styles(self)
-        self.sectorsUniqueStyle.clicked.connect(self.setSectorsUniqueValuesStyle)
-        self.guideStep6ShowSectorsByType.clicked.connect(self.setSectorsUniqueValuesStyle)
+        # self.sectorsUniqueStyle.clicked.connect(self.setSectorsUniqueValuesStyle)
+        # self.guideStep6ShowSectorsByType.clicked.connect(self.setSectorsUniqueValuesStyle)
         self.sectorsSingleStyle.clicked.connect(self.setSectorsSingleValuesStyle)
         self.chkShowLabels.clicked.connect(self.setSectorsShowLabels)
         self.sectorsProgressStyle.clicked.connect(self.setSectorsProgressStyle)

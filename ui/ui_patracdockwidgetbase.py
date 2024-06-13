@@ -255,13 +255,13 @@ class Ui_PatracDockWidget(object):
         self.sectorsProgressStyle.setToolTip(QApplication.translate("PatracDockWidget", "Sectors by state", None))
         self.horizontalLayoutStyles.addWidget(self.sectorsProgressStyle)
 
-        self.sectorsUniqueStyle = QPushButton(self.dockWidgetContents)
-        self.sectorsUniqueStyle.setObjectName(_fromUtf8("sectorsUniqueStyle"))
-        self.sectorsUniqueStyle.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "sectors_unique.png")));
-        self.sectorsUniqueStyle.setIconSize(QSize(24,24));
-        self.sectorsUniqueStyle.setFixedSize(QSize(32,32));
-        self.sectorsUniqueStyle.setToolTip(QApplication.translate("PatracDockWidget", "Sectors by type", None))
-        self.horizontalLayoutStyles.addWidget(self.sectorsUniqueStyle)
+        # self.sectorsUniqueStyle = QPushButton(self.dockWidgetContents)
+        # self.sectorsUniqueStyle.setObjectName(_fromUtf8("sectorsUniqueStyle"))
+        # self.sectorsUniqueStyle.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "sectors_unique.png")));
+        # self.sectorsUniqueStyle.setIconSize(QSize(24,24));
+        # self.sectorsUniqueStyle.setFixedSize(QSize(32,32));
+        # self.sectorsUniqueStyle.setToolTip(QApplication.translate("PatracDockWidget", "Sectors by type", None))
+        # self.horizontalLayoutStyles.addWidget(self.sectorsUniqueStyle)
 
         self.sectorsSingleStyle = QPushButton(self.dockWidgetContents)
         self.sectorsSingleStyle.setObjectName(_fromUtf8("sectorsSingleStyle"))
@@ -710,13 +710,13 @@ class Ui_PatracDockWidget(object):
         self.horizontalLayoutToolbarGuideLayoutStep6.addWidget(self.guideShowReport)
         self.guideShowReport.setToolTip(QApplication.translate("PatracDockWidget", "Show report", None))
 
-        self.guideStep6ShowSectorsByType = QPushButton(self.dockWidgetContents)
-        self.guideStep6ShowSectorsByType.setObjectName(_fromUtf8("guideStep6ShowSectorsByType"))
-        self.guideStep6ShowSectorsByType.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "sectors_unique.png")));
-        self.guideStep6ShowSectorsByType.setIconSize(QSize(24,24));
-        self.guideStep6ShowSectorsByType.setFixedSize(QSize(32,32));
-        self.horizontalLayoutToolbarGuideLayoutStep6.addWidget(self.guideStep6ShowSectorsByType)
-        self.guideStep6ShowSectorsByType.setToolTip(QApplication.translate("PatracDockWidget", "Show sectors by type", None))
+        # self.guideStep6ShowSectorsByType = QPushButton(self.dockWidgetContents)
+        # self.guideStep6ShowSectorsByType.setObjectName(_fromUtf8("guideStep6ShowSectorsByType"))
+        # self.guideStep6ShowSectorsByType.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "sectors_unique.png")));
+        # self.guideStep6ShowSectorsByType.setIconSize(QSize(24,24));
+        # self.guideStep6ShowSectorsByType.setFixedSize(QSize(32,32));
+        # self.horizontalLayoutToolbarGuideLayoutStep6.addWidget(self.guideStep6ShowSectorsByType)
+        # self.guideStep6ShowSectorsByType.setToolTip(QApplication.translate("PatracDockWidget", "Show sectors by type", None))
 
         self.guideStep6ShowSectorsBySuggestedUnits = QPushButton(self.dockWidgetContents)
         self.guideStep6ShowSectorsBySuggestedUnits.setObjectName(_fromUtf8("guideStep6ShowSectorsBySuggestedUnits"))
