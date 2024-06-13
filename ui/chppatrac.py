@@ -990,8 +990,8 @@ def create_layer(config, graph, nodes, name):
 
 def get_units_grades(unit):
     if unit == 'handler':
-        # return '0, 1, 2, 3, 4, 5, 6'
-        return '5'
+        return '0, 1, 2, 3, 4, 5, 6'
+        # return '5'
     if unit == 'pedestrian':
         return '0, 1, 2, 3, 4, 5, 6'
     if unit == 'rider':

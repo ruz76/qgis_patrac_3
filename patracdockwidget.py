@@ -1920,10 +1920,12 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def setSectorsProgressStyle(self):
         self.Styles.setSectorsStyle('stav')
         self.setSectorsShowLabels()
+        self.setSectorsProgress()
 
     def setSectorsUnitsStyle(self):
         self.Styles.setSectorsStyle('units')
         self.setSectorsShowLabels()
+        self.setSectorsProgress()
 
     def setSectorsUnitsRecommendedStyle(self):
         self.Styles.setSectorsStyle('units_recommended')
