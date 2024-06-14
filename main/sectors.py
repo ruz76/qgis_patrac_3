@@ -1187,6 +1187,10 @@ class Sectors(object):
                 extent = xform.transform(layer.extent())
                 self.Printing.exportPDF(extent, DATAPATH + "/sektory/")
 
+        # Remove filter - we will not use it since we are showing the circles
+        layer.setSubsetString('')
+        layer.triggerRepaint()
+
         self.widget.setCursor(Qt.ArrowCursor)
         # Opens report in default browser
         if openReport:
