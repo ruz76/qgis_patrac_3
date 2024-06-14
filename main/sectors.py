@@ -78,6 +78,86 @@ class Sectors(object):
         self.Utils = self.widget.Utils
         self.Printing = self.widget.Printing
 
+    def get_distance(self, percent):
+        percents = [10, 20, 30, 40, 50, 60, 70, 80, 95]
+        pos = 0
+        percent_pos = 8
+        for percent_to_find in percents:
+            if percent == percent_to_find:
+               percent_pos = pos
+            pos += 1
+
+        with open(self.widget.pluginPath + "/grass/distances.txt") as d:
+            lines = d.readlines()
+            items = lines[self.widget.personType].rstrip().split(',')
+            return int(items[percent_pos])
+
+    def create_circle(self, center, radius, segments=36):
+        print(radius)
+        points = []
+        for i in range(segments):
+            angle = i * (2 * math.pi / segments)
+            x = center.x() + (radius * math.cos(angle))
+            y = center.y() + (radius * math.sin(angle))
+            points.append(QgsPointXY(x, y))
+        points.append(points[0])  # Uzavření kružnice
+        return QgsGeometry.fromPolygonXY([points])
+
+    def updateCircles(self, percent):
+        prjfi = QFileInfo(QgsProject.instance().fileName())
+        DATAPATH = prjfi.absolutePath()
+
+        layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if lyr.source() == DATAPATH + "/pracovni/kruznice.shp":
+                layer = lyr
+                break
+        if layer == None:
+            QMessageBox.information(None, QApplication.translate("Patrac", "INFO", None), QApplication.translate("Patrac", "Can not find circles layer. Can not show the probability circles.", None))
+            return
+
+        points_layer = None
+        for lyr in list(QgsProject.instance().mapLayers().values()):
+            if DATAPATH + "/pracovni/mista.shp" in lyr.source():
+                points_layer = lyr
+                break
+
+        if points_layer == None:
+            QMessageBox.information(None, QApplication.translate("Patrac", "INFO", None), QApplication.translate("Patrac", "Can not find places layer. Can not show the probability circles.", None))
+            return
+
+        points_provider = points_layer.dataProvider()
+        point_features_selected = points_layer.selectedFeatures()
+        point_features_selected_count = 0
+        for point_feature_selected in point_features_selected:
+            point_features_selected_count += 1
+
+        if point_features_selected_count > 0:
+            points_features = points_layer.selectedFeatures()
+        else:
+            points_features = points_provider.getFeatures()
+
+        layer.startEditing()
+        layer.deleteFeatures([f.id() for f in layer.getFeatures()])
+
+        distance = self.get_distance(percent)
+        # Vytvoření geometrie kružnice
+        for point_feature in points_features:
+            point = point_feature.geometry().asPoint()
+            point_xy = QgsPointXY(point)  # Převede na QgsPointXY
+            circle_geometry = self.create_circle(point_xy, distance)
+
+            # Vytvoření nového prvku (feature) a přidání geometrie
+            feature = QgsFeature()
+            feature.setGeometry(circle_geometry)
+            feature.setAttributes([1])  # Nastavení atributu (id=1)
+
+            layer.dataProvider().addFeatures([feature])
+
+        layer.commitChanges()
+        # Aktualizace vrstvy
+        layer.updateExtents()
+
     def getSectors(self, min, max):
         """Selects sectors from grass database based on filtered raster"""
 
@@ -97,6 +177,7 @@ class Sectors(object):
 
         #layer.dataProvider().forceReload()
         # layer.triggerRepaint()
+        self.updateCircles(max)
         self.filterSectors(min, max)
         self.widget.setCursor(Qt.ArrowCursor)
         # self.recalculateSectors(False)

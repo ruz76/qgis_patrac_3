@@ -249,6 +249,11 @@ class Utils(object):
                 "cs": "Místo pro ostatní prostředky",
                 "en": "Place for other resources",
                 "uk": "Місце для інших ресурсів"
+            },
+            "kruznice.shp": {
+                "cs": "Pravděpodobnost",
+                "en": "Probability",
+                "uk": "Ймовірність"
             }
         }
 
@@ -266,7 +271,7 @@ class Utils(object):
                 layer.dataProvider().setEncoding(u'UTF-8')
 
     def loadRemovedNecessaryLayers(self):
-        layers = ["patraci.shp", "sektory_group.shp", "mista.shp", "mista_linie.shp", "mista_polygon.shp"]
+        layers = ["patraci.shp", "sektory_group.shp", "mista.shp", "mista_linie.shp", "mista_polygon.shp", "kruznice.shp"]
         id = 0
         for layer in layers:
             layerExists = self.checkLayer(layer)
@@ -656,6 +661,9 @@ class Utils(object):
             },
             "mista.shp": {
                 "style": "places"
+            },
+            "kruznice.shp": {
+                "style": "circle"
             }
         }
         DATAPATH = self.getDataPath()

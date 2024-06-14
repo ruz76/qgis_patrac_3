@@ -585,6 +585,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             version = 1
         self.Utils.createProjectInfo(self.projectname, self.projectdesc, version, self.createProjectResult['XMIN'], self.createProjectResult['XMAX'], self.createProjectResult['YMIN'], self.createProjectResult['YMAX'], self.createProjectResult['epsg'])
         self.Utils.renameLayers()
+        self.Utils.loadRemovedNecessaryLayers()
         self.Utils.loadDefaultStyles()
         self.Utils.setGlobalVariables()
         self.setSectorsLayersSelectionEvent()
