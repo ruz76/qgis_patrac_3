@@ -77,11 +77,27 @@ class CalculateDistance(QgsTask):
             provider = layer.dataProvider()
             points_provider = points_layer.dataProvider()
 
+            # clear the statistics first
+            layer.startEditing()
+            features = provider.getFeatures()
+            for feature in features:
+                feature.setAttribute('stats_min', NULL)
+                layer.updateFeature(feature)
+            layer.commitChanges()
+
+            point_features_selected = points_layer.selectedFeatures()
+            point_features_selected_count = 0
+            for point_feature_selected in point_features_selected:
+                point_features_selected_count += 1
+
             features = provider.getFeatures()
             layer.startEditing()
             distances = self.get_distances()
             for feature in features:
-                points_features = points_provider.getFeatures()
+                if point_features_selected_count > 0:
+                    points_features = points_layer.selectedFeatures()
+                else:
+                    points_features = points_provider.getFeatures()
                 dist = 1000000
                 for point_feature in points_features:
                     cur_dist = feature.geometry().distance(point_feature.geometry())
@@ -222,7 +238,14 @@ class Area(object):
             self.widget.setCursor(Qt.ArrowCursor)
             return
 
-        features = self.filterAndSortFeatures(layer.getFeatures())
+        features = self.filterAndSortFeatures(layer.selectedFeatures())
+
+        if len(features) == 0:
+            # There is not any place defined
+            # Place the place to the center of the map
+            QMessageBox.information(None, QApplication.translate("Patrac", "INFO:", None),
+                                    QApplication.translate("Patrac", "No places has been selected. I will use all places.", None))
+            features = self.filterAndSortFeatures(layer.getFeatures())
 
         if len(features) == 0:
             # There is not any place defined
