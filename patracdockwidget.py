@@ -687,7 +687,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if not self.checkStep(4):
             return
 
-        layer = self.saveMistaLayer()
+        layer = self.saveLayer("mista.shp")
 
         if not layer is None:
             self.setCursor(Qt.WaitCursor)

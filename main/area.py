@@ -73,10 +73,12 @@ class CalculateDistance(QgsTask):
             # print(self.data_path)
             # print(layer)
             # print(points_layer)
+            print("OK 1")
             layer.setSubsetString('')
             provider = layer.dataProvider()
             points_provider = points_layer.dataProvider()
 
+            print("OK 2")
             # clear the statistics first
             layer.startEditing()
             features = provider.getFeatures()
@@ -85,14 +87,17 @@ class CalculateDistance(QgsTask):
                 layer.updateFeature(feature)
             layer.commitChanges()
 
+            print("OK 3")
             point_features_selected = points_layer.selectedFeatures()
             point_features_selected_count = 0
             for point_feature_selected in point_features_selected:
                 point_features_selected_count += 1
 
+            print("OK 4")
             features = provider.getFeatures()
             layer.startEditing()
             distances = self.get_distances()
+            print("OK 5")
             for feature in features:
                 if point_features_selected_count > 0:
                     points_features = points_layer.selectedFeatures()
@@ -105,7 +110,9 @@ class CalculateDistance(QgsTask):
                         dist = cur_dist
                 feature['stats_min'] = self.get_percent(distances, dist)
                 # feature['percent'] = cur_dist
+                print("OK 6")
                 layer.updateFeature(feature)
+            print("OK 7")
             layer.commitChanges()
 
             progress = 100
