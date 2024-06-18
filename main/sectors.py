@@ -512,6 +512,66 @@ class Sectors(object):
             polylineXY.append(ptXY)
         return polylineXY
 
+    def splitByDrawnLine(self, layer_line):
+        self.widget.setCursor(Qt.WaitCursor)
+        sectors_layer = self.getSectorsLayer()
+        selected_sectors = sectors_layer.selectedFeatures()
+        selected_sectors_count = 0
+        for selected_sector in selected_sectors:
+            selected_sectors_count += 1
+        if selected_sectors_count > 0:
+            selected_sectors = sectors_layer.selectedFeatures()
+        else:
+            selected_sectors = sectors_layer.getFeatures()
+
+        features = layer_line.selectedFeatures()
+        if len(features) != 1:
+            QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "You have to select just one line.", None))
+            return
+        if layer_line.crs().authid() != "EPSG:5514":
+            layer_line = self.transformTrack(layer_line)
+            layer_line.select([1])
+        features = layer_line.selectedFeatures()
+        provider_sectors_layer = sectors_layer.dataProvider()
+        subset_string = sectors_layer.subsetString()
+        sectors_layer.setSubsetString('')
+        sectors_layer.startEditing()
+        newIds = ""
+        lastsectorid = self.Utils.getLastSectorId()
+        for sector in selected_sectors:
+            sector_geometry = sector.geometry()
+            QgsMessageLog.logMessage("Splitting: " + str(sector.id()), "Patrac")
+            for line in features:
+                QgsMessageLog.logMessage("Splitting by: " + str(line.id()), "Patrac")
+                line_geometry = line.geometry()
+                line_geometry.convertToSingleType()
+                polylineXY = line_geometry.asPolyline()
+                output = sector_geometry.splitGeometry(polylineXY, False)
+                if len(output[1]) > 0:
+                    sector.setGeometry(sector_geometry)
+                    id = lastsectorid + 1
+                    label = sector['label']
+                    newIds += "'" + str(id) + "', "
+                    self.setAttributesAfterSplit(sector, sector, id, label + '_A')
+                    sectors_layer.updateFeature(sector)
+                    cur_sub_id = 'B'
+                    for o in output[1]:
+                        feature = QgsFeature(sector)
+                        feature.setGeometry(o)
+                        id += 1
+                        self.setAttributesAfterSplit(sector, feature, id, label + '_' + cur_sub_id)
+                        newIds += "'" + str(id) + "', "
+                        sectors_layer.addFeatures([feature])
+                        cur_sub_id = chr(ord(cur_sub_id) + 1)
+                    self.Utils.writeLastSectorId(id)
+        # sectors_layer.commitChanges()
+        # if subset_string != "" and newIds != "":
+        #     QgsMessageLog.logMessage("Filtering by: " + subset_string[:-1] + "," + newIds[:-2] + ")", "Patrac")
+        #     sectors_layer.setSubsetString(subset_string[:-1] + "," + newIds[:-2] + ")")
+        self.iface.setActiveLayer(sectors_layer)
+        sectors_layer.triggerRepaint()
+        self.widget.setCursor(Qt.ArrowCursor)
+
     def splitByLine(self, selectedLayers):
         self.widget.setCursor(Qt.WaitCursor)
         sectors_layer = self.getSectorsLayer()
@@ -560,9 +620,10 @@ class Sectors(object):
                 else:
                     QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "Can not split. Check if one sector is selected and the line crosses it completely.", None))
         sectors_layer.commitChanges()
-        if subset_string != "" and newIds != "":
-            QgsMessageLog.logMessage("Filtering by: " + subset_string[:-1] + "," + newIds[:-2] + ")", "Patrac")
-            sectors_layer.setSubsetString(subset_string[:-1] + "," + newIds[:-2] + ")")
+        # if subset_string != "" and newIds != "":
+        #     QgsMessageLog.logMessage("Filtering by: " + subset_string[:-1] + "," + newIds[:-2] + ")", "Patrac")
+        #     sectors_layer.setSubsetString(subset_string[:-1] + "," + newIds[:-2] + ")")
+        self.iface.setActiveLayer(sectors_layer)
         sectors_layer.triggerRepaint()
         self.widget.setCursor(Qt.ArrowCursor)
 

@@ -597,7 +597,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.sectors_layer.selectionChanged.connect(self.sectorsLayerSelectionChanged)
         self.plugin.splitByLineAction.setEnabled(False)
         self.plugin.addSplitByGridAction.setEnabled(False)
-        self.plugin.addSplitSectorsAction.setEnabled(False)
+        self.plugin.addSplitSectorsAction.setEnabled(True)
         self.plugin.addMergeSectorsAction.setEnabled(False)
 
     def sectorsLayerSelectionChanged(self, ids):
@@ -605,7 +605,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if len(ids) == 0:
             self.plugin.splitByLineAction.setEnabled(False)
             self.plugin.addSplitByGridAction.setEnabled(False)
-            self.plugin.addSplitSectorsAction.setEnabled(False)
+            self.plugin.addSplitSectorsAction.setEnabled(True)
             self.plugin.addMergeSectorsAction.setEnabled(False)
         if len(ids) == 1:
             QgsMessageLog.logMessage(str(len(ids)), "Patrac")
@@ -618,7 +618,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             self.plugin.addMergeSectorsAction.setEnabled(True)
             self.plugin.splitByLineAction.setEnabled(False)
             self.plugin.addSplitByGridAction.setEnabled(False)
-            self.plugin.addSplitSectorsAction.setEnabled(False)
+            self.plugin.addSplitSectorsAction.setEnabled(True)
         QgsMessageLog.logMessage(str(ids), "Patrac")
 
     def checkStep(self, nextStep):
@@ -667,13 +667,13 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.tabGuideSteps.setCurrentIndex(2)
         self.currentStep = 3
 
-    def saveMistaLayer(self):
+    def saveLayer(self, name):
         # set tool to save edits
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
         layer = None
         for lyr in list(QgsProject.instance().mapLayers().values()):
-            if lyr.source() == DATAPATH + "/pracovni/mista.shp":
+            if lyr.source() == DATAPATH + "/pracovni/" + name:
                 layer = lyr
                 break
 
@@ -785,8 +785,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 i=i+1
 
     def recalculateAll(self):
-        layer = self.saveMistaLayer()
-        if not layer is None:
+        layer_sectors = self.saveLayer("sektory_group.shp")
+        layer = self.saveLayer("mista.shp")
+        if not layer is None and not layer_sectors is None:
             # Removed step 5
             # self.updateUnitsGuide()
             if self.Utils.hasBeenDataModified():
@@ -1180,7 +1181,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.Sectors.splitByLine(selectedLayers)
 
     def splitByDrawnLine(self, layer):
-        self.Sectors.splitByLine([layer])
+        self.Sectors.splitByDrawnLine(layer)
 
     def addVectorsForSplitByLine(self):
         self.Sectors.addVectorsForSplitByLine()

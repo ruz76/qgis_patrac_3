@@ -322,7 +322,7 @@ class PatracPlugin(object):
         self.addSplitSectorsAction = QAction(QIcon(pluginPath + "/icons/split_by_drawn_line.png"), "Patrac", self.iface.mainWindow())
         self.addSplitSectorsAction.setToolTip(QCoreApplication.translate("Patrac", "Split sector", None))
         self.addSplitSectorsAction.triggered.connect(self.dockWidget.splitSector)
-        self.addSplitSectorsAction.setEnabled(False)
+        self.addSplitSectorsAction.setEnabled(True)
         self.toolbar.addAction(self.addSplitSectorsAction)
 
     def addMergeSectorsButton(self):
