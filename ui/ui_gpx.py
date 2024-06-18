@@ -88,6 +88,7 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
         self.lineEditNameAll.setText(today.strftime('den%d_cas%H_%M'))
         self.lineEditNameLast.setText(today.strftime('den%d_cas%H_%M'))
         self.Utils = parent.Utils
+        self.unitsLabels = [self.tr("Handlers"), self.tr("Searchers"), self.tr("Riders"), self.tr("Cars"), self.tr("Drones"), self.tr("Divers"), self.tr("Others")]
 
     def fillTableWidgetSectors(self, fileName, tableWidget):
         """Fills table with search sectors
@@ -295,9 +296,13 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
                 vector.loadNamedStyle(self.Utils.getSettingsPath() + '/styles/patraci_lines_' + locale + '.qml')
                 QgsProject.instance().addMapLayer(vector, False)
                 root = QgsProject.instance().layerTreeRoot()
-                sektory_current_gpx = root.findGroup(dir_name)
+                unit_type = self.unitsLabels[self.comboBoxType.currentIndex()]
+                unit_type_group = root.findGroup(unit_type)
+                if unit_type_group is None:
+                    unit_type_group = root.insertGroup(0, unit_type)
+                sektory_current_gpx = unit_type_group.findGroup(dir_name)
                 if sektory_current_gpx is None:
-                    sektory_current_gpx = root.insertGroup(0, dir_name)
+                    sektory_current_gpx = unit_type_group.insertGroup(0, dir_name)
                 sektory_current_gpx.addLayer(vector)
                 sektory_current_gpx.setExpanded(False)
                 return True

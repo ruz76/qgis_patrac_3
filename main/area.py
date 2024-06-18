@@ -85,7 +85,6 @@ class CalculateDistance(QgsTask):
             for feature in features:
                 feature.setAttribute('stats_min', NULL)
                 layer.updateFeature(feature)
-            layer.commitChanges()
 
             print("OK 3")
             point_features_selected = points_layer.selectedFeatures()
@@ -95,7 +94,6 @@ class CalculateDistance(QgsTask):
 
             print("OK 4")
             features = provider.getFeatures()
-            layer.startEditing()
             distances = self.get_distances()
             print("OK 5")
             for feature in features:

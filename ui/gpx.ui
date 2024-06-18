@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tabLast">
     <attribute name="title">
@@ -116,7 +116,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>360</y>
+       <y>350</y>
        <width>141</width>
        <height>21</height>
       </rect>
@@ -128,30 +128,72 @@
     <widget class="QLineEdit" name="lineEditNameAll">
      <property name="geometry">
       <rect>
-       <x>160</x>
+       <x>130</x>
        <y>350</y>
        <width>211</width>
        <height>31</height>
       </rect>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkBoxGroup">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
+    <widget class="QComboBox" name="comboBoxType">
      <property name="geometry">
       <rect>
-       <x>410</x>
+       <x>470</x>
        <y>350</y>
-       <width>291</width>
-       <height>26</height>
+       <width>201</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>Handler</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Searcher</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Rider</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Car</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Drone</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Diver</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Other</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="labelType">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>350</y>
+       <width>91</width>
+       <height>21</height>
       </rect>
      </property>
      <property name="text">
-      <string>Group records</string>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
+      <string>Type</string>
      </property>
     </widget>
    </widget>
