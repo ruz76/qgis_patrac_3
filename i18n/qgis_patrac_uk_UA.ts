@@ -95,7 +95,7 @@
     <message>
         <location filename="../ui/gpx.ui" line="151"/>
         <source>Group records</source>
-        <translation>Об&apos;єднання записів в один</translation>
+        <translation type="obsolete">Об&apos;єднання записів в один</translation>
     </message>
     <message>
         <location filename="../ui/gpx.ui" line="100"/>
@@ -612,6 +612,46 @@
         <source>You can specify maximum time for search. The report will estimate necessary units to search in specified time. The time is without breaks.</source>
         <translation>Ви можете вказати максимальний час пошуку. У звіті буде міститися оцінка необхідних одиниць для пошуку в заданий час. Розраховується з чистим часом.</translation>
     </message>
+    <message>
+        <location filename="../ui/gpx.ui" line="152"/>
+        <source>Handler</source>
+        <translation>обробник</translation>
+    </message>
+    <message>
+        <location filename="../ui/gpx.ui" line="157"/>
+        <source>Searcher</source>
+        <translation>Шукач пішки</translation>
+    </message>
+    <message>
+        <location filename="../ui/gpx.ui" line="162"/>
+        <source>Rider</source>
+        <translation>Вершник</translation>
+    </message>
+    <message>
+        <location filename="../ui/gpx.ui" line="167"/>
+        <source>Car</source>
+        <translation>квадроцикл</translation>
+    </message>
+    <message>
+        <location filename="../ui/gpx.ui" line="172"/>
+        <source>Drone</source>
+        <translation>Дрон</translation>
+    </message>
+    <message>
+        <location filename="../ui/gpx.ui" line="177"/>
+        <source>Diver</source>
+        <translation>Водолаз</translation>
+    </message>
+    <message>
+        <location filename="../ui/gpx.ui" line="182"/>
+        <source>Other</source>
+        <translation>Інший</translation>
+    </message>
+    <message>
+        <location filename="../ui/gpx.ui" line="196"/>
+        <source>Type</source>
+        <translation>види</translation>
+    </message>
 </context>
 <context>
     <name>MessageDialog</name>
@@ -649,32 +689,32 @@
 <context>
     <name>Patrac</name>
     <message>
-        <location filename="../patracdockwidget.py" line="1984"/>
+        <location filename="../patracdockwidget.py" line="1949"/>
         <source>ERROR</source>
         <translation>ПОМИЛКА</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="493"/>
+        <location filename="../main/area.py" line="221"/>
         <source>Wrong project</source>
         <translation>Поганий проект. Відкрийте правильний проект або створіть новий за допомогою майстра</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="956"/>
+        <location filename="../patracdockwidget.py" line="941"/>
         <source>INFO</source>
         <translation>ІНФО</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="514"/>
+        <location filename="../main/area.py" line="242"/>
         <source>Can not find places layer. Can not compute.</source>
         <translation>Проект не містить шару місць.</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="523"/>
+        <location filename="../main/area.py" line="258"/>
         <source>INFO:</source>
         <translation>ІНФО</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="523"/>
+        <location filename="../main/area.py" line="258"/>
         <source>Layer with places is empty. Placing point in the center of the map.</source>
         <translation>Шар місць не містить жодного елемента. Я вставляю точку в центрі карти з поточним часом.</translation>
     </message>
@@ -694,7 +734,7 @@
         <translation type="obsolete">Тест Report_Export завершився з помилкою (вихідний HTML не відповідає очікуваному стану)</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="283"/>
+        <location filename="../main/project.py" line="256"/>
         <source>Out of Czech Republic. Can not continue.</source>
         <translation>Протяжність карти знаходиться за межами Чехії. У мене немає даних, я не можу продовжити.</translation>
     </message>
@@ -709,32 +749,32 @@
         <translation type="obsolete">Не вдалося знайти каталог даних. Я не можу продовжувати.</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="300"/>
+        <location filename="../main/project.py" line="273"/>
         <source>Region</source>
         <translation>Регіон</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="300"/>
+        <location filename="../main/project.py" line="273"/>
         <source>The area is large. Computing will be slow. Do you want to continue?</source>
         <translation>Область занадто велика. Розрахунки будуть повільними. Ви хочете продовжити?</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="321"/>
+        <location filename="../main/project.py" line="294"/>
         <source>Do not have data for seleted region. Can not continue.</source>
         <translation>У мене немає актуальних даних для даного регіону. У мене немає даних, я не можу продовжити. Ви можете оновити/встановити дані в діалоговому вікні налаштувань, яке відкриється згодом.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1866"/>
+        <location filename="../patracdockwidget.py" line="1828"/>
         <source>Can not connect to the server.</source>
         <translation>Я не можу підключитися до сервера.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1984"/>
+        <location filename="../patracdockwidget.py" line="1949"/>
         <source>Wrong project.</source>
         <translation>Поганий проект. Відкрийте правильний проект або створіть новий за допомогою майстра.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="958"/>
+        <location filename="../main/sectors.py" line="1103"/>
         <source>GPX and PDF for search</source>
         <translation>GPX і PDF для квестів</translation>
     </message>
@@ -759,22 +799,22 @@
         <translation type="obsolete">SE</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1896"/>
+        <location filename="../patracdockwidget.py" line="1858"/>
         <source>Error</source>
         <translation>ПОМИЛКА</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="430"/>
+        <location filename="../patracdockwidget.py" line="436"/>
         <source>Can not find web browser to open help</source>
         <translation>Я не можу відкрити веб-браузер, щоб завантажити довідку</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="520"/>
+        <location filename="../patracdockwidget.py" line="526"/>
         <source>Wrong municipality</source>
         <translation>Не те село</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="520"/>
+        <location filename="../patracdockwidget.py" line="526"/>
         <source>The municipality has not been found</source>
         <translation>Село не знайдено</translation>
     </message>
@@ -784,52 +824,52 @@
         <translation>Крок</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="621"/>
+        <location filename="../patracdockwidget.py" line="628"/>
         <source>You skipped the step. Do you want to continue?</source>
         <translation>Ви пропустили крок у майстрі. Ви хочете продовжити?</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="856"/>
+        <location filename="../patracdockwidget.py" line="850"/>
         <source>No probability layer. Can not continue.</source>
         <translation>Я не можу знайти рівень ймовірності. Я не можу продовжувати.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="887"/>
+        <location filename="../patracdockwidget.py" line="872"/>
         <source>Can not find web browser to open report</source>
         <translation>Я не можу відкрити веб-переглядач, щоб завантажити звіт</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="917"/>
+        <location filename="../patracdockwidget.py" line="902"/>
         <source>Did not find GPS. You have to copy GPX manually from the report.</source>
         <translation>Я не міг знайти підключений GPS. Ви повинні зберегти файл зі звіту вручну.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="921"/>
+        <location filename="../patracdockwidget.py" line="906"/>
         <source>select input dialog</source>
         <translation>вибрати</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="921"/>
+        <location filename="../patracdockwidget.py" line="906"/>
         <source>list of drives</source>
         <translation>Список дисків</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="956"/>
+        <location filename="../patracdockwidget.py" line="941"/>
         <source>The sectors has been copied into the device: </source>
         <translation>Сектори скопійовано на пристрій</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="958"/>
+        <location filename="../patracdockwidget.py" line="943"/>
         <source>Can not copy. You have copy it manually from the path: </source>
         <translation>Під час копіювання секторів сталася помилка. Копіювати через файловий менеджер зі шляху:</translation>
     </message>
     <message>
         <location filename="../patracdockwidget.py" line="1095"/>
         <source>No probability layer. Please try step 3 again.</source>
-        <translation>Проект не включає ймовірнісний рівень. Повторіть крок 3 у посібнику.</translation>
+        <translation type="obsolete">Проект не включає ймовірнісний рівень. Повторіть крок 3 у посібнику.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="926"/>
+        <location filename="../patracdockwidget.py" line="911"/>
         <source>Do you want to clean the GPS data before export?</source>
         <translation>Бажаєте очистити GPS перед експортом?</translation>
     </message>
@@ -839,12 +879,12 @@
         <translation type="obsolete">Недоступний</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1827"/>
+        <location filename="../patracdockwidget.py" line="1789"/>
         <source>Tracks are empty.</source>
         <translation>Доріжки порожні.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1896"/>
+        <location filename="../patracdockwidget.py" line="1858"/>
         <source>Problem to read data from: </source>
         <translation>Проблема із завантаженням даних із бази даних</translation>
     </message>
@@ -854,17 +894,17 @@
         <translation type="obsolete">Позиції порожні.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1910"/>
+        <location filename="../patracdockwidget.py" line="1872"/>
         <source>CHYBA:</source>
         <translation>ПОМИЛКА:</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="990"/>
+        <location filename="../main/sectors.py" line="1135"/>
         <source>SECTOR</source>
         <translation>СЕКТОР</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="990"/>
+        <location filename="../main/sectors.py" line="1135"/>
         <source>Types of terrain</source>
         <translation>Типи поверхні</translation>
     </message>
@@ -914,7 +954,7 @@
         <translation>Інформація</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1436"/>
+        <location filename="../patracdockwidget.py" line="1398"/>
         <source>Click into the map at the place of finding. If you finishing without finding, click anywhere into map.</source>
         <translation>Натисніть на карту, щоб знайти його. Якщо ви закінчите без знахідки, натисніть будь-яке місце на карті.</translation>
     </message>
@@ -924,27 +964,27 @@
         <translation>Перерахувати сектори</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="478"/>
+        <location filename="../main/sectors.py" line="621"/>
         <source>ERROR:</source>
         <translation>ПОМИЛКА:</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="390"/>
+        <location filename="../main/sectors.py" line="471"/>
         <source>You have to select at least one sector to split.</source>
         <translation>Ви повинні вибрати принаймні один сектор для розділення.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="396"/>
+        <location filename="../main/sectors.py" line="477"/>
         <source>You have to select line layer.</source>
         <translation>Необхідно вибрати лінійний шар.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="399"/>
+        <location filename="../main/sectors.py" line="480"/>
         <source>Selected layer is not line layer.</source>
         <translation>Вибраний шар не є лінійним.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="443"/>
+        <location filename="../main/sectors.py" line="584"/>
         <source>You have to select just one line.</source>
         <translation>Ви повинні вибрати рівно один рядок.</translation>
     </message>
@@ -964,52 +1004,52 @@
         <translation>Додайте бурчання для поділу секторів.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="543"/>
+        <location filename="../main/sectors.py" line="688"/>
         <source>Map lists where the sector is present</source>
         <translation>Листи карт із заляганням сектора</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="561"/>
+        <location filename="../main/sectors.py" line="706"/>
         <source>GPS file with drawn sector</source>
         <translation>Файл для GPS із секторною побудовою</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="963"/>
+        <location filename="../main/sectors.py" line="1108"/>
         <source>Overall view</source>
         <translation>Весь район</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="970"/>
+        <location filename="../main/sectors.py" line="1115"/>
         <source>If you do not see links to PDF files for print, the files were not generated. Please use checkbox on last card in the guide and show report again.</source>
         <translation>Якщо ви не бачите посилань на PDF-файли, це означає, що їх ще не створено. Скористайтеся кнопкою прапорця на останньому кроці майстра, щоб знову відобразити звіт.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="549"/>
+        <location filename="../patracdockwidget.py" line="555"/>
         <source>Missing input</source>
         <translation>Відсутній запис</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="549"/>
+        <location filename="../patracdockwidget.py" line="555"/>
         <source>You have to select type of the search</source>
         <translation>Необхідно вказати тип пошуку (навчання та тестування або реальний пошуковий захід).</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1792"/>
+        <location filename="../patracdockwidget.py" line="1754"/>
         <source>Online tracks</source>
         <translation>Онлайн сліди</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="483"/>
+        <location filename="../patracdockwidget.py" line="489"/>
         <source>Information updated</source>
         <translation>Інформація оновлена</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1202"/>
+        <location filename="../patracdockwidget.py" line="1164"/>
         <source>Can not calculate the area. Check the inputs.</source>
         <translation>Я не можу обчислити поверхню ймовірності. Будь ласка, перевірте введення. наприклад чи знаходиться точка на о.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="541"/>
+        <location filename="../patracdockwidget.py" line="547"/>
         <source>You did not enter the result of the previous search. Do you want to continue?</source>
         <translation>Ви не ввели попередній результат пошуку. Ви впевнені, що бажаєте продовжити?</translation>
     </message>
@@ -1019,42 +1059,42 @@
         <translation>Ви не ввели попередній результат пошуку. Ви впевнені, що бажаєте закрити програму?</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="978"/>
+        <location filename="../main/sectors.py" line="1123"/>
         <source>Wrong installation. Call you administrator.</source>
         <translation>Неправильна установка. Зверніться до адміністратора.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="933"/>
+        <location filename="../patracdockwidget.py" line="918"/>
         <source>Clean GPS</source>
         <translation>Очистити GPS</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="933"/>
+        <location filename="../patracdockwidget.py" line="918"/>
         <source>Are you sure that you want to clean the GPS data before export?</source>
         <translation>Ви впевнені, що бажаєте очистити GPS перед експортом?</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1901"/>
+        <location filename="../patracdockwidget.py" line="1863"/>
         <source>Success</source>
         <translation>Успіх</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1860"/>
+        <location filename="../patracdockwidget.py" line="1822"/>
         <source>Tracks were loaded.</source>
         <translation>Завантажено сліди трави.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1901"/>
+        <location filename="../patracdockwidget.py" line="1863"/>
         <source>Positions were loaded.</source>
         <translation>Позиції завантажено.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1729"/>
+        <location filename="../patracdockwidget.py" line="1691"/>
         <source>No handlers in action yet. Call them first.</source>
         <translation>Жодного обробника ще не запрошено. Створіть виклик.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1838"/>
+        <location filename="../patracdockwidget.py" line="1800"/>
         <source>Problem to read data for user: </source>
         <translation>Проблема із завантаженням даних користувача:</translation>
     </message>
@@ -1064,22 +1104,22 @@
         <translation>Експортуйте попередньо визначені PDF-файли</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="413"/>
+        <location filename="../main/project.py" line="388"/>
         <source>ZPM</source>
         <translation>ЗПМ</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="413"/>
+        <location filename="../main/project.py" line="388"/>
         <source>Can not find ZPM map. Do you wan to find it yourself?</source>
         <translation>Я не можу знайти ZPM. Хочете знайти його самостійно?</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="992"/>
+        <location filename="../main/sectors.py" line="1137"/>
         <source>Exporting GPX for each sector</source>
         <translation>Я експортую GPX для кожного сектора</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="1132"/>
+        <location filename="../main/sectors.py" line="1287"/>
         <source>Exporting PDFs for each sector</source>
         <translation>Я експортую PDF для кожного сектора</translation>
     </message>
@@ -1144,37 +1184,37 @@
         <translation>Виконано. Дані оновлено.</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="475"/>
+        <location filename="../main/area.py" line="203"/>
         <source>Calculating area: </source>
         <translation>Розрахунок площі: </translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="1125"/>
+        <location filename="../main/sectors.py" line="1280"/>
         <source>Generating of PDFs for individual sectors can take about 10 seconds for each sector. Do you want to continue? Number of sectors: </source>
         <translation>Створення PDF для кожного сектора може тривати близько 10 секунд для одного сектора. Ви впевнені, що бажаєте продовжити? Кількість секторів: </translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="478"/>
+        <location filename="../main/sectors.py" line="621"/>
         <source>Can not split. Check if one sector is selected and the line crosses it completely.</source>
         <translation>Я не можу розділитися. Переконайтеся, що виділено один сектор і лінія повністю його розділяє.</translation>
     </message>
     <message>
-        <location filename="../main/utils.py" line="722"/>
+        <location filename="../main/utils.py" line="730"/>
         <source>Creating grid: </source>
         <translation>Я створюю сітку: </translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="282"/>
+        <location filename="../patracdockwidget.py" line="288"/>
         <source>You have to select at least two sectors.</source>
         <translation>Необхідно вибрати принаймні два сектори.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="332"/>
+        <location filename="../patracdockwidget.py" line="338"/>
         <source>You have to select just one sector.</source>
         <translation>Ви повинні вибрати рівно один сектор.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="375"/>
+        <location filename="../patracdockwidget.py" line="381"/>
         <source>The type of sectors has been changed. You have ot recalculate the situation.</source>
         <translation>Змінено тип секторів. Треба перерахувати ситуацію.</translation>
     </message>
@@ -1199,24 +1239,39 @@
         <translation>Потрібно перезапустити QGIS, щоб зміна мови набула чинності.</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="370"/>
+        <location filename="../main/project.py" line="345"/>
         <source>Loading data: </source>
         <translation>Завантаження даних: </translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="216"/>
+        <location filename="../main/area.py" line="136"/>
         <source>Can not compute. Try again, please. Check the position of last seen person. Move the point inside sector that is not a water body. DO not place it on building or encapsulated area, such as power station.</source>
         <translation>Не можна обчислити. Будь ласка спробуйте ще раз. Перевірте місцезнаходження останньої людини, яку бачили. Перемістіть точку в сектор, який не є водоймою. Не розміщуйте його на будівлі чи закритій території, наприклад на електростанції.</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="531"/>
+        <location filename="../main/area.py" line="266"/>
         <source>Can not compute. One of the points is out of the project area.</source>
         <translation>Не вдається обчислити. Одна з точок знаходиться поза зоною проекту.</translation>
     </message>
     <message>
-        <location filename="../main/project.py" line="187"/>
+        <location filename="../main/project.py" line="160"/>
         <source>Can not create project. Check the data. Try to update data is Settings.</source>
         <translation>Неможливо створити проект. Перевірте дані. Спробуйте оновити дані в налаштуваннях.</translation>
+    </message>
+    <message>
+        <location filename="../main/area.py" line="251"/>
+        <source>No places has been selected. I will use all places.</source>
+        <translation>Жодне місце не обрано. Всі будуть використані.</translation>
+    </message>
+    <message>
+        <location filename="../main/sectors.py" line="116"/>
+        <source>Can not find circles layer. Can not show the probability circles.</source>
+        <translation>Я не можу знайти шар кіл. Я не можу показати кола ймовірностей.</translation>
+    </message>
+    <message>
+        <location filename="../main/sectors.py" line="126"/>
+        <source>Can not find places layer. Can not show the probability circles.</source>
+        <translation>Я не можу знайти шар місць. Я не можу показати кола ймовірностей.</translation>
     </message>
 </context>
 <context>
@@ -1242,7 +1297,7 @@
         <translation type="obsolete">Експерт</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="761"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="771"/>
         <source>Places management</source>
         <translation>Менеджмент</translation>
     </message>
@@ -1267,7 +1322,7 @@
         <translation>Створіть звіт</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="560"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="570"/>
         <source>Child 1-3</source>
         <translation>Дитина 1-3</translation>
     </message>
@@ -1277,54 +1332,54 @@
         <translation>Дитина 4-6</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="562"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="572"/>
         <source>Child 7-12</source>
         <translation>Дитина 7-12</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="563"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="573"/>
         <source>Child 13-15</source>
         <translation>Дитина 13-15</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="564"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="574"/>
         <source>Despondent</source>
         <translation>депресія</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="565"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="575"/>
         <source>Psychical ilness</source>
         <translation>Психічна звороба; психічний розлад</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="566"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="576"/>
         <source>Retarded</source>
         <translation>Відсталий</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="567"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="577"/>
         <source>Alzheimer</source>
         <translation>хвороба Альцгеймера</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="568"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="578"/>
         <source>Turist</source>
         <translation>Туристична</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="569"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="579"/>
         <source>Demention</source>
         <translation>Деменція</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="753"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="763"/>
         <source>Extend area</source>
         <translation>Розширити область</translation>
     </message>
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="376"/>
-        <source>Show searchers (points)</source>
-        <translation type="obsolete">Показати шукач (бали)</translation>
+        <source>Lost person description</source>
+        <translation>Опис зниклого</translation>
     </message>
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="349"/>
@@ -1359,7 +1414,7 @@
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="263"/>
         <source>Sectors by type</source>
-        <translation>Сектори за видами</translation>
+        <translation type="obsolete">Сектори за видами</translation>
     </message>
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="239"/>
@@ -1407,17 +1462,17 @@
         <translation type="obsolete">Розпочато пошук</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="807"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="817"/>
         <source>Handler</source>
         <translation>обробник</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="816"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="826"/>
         <source>Person</source>
         <translation>Ройніце</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="825"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="835"/>
         <source>Drone</source>
         <translation>Дрон</translation>
     </message>
@@ -1437,82 +1492,82 @@
         <translation type="obsolete">Пошуковий аналіз</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="471"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="481"/>
         <source>Buffer in m</source>
         <translation>Обкладинка в м</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="484"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="494"/>
         <source>Number of persons</source>
         <translation>Кількість осіб у рожниці</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="531"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="541"/>
         <source>Enter name and description</source>
         <translation>Місце проведення пошукової операції (назва муніципалітету або його частини)</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="537"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="547"/>
         <source>Enter name</source>
         <translation>Введіть назву муніципалітету (або частини)</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="542"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="552"/>
         <source>Brief description</source>
         <translation>Введіть короткий опис пошуку</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="675"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="685"/>
         <source>Next</source>
         <translation>Далі</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="587"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="597"/>
         <source>Click into the map for report of the last seen.</source>
         <translation>Клацніть на карті, щоб позначити місце(я), де було підтверджено останню появу зниклої людини.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="555"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="565"/>
         <source>Select type of the person</source>
         <translation>Вид зниклої особи</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="561"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="571"/>
         <source>Child 3-6</source>
         <translation>Дитина 3-6</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="627"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="637"/>
         <source>The search area is set to 70%</source>
         <translation>Відсоток ймовірності віддаленості зниклої людини від місця останньої появи встановлено на 70%</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="651"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="661"/>
         <source>Number of units</source>
         <translation>Кількість доступних інструментів пошуку:</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="669"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="679"/>
         <source>Or maximum time for search</source>
         <translation>Примітка: максимальний час пошуку є чистим робочим часом.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="660"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="670"/>
         <source>Maximum time for search</source>
         <translation>Введіть максимальний час пошуку</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="688"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="698"/>
         <source>Almost finished. You may generate PDF and then show the report.</source>
         <translation>Примітка.&lt;br/&gt;Створення PDF (карт) може зайняти досить багато часу (порядку хвилин)</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="683"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="693"/>
         <source>Generate PDF</source>
         <translation>Створіть PDF для друку попередньо визначених карт</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="701"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="711"/>
         <source>Show report</source>
         <translation>Переглянути звіт</translation>
     </message>
@@ -1527,22 +1582,22 @@
         <translation type="obsolete">Водолаз</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="852"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="862"/>
         <source>Searcher</source>
         <translation>Пошуковик</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="854"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="864"/>
         <source>Determine area</source>
         <translation>Визначте простір</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="856"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="866"/>
         <source>Values min/max</source>
         <translation>Мінімальні/максимальні значення</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="858"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="868"/>
         <source>Values max/min</source>
         <translation>Макс/мін значення</translation>
     </message>
@@ -1557,62 +1612,62 @@
         <translation type="obsolete">Сектор ризику</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="524"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="534"/>
         <source>Education and testing</source>
         <translation>Навчання та тестування</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="527"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="537"/>
         <source>Real action</source>
         <translation>Справжня пошукова операція</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="573"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="583"/>
         <source>Guide Step 2 Note</source>
         <translation>Примітка:&lt;br/&gt;Суїцидальні наміри належать до групи &quot;Депресія&quot;&lt;br/&gt;&quot;Деменція&quot; = стареча деменція&lt;br/&gt;Дезорієнтація = &quot;Мандрівник&quot;</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="592"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="602"/>
         <source>If you know the time you may specify it.</source>
         <translation>Якщо ви знаєте час прицілювання, можете додати його.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="597"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="607"/>
         <source>Guide Step 3 Note.</source>
         <translation>Керування картою:&lt;br/&gt;Збільшити масштаб карти - повернувши коліщатко миші вбік&lt;br/&gt;Зменшити масштаб карти - повернувши коліщатко миші на себе&lt;br/&gt;Перемістити карту - натиснути коліщатко та рухайте мишею</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="604"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="614"/>
         <source>Return to point add.</source>
         <translation>Повернутися до режиму редагування точки:</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="612"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="622"/>
         <source>Return to point add</source>
         <translation>Повернення до режиму редагування точки</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="632"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="642"/>
         <source>Guide Step 4 Note.</source>
         <translation>Примітка.&lt;br/&gt;&lt;br/&gt;Налаштування можна змінити, але збільшення значення призведе до збільшення часу обчислення та включення до пошуку більшої області, ніж це зазвичай можливо для пошуку в реальному часі.&lt;br/&gt;&lt;br/&gt;Зменшення значення також зменшує ймовірність знайти зниклу особу.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="657"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="667"/>
         <source>Other units</source>
         <translation>Більше одиниць</translation>
     </message>
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="709"/>
         <source>Show sectors by type</source>
-        <translation>Показати сектори за типом</translation>
+        <translation type="obsolete">Показати сектори за типом</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="717"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="727"/>
         <source>Show sectors by recomended units</source>
         <translation>Показати сектори відповідно до рекомендованих інструментів пошуку</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="731"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="741"/>
         <source>Guide Step 2 Note 2.</source>
         <translation>Примітка: не забудьте ввести результат пошуку після події.</translation>
     </message>
@@ -1647,37 +1702,37 @@
         <translation>Створіть власну карту</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="356"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="366"/>
         <source>Tracks Note</source>
         <translation>Примітка: якщо ви не виберете певні сектори, усі будуть експортовані!!</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="455"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="465"/>
         <source>Analyze Note</source>
         <translation>Щоб проаналізувати трасу, спочатку виберіть у списку шарів шар із трасою. Потім вклинюється в сектор.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="515"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="525"/>
         <source>Changes in the plan</source>
         <translation>Зміни в розкладі</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="769"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="779"/>
         <source>Append places</source>
         <translation>Додайте місця</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="777"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="787"/>
         <source>Set percent</source>
         <translation>Встановити відсотки</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="785"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="795"/>
         <source>Set units</source>
         <translation>Набір сил і засобів</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="801"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="811"/>
         <source>Recalculate</source>
         <translation>конвертувати</translation>
     </message>
@@ -1687,42 +1742,37 @@
         <translation>Кінологи</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="366"/>
-        <source>Lost person description</source>
-        <translation>Опис зниклого</translation>
-    </message>
-    <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="374"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="384"/>
         <source>Edit lost person description</source>
         <translation>Відредагуйте опис зниклого</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="383"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="393"/>
         <source>Name of the commander</source>
         <translation>ПІБ командира (контактної особи):</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="395"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="405"/>
         <source>Telephone of the commander</source>
         <translation>Телефон командира (контактної особи):</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="407"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="417"/>
         <source>Place of meeting of handlers</source>
         <translation>Місце зустрічі кінологів:</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="438"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="448"/>
         <source>Select from map</source>
         <translation>Виберіть, клацнувши на карті</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="445"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="455"/>
         <source>Update action</source>
         <translation>оновлення</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="447"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="457"/>
         <source>Update action settings</source>
         <translation>Оновіть контактну інформацію для пошуку</translation>
     </message>
@@ -1737,12 +1787,12 @@
         <translation type="obsolete">Ще не реалізовано</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="427"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="437"/>
         <source>Place of meeting of others</source>
         <translation>Місце концентрації інших SaP:</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="793"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="803"/>
         <source>Switch sectors type</source>
         <translation>Зміна типу секторів</translation>
     </message>
@@ -1752,9 +1802,14 @@
         <translation>Експорт у CSV</translation>
     </message>
     <message>
-        <location filename="../ui/ui_patracdockwidgetbase.py" line="725"/>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="735"/>
         <source>Generate individual PDF for each sector</source>
         <translation>Створіть окремий PDF для кожного сектора</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_patracdockwidgetbase.py" line="359"/>
+        <source>Chinese postman path</source>
+        <translation>Подорож китайського листоноші</translation>
     </message>
 </context>
 <context>
@@ -1906,57 +1961,57 @@
 <context>
     <name>Ui_Gpx</name>
     <message>
-        <location filename="../ui/ui_gpx.py" line="96"/>
+        <location filename="../ui/ui_gpx.py" line="97"/>
         <source>From</source>
         <translation>Від</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="96"/>
+        <location filename="../ui/ui_gpx.py" line="97"/>
         <source>To</source>
         <translation>до</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="140"/>
+        <location filename="../ui/ui_gpx.py" line="141"/>
         <source>select input dialog</source>
         <translation>вибрати</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="140"/>
+        <location filename="../ui/ui_gpx.py" line="141"/>
         <source>list of drives</source>
         <translation>Список дисків</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="136"/>
+        <location filename="../ui/ui_gpx.py" line="137"/>
         <source>Not found </source>
         <translation>Не знайдено</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="136"/>
+        <location filename="../ui/ui_gpx.py" line="137"/>
         <source>Necessary for test.</source>
         <translation>Необхідний для тесту.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="165"/>
+        <location filename="../ui/ui_gpx.py" line="166"/>
         <source>Not found any disk. Will not search for data.</source>
         <translation>Диск не вибрано. Я не буду шукати побачень.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="248"/>
+        <location filename="../ui/ui_gpx.py" line="249"/>
         <source>Another Type of GPX</source>
         <translation>Інший тип GPX</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="255"/>
+        <location filename="../ui/ui_gpx.py" line="256"/>
         <source>No records found</source>
         <translation>Жодного предмета не знайдено</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="305"/>
+        <location filename="../ui/ui_gpx.py" line="310"/>
         <source>INFO</source>
         <translation>ІНФО</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="305"/>
+        <location filename="../ui/ui_gpx.py" line="310"/>
         <source>There are not any tracks in the GPX.</source>
         <translation>Файли GPX не містять доріжок.</translation>
     </message>
@@ -1966,29 +2021,64 @@
         <translation type="obsolete">У вказаному періоді немає дат.</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="242"/>
+        <location filename="../ui/ui_gpx.py" line="243"/>
         <source>No Time Information</source>
         <translation>Немає інформації про час</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="265"/>
+        <location filename="../ui/ui_gpx.py" line="266"/>
         <source>TNK</source>
         <translation>ТНК</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="278"/>
+        <location filename="../ui/ui_gpx.py" line="279"/>
         <source>Track loaded</source>
         <translation>Трек завантажено</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="280"/>
+        <location filename="../ui/ui_gpx.py" line="281"/>
         <source>Problem with loading track</source>
         <translation>Проблема із завантаженням треку</translation>
     </message>
     <message>
-        <location filename="../ui/ui_gpx.py" line="283"/>
+        <location filename="../ui/ui_gpx.py" line="284"/>
         <source>Loading tracks finished.</source>
         <translation>Завантаження треку завершено.</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_gpx.py" line="91"/>
+        <source>Handlers</source>
+        <translation>Кінологи</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_gpx.py" line="91"/>
+        <source>Searchers</source>
+        <translation>Пошуковці</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_gpx.py" line="91"/>
+        <source>Riders</source>
+        <translation>Вершники</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_gpx.py" line="91"/>
+        <source>Cars</source>
+        <translation>квадроцикли</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_gpx.py" line="91"/>
+        <source>Drones</source>
+        <translation>Дрони</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_gpx.py" line="91"/>
+        <source>Divers</source>
+        <translation>водолази</translation>
+    </message>
+    <message>
+        <location filename="../ui/ui_gpx.py" line="91"/>
+        <source>Others</source>
+        <translation>Інший</translation>
     </message>
 </context>
 <context>
