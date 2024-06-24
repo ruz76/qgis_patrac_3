@@ -58,6 +58,9 @@ class CalculateDistance(QgsTask):
             progress = 10
             self.setProgress(progress)
 
+            # self.widget.Utils.removeLayer(self.widget.Utils.getDataPath() + "/pracovni/sektory_group.shp")
+            # layer = QgsVectorLayer(self.widget.Utils.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "ogr")
+
             layer = None
             for lyr in list(QgsProject.instance().mapLayers().values()):
                 if self.data_path + "pracovni/sektory_group.shp" in lyr.source():
@@ -73,29 +76,30 @@ class CalculateDistance(QgsTask):
             # print(self.data_path)
             # print(layer)
             # print(points_layer)
-            print("OK 1")
+            # print("OK 1")
             layer.setSubsetString('')
             provider = layer.dataProvider()
             points_provider = points_layer.dataProvider()
 
-            print("OK 2")
-            # clear the statistics first
-            layer.startEditing()
-            features = provider.getFeatures()
-            for feature in features:
-                feature.setAttribute('stats_min', NULL)
-                layer.updateFeature(feature)
+            # print("OK 2")
+            # # clear the statistics first
+            # layer.startEditing()
+            # features = provider.getFeatures()
+            # for feature in features:
+            #     feature.setAttribute('stats_min', NULL)
+            #     layer.updateFeature(feature)
 
-            print("OK 3")
+            # print("OK 3")
             point_features_selected = points_layer.selectedFeatures()
             point_features_selected_count = 0
             for point_feature_selected in point_features_selected:
                 point_features_selected_count += 1
 
-            print("OK 4")
+            # print("OK 4")
+            layer.startEditing()
             features = provider.getFeatures()
             distances = self.get_distances()
-            print("OK 5")
+            # print("OK 5")
             for feature in features:
                 if point_features_selected_count > 0:
                     points_features = points_layer.selectedFeatures()
@@ -108,10 +112,15 @@ class CalculateDistance(QgsTask):
                         dist = cur_dist
                 feature['stats_min'] = self.get_percent(distances, dist)
                 # feature['percent'] = cur_dist
-                print("OK 6")
+                # print("OK 6")
                 layer.updateFeature(feature)
-            print("OK 7")
+            # print("OK 7")
             layer.commitChanges()
+
+            # locale = self.widget.Utils.getLocale()
+            # self.widget.Utils.addVectorLayerWithStyle(self.widget.Utils.getDataPath() + "/pracovni/sektory_group.shp",
+            #                                     self.widget.Utils.getLayerName("sektory_group.shp"),
+            #                                     "sectors_single_" + locale, 5514)
 
             progress = 100
             self.setProgress(progress)

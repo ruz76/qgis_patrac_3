@@ -48,7 +48,7 @@ from .ui.ui_grid import Ui_Grid
 from .ui.ui_units import Ui_Units
 from .ui.ui_handlers import Ui_Handlers
 from .ui.ui_person import Ui_Person
-from .ui.ui_chcalculate import Ui_Chcalculate
+# from .ui.ui_chcalculate import Ui_Chcalculate
 
 from .main.printing import Printing
 from .main.project import Project
@@ -204,7 +204,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.unitsdlg = Ui_Units(self.pluginPath, self)
         self.handlersdlg = Ui_Handlers(self.pluginPath, self)
         self.persondlg = Ui_Person(self.pluginPath, self)
-        self.chcalculatedlg = Ui_Chcalculate(self.pluginPath, self)
+        # self.chcalculatedlg = Ui_Chcalculate(self.pluginPath, self)
 
         self.Styles = Styles(self)
         # self.sectorsUniqueStyle.clicked.connect(self.setSectorsUniqueValuesStyle)
@@ -1999,9 +1999,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         return layer
 
     def chinesePostmanPathPoC(self):
-        # QMessageBox.critical(None, QApplication.translate("Patrac", "ERROR", None),
-        #                      QApplication.translate("Patrac", "Not implemented.", None))
-        # return
+        QMessageBox.critical(None, QApplication.translate("Patrac", "ERROR", None),
+                             QApplication.translate("Patrac", "Not implemented.", None))
+        return
         # self.chinesePostmanCallId += 1
-        self.chcalculatedlg.exec_()
+        # self.chcalculatedlg.exec_()
 

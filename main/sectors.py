@@ -1269,11 +1269,19 @@ class Sectors(object):
                 break
 
         provider = layer.dataProvider()
-        features = provider.getFeatures()
+
+        features_selected = layer.selectedFeatures()
+        features_selected_count = 0
+        for feature_selected in features_selected:
+            features_selected_count += 1
 
         featuresCount = 0
-        for feature in features:
-            featuresCount += 1
+        if features_selected_count == 0:
+            features = provider.getFeatures()
+            for feature in features:
+                featuresCount += 1
+        else:
+            featuresCount = features_selected_count
 
         # TODO change to something interesting
         if featuresCount > 0:
@@ -1288,7 +1296,10 @@ class Sectors(object):
         step = 100 / featuresCount
         progress = 0
         self.widget.setProgress(round(progress))
-        features = provider.getFeatures()
+        if features_selected_count > 0:
+            features = layer.selectedFeatures()
+        else:
+            features = provider.getFeatures()
         srs = self.canvas.mapSettings().destinationCrs()
         current_crs = srs.authid()
         needsToBeTransformed = True
