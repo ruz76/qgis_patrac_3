@@ -874,38 +874,39 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.setCursor(Qt.ArrowCursor)
 
     def copyGpx(self):
-        self.Sectors.exportSectors()
-        drives = None
-        if sys.platform.startswith('win'):
-            if win32api_exists:
-                drives = win32api.GetLogicalDriveStrings()
-                drives = drives.split('\000')[:-1]
+        result = self.Sectors.exportSectors()
+        if result is not None:
+            drives = None
+            if sys.platform.startswith('win'):
+                if win32api_exists:
+                    drives = win32api.GetLogicalDriveStrings()
+                    drives = drives.split('\000')[:-1]
+                else:
+                    drives = self.Utils.getDrivesList()
             else:
-                drives = self.Utils.getDrivesList()
-        else:
-            username = getpass.getuser()
-            drives = []
-            for dirname in os.listdir('/media/' + username + '/'):
-                drives.append('/media/' + username + '/' + dirname + '/')
+                username = getpass.getuser()
+                drives = []
+                for dirname in os.listdir('/media/' + username + '/'):
+                    drives.append('/media/' + username + '/' + dirname + '/')
 
-        drives_gpx = []
-        for drive in drives:
-            if os.path.isdir(drive + 'Garmin/GPX'):
-                drives_gpx.append(drive)
+            drives_gpx = []
+            for drive in drives:
+                if os.path.isdir(drive + 'Garmin/GPX'):
+                    drives_gpx.append(drive)
 
-        if len(drives_gpx) == 1:
-            # nice, only one GPX dir is available
-            self.copyGpxToPath(drives_gpx[0] + 'Garmin/GPX')
+            if len(drives_gpx) == 1:
+                # nice, only one GPX dir is available
+                self.copyGpxToPath(drives_gpx[0] + 'Garmin/GPX')
 
-        if len(drives_gpx) == 0:
-            # Not Garmin. TODO
-            QMessageBox.information(None, QApplication.translate("Patrac", "INFO", None), QApplication.translate("Patrac", "Did not find GPS. You have to copy GPX manually from the report.", None))
+            if len(drives_gpx) == 0:
+                # Not Garmin. TODO
+                QMessageBox.information(None, QApplication.translate("Patrac", "INFO", None), QApplication.translate("Patrac", "Did not find GPS. You have to copy GPX manually from the report.", None))
 
-        if len(drives_gpx) > 1:
-            # We have more than one place with garmin/GPX
-            item, ok = QInputDialog.getItem(self, QApplication.translate("Patrac", "select input dialog", None), QApplication.translate("Patrac", "list of drives", None), drives_gpx, 0, False)
-            if ok and item:
-                self.copyGpxToPath(item + 'Garmin/GPX')
+            if len(drives_gpx) > 1:
+                # We have more than one place with garmin/GPX
+                item, ok = QInputDialog.getItem(self, QApplication.translate("Patrac", "select input dialog", None), QApplication.translate("Patrac", "list of drives", None), drives_gpx, 0, False)
+                if ok and item:
+                    self.copyGpxToPath(item + 'Garmin/GPX')
 
     def cleanGps(self, path):
         reply = QMessageBox.question(self, QApplication.translate("Patrac", 'Clean GPS', None),

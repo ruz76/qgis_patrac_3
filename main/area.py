@@ -199,10 +199,10 @@ class Area(object):
         for feature in features:
             QgsMessageLog.logMessage("Feature: " + str(feature.geometry().asWkt()), "Patrac")
             point = feature.geometry().asPoint()
-            if point.x() < (int(self.params['minx']) + 100) \
-                    or point.x() > (int(self.params['maxx']) - 100) \
-                    or point.y() < (int(self.params['miny']) + 100) \
-                    or point.y() > (int(self.params['maxy']) - 100):
+            if point.x() < (float(self.params['minx']) + 100) \
+                    or point.x() > (float(self.params['maxx']) - 100) \
+                    or point.y() < (float(self.params['miny']) + 100) \
+                    or point.y() > (float(self.params['maxy']) - 100):
                 result = False
         return result
 

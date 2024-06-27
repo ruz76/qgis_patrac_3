@@ -378,6 +378,22 @@ class Sectors(object):
         if len(features) < 1:
             features = provider.getFeatures()
             QgsMessageLog.logMessage("Není vybrán žádný sektor. Exportuji všechny", "Patrac")
+            if os.path.exists(self.Utils.getDataPath() + '/pracovni/selectedSectors.txt'):
+                with open(self.Utils.getDataPath() + '/pracovni/selectedSectors.txt', 'r') as ss:
+                    filter = "id IN ("
+                    lines = ss.readlines()
+                    for line in lines:
+                        filter += "'" + line.strip() + "', "
+                    filter = filter[:-2] + ")"
+                    layer.setSubsetString(filter)
+            else:
+                reply = QMessageBox.question(None,
+                                             QApplication.translate("Patrac", 'Step', None), QApplication.translate("Patrac", 'You did not select any sectors yet (probabability has not been used). It will export all sectors and it may take several minutes. Do you want to continue?', None),
+                                             QMessageBox.Yes, QMessageBox.No)
+
+                if reply == QMessageBox.No:
+                    self.widget.setCursor(Qt.ArrowCursor)
+                    return None
 
         self.removeExportedSectors()
 
@@ -422,13 +438,13 @@ class Sectors(object):
                                                         "utf-8", crs, "GPX",
                                                         datasourceOptions=['NameField=label'],
                                                         layerOptions=['FORCE_GPX_TRACK=YES'])
-                QgsProject.instance().addMapLayer(sector, False)
-                root = QgsProject.instance().layerTreeRoot()
-                sektorygroup = root.findGroup("sektory")
-                if sektorygroup is None:
-                    sektorygroup = root.insertGroup(0, "sektory")
-                sektorygroup.addLayer(sector)
-                sektorygroup.setExpanded(False)
+                # QgsProject.instance().addMapLayer(sector, False)
+                # root = QgsProject.instance().layerTreeRoot()
+                # sektorygroup = root.findGroup("sektory")
+                # if sektorygroup is None:
+                #     sektorygroup = root.insertGroup(0, "sektory")
+                # sektorygroup.addLayer(sector)
+                # sektorygroup.setExpanded(False)
 
             i += 1
 
@@ -438,8 +454,9 @@ class Sectors(object):
                                                     "utf-8", crs, "GPX",
                                                     layerOptions=['FORCE_GPX_TRACK=YES'])
 
+        layer.setSubsetString('')
         self.widget.setCursor(Qt.ArrowCursor)
-        return
+        return 'Sectors Exported'
 
     def transformTrack(self, layer):
         params = {
