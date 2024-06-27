@@ -1236,17 +1236,29 @@ class Sectors(object):
 
         # exports overall map with all sectors to PDF
         if exportPDF:
-            srs = self.canvas.mapSettings().destinationCrs()
-            current_crs = srs.authid()
-            if current_crs == "EPSG:5514":
-                self.Printing.exportPDF(layer.extent(), DATAPATH + "/sektory/")
+
+            layer_probability = None
+            for lyr in list(QgsProject.instance().mapLayers().values()):
+                if DATAPATH + "/pracovni/kruznice.shp" in lyr.source():
+                    layer = lyr
+                    break
+
+            if layer_probability == None:
+                QMessageBox.information(None, QApplication.translate("Patrac", "Error", None),
+                                        QApplication.translate("Patrac", "No probability layer. Can not continue.", None));
+
             else:
                 srs = self.canvas.mapSettings().destinationCrs()
-                crs_src = QgsCoordinateReferenceSystem(5514)
-                crs_dest = QgsCoordinateReferenceSystem(srs)
-                xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
-                extent = xform.transform(layer.extent())
-                self.Printing.exportPDF(extent, DATAPATH + "/sektory/")
+                current_crs = srs.authid()
+                if current_crs == "EPSG:5514":
+                    self.Printing.exportPDF(layer_probability.extent(), DATAPATH + "/sektory/")
+                else:
+                    srs = self.canvas.mapSettings().destinationCrs()
+                    crs_src = QgsCoordinateReferenceSystem(5514)
+                    crs_dest = QgsCoordinateReferenceSystem(srs)
+                    xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
+                    extent = xform.transform(layer_probability.extent())
+                    self.Printing.exportPDF(extent, DATAPATH + "/sektory/")
 
         # Remove filter - we will not use it since we are showing the circles
         layer.setSubsetString('')

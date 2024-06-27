@@ -842,7 +842,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         layer = None
         for lyr in list(QgsProject.instance().mapLayers().values()):
-            if DATAPATH + "/pracovni/sektory_group.shp" in lyr.source():
+            if DATAPATH + "/pracovni/kruznice.shp" in lyr.source():
                 layer = lyr
                 break
 

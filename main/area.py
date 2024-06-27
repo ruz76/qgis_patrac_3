@@ -255,11 +255,10 @@ class Area(object):
         features = self.filterAndSortFeatures(layer.selectedFeatures())
 
         if len(features) == 0:
-            # There is not any place defined
-            # Place the place to the center of the map
-            QMessageBox.information(None, QApplication.translate("Patrac", "INFO:", None),
-                                    QApplication.translate("Patrac", "No places has been selected. I will use all places.", None))
             features = self.filterAndSortFeatures(layer.getFeatures())
+            if len(features) > 1:
+                QMessageBox.information(None, QApplication.translate("Patrac", "INFO:", None),
+                                        QApplication.translate("Patrac", "No places has been selected. I will use all places.", None))
 
         if len(features) == 0:
             # There is not any place defined
