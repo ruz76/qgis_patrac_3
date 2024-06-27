@@ -376,7 +376,6 @@ class Sectors(object):
         provider = layer.dataProvider()
         features = layer.selectedFeatures()
         if len(features) < 1:
-            features = provider.getFeatures()
             QgsMessageLog.logMessage("Není vybrán žádný sektor. Exportuji všechny", "Patrac")
             if os.path.exists(self.Utils.getDataPath() + '/pracovni/selectedSectors.txt'):
                 with open(self.Utils.getDataPath() + '/pracovni/selectedSectors.txt', 'r') as ss:
@@ -386,6 +385,8 @@ class Sectors(object):
                         filter += "'" + line.strip() + "', "
                     filter = filter[:-2] + ")"
                     layer.setSubsetString(filter)
+                    layer.triggerRepaint()
+                    features = layer.getFeatures()
             else:
                 reply = QMessageBox.question(None,
                                              QApplication.translate("Patrac", 'Step', None), QApplication.translate("Patrac", 'You did not select any sectors yet (probabability has not been used). It will export all sectors and it may take several minutes. Do you want to continue?', None),
@@ -394,12 +395,15 @@ class Sectors(object):
                 if reply == QMessageBox.No:
                     self.widget.setCursor(Qt.ArrowCursor)
                     return None
+                features = layer.getFeatures()
 
         self.removeExportedSectors()
 
         # prepare all sectors to one file
         self.Utils.copyLayer(DATAPATH, "all")
         layerLines = QgsVectorLayer(DATAPATH + "/sektory/shp/all.shp", "sektory linie", "ogr")
+        crs = QgsCoordinateReferenceSystem(5514)
+        layerLines.setCrs(crs)
         providerLayerLines = layerLines.dataProvider()
         layerLines.startEditing()
         fList = list()
@@ -413,8 +417,15 @@ class Sectors(object):
             # Removes existing layer according to label in features
             self.Utils.copyLayer(DATAPATH, feature['label'])
             sector = QgsVectorLayer(DATAPATH + "/sektory/shp/" + feature['label'] + ".shp", feature['label'], "ogr")
+            crs = QgsCoordinateReferenceSystem(5514)
+            sector.setCrs(crs)
             providerSector = sector.dataProvider()
             sector.startEditing()
+            fList = list()
+            fList.append(0)
+            sector.dataProvider().deleteAttributes(fList)
+            sector.renameAttribute(0, 'name')
+            sector.renameAttribute(1, 'desc')
             fet = QgsFeature()
             fet.setAttributes([feature['label'], str(feature['area_ha']) + ' ha '])
 
@@ -436,7 +447,6 @@ class Sectors(object):
                 #                                         layerOptions=['FORCE_GPX_TRACK=YES'])
                 QgsVectorFileWriter.writeAsVectorFormat(sector, DATAPATH + "/sektory/gpx/" + str(feature['label']) + "_" + str(feature['id']) + ".gpx",
                                                         "utf-8", crs, "GPX",
-                                                        datasourceOptions=['NameField=label'],
                                                         layerOptions=['FORCE_GPX_TRACK=YES'])
                 # QgsProject.instance().addMapLayer(sector, False)
                 # root = QgsProject.instance().layerTreeRoot()
@@ -450,6 +460,7 @@ class Sectors(object):
 
         # writes all sectors to one file
         layerLines.commitChanges()
+        crs = QgsCoordinateReferenceSystem("EPSG:4326")
         QgsVectorFileWriter.writeAsVectorFormat(layerLines, DATAPATH + "/sektory/gpx/all.gpx",
                                                     "utf-8", crs, "GPX",
                                                     layerOptions=['FORCE_GPX_TRACK=YES'])

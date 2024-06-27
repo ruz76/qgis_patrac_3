@@ -232,7 +232,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
 
         self.tbtnPercent.clicked.connect(self.showPercentDialog)
         self.tbtnUnits.clicked.connect(self.showUnitsDialog)
-        self.tbtnSwitchSectorsType.clicked.connect(self.switchSectorsType)
+        # self.tbtnSwitchSectorsType.clicked.connect(self.switchSectorsType)
         self.tbtnRecalculate.clicked.connect(self.recalculateAll)
 
         self.showHandlers.clicked.connect(self.showHandlersDialog)
@@ -306,13 +306,13 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
                 merged_sector = merged_sector.combine(sector.geometry())
                 merged_sector = merged_sector.difference(intersection)
             i += 1
-        print(merged_sector.asWkt())
+        #print(merged_sector.asWkt())
 
         layer = QgsVectorLayer(self.Utils.getDataPath() + "/pracovni/sektory_group.shp", "sektory", "ogr")
         if layer is not None:
             layer.setSubsetString("")
             provider = layer.dataProvider()
-            # Deletes all features in layer patraci.shp
+
             layer.startEditing()
             layer.deleteFeatures(listOfIds)
             layer.commitChanges()
@@ -326,7 +326,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             layer.commitChanges()
 
         layer.triggerRepaint()
-
+        return id
 
     def splitSectorByGrid(self):
         sectors_layer = self.Sectors.getSectorsLayer()
@@ -334,10 +334,26 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         count = 0
         for sector in selected_sectors:
             count += 1
-        if count != 1:
+        if count < 1:
             QMessageBox.information(None, QApplication.translate("Patrac", "Info", None),
-                                    QApplication.translate("Patrac", "You have to select just one sector.", None))
+                                    QApplication.translate("Patrac", "You have to select at least one sector.", None))
             return
+        if count > 1:
+            reply = QMessageBox.question(None,
+                                         QApplication.translate("Patrac", 'Step', None), QApplication.translate("Patrac", 'You have selected more sectors. I have ot merge them before continuing. Do you want to continue?', None),
+                                         QMessageBox.Yes, QMessageBox.No)
+
+            if reply == QMessageBox.No:
+                self.widget.setCursor(Qt.ArrowCursor)
+                return None
+
+            merged_id = self.mergeSectors()
+            atribut = 'id'
+
+            dotaz = f'"{atribut}" = \'{merged_id}\''
+
+            sectors_layer.selectByExpression(dotaz)
+
         self.gridsize = 0
         self.showGridDialog('sector')
         if self.gridsize == 0:
@@ -617,7 +633,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             QgsMessageLog.logMessage(str(len(ids)), "Patrac")
             self.plugin.addMergeSectorsAction.setEnabled(True)
             self.plugin.splitByLineAction.setEnabled(False)
-            self.plugin.addSplitByGridAction.setEnabled(False)
+            self.plugin.addSplitByGridAction.setEnabled(True)
             self.plugin.addSplitSectorsAction.setEnabled(True)
         QgsMessageLog.logMessage(str(ids), "Patrac")
 
