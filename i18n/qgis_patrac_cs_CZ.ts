@@ -689,32 +689,32 @@
 <context>
     <name>Patrac</name>
     <message>
-        <location filename="../patracdockwidget.py" line="1949"/>
+        <location filename="../patracdockwidget.py" line="2019"/>
         <source>ERROR</source>
         <translation>CHYBA</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="221"/>
+        <location filename="../main/area.py" line="230"/>
         <source>Wrong project</source>
         <translation>Chybný projekt. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="941"/>
+        <location filename="../patracdockwidget.py" line="958"/>
         <source>INFO</source>
         <translation>INFO</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="242"/>
+        <location filename="../main/area.py" line="251"/>
         <source>Can not find places layer. Can not compute.</source>
         <translation>Projekt neobsahuje vrstvu míst.</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="258"/>
+        <location filename="../main/area.py" line="266"/>
         <source>INFO:</source>
         <translation>INFO</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="258"/>
+        <location filename="../main/area.py" line="266"/>
         <source>Layer with places is empty. Placing point in the center of the map.</source>
         <translation>Vrstva s místy neobsahuje žádný prvek. Vkládám bod do středu mapy s aktuálním časem.</translation>
     </message>
@@ -764,17 +764,17 @@
         <translation>Pro daný kraj nemám k dispozici aktuální data. Nemám data nemohu pokračovat. Data můžete aktualizovat / nainstalovat v dialogu Nastavení, který se následně otevře.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1828"/>
+        <location filename="../patracdockwidget.py" line="1845"/>
         <source>Can not connect to the server.</source>
         <translation>Nemohu se spojit se serverem.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1949"/>
+        <location filename="../patracdockwidget.py" line="1966"/>
         <source>Wrong project.</source>
         <translation>Chybný projekt. Otevřete správný projekt, nebo vygenerujte nový pomocí průvodce.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="1103"/>
+        <location filename="../main/sectors.py" line="1131"/>
         <source>GPX and PDF for search</source>
         <translation>GPX a PDF pro pátrání</translation>
     </message>
@@ -799,22 +799,22 @@
         <translation type="obsolete">J-V</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1858"/>
+        <location filename="../patracdockwidget.py" line="1875"/>
         <source>Error</source>
         <translation>CHYBA</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="436"/>
+        <location filename="../patracdockwidget.py" line="452"/>
         <source>Can not find web browser to open help</source>
         <translation>Nemohu otevřít WWW prohlížeč k načtení nápovědy</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="526"/>
+        <location filename="../patracdockwidget.py" line="542"/>
         <source>Wrong municipality</source>
         <translation>Chybná obec</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="526"/>
+        <location filename="../patracdockwidget.py" line="542"/>
         <source>The municipality has not been found</source>
         <translation>Obec nebyla nalezena</translation>
     </message>
@@ -824,42 +824,42 @@
         <translation>Krok</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="628"/>
+        <location filename="../patracdockwidget.py" line="644"/>
         <source>You skipped the step. Do you want to continue?</source>
         <translation>Přeskočili jste krok v průvodci. Chcete pokračovat?</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="850"/>
+        <location filename="../patracdockwidget.py" line="866"/>
         <source>No probability layer. Can not continue.</source>
         <translation>Nemohu najít vrstvu pravděpodobnosti. Nemohu pokračovat.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="872"/>
+        <location filename="../patracdockwidget.py" line="888"/>
         <source>Can not find web browser to open report</source>
         <translation>Nemohu otevřít WWW prohlížeč k načtení reportu</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="902"/>
+        <location filename="../patracdockwidget.py" line="919"/>
         <source>Did not find GPS. You have to copy GPX manually from the report.</source>
         <translation>Nenašel jsem připojenou GPS. Soubor musite uložit z reportu ručně.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="906"/>
+        <location filename="../patracdockwidget.py" line="923"/>
         <source>select input dialog</source>
         <translation>Vyberte</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="906"/>
+        <location filename="../patracdockwidget.py" line="923"/>
         <source>list of drives</source>
         <translation>Seznam disků</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="941"/>
+        <location filename="../patracdockwidget.py" line="958"/>
         <source>The sectors has been copied into the device: </source>
         <translation>Sektory byly zkopírovány do zařízení</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="943"/>
+        <location filename="../patracdockwidget.py" line="960"/>
         <source>Can not copy. You have copy it manually from the path: </source>
         <translation>Při kopírování sektorů došlo k chybě. Zkopírujte přes správce souborů z cesty:</translation>
     </message>
@@ -869,7 +869,7 @@
         <translation type="obsolete">Projekt neobsahuje vrstvu pravděpodobnosti. Zkuste prosím znovu použít krok 3 v průvodci.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="911"/>
+        <location filename="../patracdockwidget.py" line="928"/>
         <source>Do you want to clean the GPS data before export?</source>
         <translation>Chcete před exportem vyčistit GPS?</translation>
     </message>
@@ -879,12 +879,12 @@
         <translation type="obsolete">Nedostupné</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1789"/>
+        <location filename="../patracdockwidget.py" line="1806"/>
         <source>Tracks are empty.</source>
         <translation>Stopy jsou prázdné.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1858"/>
+        <location filename="../patracdockwidget.py" line="1875"/>
         <source>Problem to read data from: </source>
         <translation>Problém s načtením dat z databáze</translation>
     </message>
@@ -894,17 +894,17 @@
         <translation type="obsolete">Pozice jsou prázdné.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1872"/>
+        <location filename="../patracdockwidget.py" line="1889"/>
         <source>CHYBA:</source>
         <translation>CHYBA:</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="1135"/>
+        <location filename="../main/sectors.py" line="1163"/>
         <source>SECTOR</source>
         <translation>SEKTOR</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="1135"/>
+        <location filename="../main/sectors.py" line="1163"/>
         <source>Types of terrain</source>
         <translation>Typy povrchu</translation>
     </message>
@@ -954,7 +954,7 @@
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1398"/>
+        <location filename="../patracdockwidget.py" line="1415"/>
         <source>Click into the map at the place of finding. If you finishing without finding, click anywhere into map.</source>
         <translation>Klikněte do mapy na místo nálzeu. Pokud ukončujete bez nálezu, klikněte na libovolné místo v mapě.</translation>
     </message>
@@ -964,27 +964,27 @@
         <translation>Přepočítat sektory</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="621"/>
+        <location filename="../main/sectors.py" line="649"/>
         <source>ERROR:</source>
         <translation>CHYBA:</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="471"/>
+        <location filename="../main/sectors.py" line="499"/>
         <source>You have to select at least one sector to split.</source>
         <translation>Musíte vybrat minimálně jeden sektor k rozdělení.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="477"/>
+        <location filename="../main/sectors.py" line="505"/>
         <source>You have to select line layer.</source>
         <translation>Musíte vybrat liniovou vrstvu.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="480"/>
+        <location filename="../main/sectors.py" line="508"/>
         <source>Selected layer is not line layer.</source>
         <translation>Vybraná vrstva nění liniová vrstva.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="584"/>
+        <location filename="../main/sectors.py" line="612"/>
         <source>You have to select just one line.</source>
         <translation>Musíte vybrat právě jedenu linii.</translation>
     </message>
@@ -1004,52 +1004,52 @@
         <translation>Přidat vrčstvy pro dělení sektorů.</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="688"/>
+        <location filename="../main/sectors.py" line="716"/>
         <source>Map lists where the sector is present</source>
         <translation>Mapové listy s výskytem sektoru</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="706"/>
+        <location filename="../main/sectors.py" line="734"/>
         <source>GPS file with drawn sector</source>
         <translation>Soubor pro GPS se zakreslením sektoru</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="1108"/>
+        <location filename="../main/sectors.py" line="1136"/>
         <source>Overall view</source>
         <translation>Celá oblast</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="1115"/>
+        <location filename="../main/sectors.py" line="1143"/>
         <source>If you do not see links to PDF files for print, the files were not generated. Please use checkbox on last card in the guide and show report again.</source>
         <translation>Pokud nevidíte odkazy na PDF soubory, znamená to, že ještě nebyly vygenerovány. Použijte zaškrrtávací tlačítko na posledním kroku průvodce a zobrazte reprt znovu.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="555"/>
+        <location filename="../patracdockwidget.py" line="571"/>
         <source>Missing input</source>
         <translation>Chybějící vstup</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="555"/>
+        <location filename="../patracdockwidget.py" line="571"/>
         <source>You have to select type of the search</source>
         <translation>Musíte zadat typ pátrání (výuka a testování nebo reálná pátrací akce).</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1754"/>
+        <location filename="../patracdockwidget.py" line="1771"/>
         <source>Online tracks</source>
         <translation>Online stopy</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="489"/>
+        <location filename="../patracdockwidget.py" line="505"/>
         <source>Information updated</source>
         <translation>Informace aktualizovány</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1164"/>
+        <location filename="../patracdockwidget.py" line="1181"/>
         <source>Can not calculate the area. Check the inputs.</source>
         <translation>Nemohu vypočítat plochu pravděpodobnosti. ZKontrolujte proísm vstupy. Např. zda není bod na ostrově.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="547"/>
+        <location filename="../patracdockwidget.py" line="563"/>
         <source>You did not enter the result of the previous search. Do you want to continue?</source>
         <translation>Nezadali jste výsledek předchozího pátrání. Opravdu chcete pokračovat?</translation>
     </message>
@@ -1059,42 +1059,42 @@
         <translation>Nezadali jste výsledek předchozího pátrání. Opravdu chcete zavřít aplikaci?</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="1123"/>
+        <location filename="../main/sectors.py" line="1151"/>
         <source>Wrong installation. Call you administrator.</source>
         <translation>Chybná instalace. Kontaktujte administrátora.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="918"/>
+        <location filename="../patracdockwidget.py" line="935"/>
         <source>Clean GPS</source>
         <translation>Vyčistit GPS</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="918"/>
+        <location filename="../patracdockwidget.py" line="935"/>
         <source>Are you sure that you want to clean the GPS data before export?</source>
         <translation>Jste si opravdu jistí, že chcete před exportem vyčistit GPS?</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1863"/>
+        <location filename="../patracdockwidget.py" line="1880"/>
         <source>Success</source>
         <translation>Úspěch</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1822"/>
+        <location filename="../patracdockwidget.py" line="1839"/>
         <source>Tracks were loaded.</source>
         <translation>Stopy bylky nahrány.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1863"/>
+        <location filename="../patracdockwidget.py" line="1880"/>
         <source>Positions were loaded.</source>
         <translation>Pozice bylu načteny.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1691"/>
+        <location filename="../patracdockwidget.py" line="1708"/>
         <source>No handlers in action yet. Call them first.</source>
         <translation>Žádní psovodi zatím nebyli vyzváni. Vytvořte výzvu.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="1800"/>
+        <location filename="../patracdockwidget.py" line="1817"/>
         <source>Problem to read data for user: </source>
         <translation>Problém při načtení dat uživatele: </translation>
     </message>
@@ -1114,12 +1114,12 @@
         <translation>Nemohu najít ZPM. Chcete ji najít sami?</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="1137"/>
+        <location filename="../main/sectors.py" line="1165"/>
         <source>Exporting GPX for each sector</source>
         <translation>Exportuji GPX pro každý sektor</translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="1287"/>
+        <location filename="../main/sectors.py" line="1335"/>
         <source>Exporting PDFs for each sector</source>
         <translation>Exportuji PDF pro každý sektor</translation>
     </message>
@@ -1184,17 +1184,17 @@
         <translation>Dokončeno. Data byla aktualizována.</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="203"/>
+        <location filename="../main/area.py" line="212"/>
         <source>Calculating area: </source>
         <translation>Výpočet plochy: </translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="1280"/>
+        <location filename="../main/sectors.py" line="1328"/>
         <source>Generating of PDFs for individual sectors can take about 10 seconds for each sector. Do you want to continue? Number of sectors: </source>
         <translation>Generování PDF pro každý sektor může trvat kolem 10 s pro jeden sektor. Opravdu chcete pokračovat? Počet sektorů: </translation>
     </message>
     <message>
-        <location filename="../main/sectors.py" line="621"/>
+        <location filename="../main/sectors.py" line="649"/>
         <source>Can not split. Check if one sector is selected and the line crosses it completely.</source>
         <translation>Nemohu rozdělit. Zkontrolujte zda je vybrán jeden sektor a linie jej plně rozděluje.</translation>
     </message>
@@ -1210,11 +1210,11 @@
     </message>
     <message>
         <location filename="../patracdockwidget.py" line="338"/>
-        <source>You have to select just one sector.</source>
-        <translation>Musíte vybrat právě jeden sektor.</translation>
+        <source>You have to select at least one sector.</source>
+        <translation type="unfinished">Musíte vybrat právě jeden sektor.</translation>
     </message>
     <message>
-        <location filename="../patracdockwidget.py" line="381"/>
+        <location filename="../patracdockwidget.py" line="397"/>
         <source>The type of sectors has been changed. You have ot recalculate the situation.</source>
         <translation>Typ sektorů byl změněn. Musíte přepočítat situaci.</translation>
     </message>
@@ -1244,12 +1244,12 @@
         <translation>Načítám data: </translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="136"/>
+        <location filename="../main/area.py" line="145"/>
         <source>Can not compute. Try again, please. Check the position of last seen person. Move the point inside sector that is not a water body. DO not place it on building or encapsulated area, such as power station.</source>
         <translation>Nelze vypočítat. Zkuste to znovu, prosím. Zkontrolujte polohu poslední viděné osoby. Přesuňte bod do sektoru, který není vodní plochou. Neumisťujte ​​jej na budovu nebo zapouzdřenou plochu, jako je elektrárna.</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="266"/>
+        <location filename="../main/area.py" line="274"/>
         <source>Can not compute. One of the points is out of the project area.</source>
         <translation>Nelze spočítat. Jeden z bodů je mimo oblast projektu.</translation>
     </message>
@@ -1259,7 +1259,7 @@
         <translation>Nelze vytvořit projekt. Zkontrolujte data. Zkuste aktualizovat data v Nastavení.</translation>
     </message>
     <message>
-        <location filename="../main/area.py" line="251"/>
+        <location filename="../main/area.py" line="260"/>
         <source>No places has been selected. I will use all places.</source>
         <translation>Nebyla vybrána zádná místa. Budou použita všechna.</translation>
     </message>
@@ -1272,6 +1272,21 @@
         <location filename="../main/sectors.py" line="126"/>
         <source>Can not find places layer. Can not show the probability circles.</source>
         <translation>Nemohu najít vrstvu míst. Nemohu ukázat kružnice pravděpodobnosti.</translation>
+    </message>
+    <message>
+        <location filename="../main/sectors.py" line="391"/>
+        <source>You did not select any sectors yet (probabability has not been used). It will export all sectors and it may take several minutes. Do you want to continue?</source>
+        <translation>Zatím jste nevybrali žádné sektory (nebyla použita pravděpodobnost). Exportuji všechny sektory a může to trvat několik minut. Chcete pokračovat?</translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="342"/>
+        <source>You have selected more sectors. I have ot merge them before continuing. Do you want to continue?</source>
+        <translation>Vybrali jste více sektorů. Než budu pokračovat, musím je sloučit. Chcete pokračovat?</translation>
+    </message>
+    <message>
+        <location filename="../patracdockwidget.py" line="2019"/>
+        <source>Not implemented.</source>
+        <translation>Není implementováno.</translation>
     </message>
 </context>
 <context>
@@ -1794,7 +1809,7 @@
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="803"/>
         <source>Switch sectors type</source>
-        <translation>Změna typu sektorů</translation>
+        <translation type="obsolete">Změna typu sektorů</translation>
     </message>
     <message>
         <location filename="../ui/ui_patracdockwidgetbase.py" line="295"/>

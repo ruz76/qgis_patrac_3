@@ -7,7 +7,7 @@ fi
 
 RELEASE_PATH=/home/jencek/Documents/Projekty/PCR/qgis/verze3/release
 PLUGIN_PATH=/home/jencek/qgis3_profiles/profiles/default/python/plugins/qgis_patrac
-PREFIX="3.26"
+PREFIX="3.34"
 ID=$1
 
 echo $PREFIX"."$ID
