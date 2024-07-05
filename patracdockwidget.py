@@ -1193,6 +1193,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def recalculateSectorsExpert(self):
         self.Sectors.recalculateSectors(False, True)
 
+    def recalculateSectorsAfterSplit(self):
+        self.Sectors.recalculateSectorsAfterSplit()
+
     def splitByLine(self):
         selectedLayers = self.iface.layerTreeView().selectedLayers()
         self.Sectors.splitByLine(selectedLayers)

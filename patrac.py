@@ -275,7 +275,7 @@ class PatracPlugin(object):
         self.addSplitSectorsButton()
         self.addMergeSectorsButton()
         self.toolbar.addAction(self.iface.actionSaveEdits())
-        # self.addRecalculateButton()
+        self.addRecalculateButton()
         self.toolbar.addAction(self.iface.actionMeasure())
         self.toolbar.addAction(self.iface.actionMeasureArea())
         self.toolbar.addAction(self.iface.actionAddRasterLayer())
@@ -290,7 +290,7 @@ class PatracPlugin(object):
         pluginPath = path.dirname(__file__)
         self.recalculateSectorsAction = QAction(QIcon(pluginPath + "/icons/number_sectors.png"), "Patrac", self.iface.mainWindow())
         self.recalculateSectorsAction.setToolTip(QCoreApplication.translate("Patrac", "Recalculate sectors"))
-        self.recalculateSectorsAction.triggered.connect(self.dockWidget.recalculateSectorsExpert)
+        self.recalculateSectorsAction.triggered.connect(self.dockWidget.recalculateSectorsAfterSplit)
         self.toolbar.addAction(self.recalculateSectorsAction)
 
     def addSplitByLineButton(self):

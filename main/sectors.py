@@ -77,6 +77,7 @@ class Sectors(object):
         self.canvas = self.widget.canvas
         self.Utils = self.widget.Utils
         self.Printing = self.widget.Printing
+        self.sectors_ids_after_split = []
 
     def get_distance(self, percent):
         percents = [10, 20, 30, 40, 50, 60, 70, 80, 95]
@@ -540,6 +541,31 @@ class Sectors(object):
             polylineXY.append(ptXY)
         return polylineXY
 
+
+    def recalculateSectorsAfterSplit(self):
+        layer = self.getSectorsLayer()
+        features = layer.getFeatures()
+        new_labels = {}
+        last_letters = {}
+        for feature in features:
+            if feature['id'] in self.sectors_ids_after_split:
+                print(str(feature['id']))
+                if feature['label'] not in last_letters:
+                    last_letters[feature['label']] = 'A'
+                else:
+                    last_letters[feature['label']] = chr(ord(last_letters[feature['label']]) + 1)
+                new_labels[feature['id']] = feature['label'] + '_' + last_letters[feature['label']]
+        print(new_labels)
+        layer.setSubsetString('')
+        layer.startEditing()
+        features = layer.getFeatures()
+        for feature in features:
+            if feature['id'] in self.sectors_ids_after_split:
+                feature['label'] = new_labels[feature['id']]
+                layer.updateFeature(feature)
+        layer.commitChanges()
+        self.sectors_ids_after_split = []
+
     def splitByDrawnLine(self, layer_line):
         self.widget.setCursor(Qt.WaitCursor)
         sectors_layer = self.getSectorsLayer()
@@ -576,21 +602,28 @@ class Sectors(object):
                 polylineXY = line_geometry.asPolyline()
                 output = sector_geometry.splitGeometry(polylineXY, False)
                 if len(output[1]) > 0:
+                    print(output)
                     sector.setGeometry(sector_geometry)
                     id = lastsectorid + 1
+                    print(id)
                     label = sector['label']
                     newIds += "'" + str(id) + "', "
-                    self.setAttributesAfterSplit(sector, sector, id, label + '_A')
+                    # self.setAttributesAfterSplit(sector, sector, id, label + '_A')
+                    self.setAttributesAfterSplit(sector, sector, id, label)
                     sectors_layer.updateFeature(sector)
                     cur_sub_id = 'B'
+                    self.sectors_ids_after_split.append(id)
                     for o in output[1]:
                         feature = QgsFeature(sector)
                         feature.setGeometry(o)
                         id += 1
-                        self.setAttributesAfterSplit(sector, feature, id, label + '_' + cur_sub_id)
+                        print(id)
+                        # self.setAttributesAfterSplit(sector, feature, id, label + '_' + cur_sub_id)
+                        self.setAttributesAfterSplit(sector, feature, id, label)
                         newIds += "'" + str(id) + "', "
                         sectors_layer.addFeatures([feature])
                         cur_sub_id = chr(ord(cur_sub_id) + 1)
+                        self.sectors_ids_after_split.append(id)
                     self.Utils.writeLastSectorId(id)
         # sectors_layer.commitChanges()
         # if subset_string != "" and newIds != "":
