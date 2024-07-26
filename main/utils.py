@@ -359,7 +359,7 @@ class Utils(object):
             vector.dataProvider().setEncoding(u'UTF-8')
             QgsProject.instance().addMapLayer(vector)
 
-    def addVectorLayerWithStyle(self, path, label, style, crs_code):
+    def addVectorLayerWithStyle(self, path, label, style, crs_code, group=None):
         """Adds raster layer to map"""
         vector = QgsVectorLayer(path, label, "ogr")
         if not vector.isValid():
@@ -370,7 +370,11 @@ class Utils(object):
             vector.setProviderEncoding(u'UTF-8')
             vector.dataProvider().setEncoding(u'UTF-8')
             vector.loadNamedStyle(self.pluginPath + '/styles/' + style + '.qml')
-            QgsProject.instance().addMapLayer(vector)
+            if group is not None:
+                QgsProject.instance().addMapLayer(vector, False)
+                group.addLayer(vector)
+            else:
+                QgsProject.instance().addMapLayer(vector)
 
     def setLayerStyle(self, path, style):
         layer = None

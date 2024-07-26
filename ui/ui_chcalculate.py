@@ -88,9 +88,17 @@ class Ui_Chcalculate(QtWidgets.QDialog, FORM_CLASS):
             "sectors": ids
         }
         solutions = solve_area(config)
+        root = QgsProject.instance().layerTreeRoot()
         for solution in solutions:
             for component in solution:
-                self.widget.Utils.addVectorLayerWithStyle(os.path.join(config['output_dir'], component['id'] + ".shp"), component['id'], "chinese_lines_notime", 'EPSG:4326')
+                component_id_items = component['id'].split('_')
+                current_group_name = component_id_items[0] + '_' + component_id_items[1]
+                if component_id_items[0] == 'quad':
+                    current_group_name = component_id_items[0] + '_' + component_id_items[1] + '_' + component_id_items[2]
+                current_group = root.findGroup(current_group_name)
+                if current_group is None:
+                    current_group = root.insertGroup(0, current_group_name)
+                self.widget.Utils.addVectorLayerWithStyle(os.path.join(config['output_dir'], component['id'] + ".shp"), component['id'], "chinese_lines_notime", 'EPSG:4326', current_group)
                 # self.widget.Utils.addVectorLayerWithStyle(os.path.join(config['output_dir'], solution['id'] + ".shp"), solution['id'], "chinese_lines", 'EPSG:4326')
                 print(component)
                 self.plainTextEditResults.appendPlainText(str(component))
