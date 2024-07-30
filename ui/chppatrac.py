@@ -17,6 +17,7 @@ import json
 from shapely.geometry import mapping, shape
 from shapely.ops import polygonize
 from shapely.geometry import Point
+from operator import itemgetter, attrgetter
 
 QGIS_RUN=True
 if QGIS_RUN:
@@ -975,7 +976,7 @@ def solve_graph(graph, config, name):
 
         print(info)
 
-        # create_layer(config, graph, nodes, name + '_' + str(component_id))
+        create_layer(config, graph, nodes, name + '_' + str(component_id))
 
         output = {
             "id": name + '_' + str(component_id),
@@ -1076,115 +1077,124 @@ def test_me():
 
 
 def solve_one_part(start_node, end_node, config, graph_data_input):
-    graph = build_graph(graph_data_input, [])
-    print(graph)
-    if not start_node in graph or end_node not in graph:
-        if not start_node in graph:
-            print("Nod " + str(start_node) + " není v grafu")
-        if end_node not in graph:
-            print("Nod " + str(end_node) + " není v grafu")
-        return
+    if os.path.exists(end_node + '_graph.json'):
+        # Deserializace z JSON
+        with open(end_node + '_graph.json', 'r') as f:
+            data = json.load(f)
+        G_union = nx.node_link_graph(data)
+        graph_solution = solve_graph(G_union, config, 'test_' + str(end_node))
+        print(graph_solution)
 
-    # Výpočet nejkratší trasy mezi těmito uzly
-    shortest_path = nx.shortest_path(graph, source=start_node, target=end_node, weight='weight')
-    shortest_path_length = nx.shortest_path_length(graph, source=start_node, target=end_node, weight='weight')
+    else:
+        graph = build_graph(graph_data_input, [])
+        print(graph)
+        if not start_node in graph or end_node not in graph:
+            if not start_node in graph:
+                print("Nod " + str(start_node) + " není v grafu")
+            if end_node not in graph:
+                print("Nod " + str(end_node) + " není v grafu")
+            return
 
-    # Výpis výsledků
-    print(f'Náhodně vybrané uzly: {start_node} a {end_node}')
-    print(f'Nejkratší trasa mezi {start_node} a {end_node} je: {shortest_path}')
-    print(f'Délka nejkratší trasy je: {shortest_path_length}')
-
-    # Vytvoření nového grafu obsahujícího hrany z obou nejkratších cest
-    H = nx.Graph()
-
-    # Přidání hran z první nejkratší cesty
-    for i in range(len(shortest_path) - 1):
-        u, v = shortest_path[i], shortest_path[i + 1]
-        H.add_edge(u, v, weight=graph.get_edge_data(u, v)['weight'], id=graph.get_edge_data(u, v)['id'])
-
-    # Odstranění hran, které tvoří nalezenou trasu, z grafu. Ponechání první hrany.
-    for i in range(len(shortest_path) - 2):
-        graph.remove_edge(shortest_path[i + 1], shortest_path[i + 2])
-    # graph.remove_edge(shortest_path[len(shortest_path) - 2], shortest_path[len(shortest_path) - 1])
-
-    # Výpočet nejkratší trasy mezi těmito uzly
-    start_node_orig = start_node
-    start_node = end_node
-    end_node = start_node_orig
-
-    try:
+        # Výpočet nejkratší trasy mezi těmito uzly
         shortest_path = nx.shortest_path(graph, source=start_node, target=end_node, weight='weight')
         shortest_path_length = nx.shortest_path_length(graph, source=start_node, target=end_node, weight='weight')
-    except Exception as e:
-        print(e)
-        print(f'Hrany v grafu: {graph.edges(data=True)}')
-        return
 
-    # Výpis výsledků
-    print(f'Náhodně vybrané uzly: {start_node} a {end_node}')
-    print(f'Nejkratší trasa mezi {start_node} a {end_node} je: {shortest_path}')
-    print(f'Délka nejkratší trasy je: {shortest_path_length}')
+        # Výpis výsledků
+        print(f'Náhodně vybrané uzly: {start_node} a {end_node}')
+        print(f'Nejkratší trasa mezi {start_node} a {end_node} je: {shortest_path}')
+        print(f'Délka nejkratší trasy je: {shortest_path_length}')
 
-    # Přidání hran z druhé nejkratší cesty
-    for i in range(len(shortest_path) - 1):
-        u, v = shortest_path[i], shortest_path[i + 1]
-        if not H.has_edge(u, v):
+        # Vytvoření nového grafu obsahujícího hrany z obou nejkratších cest
+        H = nx.Graph()
+
+        # Přidání hran z první nejkratší cesty
+        for i in range(len(shortest_path) - 1):
+            u, v = shortest_path[i], shortest_path[i + 1]
             H.add_edge(u, v, weight=graph.get_edge_data(u, v)['weight'], id=graph.get_edge_data(u, v)['id'])
 
-    # Výpis hran nového grafu
-    print(f'Hrany v novém grafu: {H.edges(data=True)}')
+        # Odstranění hran, které tvoří nalezenou trasu, z grafu. Ponechání první hrany.
+        for i in range(len(shortest_path) - 2):
+            graph.remove_edge(shortest_path[i + 1], shortest_path[i + 2])
+        # graph.remove_edge(shortest_path[len(shortest_path) - 2], shortest_path[len(shortest_path) - 1])
 
-    # Vypsání hran z původního grafu, které jsou napojeny pouze na uzly nového grafu
-    # connected_edges = []
-    # for node in H.nodes:
-    #     # print('Node: ' + str(node))
-    #     for neighbor in graph.neighbors(node):
-    #         # print('Neighbor: ' + str(neighbor))
-    #         len_neighbors_2 = 0
-    #         for neighbor2 in graph.neighbors(neighbor):
-    #             len_neighbors_2 += 1
-    #             # print('\tNN: ' + str(neighbor2))
-    #         if len_neighbors_2 == 1:
-    #             print('\t\tIsolated: ' + str(neighbor))
-    #             if graph.has_edge(node, neighbor) and neighbor not in H.nodes:
-    #                 print('\t\t' + str(node) + ' ' + str(neighbor))
-    #                 edge_data = graph[node][neighbor]
-    #                 print(edge_data)
-    #                 connected_edges.append([node, neighbor, edge_data['weight'], edge_data['id']])
-    #                 # connected_edges.add([node, neighbor, edge_data])
-    #                 # print(edge_data)
-    #
-    # # Přidání napojených hran do nového grafu
-    # for edge in connected_edges:
-    #     H.add_edge(edge[0], edge[1], weight=edge[2], id=edge[3])
-    #
-    # # Výpis hran nového grafu po přidání napojených hran
-    # print(f'Hrany v novém grafu po přidání napojených hran: {H.edges(data=True)}')
+        # Výpočet nejkratší trasy mezi těmito uzly
+        start_node_orig = start_node
+        start_node = end_node
+        end_node = start_node_orig
 
-    create_layer(config, H, H.nodes, 'test_ring_only_' + str(start_node))
-    get_ring_polygon(config)
-    graph_data_input_missing_edges = prepare_data_for_graph_based_on_polygon(config)
-    graph_missing_edges = build_graph(graph_data_input_missing_edges, [])
-    # print(graph_missing_edges)
+        try:
+            shortest_path = nx.shortest_path(graph, source=start_node, target=end_node, weight='weight')
+            shortest_path_length = nx.shortest_path_length(graph, source=start_node, target=end_node, weight='weight')
+        except Exception as e:
+            print(e)
+            print(f'Hrany v grafu: {graph.edges(data=True)}')
+            return
 
-    G_union = nx.compose(H, graph_missing_edges)
-    # print(G_union)
+        # Výpis výsledků
+        print(f'Náhodně vybrané uzly: {start_node} a {end_node}')
+        print(f'Nejkratší trasa mezi {start_node} a {end_node} je: {shortest_path}')
+        print(f'Délka nejkratší trasy je: {shortest_path_length}')
 
-    graph_solution = solve_graph(G_union, config, 'test_' + str(start_node))
-    print(graph_solution)
+        # Přidání hran z druhé nejkratší cesty
+        for i in range(len(shortest_path) - 1):
+            u, v = shortest_path[i], shortest_path[i + 1]
+            if not H.has_edge(u, v):
+                H.add_edge(u, v, weight=graph.get_edge_data(u, v)['weight'], id=graph.get_edge_data(u, v)['id'])
 
-    return graph_solution
+        # Výpis hran nového grafu
+        # print(f'Hrany v novém grafu: {H.edges(data=True)}')
+
+        # Vypsání hran z původního grafu, které jsou napojeny pouze na uzly nového grafu
+        # connected_edges = []
+        # for node in H.nodes:
+        #     # print('Node: ' + str(node))
+        #     for neighbor in graph.neighbors(node):
+        #         # print('Neighbor: ' + str(neighbor))
+        #         len_neighbors_2 = 0
+        #         for neighbor2 in graph.neighbors(neighbor):
+        #             len_neighbors_2 += 1
+        #             # print('\tNN: ' + str(neighbor2))
+        #         if len_neighbors_2 == 1:
+        #             print('\t\tIsolated: ' + str(neighbor))
+        #             if graph.has_edge(node, neighbor) and neighbor not in H.nodes:
+        #                 print('\t\t' + str(node) + ' ' + str(neighbor))
+        #                 edge_data = graph[node][neighbor]
+        #                 print(edge_data)
+        #                 connected_edges.append([node, neighbor, edge_data['weight'], edge_data['id']])
+        #                 # connected_edges.add([node, neighbor, edge_data])
+        #                 # print(edge_data)
+        #
+        # # Přidání napojených hran do nového grafu
+        # for edge in connected_edges:
+        #     H.add_edge(edge[0], edge[1], weight=edge[2], id=edge[3])
+        #
+        # # Výpis hran nového grafu po přidání napojených hran
+        # print(f'Hrany v novém grafu po přidání napojených hran: {H.edges(data=True)}')
+
+        create_layer(config, H, H.nodes, 'test_ring_only_' + str(start_node))
+        get_ring_polygon(config)
+        graph_data_input_missing_edges = prepare_data_for_graph_based_on_polygon(config)
+        graph_missing_edges = build_graph(graph_data_input_missing_edges, [])
+        # print(graph_missing_edges)
+
+        G_union = nx.compose(H, graph_missing_edges)
+        # print(G_union)
+
+        graph_solution = solve_graph(G_union, config, 'test_' + str(start_node))
+        print(graph_solution)
+
+    return [graph_solution, G_union]
 
 def get_ring_polygon(config):
     with fiona.open(config['gpkg_path'], layer='chpostman_path_export') as layer:
         lines = []
         for feature in layer:
-            print(feature)
+            # print(feature)
             line = shape(feature['geometry'])
-            print(line)
+            # print(line)
             lines.append(line)
         polygons = list(polygonize(lines))
-        print(polygons)
+        # print(polygons)
         for polygon in polygons:
             print(polygon)
 
@@ -1279,7 +1289,7 @@ def find_points(config, nodes_with_degree_one):
 
     closets_points = {}
     for i in range(8):
-        closets_points[i] = [0, 1000000]
+        closets_points[i] = []
 
     print(edge_points)
     start_point = [0, 1000000]
@@ -1294,21 +1304,67 @@ def find_points(config, nodes_with_degree_one):
             for point in edge_points:
                 # point1 = Point(x1, y1)
                 cur_distance = point.distance(point_to_check)
-                if cur_distance < closets_points[pos][1] and feature['properties']['source'] not in nodes_with_degree_one:
-                    closets_points[pos] = [feature['properties']['source'], cur_distance]
+                if cur_distance < diff_x and feature['properties']['source'] not in nodes_with_degree_one:
+                    if {"id": feature['properties']['source'], "distance": cur_distance} not in closets_points[pos]:
+                        closets_points[pos].append({"id": feature['properties']['source'], "distance": cur_distance})
                 pos += 1
             cur_distance = start_point_point.distance(point_to_check)
             if cur_distance < start_point[1]:
                 start_point = [feature['properties']['source'], cur_distance]
 
-    print(start_point)
-    print(closets_points)
-    cp = ''
+    # print(start_point)
     for key in closets_points:
-        cp += ', ' + str(closets_points[key][0])
-    print(cp)
+        closets_points[key] = sorted(closets_points[key], key=itemgetter('distance'))
+    # print(closets_points)
+    # cp = ''
+    # for key in closets_points:
+    #     cp += ', ' + str(closets_points[key][0])
+    # print(cp)
 
     return [start_point, closets_points]
+
+def is_subgraph(G1, G2):
+    """
+    Checks if G1 is a subgraph of G2.
+    This means all nodes and edges of G1 are contained in G2.
+    """
+    # Check if all nodes of G1 are in G2
+    for node in G1.nodes():
+        if node not in G2.nodes():
+            return False
+
+    # Check if all edges of G1 are in G2
+    for edge in G1.edges():
+        if edge not in G2.edges() and (edge[1], edge[0]) not in G2.edges():
+            return False
+
+    return True
+
+def are_graphs_identical(G1, G2):
+    missing_any = 0
+    # Check if all nodes of G1 are in G2
+    for node in G1.nodes():
+        if node not in G2.nodes():
+            missing_any += 1
+
+    for node in G2.nodes():
+        if node not in G1.nodes():
+            missing_any += 1
+
+    # Check if all edges of G1 are in G2
+    for edge in G1.edges():
+        if edge not in G2.edges() and (edge[1], edge[0]) not in G2.edges():
+            missing_any += 1
+
+    # Check if all edges of G2 are in G1
+    for edge in G2.edges():
+        if edge not in G1.edges() and (edge[1], edge[0]) not in G1.edges():
+            missing_any += 1
+
+    if missing_any > 0:
+        return False
+    else:
+        return True
 
 def test_approach_based_on_shortest_path():
     config = {
@@ -1345,11 +1401,48 @@ def test_approach_based_on_shortest_path():
     start_point = points_to_use[0]
     end_points = points_to_use[1]
     solutions = []
+    solved_graphs = []
     for i in range(len(end_points)):
-        solutions.append(solve_one_part(str(start_point[0]), str(end_points[i][0]), config, graph_data_input))
+        for end_point in end_points[i]:
+            solution_results = solve_one_part(str(start_point[0]), str(end_point['id']), config, graph_data_input)
+            if solution_results is not None:
+                solutions.append(solution_results[0])
+                solved_graphs.append(solution_results[1])
+                # Serializace do JSON
+                data = nx.node_link_data(solution_results[1])  # Převede graf do formátu pro serializaci
+                with open(str(end_point['id']) + '_graph.json', 'w') as f:
+                    json.dump(data, f)
+                # break
 
     for solution in solutions:
         print(solution)
+
+    print(len(solved_graphs))
+    print(len(solutions))
+    for i in range(len(solved_graphs)):
+        for j in range(len(solved_graphs)):
+            if i != j:
+                # Tak tyto testy evidentně nefungují
+                # if nx.is_isomorphic(solved_graph, solved_graph_2):
+                #     print("Graf G1 je stejný jako graf G2")
+                #     print(solutions[pos][0]['id'] + " " + solutions[pos2][0]['id'])
+                # GM = nx.isomorphism.GraphMatcher(solved_graph, solved_graph_2)
+                # if GM.subgraph_is_isomorphic():
+                #     print("Graf G1 je podgrafem grafu G2")
+                #     print(solutions[pos][0]['id'] + " " + solutions[pos2][0]['id'])
+                # GM = nx.isomorphism.GraphMatcher(solved_graph_2, solved_graph)
+                # if GM.subgraph_is_isomorphic():
+                #     print("Graf G2 je podgrafem grafu G1")
+                #     print(solutions[pos][0]['id'] + " " + solutions[pos2][0]['id'])
+                if are_graphs_identical(solved_graphs[i], solved_graphs[j]):
+                    print("Graf " + solutions[i][0]['id'] + " je stejný jako graf " + solutions[j][0]['id'])
+                else:
+                    if is_subgraph(solved_graphs[i], solved_graphs[j]):
+                        print("Graf " + solutions[i][0]['id'] + " je podgrafem grafu " + solutions[j][0]['id'])
+
+                # if is_subgraph(solved_graphs[j], solved_graphs[i]):
+                #     print("Graf G2 je podgrafem grafu G1")
+                #     print(solutions[j][0]['id'] + " " + solutions[i][0]['id'])
 
 
     # with open('g.json', 'w') as go:
