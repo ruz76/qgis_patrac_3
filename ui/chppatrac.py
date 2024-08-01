@@ -1096,8 +1096,12 @@ def solve_one_part(start_node, end_node, config, graph_data_input):
             return
 
         # Výpočet nejkratší trasy mezi těmito uzly
-        shortest_path = nx.shortest_path(graph, source=start_node, target=end_node, weight='weight')
-        shortest_path_length = nx.shortest_path_length(graph, source=start_node, target=end_node, weight='weight')
+        try:
+            shortest_path = nx.shortest_path(graph, source=start_node, target=end_node, weight='weight')
+            shortest_path_length = nx.shortest_path_length(graph, source=start_node, target=end_node, weight='weight')
+        except:
+            print('Nebyla nalezena trasa mezi výchozím a cílovým bodem')
+            return
 
         # Výpis výsledků
         print(f'Náhodně vybrané uzly: {start_node} a {end_node}')
@@ -1272,20 +1276,27 @@ def get_ring_polygon(config):
 
 def find_points(config, nodes_with_degree_one):
     source_point = config['start_point'] #[15.0339242, 49.340751]
+    edge_points = []
     diff_x = 0.025
     diff_y = 0.018
-    edge_points = []
-    # top
-    edge_points.append(Point(source_point[0] - diff_x, source_point[1] + diff_y))
-    edge_points.append(Point(source_point[0], source_point[1] + diff_y))
-    edge_points.append(Point(source_point[0] + diff_x, source_point[1] + diff_y))
-    # middle
-    edge_points.append(Point(source_point[0] - diff_x, source_point[1]))
-    edge_points.append(Point(source_point[0] + diff_x, source_point[1]))
-    # bottom
-    edge_points.append(Point(source_point[0] - diff_x, source_point[1] - diff_y))
-    edge_points.append(Point(source_point[0], source_point[1] - diff_y))
-    edge_points.append(Point(source_point[0] + diff_x, source_point[1] - diff_y))
+
+    if 'end_point' in config and config['end_point'] is not None:
+        end_point = config['end_point']
+        edge_points.append(Point(end_point[0], end_point[1]))
+
+    else:
+
+        # top
+        edge_points.append(Point(source_point[0] - diff_x, source_point[1] + diff_y))
+        edge_points.append(Point(source_point[0], source_point[1] + diff_y))
+        edge_points.append(Point(source_point[0] + diff_x, source_point[1] + diff_y))
+        # middle
+        edge_points.append(Point(source_point[0] - diff_x, source_point[1]))
+        edge_points.append(Point(source_point[0] + diff_x, source_point[1]))
+        # bottom
+        edge_points.append(Point(source_point[0] - diff_x, source_point[1] - diff_y))
+        edge_points.append(Point(source_point[0], source_point[1] - diff_y))
+        edge_points.append(Point(source_point[0] + diff_x, source_point[1] - diff_y))
 
     closets_points = {}
     for i in range(8):
@@ -1366,6 +1377,16 @@ def are_graphs_identical(G1, G2):
     else:
         return True
 
+def export_linies_into_xy_csv(shp_path):
+    with fiona.open(shp_path) as layer:
+        with open(shp_path + ".csv", "w") as out_csv:
+            for feature in layer:
+                print(feature["properties"]["ord"])
+                line = shape(feature["geometry"])
+                for coord in line.coords:
+                    print(coord)
+                    out_csv.write(str(coord[0]) + ',' + str(coord[1]) + '\n')
+
 def test_approach_based_on_shortest_path():
     config = {
         "log_level": "debug",
@@ -1384,9 +1405,11 @@ def test_approach_based_on_shortest_path():
             "quad_bike": 3
         },
         "sectors": [142442, 142444, 143254, 143263, 143884, 143941, 145390, 145401, 145405, 145408, 145446, 145448, 145453, 145464, 145465, 145468, 145525, 145526, 145529, 145547, 145555, 145556, 145557, 145558, 145603, 660753, 660758, 660783, 660800, 660824, 660832, 660837, 660838, 660840, 660843, 664917, 673397, 674517, 674663, 674668, 674669, 674679, 674682, 674693, 674694, 674695, 674696, 674697, 674700, 674704, 674706, 674707, 674712, 674715, 674734, 674736, 674742, 674743, 674744, 674746, 674748, 674750, 674753, 674755, 674762, 674763, 674764, 674767, 674769, 674770, 674771, 674773, 674778, 674779, 674780, 674781, 674783, 674784, 674790, 674795, 674796, 674797, 674798, 674800, 674806, 674813, 674836, 674842, 674844, 674940, 674941, 674943, 674944, 674946, 674952, 674955, 674958, 674959, 674961, 674962, 674963, 674967, 674971, 674973, 674975, 674977, 674983, 675011, 675012, 675919, 676991, 688010, 145350, 145359, 145392, 145418, 145457, 145462, 145463, 145489, 145575, 668767, 674411, 674520, 674533, 674598, 674609, 674667, 674671, 674676, 674683, 674688, 674689, 674699, 674709, 674710, 674716, 674717, 674722, 674725, 674726, 674727, 674745, 674815, 674816, 674817, 674819, 674822, 674826, 674828, 674831, 674832, 674833, 674838, 674843, 674846, 674850, 674866, 674884, 674887, 674897, 674899, 674913, 674914, 674916, 674925, 674926, 674927, 674929, 674931, 674933, 674934, 674937, 674982, 674984, 674989, 674990, 674991, 674993, 674997, 675000, 675001, 675003, 675004, 675008, 675016, 675017, 687754, 687968, 765584, 674751, 142598, 142602, 142656, 142671, 142687, 145458, 654010, 657634, 657673, 657714, 657811, 659980, 660699, 660847, 660856, 663634, 663636, 663639, 663640, 663643, 663660, 663671, 674935, 647978, 674851, 144824, 144828, 144935, 145388, 145427, 145480, 145535, 145539, 145565, 647941, 647949, 671820, 672039, 672041, 672042, 672106, 674662, 674670, 674687, 674692, 674698, 674703, 674733, 674810, 674812, 674814, 685157, 687920, 143201, 144025, 144057, 145373, 145387, 145399, 145404, 145409, 145412, 145444, 145445, 145454, 145455, 145456, 145459, 145528, 145537, 145540, 145542, 145548, 145566, 145598, 145602, 672057, 674446, 674449, 674483, 674600, 674655, 674680, 674684, 674685, 674701, 674702, 674705, 674708, 674718, 674721, 674728, 674731, 674738, 674741, 674747, 674752, 674756, 674757, 674758, 674759, 674760, 674761, 674768, 674777, 674785, 674786, 674787, 674788, 674789, 674792, 674793, 674794, 674799, 674804, 674805, 674809, 674947, 674948, 674949, 674950, 674956, 674957, 674960, 674964, 674968, 674970, 674978, 677001, 648027, 142449, 142494, 663642, 140540, 140545, 142429, 145604, 660756, 660762, 660763, 660778, 660818, 674976, 674980, 674987, 674988, 142668, 143594, 143832, 143838, 143974, 145200, 145372, 145415, 145416, 145417, 145420, 145422, 145441, 145443, 145466, 145477, 145530, 145531, 145532, 145538, 145562, 145569, 145579, 145590, 145597, 645978, 657664, 660685, 660698, 660737, 660761, 663628, 663631, 663633, 663650, 663674, 665246, 668144, 673938, 674280, 674345, 674402, 674420, 674508, 674519, 674636, 674646, 674660, 674681, 674686, 674691, 674711, 674713, 674714, 674719, 674720, 674723, 674724, 674729, 674730, 674735, 674739, 674754, 674766, 674775, 674782, 674791, 674802, 674808, 674811, 674820, 674821, 674823, 674824, 674825, 674827, 674829, 674830, 674834, 674840, 674841, 674845, 674847, 674853, 674855, 674881, 674896, 674904, 674915, 674923, 674928, 674932, 674938, 674945, 674951, 674985, 674995, 674996, 674998, 674999, 675002, 675005, 675006, 675007, 675009, 675010, 675013, 675014, 675015, 681831, 683216, 683221, 765585, 144826, 145389, 672034, 672072, 674732, 674737, 674749, 687932, 765536],
-        "start_point": [15.1321449, 49.4054798]
+        "start_point": [15.0339242, 49.340751],
+        "end_point": [15.0677249, 49.3256828]
     }
 
+    # "start_point": [15.1321449, 49.4054798],
     # "start_point": [15.017469, 49.433281]
     # "source" IN (3609, 6932, 726, 6305, 712, 5028, 5841, 5788)
 
@@ -1403,6 +1426,7 @@ def test_approach_based_on_shortest_path():
     solutions = []
     solved_graphs = []
     for i in range(len(end_points)):
+        pos_end_points = 0
         for end_point in end_points[i]:
             solution_results = solve_one_part(str(start_point[0]), str(end_point['id']), config, graph_data_input)
             if solution_results is not None:
@@ -1413,6 +1437,9 @@ def test_approach_based_on_shortest_path():
                 with open(str(end_point['id']) + '_graph.json', 'w') as f:
                     json.dump(data, f)
                 # break
+            pos_end_points += 1
+            if pos_end_points > 10:
+                break
 
     for solution in solutions:
         print(solution)
@@ -1524,4 +1551,5 @@ def test_approach_based_on_shortest_path():
     # print(f'Délka nejkratší trasy je: {shortest_path_length}')
 
 # test_me()
-test_approach_based_on_shortest_path()
+# test_approach_based_on_shortest_path()
+export_linies_into_xy_csv("/tmp/test_6642_0.shp")
