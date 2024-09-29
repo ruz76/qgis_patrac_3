@@ -1552,4 +1552,4 @@ def test_approach_based_on_shortest_path():
 
 # test_me()
 # test_approach_based_on_shortest_path()
-export_linies_into_xy_csv("/tmp/test_6642_0.shp")
+# export_linies_into_xy_csv("/tmp/test_6642_0.shp")
