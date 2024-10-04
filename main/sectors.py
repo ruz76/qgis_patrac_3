@@ -223,7 +223,7 @@ class Sectors(object):
         # self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sectors_zoned.shp")
         self.Utils.removeLayer(self.Utils.getDataPath() + "/pracovni/sektory_group.shp")
         locale = self.Utils.getLocale()
-        self.Utils.addVectorLayerWithStyle(self.Utils.getDataPath() + "/pracovni/sektory_group.shp", self.Utils.getLayerName("sektory_group.shp"), "sectors_single_" + locale, 5514)
+        self.Utils.addVectorLayerWithStyle(self.Utils.getDataPath() + "/pracovni/sektory_group.shp", self.Utils.getLayerName("sektory_group.shp"), "sectors_single_" + locale, self.widget.epsg_int)
 
         layer = None
         for lyr in list(QgsProject.instance().mapLayers().values()):
@@ -403,7 +403,7 @@ class Sectors(object):
         # prepare all sectors to one file
         self.Utils.copyLayer(DATAPATH, "all")
         layerLines = QgsVectorLayer(DATAPATH + "/sektory/shp/all.shp", "sektory linie", "ogr")
-        crs = QgsCoordinateReferenceSystem(5514)
+        crs = QgsCoordinateReferenceSystem(self.widget.epsg_int)
         layerLines.setCrs(crs)
         providerLayerLines = layerLines.dataProvider()
         layerLines.startEditing()
@@ -418,7 +418,7 @@ class Sectors(object):
             # Removes existing layer according to label in features
             self.Utils.copyLayer(DATAPATH, feature['label'])
             sector = QgsVectorLayer(DATAPATH + "/sektory/shp/" + feature['label'] + ".shp", feature['label'], "ogr")
-            crs = QgsCoordinateReferenceSystem(5514)
+            crs = QgsCoordinateReferenceSystem(self.widget.epsg_int)
             sector.setCrs(crs)
             providerSector = sector.dataProvider()
             sector.startEditing()
@@ -473,7 +473,7 @@ class Sectors(object):
     def transformTrack(self, layer):
         params = {
             'INPUT' : layer,
-            'TARGET_CRS': 'EPSG:5514',
+            'TARGET_CRS': self.widget.epsg_str_full,
             'OUTPUT': 'memory:transformed'
         }
         res = processing.run('qgis:reprojectlayer', params)
@@ -481,7 +481,7 @@ class Sectors(object):
 
     def transformLine(self, line, source_crs):
         crs_src = QgsCoordinateReferenceSystem(source_crs)
-        crs_dest = QgsCoordinateReferenceSystem(5514)
+        crs_dest = QgsCoordinateReferenceSystem(self.widget.epsg_int)
         xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
         return xform.transform(line)
 
@@ -582,7 +582,7 @@ class Sectors(object):
         if len(features) != 1:
             QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "You have to select just one line.", None))
             return
-        if layer_line.crs().authid() != "EPSG:5514":
+        if layer_line.crs().authid() != self.widget.epsg_str_full:
             layer_line = self.transformTrack(layer_line)
             layer_line.select([1])
         features = layer_line.selectedFeatures()
@@ -644,7 +644,7 @@ class Sectors(object):
         if len(features) != 1:
             QMessageBox.information(None, QApplication.translate("Patrac", "ERROR:", None), QApplication.translate("Patrac", "You have to select just one line.", None))
             return
-        if selectedLayers[0].crs().authid() != "EPSG:5514":
+        if selectedLayers[0].crs().authid() != self.widget.epsg_str_full:
             layer_line = self.transformTrack(layer_line)
             layer_line.select([1])
         features = layer_line.selectedFeatures()
@@ -693,7 +693,7 @@ class Sectors(object):
         data = {
             "type": "FeatureCollection",
             "name": "region",
-            "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::5514" } },
+            "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::" + str(self.widget.epsg_int) } },
             "features": [
                 { "type": "Feature", "properties": { "name": "null" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ int(extentItems[0]), int(extentItems[1]) ], [ int(extentItems[2]), int(extentItems[1]) ], [ int(extentItems[2]), int(extentItems[3]) ], [ int(extentItems[0]), int(extentItems[3]) ], [ int(extentItems[0]), int(extentItems[1]) ] ] ] } }
             ]
@@ -705,7 +705,7 @@ class Sectors(object):
         DATA_PATH = self.Utils.getDataPath()
         if os.path.exists(DATA_PATH + "/pracovni/" + name + ".prj"):
             os.remove(DATA_PATH + "/pracovni/" + name + ".prj")
-        self.Utils.addVectorLayerWithStyle(DATA_PATH + "/pracovni/" + name + ".shp", label, style, 5514)
+        self.Utils.addVectorLayerWithStyle(DATA_PATH + "/pracovni/" + name + ".shp", label, style, self.widget.epsg_int)
 
     def addVectorsForSplitByLine(self):
         locale = self.Utils.getLocale()
@@ -721,13 +721,13 @@ class Sectors(object):
             if self.Utils.getDataPath() + "/pracovni/sektory_group.shp" in lyr.source():
                 layer = lyr
                 break
-        crs = QgsCoordinateReferenceSystem("EPSG:5514")
+        crs = QgsCoordinateReferenceSystem(self.widget.epsg_str_full)
         QgsVectorFileWriter.writeAsVectorFormat(layer, self.Utils.getDataPath() + "/pracovni/sektory_group_selected.shp",
                                                 "utf-8", crs, "ESRI Shapefile")
 
     def writeSectorHtml(self, report, feature, extent_5514):
         srs = self.canvas.mapSettings().destinationCrs()
-        crs_src = QgsCoordinateReferenceSystem(5514)
+        crs_src = QgsCoordinateReferenceSystem(self.widget.epsg_int)
         crs_dest = QgsCoordinateReferenceSystem(srs)
         xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
         extent = xform.transform(extent_5514)
@@ -1206,7 +1206,7 @@ class Sectors(object):
                 f.write(report)
                 self.writeSectorHtml(report, feature, layer.extent())
 
-                sector = QgsVectorLayer("LineString?crs=epsg:5514", feature['label'], "memory")
+                sector = QgsVectorLayer("LineString?crs=epsg:" + str(self.widget.epsg_int), feature['label'], "memory")
 
                 # self.Utils.copyLayer(DATAPATH, feature['label'])
                 # sector = QgsVectorLayer(DATAPATH + "/sektory/shp/" + feature['label'] + ".shp", feature['label'], "ogr")
@@ -1311,11 +1311,11 @@ class Sectors(object):
             else:
                 srs = self.canvas.mapSettings().destinationCrs()
                 current_crs = srs.authid()
-                if current_crs == "EPSG:5514":
+                if current_crs == self.widget.epsg_str_full:
                     self.Printing.exportPDF(layer_probability.extent(), DATAPATH + "/sektory/")
                 else:
                     srs = self.canvas.mapSettings().destinationCrs()
-                    crs_src = QgsCoordinateReferenceSystem(5514)
+                    crs_src = QgsCoordinateReferenceSystem(self.widget.epsg_int)
                     crs_dest = QgsCoordinateReferenceSystem(srs)
                     xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
                     extent = xform.transform(layer_probability.extent())
@@ -1376,11 +1376,11 @@ class Sectors(object):
         srs = self.canvas.mapSettings().destinationCrs()
         current_crs = srs.authid()
         needsToBeTransformed = True
-        if current_crs == "EPSG:5514":
+        if current_crs == self.widget.epsg_str_full:
             needsToBeTransformed = False
         else:
             srs = self.canvas.mapSettings().destinationCrs()
-            crs_src = QgsCoordinateReferenceSystem(5514)
+            crs_src = QgsCoordinateReferenceSystem(self.widget.epsg_int)
             crs_dest = QgsCoordinateReferenceSystem(srs)
             xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
 

@@ -328,9 +328,6 @@ class Project(object):
         self.copyTemplate(NEW_PROJECT_PATH, TEMPLATES_PATH, NAMESAFE)
         copy(DATAPATH + "kraje/" + region + "/vektor/ZABAGED/lastsectorid.txt", NEW_PROJECT_PATH + '/config/lastsectorid.txt')
 
-        # TODO make it globally
-        epsg = 5514
-
         params = {
             "source_path": DATAPATH + "kraje/" + region + "/",
             "target_path": DATAPATH + "kraje/" + region + "/projekty/" + NAMESAFE + "/",
@@ -338,7 +335,7 @@ class Project(object):
             "maxx": XMAX,
             "miny": YMIN,
             "maxy": YMAX,
-            "epsg": epsg,
+            "epsg": self.widget.epsg_int,
             "type": "initial"
         }
 
@@ -359,7 +356,7 @@ class Project(object):
             "YMIN": YMIN,
             "XMAX": XMAX,
             "YMAX": YMAX,
-            "epsg": epsg
+            "epsg": self.widget.epsg_int
         }
 
     def finishCreateProject(self, params):
@@ -419,11 +416,11 @@ class Project(object):
         rect = QgsRectangle(float(XMIN), float(YMIN), float(XMAX), float(YMAX))
         srs = self.canvas.mapSettings().destinationCrs()
         current_crs = srs.authid()
-        if current_crs == "EPSG:5514":
+        if current_crs == self.widget.epsg_str_full:
             self.canvas.setExtent(rect)
         else:
             srs = self.canvas.mapSettings().destinationCrs()
-            crs_src = QgsCoordinateReferenceSystem(5514)
+            crs_src = QgsCoordinateReferenceSystem(self.widget.epsg_int)
             crs_dest = QgsCoordinateReferenceSystem(srs)
             xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
             extent = xform.transform(rect)
@@ -469,8 +466,8 @@ class Project(object):
 
         source_crs = self.canvas.mapSettings().destinationCrs()
         current_crs = source_crs.authid()
-        if current_crs != "EPSG:5514":
-            dest_crs = QgsCoordinateReferenceSystem(5514)
+        if current_crs != self.widget.epsg_str_full:
+            dest_crs = QgsCoordinateReferenceSystem(self.widget.epsg_int)
             transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
             minJTSK = transform.transform(float(CMINX), float(CMINY))
             CMINX = minJTSK.x()
@@ -501,8 +498,7 @@ class Project(object):
             json.dump(project_info, outfile)
 
         DATAPATH = self.config["data_path"]
-        # TODO make it globally
-        epsg = 5514
+
         with open(self.widget.Utils.getDataPath() + '/config/region.txt') as r:
             region = r.read()
 
@@ -513,7 +509,7 @@ class Project(object):
             "maxx": XMAX,
             "miny": YMIN,
             "maxy": YMAX,
-            "epsg": epsg,
+            "epsg": self.widget.epsg_int,
             "type": "extend"
         }
 

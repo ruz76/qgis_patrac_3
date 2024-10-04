@@ -54,9 +54,9 @@ class PointMapToolLatLon(QgsMapTool):
         srs = self.canvas.mapSettings().destinationCrs()
         current_crs = srs.authid()
 
-        if current_crs != "EPSG:5514":
+        if current_crs != self.widget.epsg_str_full:
             crs_src = QgsCoordinateReferenceSystem(srs)
-            crs_dest = QgsCoordinateReferenceSystem(5514)
+            crs_dest = QgsCoordinateReferenceSystem(self.widget.epsg_int)
             xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
             point_5514 = xform.transform(self.point)
             self.addToCanvas(point_5514, self.type)
@@ -84,7 +84,7 @@ class PointMapToolLatLon(QgsMapTool):
             layer_title = self.Utils.getLayerName(layer_name + '.shp')
 
         layer = QgsVectorLayer("Point", layer_name, "memory")
-        crs = QgsCoordinateReferenceSystem(5514)
+        crs = QgsCoordinateReferenceSystem(self.widget.epsg_int)
         layer.setCrs(crs)
         pr = layer.dataProvider()
         field = QgsField("note", QVariant.String)
@@ -99,7 +99,7 @@ class PointMapToolLatLon(QgsMapTool):
         self.saveLayer(layer, layer_name, layer_title)
 
     def saveLayer(self, layer, layer_name, layer_title):
-        crs = QgsCoordinateReferenceSystem(5514)
+        crs = QgsCoordinateReferenceSystem(self.widget.epsg_int)
         QgsVectorFileWriter.writeAsVectorFormat(layer, self.Utils.getDataPath() + "/pracovni/" + layer_name + ".shp",
                                                 "utf-8", crs, "ESRI Shapefile")
 

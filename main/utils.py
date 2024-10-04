@@ -77,8 +77,10 @@ class CreateGridTask():
         if self.method == 'sector':
             parts = self.bbox
 
-        source_crs = QgsCoordinateReferenceSystem(5514)
-        dest_crs = QgsCoordinateReferenceSystem(32633)
+        source_crs = QgsCoordinateReferenceSystem(self.widget.epsg_int)
+        # TODO check if the system is UTM
+        # Then no need to transform anything
+        dest_crs = QgsCoordinateReferenceSystem(self.widget.epsg_int)
         transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
         minXY_UTM = transform.transform(int(parts[0]), int(parts[1]))
         maxXY_UTM = transform.transform(int(parts[2]), int(parts[3]))
@@ -161,7 +163,7 @@ class CreateGridTask():
         layer.commitChanges()
 
         locale = self.parent.getLocale()
-        self.parent.addVectorLayerWithStyle(self.parent.getDataPath() + "/pracovni/sektory_group.shp", self.parent.getLayerName("sektory_group.shp"), "sectors_single_" + locale, 5514)
+        self.parent.addVectorLayerWithStyle(self.parent.getDataPath() + "/pracovni/sektory_group.shp", self.parent.getLayerName("sektory_group.shp"), "sectors_single_" + locale, self.widget.epsg_int)
 
     def getUTMGridPolygon(self, minx, miny, cellsize):
         try:
@@ -173,8 +175,9 @@ class CreateGridTask():
                   + ", " + str(minx) + " " + str(maxy) \
                   + ", " + str(minx) + " " + str(miny) + "))"
 
-            source_crs = QgsCoordinateReferenceSystem(32633)
-            dest_crs = QgsCoordinateReferenceSystem(5514)
+            # TODO check UTM
+            source_crs = QgsCoordinateReferenceSystem(self.widget.epsg_int)
+            dest_crs = QgsCoordinateReferenceSystem(self.widget.epsg_int)
             tr = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
             geom = QgsGeometry.fromWkt(wkt)
             geom.transform(tr)
@@ -276,7 +279,7 @@ class Utils(object):
         for layer in layers:
             layerExists = self.checkLayer(layer)
             if not layerExists:
-                self.addVectorLayer(self.getDataPath() + "/pracovni/" + layer, self.getLayerName(layers[id]), 5514)
+                self.addVectorLayer(self.getDataPath() + "/pracovni/" + layer, self.getLayerName(layers[id]), self.widget.epsg_int)
             id += 1
 
         # layer = "distances_costed_cum.tif"
@@ -287,7 +290,7 @@ class Utils(object):
         layer = "zpm.mbtiles"
         layerExists = self.checkLayer(layer)
         if not layerExists:
-            self.addRasterLayer(self.getDataPath() + "/../../../" + layer, self.getLayerName(layer), 5514)
+            self.addRasterLayer(self.getDataPath() + "/../../../" + layer, self.getLayerName(layer), self.widget.epsg_int)
 
     def getLayer(self, name):
         layer = None
@@ -537,7 +540,7 @@ class Utils(object):
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".dbf", self.getDataPath() + "/pracovni/sektory_group.dbf")
         copy(self.getDataPath() + "/pracovni/sektory_group_" + type + ".prj", self.getDataPath() + "/pracovni/sektory_group.prj")
         locale = self.getLocale()
-        self.addVectorLayerWithStyle(self.getDataPath() + "/pracovni/sektory_group.shp", self.getLayerName("sektory_group.shp"), "sectors_single_" + locale, 5514)
+        self.addVectorLayerWithStyle(self.getDataPath() + "/pracovni/sektory_group.shp", self.getLayerName("sektory_group.shp"), "sectors_single_" + locale, self.widget.epsg_int)
 
     def getLostInfo(self, project_settings):
         lost_info = "Pohřešovaná osoba: "

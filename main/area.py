@@ -311,7 +311,7 @@ class Area(object):
         center_map = self.plugin.canvas.center()
         srs = self.canvas.mapSettings().destinationCrs()
         crs_src = QgsCoordinateReferenceSystem(srs)
-        crs_dest = QgsCoordinateReferenceSystem(5514)
+        crs_dest = QgsCoordinateReferenceSystem(self.widget.epsg_int)
         xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
         center = xform.transform(center_map)
         fet.setGeometry(QgsGeometry.fromPointXY(center))

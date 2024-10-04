@@ -13,7 +13,7 @@ class LineMapTool(QgsMapToolEmitPoint):
         self.layer = None
 
     def createLayer(self):
-        self.layer = QgsVectorLayer("LineString?crs=epsg:3857", "Line", "memory")
+        self.layer = QgsVectorLayer("LineString?crs=epsg:" + str(self.widget.epsg_int), "Line", "memory")
         pr = self.layer.dataProvider()
         pr.addAttributes([QgsField("id", QVariant.Int)])
         self.layer.updateFields()

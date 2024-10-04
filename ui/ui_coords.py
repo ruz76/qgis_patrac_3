@@ -62,16 +62,16 @@ class Ui_Coords(QtWidgets.QDialog, FORM_CLASS):
     def setCoords(self):
         srs = self.canvas.mapSettings().destinationCrs()
         current_crs = srs.authid()
-        if current_crs != "EPSG:5514":
+        if current_crs != self.widget.epsg_str_full:
             srs = self.canvas.mapSettings().destinationCrs()
             crs_src = QgsCoordinateReferenceSystem(srs)
-            crs_dest = QgsCoordinateReferenceSystem(5514)
+            crs_dest = QgsCoordinateReferenceSystem(self.widget.epsg_int)
             xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
             self.center = xform.transform(self.center)
 
         self.lineEditX.setText(str(self.center.x()))
         self.lineEditY.setText(str(self.center.y()))
-        source_crs = QgsCoordinateReferenceSystem(5514)
+        source_crs = QgsCoordinateReferenceSystem(self.widget.epsg_int)
 
         dest_crs = QgsCoordinateReferenceSystem(4326)
         transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
@@ -79,7 +79,8 @@ class Ui_Coords(QtWidgets.QDialog, FORM_CLASS):
         self.lineEditLon.setText(str(xyWGS.x()))
         self.lineEditLat.setText(str(xyWGS.y()))
 
-        dest_crs = QgsCoordinateReferenceSystem(32633)
+        # TODO - check if the system is UTM
+        dest_crs = QgsCoordinateReferenceSystem(self.widget.epsg_int)
         transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
         xyUTM = transform.transform(self.center.x(), self.center.y())
         self.lineEditUTMX.setText(str(xyUTM.x()))

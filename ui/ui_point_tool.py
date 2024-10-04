@@ -32,10 +32,10 @@ class PointMapTool(QgsMapTool):
       self.point = self.toMapCoordinates(e.pos())
       srs = self.canvas.mapSettings().destinationCrs()
       current_crs = srs.authid()
-      if current_crs != "EPSG:5514":
+      if current_crs != self.widget.epsg_str_full:
           srs = self.canvas.mapSettings().destinationCrs()
           crs_src = QgsCoordinateReferenceSystem(srs)
-          crs_dest = QgsCoordinateReferenceSystem(5514)
+          crs_dest = QgsCoordinateReferenceSystem(self.widget.epsg_int)
           xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
           self.point = xform.transform(self.point)
 
@@ -44,7 +44,7 @@ class PointMapTool(QgsMapTool):
 
   def addToCanvas(self, point):
       layer = QgsVectorLayer("Point", "result", "memory")
-      crs = QgsCoordinateReferenceSystem("EPSG:5514")
+      crs = QgsCoordinateReferenceSystem(self.widget.epsg_str_full)
       layer.setCrs(crs)
       pr = layer.dataProvider()
       field = QgsField("note", QVariant.String)
@@ -59,7 +59,7 @@ class PointMapTool(QgsMapTool):
       self.saveLayer(layer)
 
   def saveLayer(self, layer):
-      crs = QgsCoordinateReferenceSystem("EPSG:5514")
+      crs = QgsCoordinateReferenceSystem(self.widget.epsg_str_full)
       QgsVectorFileWriter.writeAsVectorFormat(layer, self.Utils.getDataPath() + "/pracovni/result.shp",
                                               "utf-8", crs, "ESRI Shapefile")
 

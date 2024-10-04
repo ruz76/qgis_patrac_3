@@ -70,17 +70,17 @@ class ProgressMapTool(QgsMapTool):
             self.point = self.toMapCoordinates(e.pos())
             srs = self.canvas.mapSettings().destinationCrs()
             current_crs = srs.authid()
-            if current_crs != "EPSG:5514":
+            if current_crs != self.widget.epsg_str_full:
                 srs = self.canvas.mapSettings().destinationCrs()
                 crs_src = QgsCoordinateReferenceSystem(srs)
-                crs_dest = QgsCoordinateReferenceSystem(5514)
+                crs_dest = QgsCoordinateReferenceSystem(self.widget.epsg_int)
                 xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
                 self.point = xform.transform(self.point)
 
     def transformTrack(self, layer):
         params = {
             'INPUT' : layer,
-            'TARGET_CRS': 'EPSG:5514',
+            'TARGET_CRS': self.widget.epsg_str_full,
             'OUTPUT': 'memory:transformed'
         }
         res = processing.run('qgis:reprojectlayer', params)
@@ -185,7 +185,7 @@ class ProgressMapTool(QgsMapTool):
 
     def analyzeTrackSingle(self, features, sector):
         crs_src = QgsCoordinateReferenceSystem(4326)
-        crs_dest = QgsCoordinateReferenceSystem(5514)
+        crs_dest = QgsCoordinateReferenceSystem(self.widget.epsg_int)
         xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
         buffer_union = None
         for feature in features:
@@ -240,7 +240,7 @@ class ProgressMapTool(QgsMapTool):
                 return
 
         difference = sector.geometry().difference(buffer_union)
-        uri = "multipolygon?crs=epsg:5514"
+        uri = "multipolygon?crs=epsg:" + str(self.widget.epsg_int)
         layer = QgsVectorLayer(uri, sector['label'], "memory")
         layer.startEditing()
         provider = layer.dataProvider()

@@ -130,6 +130,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.gridsize = 0
         self.tasks = []
         self.sectors_layer = None
+        self.epsg_int = 32634
+        self.epsg_str_full = 'EPSG:32634'
 
         userPluginPath = QFileInfo(QgsApplication.qgisUserDatabaseFilePath()).path() + "/python/plugins/qgis_patrac"
         systemPluginPath = QgsApplication.prefixPath() + "/python/plugins/qgis_patrac"
@@ -871,11 +873,11 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if self.chkGenerateOverallPDF.isChecked():
             srs = self.canvas.mapSettings().destinationCrs()
             current_crs = srs.authid()
-            if current_crs == "EPSG:5514":
+            if current_crs == self.epsg_str_full:
                 self.Printing.exportPDF(layer.extent(), DATAPATH + "/sektory/")
             else:
                 srs = self.canvas.mapSettings().destinationCrs()
-                crs_src = QgsCoordinateReferenceSystem(5514)
+                crs_src = QgsCoordinateReferenceSystem(self.epsg_int)
                 crs_dest = QgsCoordinateReferenceSystem(srs)
                 xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
                 extent = xform.transform(layer.extent())
@@ -1032,7 +1034,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         """Transforms coords to S-JTSK (EPSG:5514)."""
         map_renderer = self.canvas.mapRenderer()
         srs = map_renderer.destinationCrs()
-        crs_src = QgsCoordinateReferenceSystem(5514)
+        crs_src = QgsCoordinateReferenceSystem(self.epsg_int)
         crs_dest = QgsCoordinateReferenceSystem(srs)
         xform = QgsCoordinateTransform(crs_src, crs_dest, QgsProject.instance())
         x = int(cor[0])
@@ -1051,7 +1053,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         """Zooms to coordinates"""
         current_crs = self.check_crs()
         # If the current CRS is not S-JTSK
-        if current_crs != "EPSG:5514":
+        if current_crs != self.epsg_str_full:
             cor = (x, y)
             # Do the transformation
             point = self.transform(cor)
@@ -1497,7 +1499,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","All Files (*);;CSV Files (*.csv)", options=options)
         if fileName:
             print(fileName)
-            crs = QgsCoordinateReferenceSystem("EPSG:5514")
+            crs = QgsCoordinateReferenceSystem(self.epsg_str_full)
             layer = self.Utils.getLayer("/pracovni/sektory_group.shp")
             # QgsVectorFileWriter.writeAsVectorFormat(layer, self.Utils.getDataPath() + "/pracovni/sektory_group.csv",
             #                                     "utf-8", crs, "CSV")
@@ -1542,7 +1544,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             x = self.coordsdlg.lineEditLon.text()
             y = self.coordsdlg.lineEditLat.text()
             source_crs = QgsCoordinateReferenceSystem(4326)
-            dest_crs = QgsCoordinateReferenceSystem(5514)
+            dest_crs = QgsCoordinateReferenceSystem(self.epsg_int)
             transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
             xyJTSK = transform.transform(float(x), float(y))
             x = xyJTSK.x()
@@ -1552,12 +1554,12 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         if self.coordsdlg.radioButtonUTM.isChecked() == True:
             x = self.coordsdlg.lineEditUTMX.text()
             y = self.coordsdlg.lineEditUTMY.text()
-            source_crs = QgsCoordinateReferenceSystem(32633)
-            dest_crs = QgsCoordinateReferenceSystem(5514)
-            transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
-            xyJTSK = transform.transform(float(x), float(y))
-            x = xyJTSK.x()
-            y = xyJTSK.y()
+            # source_crs = QgsCoordinateReferenceSystem(32633)
+            # dest_crs = QgsCoordinateReferenceSystem(self.epsg_int)
+            # transform = QgsCoordinateTransform(source_crs, dest_crs, QgsProject.instance())
+            # xyJTSK = transform.transform(float(x), float(y))
+            # x = xyJTSK.x()
+            # y = xyJTSK.y()
 
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
@@ -1913,7 +1915,7 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
             fet = QgsFeature()
             rand = random.randint(-1 * hh, hh)
             rand2 = random.randint(-1 * hh, hh)
-            crs_src = QgsCoordinateReferenceSystem(5514)
+            crs_src = QgsCoordinateReferenceSystem(self.epsg_int)
             crs_dest = QgsCoordinateReferenceSystem(4326)
             xform = QgsCoordinateTransform(crs_src, crs_dest)
             point_5514 = QgsPointXY(center.x() + rand, center.y() + rand2)
