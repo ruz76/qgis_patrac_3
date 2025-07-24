@@ -72,6 +72,7 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
         super(Ui_Gpx, self).__init__(parent)
         self.setupUi(self)
         self.pluginPath = pluginPath
+        self.parent = parent
         prjfi = QFileInfo(QgsProject.instance().fileName())
         DATAPATH = prjfi.absolutePath()
         self.path = '/tmp/GARMIN'
@@ -153,19 +154,37 @@ class Ui_Gpx(QtWidgets.QDialog, FORM_CLASS):
                 os.remove(f)
         #If Windows
         if sys.platform.startswith('win'):
-            #Get drive from user select
-            drive = self.getDrive()
-            #If not selected than C:, that should be always present
-            if drive is None:
-                QgsMessageLog.logMessage(self.tr("Not found any disk. Will not search for data."), "Patrac")
-                return
-            self.path = drive[:-1] + '/'
+            self.parent.gpxsourcedlg.exec_()
+            if self.parent.gpxsource == 1:
+                #Get drive from user select
+                drive = self.getDrive()
+                #If not selected than C:, that should be always present
+                if drive is None:
+                    QgsMessageLog.logMessage(self.tr("Not found any disk. Will not search for data."), "Patrac")
+                    return
+                self.path = drive[:-1] + '/'
+            if self.parent.gpxsource == 2:
+                if self.parent.gpxPath == '':
+                    self.parent.gpxPath = self.DATAPATH
+                directory = QFileDialog.getExistingDirectory(self.parent, self.tr("Select directory"), self.parent.gpxPath)
+                self.parent.gpxPath = directory
+                self.path = directory
+
         else:
-            drive = self.getDriveLinux()
-            if drive is None:
-                QgsMessageLog.logMessage(self.tr("Not found any disk. Will not search for data."), "Patrac")
-                return
-            self.path = drive
+            self.parent.gpxsourcedlg.exec_()
+            if self.parent.gpxsource == 1:
+                drive = self.getDriveLinux()
+                if drive is None:
+                    QgsMessageLog.logMessage(self.tr("Not found any disk. Will not search for data."), "Patrac")
+                    return
+                self.path = drive
+
+            if self.parent.gpxsource == 2:
+                if self.parent.gpxPath == '':
+                    self.parent.gpxPath = self.DATAPATH
+                directory = QFileDialog.getExistingDirectory(self.parent, self.tr("Select directory"), self.parent.gpxPath)
+                self.parent.gpxPath = directory
+                self.path = directory
 
         i = 0
         for root, dirnames, filenames in os.walk(self.path):

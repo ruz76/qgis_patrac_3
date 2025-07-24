@@ -149,7 +149,7 @@ class CalculateDistance(QgsTask):
     def get_distances(self):
         with open(self.parent.pluginPath + "/grass/distances.txt") as d:
             lines = d.readlines()
-            items = lines[self.persontype].rstrip().split(',')
+            items = lines[self.persontype-1].rstrip().split(',')
             return items
 
     def get_percent(self, distances, cur_distance):

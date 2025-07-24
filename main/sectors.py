@@ -90,7 +90,7 @@ class Sectors(object):
 
         with open(self.widget.pluginPath + "/grass/distances.txt") as d:
             lines = d.readlines()
-            items = lines[self.widget.personType].rstrip().split(',')
+            items = lines[self.widget.personType-1].rstrip().split(',')
             return int(items[percent_pos])
 
     def create_circle(self, center, radius, segments=36):
@@ -1356,6 +1356,18 @@ class Sectors(object):
         else:
             featuresCount = features_selected_count
 
+        print(features_selected_count)
+
+        if features_selected_count == 0:
+            QMessageBox.critical(None, QApplication.translate("Patrac", "ERROR", None),
+                                 QApplication.translate("Patrac", "There are not any sectors selected. You have to select 1-20 sectors for export. Can not continue", None))
+            return
+
+        if features_selected_count > 20:
+            QMessageBox.critical(None, QApplication.translate("Patrac", "ERROR", None),
+                                 QApplication.translate("Patrac", "Number of selected sectors is limited to 20. Can not continue", None))
+            return
+
         # TODO change to something interesting
         if featuresCount > 0:
             reply = QMessageBox.question(None,
@@ -1395,8 +1407,18 @@ class Sectors(object):
             else:
                 extent = bbox
             scale = 1.2
-            if feature.geometry().area() < 100000:
-                scale = (100000 / feature.geometry().area()) + 0.2
+            if feature.geometry().area() < 1000000:
+                # scale = (1000000 / feature.geometry().area()) + 0.2
+                scale = 1.0
+                center_x = extent.center().x()
+                center_y = extent.center().y()
+                scale_map_km = 10
+                widthmax = (271.816 * scale_map_km) / 0.64
+                heightmax = (177.272 * scale_map_km) / 0.64
+                extent = QgsRectangle(center_x - widthmax / 2,
+                                    center_y - heightmax / 2,
+                                    center_x + widthmax / 2,
+                                    center_y + heightmax / 2)
             self.Printing.export(extent, DATAPATH + "/sektory/pdf/" + feature['label'] + "_" + str(feature['id']) + ".pdf", scale)
             progress += step
             self.widget.setProgress(round(progress))

@@ -34,6 +34,8 @@ from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import *
 from qgis.PyQt.QtWidgets import *
 
+import webbrowser
+
 class Printing(object):
     def __init__(self, widget):
         self.widget = widget
@@ -128,3 +130,11 @@ class Printing(object):
         progress = 100
         self.widget.setProgress(round(progress))
         self.widget.clearMessageBar()
+
+    def exportPDFsimple(self, extent, path, scale):
+        self.export(extent, path, scale)
+        try:
+            webbrowser.get().open(
+                "file://" + path)
+        except (webbrowser.Error):
+            self.iface.messageBar().pushMessage(QApplication.translate("Patrac", "Error", None), QApplication.translate("Patrac", "Can not find web browser to open exported PDF", None), level=Qgis.Critical)

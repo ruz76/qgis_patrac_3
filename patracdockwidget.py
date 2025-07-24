@@ -48,7 +48,8 @@ from .ui.ui_grid import Ui_Grid
 from .ui.ui_units import Ui_Units
 from .ui.ui_handlers import Ui_Handlers
 from .ui.ui_person import Ui_Person
-from .ui.ui_chcalculate import Ui_Chcalculate
+# from .ui.ui_chcalculate import Ui_Chcalculate
+from .ui.ui_gpxsource import Ui_GpxSource
 
 from .main.printing import Printing
 from .main.project import Project
@@ -145,6 +146,9 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.settingsPath = self.pluginPath + "/../../../patrac_settings"
         self.config = {}
         self.readConfig()
+        self.gpxsource = 1
+        self.gpxPath = ''
+        self.pdfTargetDir = ''
 
         QDockWidget.__init__(self, None)
         self.setupUi(self)
@@ -204,7 +208,8 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.unitsdlg = Ui_Units(self.pluginPath, self)
         self.handlersdlg = Ui_Handlers(self.pluginPath, self)
         self.persondlg = Ui_Person(self.pluginPath, self)
-        self.chcalculatedlg = Ui_Chcalculate(self.pluginPath, self)
+        # self.chcalculatedlg = Ui_Chcalculate(self.pluginPath, self)
+        self.gpxsourcedlg = Ui_GpxSource(self.pluginPath, self)
 
         self.Styles = Styles(self)
         # self.sectorsUniqueStyle.clicked.connect(self.setSectorsUniqueValuesStyle)
@@ -892,37 +897,49 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
     def copyGpx(self):
         result = self.Sectors.exportSectors()
         if result is not None:
-            drives = None
-            if sys.platform.startswith('win'):
-                if win32api_exists:
-                    drives = win32api.GetLogicalDriveStrings()
-                    drives = drives.split('\000')[:-1]
+            self.gpxsourcedlg.exec_()
+            if self.gpxsource == 1:
+                drives = None
+                if sys.platform.startswith('win'):
+                    if win32api_exists:
+                        drives = win32api.GetLogicalDriveStrings()
+                        drives = drives.split('\000')[:-1]
+                    else:
+                        drives = self.Utils.getDrivesList()
                 else:
-                    drives = self.Utils.getDrivesList()
-            else:
-                username = getpass.getuser()
-                drives = []
-                for dirname in os.listdir('/media/' + username + '/'):
-                    drives.append('/media/' + username + '/' + dirname + '/')
+                    username = getpass.getuser()
+                    drives = []
+                    for dirname in os.listdir('/media/' + username + '/'):
+                        drives.append('/media/' + username + '/' + dirname + '/')
 
-            drives_gpx = []
-            for drive in drives:
-                if os.path.isdir(drive + 'Garmin/GPX'):
-                    drives_gpx.append(drive)
+                drives_gpx = []
+                for drive in drives:
+                    if os.path.isdir(drive + 'Garmin/GPX'):
+                        drives_gpx.append(drive)
 
-            if len(drives_gpx) == 1:
-                # nice, only one GPX dir is available
-                self.copyGpxToPath(drives_gpx[0] + 'Garmin/GPX')
+                if len(drives_gpx) == 1:
+                    # nice, only one GPX dir is available
+                    self.copyGpxToPath(drives_gpx[0] + 'Garmin/GPX')
 
-            if len(drives_gpx) == 0:
-                # Not Garmin. TODO
-                QMessageBox.information(None, QApplication.translate("Patrac", "INFO", None), QApplication.translate("Patrac", "Did not find GPS. You have to copy GPX manually from the report.", None))
+                if len(drives_gpx) == 0:
+                    # Not Garmin. TODO
+                    QMessageBox.information(None, QApplication.translate("Patrac", "INFO", None), QApplication.translate("Patrac", "Did not find GPS. You have to copy GPX manually from the report.", None))
 
-            if len(drives_gpx) > 1:
-                # We have more than one place with garmin/GPX
-                item, ok = QInputDialog.getItem(self, QApplication.translate("Patrac", "select input dialog", None), QApplication.translate("Patrac", "list of drives", None), drives_gpx, 0, False)
-                if ok and item:
-                    self.copyGpxToPath(item + 'Garmin/GPX')
+                if len(drives_gpx) > 1:
+                    # We have more than one place with garmin/GPX
+                    item, ok = QInputDialog.getItem(self, QApplication.translate("Patrac", "select input dialog", None), QApplication.translate("Patrac", "list of drives", None), drives_gpx, 0, False)
+                    if ok and item:
+                        self.copyGpxToPath(item + 'Garmin/GPX')
+
+            if self.gpxsource == 2:
+                if self.gpxPath == '':
+                    prjfi = QFileInfo(QgsProject.instance().fileName())
+                    DATAPATH = prjfi.absolutePath()
+                    self.gpxPath = DATAPATH
+                directory = QFileDialog.getExistingDirectory(self, self.tr("Select directory"), self.gpxPath)
+                self.gpxPath = directory
+                self.copyGpxToPath(self.gpxPath)
+
 
     def cleanGps(self, path):
         reply = QMessageBox.question(self, QApplication.translate("Patrac", 'Clean GPS', None),
@@ -2019,9 +2036,41 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         return layer
 
     def chinesePostmanPathPoC(self):
-        # QMessageBox.critical(None, QApplication.translate("Patrac", "ERROR", None),
-        #                      QApplication.translate("Patrac", "Not implemented.", None))
-        # return
-        self.chinesePostmanCallId += 1
-        self.chcalculatedlg.exec_()
+        QMessageBox.critical(None, QApplication.translate("Patrac", "ERROR", None),
+                             QApplication.translate("Patrac", "Not implemented.", None))
+        return
+        # self.chinesePostmanCallId += 1
+        # self.chcalculatedlg.exec_()
 
+    def exportPDFsimple(self):
+        self.setCursor(Qt.WaitCursor)
+
+        prjfi = QFileInfo(QgsProject.instance().fileName())
+        DATAPATH = prjfi.absolutePath()
+
+        if self.pdfTargetDir == '':
+            self.pdfTargetDir = DATAPATH
+
+        file_name, _ = QFileDialog.getSaveFileName(self, QApplication.translate("Patrac", "Save PDF", None), self.pdfTargetDir, QApplication.translate("Patrac", "PDF files (*.pdf);;All files (*.*)", None))
+
+        if file_name != '':
+
+            if not file_name.endswith('.pdf'):
+                file_name = file_name + '.pdf'
+
+            self.plugin.iface.mapCanvas().refresh()
+            extent = self.plugin.iface.mapCanvas().extent()
+
+            print(extent)
+            print(file_name)
+            self.Printing.exportPDFsimple(extent, file_name, 1.0)
+
+        self.setCursor(Qt.ArrowCursor)
+
+    def addZTM10WMS(self):
+        url = 'contextualWMSLegend=0&crs=EPSG:3857&dpiMode=7&featureCount=10&format=image/jpeg&layers=0&styles=default&url=https://ags.cuzk.cz/arcgis1/services/ZTM/ZTM10/MapServer/WMSServer'
+        self.Utils.addWMSLayer(url, QApplication.translate("Patrac", 'ZTM10 - CUZK', None))
+
+    def addAerialCUZKWMS(self):
+        url = 'contextualWMSLegend=0&crs=EPSG:3857&featureCount=10&format=image/jpeg&layers=GR_ORTFOTORGB&styles=default&url=http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/WMService.aspx&http-header:referer='
+        self.Utils.addWMSLayer(url, QApplication.translate("Patrac", 'Aerial - CUZK', None))

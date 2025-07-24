@@ -271,29 +271,24 @@ class Ui_PatracDockWidget(object):
         self.sectorsSingleStyle.setToolTip(QApplication.translate("PatracDockWidget", "Remove colors", None))
         self.horizontalLayoutStyles.addWidget(self.sectorsSingleStyle)
 
-        self.printPrepared = QPushButton(self.dockWidgetContents)
-        self.printPrepared.setObjectName(_fromUtf8("printPrepared"))
-        self.printPrepared.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "print_prepared.png")));
-        self.printPrepared.setIconSize(QSize(24,24));
-        self.printPrepared.setFixedSize(QSize(32,32));
-        self.printPrepared.setToolTip(QApplication.translate("PatracDockWidget", "PDF from report", None))
-        self.horizontalLayoutStyles.addWidget(self.printPrepared)
+        self.tbtnShowSearchersTracks = QPushButton(self.dockWidgetContents)
+        self.tbtnShowSearchersTracks.setObjectName(_fromUtf8("tbtnShowSearchersTracks"))
+        self.tbtnShowSearchersTracks.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "show_searchers_tracks.png")))
+        self.tbtnShowSearchersTracks.setIconSize(QSize(24, 24))
+        self.tbtnShowSearchersTracks.setFixedSize(QSize(32, 32))
+        self.horizontalLayoutStyles.addWidget(self.tbtnShowSearchersTracks)
+        self.tbtnShowSearchersTracks.setToolTip(
+            QApplication.translate("PatracDockWidget", "Show searchers (lines)", None))
 
-        self.printUserDefined = QPushButton(self.dockWidgetContents)
-        self.printUserDefined.setObjectName(_fromUtf8("printUserDefined"))
-        self.printUserDefined.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "print_user.png")));
-        self.printUserDefined.setIconSize(QSize(24,24));
-        self.printUserDefined.setFixedSize(QSize(32,32));
-        self.printUserDefined.setToolTip(QApplication.translate("PatracDockWidget", "Create own map", None))
-        self.horizontalLayoutStyles.addWidget(self.printUserDefined)
 
-        self.exportToCSV = QPushButton(self.dockWidgetContents)
-        self.exportToCSV.setObjectName(_fromUtf8("exportToCSV"))
-        self.exportToCSV.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "export_to_csv.png")));
-        self.exportToCSV.setIconSize(QSize(24,24));
-        self.exportToCSV.setFixedSize(QSize(32,32));
-        self.exportToCSV.setToolTip(QApplication.translate("PatracDockWidget", "Export to CSV", None))
-        self.horizontalLayoutStyles.addWidget(self.exportToCSV)
+        self.tbtnCaclulateChinesePath = QPushButton(self.dockWidgetContents)
+        self.tbtnCaclulateChinesePath.setObjectName(_fromUtf8("tbtnCaclulateChinesePath"))
+        self.tbtnCaclulateChinesePath.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "chinese_tracks.png")))
+        self.tbtnCaclulateChinesePath.setIconSize(QSize(24, 24))
+        self.tbtnCaclulateChinesePath.setFixedSize(QSize(32, 32))
+        self.horizontalLayoutStyles.addWidget(self.tbtnCaclulateChinesePath)
+        self.tbtnCaclulateChinesePath.setToolTip(
+            QApplication.translate("PatracDockWidget", "Chinese postman path", None))
 
         self.verticalLayoutManagement.addLayout(self.horizontalLayoutStyles)
 
@@ -340,24 +335,37 @@ class Ui_PatracDockWidget(object):
         # self.tbtnShowSearchers.setToolTip(
         #     QApplication.translate("PatracDockWidget", "Show searchers (points)", None))
 
-        self.tbtnShowSearchersTracks = QPushButton(self.dockWidgetContents)
-        self.tbtnShowSearchersTracks.setObjectName(_fromUtf8("tbtnShowSearchersTracks"))
-        self.tbtnShowSearchersTracks.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "show_searchers_tracks.png")))
-        self.tbtnShowSearchersTracks.setIconSize(QSize(24, 24))
-        self.tbtnShowSearchersTracks.setFixedSize(QSize(32, 32))
-        self.horizontalLayoutTracks.addWidget(self.tbtnShowSearchersTracks)
-        self.tbtnShowSearchersTracks.setToolTip(
-            QApplication.translate("PatracDockWidget", "Show searchers (lines)", None))
+        self.printPrepared = QPushButton(self.dockWidgetContents)
+        self.printPrepared.setObjectName(_fromUtf8("printPrepared"))
+        self.printPrepared.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "report.png")));
+        self.printPrepared.setIconSize(QSize(24,24));
+        self.printPrepared.setFixedSize(QSize(32,32));
+        self.printPrepared.setToolTip(QApplication.translate("PatracDockWidget", "PDF from report", None))
+        self.horizontalLayoutTracks.addWidget(self.printPrepared)
 
+        self.guideStep6ExportSectorsPdf = QPushButton(self.dockWidgetContents)
+        self.guideStep6ExportSectorsPdf.setObjectName(_fromUtf8("guideStep6ExportSectorsPdf"))
+        self.guideStep6ExportSectorsPdf.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "export_sectors_pdf.png")));
+        self.guideStep6ExportSectorsPdf.setIconSize(QSize(24,24));
+        self.guideStep6ExportSectorsPdf.setFixedSize(QSize(32,32));
+        self.horizontalLayoutTracks.addWidget(self.guideStep6ExportSectorsPdf)
+        self.guideStep6ExportSectorsPdf.setToolTip(QApplication.translate("PatracDockWidget", "Generate individual PDF for each sector", None))
 
-        self.tbtnCaclulateChinesePath = QPushButton(self.dockWidgetContents)
-        self.tbtnCaclulateChinesePath.setObjectName(_fromUtf8("tbtnCaclulateChinesePath"))
-        self.tbtnCaclulateChinesePath.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "chinese_tracks.png")))
-        self.tbtnCaclulateChinesePath.setIconSize(QSize(24, 24))
-        self.tbtnCaclulateChinesePath.setFixedSize(QSize(32, 32))
-        self.horizontalLayoutTracks.addWidget(self.tbtnCaclulateChinesePath)
-        self.tbtnCaclulateChinesePath.setToolTip(
-            QApplication.translate("PatracDockWidget", "Chinese postman path", None))
+        self.printUserDefined = QPushButton(self.dockWidgetContents)
+        self.printUserDefined.setObjectName(_fromUtf8("printUserDefined"))
+        self.printUserDefined.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "print_user.png")));
+        self.printUserDefined.setIconSize(QSize(24,24));
+        self.printUserDefined.setFixedSize(QSize(32,32));
+        self.printUserDefined.setToolTip(QApplication.translate("PatracDockWidget", "Create own map", None))
+        self.horizontalLayoutTracks.addWidget(self.printUserDefined)
+
+        self.exportToCSV = QPushButton(self.dockWidgetContents)
+        self.exportToCSV.setObjectName(_fromUtf8("exportToCSV"))
+        self.exportToCSV.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "export_to_csv.png")));
+        self.exportToCSV.setIconSize(QSize(24,24));
+        self.exportToCSV.setFixedSize(QSize(32,32));
+        self.exportToCSV.setToolTip(QApplication.translate("PatracDockWidget", "Export to CSV", None))
+        self.horizontalLayoutTracks.addWidget(self.exportToCSV)
 
         self.verticalLayoutManagement.addLayout(self.horizontalLayoutTracks)
 
@@ -725,14 +733,6 @@ class Ui_PatracDockWidget(object):
         self.guideStep6ShowSectorsBySuggestedUnits.setFixedSize(QSize(32,32));
         self.horizontalLayoutToolbarGuideLayoutStep6.addWidget(self.guideStep6ShowSectorsBySuggestedUnits)
         self.guideStep6ShowSectorsBySuggestedUnits.setToolTip(QApplication.translate("PatracDockWidget", "Show sectors by recomended units", None))
-
-        self.guideStep6ExportSectorsPdf = QPushButton(self.dockWidgetContents)
-        self.guideStep6ExportSectorsPdf.setObjectName(_fromUtf8("guideStep6ExportSectorsPdf"))
-        self.guideStep6ExportSectorsPdf.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "export_sectors_pdf.png")));
-        self.guideStep6ExportSectorsPdf.setIconSize(QSize(24,24));
-        self.guideStep6ExportSectorsPdf.setFixedSize(QSize(32,32));
-        self.horizontalLayoutToolbarGuideLayoutStep6.addWidget(self.guideStep6ExportSectorsPdf)
-        self.guideStep6ExportSectorsPdf.setToolTip(QApplication.translate("PatracDockWidget", "Generate individual PDF for each sector", None))
 
         self.verticalGuideLayoutStep6.addLayout(self.horizontalLayoutToolbarGuideLayoutStep6)
 

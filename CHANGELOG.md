@@ -1,5 +1,12 @@
 # Changelog 
 
+## Version 3.34.9 (2025-03-26)
+
+#### Improvements
+* Extended PDF exports
+* Extended GPX exports
+* Simplified processing
+
 ## Version 3.26.1 (2023-11-07)
 
 #### Improvements

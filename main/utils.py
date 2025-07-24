@@ -347,6 +347,12 @@ class Utils(object):
             else:
                 QgsProject.instance().addMapLayer(raster)
 
+    def addWMSLayer(self, url, label):
+        raster = QgsRasterLayer(url, label, "wms")
+        root = QgsProject.instance().layerTreeRoot()
+        QgsProject.instance().addMapLayer(raster, False)
+        root.insertLayer(len(root.children()) + 1, raster)
+
     def addVectorLayer(self, path, label, crs_code):
         """Adds raster layer to map"""
         vector = QgsVectorLayer(path, label, "ogr")

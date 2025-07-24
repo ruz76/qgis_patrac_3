@@ -284,6 +284,9 @@ class PatracPlugin(object):
         self.addSplitByLineButton()
         self.toolbar.addAction(self.iface.actionVertexToolActiveLayer())
         self.addSplitByGridButton()
+        self.addPrintMapButton()
+        self.addAddZTM10Button()
+        self.addAddAerialCUZKButton()
         self.addLanguageSelection()
 
     def addRecalculateButton(self):
@@ -332,6 +335,31 @@ class PatracPlugin(object):
         self.addMergeSectorsAction.triggered.connect(self.dockWidget.mergeSectors)
         self.addMergeSectorsAction.setEnabled(False)
         self.toolbar.addAction(self.addMergeSectorsAction)
+
+    def addPrintMapButton(self):
+        # <a target="_blank" href="https://icons8.com/icon/85067/print">Print</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+        pluginPath = path.dirname(__file__)
+        self.addPrintMapAction = QAction(QIcon(pluginPath + "/icons/export_sectors_pdf.png"), "Patrac", self.iface.mainWindow())
+        self.addPrintMapAction.setToolTip(QCoreApplication.translate("Patrac", "Print map simple"))
+        self.addPrintMapAction.triggered.connect(self.dockWidget.exportPDFsimple)
+        self.addPrintMapAction.setEnabled(True)
+        self.toolbar.addAction(self.addPrintMapAction)
+
+    def addAddZTM10Button(self):
+        pluginPath = path.dirname(__file__)
+        self.addAddZTM10Action = QAction(QIcon(pluginPath + "/icons/add_ztm10.png"), "Patrac", self.iface.mainWindow())
+        self.addAddZTM10Action.setToolTip(QCoreApplication.translate("Patrac", "Add ZTM10 from CUZK"))
+        self.addAddZTM10Action.triggered.connect(self.dockWidget.addZTM10WMS)
+        self.addAddZTM10Action.setEnabled(True)
+        self.toolbar.addAction(self.addAddZTM10Action)
+
+    def addAddAerialCUZKButton(self):
+        pluginPath = path.dirname(__file__)
+        self.addAddAerialCUZKAction = QAction(QIcon(pluginPath + "/icons/add_aerialcuzk.png"), "Patrac", self.iface.mainWindow())
+        self.addAddAerialCUZKAction.setToolTip(QCoreApplication.translate("Patrac", "Add Aerial from CUZK"))
+        self.addAddAerialCUZKAction.triggered.connect(self.dockWidget.addAerialCUZKWMS)
+        self.addAddAerialCUZKAction.setEnabled(True)
+        self.toolbar.addAction(self.addAddAerialCUZKAction)
 
     def addLanguageSelection(self):
         self.loadedLanguage = True
