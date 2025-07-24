@@ -1,9 +1,16 @@
-# QGIS Patrac 3
+# Patrac
 
 ## Support
 Výstupy vznikly v rámci projektu číslo VI20172020088 „Využití vyspělých technologií a čichových schopností psů pro zvýšení efektivity vyhledávání pohřešovaných osob v terénu“ 
 (dále jen „projekt Pátrač“), který byl řešen v období 2017 až 2021 
 s finanční podporou Ministerstva vnitra ČR z programu bezpečnostního výzkumu.
+
+## Last version
+The last version is 3.34.9 which is lite version of procesing. It does not use GRASS GIS and it is easier to install.
+
+You can download packed last version for installation to QGIS from http://sarops.info/patrac/qgis3/qgis_patrac.3.34.9.zip 
+
+If you are looking for last full version of software you could use branch full_version.
 
 ## Install
 The install process is described at http://sarops.info/patrac/qgis3/install/index.html
