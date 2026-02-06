@@ -1,5 +1,10 @@
 # Changelog 
 
+## Version 3.34.10 (2026-02-06)
+
+#### Improvements
+* Fixed CUZK Ortophoto WMS link
+
 ## Version 3.34.9 (2025-03-26)
 
 #### Improvements

@@ -6,7 +6,7 @@ Výstupy vznikly v rámci projektu číslo VI20172020088 „Využití vyspělýc
 s finanční podporou Ministerstva vnitra ČR z programu bezpečnostního výzkumu.
 
 ## Last version
-The last version is 3.34.9 which is lite version of procesing. It does not use GRASS GIS and it is easier to install.
+The last version is 3.34.10 which is lite version of procesing. It does not use GRASS GIS and it is easier to install.
 
 You can download packed last version for installation to QGIS from http://sarops.info/patrac/qgis3/qgis_patrac.3.34.9.zip 
 
