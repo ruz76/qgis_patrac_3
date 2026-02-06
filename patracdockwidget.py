@@ -2072,5 +2072,5 @@ class PatracDockWidget(QDockWidget, Ui_PatracDockWidget, object):
         self.Utils.addWMSLayer(url, QApplication.translate("Patrac", 'ZTM10 - CUZK', None))
 
     def addAerialCUZKWMS(self):
-        url = 'contextualWMSLegend=0&crs=EPSG:3857&featureCount=10&format=image/jpeg&layers=GR_ORTFOTORGB&styles=default&url=http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/WMService.aspx&http-header:referer='
+        url = 'contextualWMSLegend=0&crs=EPSG:3857&dpiMode=7&format=image/png&layers=0&styles=default&url=https://ags.cuzk.gov.cz/arcgis1/services/ORTOFOTO/MapServer/WMSServer&http-header:referer='
         self.Utils.addWMSLayer(url, QApplication.translate("Patrac", 'Aerial - CUZK', None))
